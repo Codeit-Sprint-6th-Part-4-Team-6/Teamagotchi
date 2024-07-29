@@ -1,3 +1,4 @@
+import { ThemeProvider } from 'next-themes';
 import type { AppProps } from 'next/app';
 import localFont from 'next/font/local';
 
@@ -12,7 +13,9 @@ const pretendard = localFont({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <main className={pretendard.className}>
-      <Component {...pageProps} />
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </main>
   );
 }
