@@ -8,6 +8,7 @@ const config: Config = {
   ],
   theme: {
     fontSize: {
+      '4xl' : ['40px', '48px'],
       '3xl' : ['32px', '38px'],
       '2xl' : ['24px', '28px'],
       'xl' : ['20px', '24px'],
@@ -22,7 +23,8 @@ const config: Config = {
           primary: '#108981',
           secondary: '#34D399',
           tertiary: '#A3E635',
-          gradient: '#108981', // 그라데이션의 시작 색상
+          'gradient-start': '#108981', 
+          'gradient-end' : '#A3E635',
         },
         point: {
           purple: '#A855F7',
@@ -46,7 +48,7 @@ const config: Config = {
           focus: '#108981',
         },
         border: {
-          primary: 'rgba(248, 250, 252, 0.5)', // '#F8FAFC' 50%
+          primary: 'rgba(248, 250, 252, 0.5)',
         },
         text: {
           primary: '#F8FAFC',
