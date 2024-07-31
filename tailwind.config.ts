@@ -1,6 +1,8 @@
 import type { Config } from 'tailwindcss';
 
+
 const config: Config = {
+  presets: [require("tailwindcss-preset-px-to-rem")],
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -52,7 +54,7 @@ const config: Config = {
           focus: '#108981',
         },
         border: {
-          primary: 'rgba(248, 250, 252, 0.5)',
+          primary: 'rgba(248, 250, 252, 0.1)',
         },
         text: {
           primary: '#F8FAFC',
