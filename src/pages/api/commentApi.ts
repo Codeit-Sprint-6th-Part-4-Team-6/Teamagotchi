@@ -49,7 +49,7 @@ export const patchComment = async (
 };
 
 /**
- * 댓글을 수정하는 API 함수입니다.
+ * 댓글을 삭제하는 API 함수입니다.
  * @param taskId - 댓글이 있는 task의 ID입니다.
  * @param commentId - 삭제할 댓글의 ID입니다.
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.

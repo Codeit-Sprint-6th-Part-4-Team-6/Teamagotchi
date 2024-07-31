@@ -9,7 +9,7 @@ declare module '@coworkers-types' {
     tasks: DateTask[];
   };
 
-  export type TaskListResponse = Omit<TaskList, 'tasks'>;
+  export type TaskListInfo = Omit<TaskList, 'tasks'>;
 
   export type PatchTaskListOrder = {
     displayIndex: number;
