@@ -1,31 +1,23 @@
 declare module '@coworkers-types' {
-  export type Group = {
+  type BaseGroupEntity = {
     updatedAt: string;
     createdAt: string;
-    image: string;
     name: string;
-    teamId: string;
     id: number;
+  };
+
+  export type Group = BaseGroupEntity & {
+    image: string;
+    teamId: string;
     members: Member[];
     taskLists: GroupTaskLists[];
   };
 
-  export type GroupInfo = {
-    updatedAt: string;
-    createdAt: string;
-    image: string;
-    name: string;
-    teamId: string;
-    id: number;
-  };
+  export type GroupInfo = Omit<Group, 'members' | 'taskLists'>;
 
-  export type GroupTaskLists = {
+  export type GroupTaskLists = BaseGroupEntity & {
     groupId: number;
     displayIndex: number;
-    updatedAt: string;
-    createdAt: string;
-    name: string;
-    id: number;
     tasks: string[];
   };
 

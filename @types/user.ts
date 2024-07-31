@@ -1,13 +1,19 @@
 declare module '@coworkers-types' {
-  export type User = {
-    groups: UserGroup[];
+  type BaseUserEntity = {
+    updatedAt: string;
+    createdAt: string;
+    id: number;
+  };
+
+  type BaseUserInfo = BaseUserEntity & {
     teamId: string;
     image: string;
     nickname: string;
-    updatedAt: string;
-    createdAt: string;
     email: string;
-    id: number;
+  };
+
+  export type User = BaseUserInfo & {
+    groups: UserGroup[];
   };
 
   export type UserGroup = {
@@ -28,7 +34,7 @@ declare module '@coworkers-types' {
     tasksDone: TasksDone[];
   };
 
-  export type TasksDone = {
+  export type TasksDone = BaseUserEntity & {
     deletedAt: string;
     userId: number;
     recurringId: number;
@@ -37,8 +43,6 @@ declare module '@coworkers-types' {
     doneAt: string;
     description: string;
     name: string;
-    updatedAt: string;
-    id: number;
   };
 
   export type SendResetPasswordRequest = {

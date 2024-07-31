@@ -1,4 +1,10 @@
 declare module '@coworkers-types' {
+  type BaseAuthEntity = {
+    createdAt: string;
+    updatedAt: string;
+    id: number;
+  };
+
   export type SignUpRequest = {
     email: string;
     nickname: string;
@@ -6,33 +12,9 @@ declare module '@coworkers-types' {
     passwordConfirmation: string;
   };
 
-  export type AuthResponse = {
-    accessToken: string;
-    refreshToken: string;
-    user: UserInfo;
-  };
-
-  export type UserInfo = {
-    id: number;
-    email: string;
-    nickname: string;
-    updatedAt: string;
-    createdAt: string;
-    image: null;
-    teamId: string;
-  };
-
   export type LoginRequest = {
     email: string;
     password: string;
-  };
-
-  export type RefreshToken = {
-    refreshToken: string;
-  };
-
-  export type AccessToken = {
-    accessToken: string;
   };
 
   export type SocialLoginRequest = {
@@ -47,13 +29,30 @@ declare module '@coworkers-types' {
     provider: string;
   };
 
-  export type SocialLoginAppResponse = {
-    createdAt: string;
-    updatedAt: string;
+  export type AuthResponse = RefreshToken &
+    AccessToken & {
+      user: UserInfo;
+    };
+
+  export type SocialLoginAppResponse = BaseAuthEntity & {
     appSecret: string;
     appKey: string;
     provider: string;
     teamId: string;
-    id: number;
+  };
+
+  export type UserInfo = BaseAuthEntity & {
+    email: string;
+    nickname: string;
+    image: null;
+    teamId: string;
+  };
+
+  export type RefreshToken = {
+    refreshToken: string;
+  };
+
+  export type AccessToken = {
+    accessToken: string;
   };
 }

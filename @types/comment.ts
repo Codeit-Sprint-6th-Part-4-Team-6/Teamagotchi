@@ -1,25 +1,28 @@
 declare module '@coworkers-types' {
-  export type Comments = [{ user: CommentWriterInfo } & CommentInfo];
+  type BaseCommentEntity = {
+    updatedAt: string;
+    createdAt: string;
+    id: number;
+  };
 
-  export type CommentWriterInfo = {
+  type BaseCommentUserInfo = BaseCommentEntity & {
     teamId: string;
     image: string;
     nickname: string;
-    updatedAt: string;
-    createdAt: string;
-    encryptedPassword: string;
     email: string;
-    id: number;
   };
 
-  export type CommentInfo = {
+  export type CommentWriterInfo = BaseCommentUserInfo & {
+    encryptedPassword: string;
+  };
+
+  export type CommentInfo = BaseCommentEntity & {
     userId: number;
     taskId: number;
-    updatedAt: string;
-    createdAt: string;
     content: string;
-    id: number;
   };
+
+  export type Comments = [{ user: CommentWriterInfo } & CommentInfo];
 
   export type CommentRequest = {
     content: string;
