@@ -1,6 +1,5 @@
-import { DateTask, Group, GroupInfo, Member, Profile } from '@coworkers-types';
-
-import { axiosInstance } from './axios';
+import { DateTask, Group, GroupInfo, Member, Profile } from "@coworkers-types";
+import { axiosInstance } from "./axios";
 
 /**
  * 팀 페이지의 그룹을 조회하는 API 함수입니다.
@@ -18,14 +17,8 @@ export const getGroup = async (groupId: number): Promise<Group> => {
  * @param data - {image, name} 을 전송합니다.
  * @returns 수정된 Group 객체를 반환합니다.
  */
-export const patchGroupProfile = async (
-  groupId: number,
-  data: Profile
-): Promise<GroupInfo> => {
-  const response = await axiosInstance.patch<GroupInfo>(
-    `/groups/${groupId}`,
-    data
-  );
+export const patchGroupProfile = async (groupId: number, data: Profile): Promise<GroupInfo> => {
+  const response = await axiosInstance.patch<GroupInfo>(`/groups/${groupId}`, data);
   return response.data;
 };
 
@@ -44,11 +37,8 @@ export const deleteGroup = async (groupId: number): Promise<void> => {
  * @param image - 팀 페이지 그룹 사진
  * @returns 수정된 Group 객체를 반환합니다.
  */
-export const postGroup = async (
-  name: string,
-  image?: string
-): Promise<Member> => {
-  const response = await axiosInstance.patch<Member>('/groups', {
+export const postGroup = async (name: string, image?: string): Promise<Member> => {
+  const response = await axiosInstance.patch<Member>("/groups", {
     image,
     name,
   });
@@ -61,13 +51,8 @@ export const postGroup = async (
  * @param memberUserId - 그룹 멤버 유저의 ID입니다.
  * @returns 유저 정보 객체를 받아옵니다.
  */
-export const getGroupMember = async (
-  groupId: number,
-  memberUserId: number
-): Promise<GroupInfo> => {
-  const response = await axiosInstance.get<GroupInfo>(
-    `/groups/${groupId}/member/${memberUserId}`
-  );
+export const getGroupMember = async (groupId: number, memberUserId: number): Promise<GroupInfo> => {
+  const response = await axiosInstance.get<GroupInfo>(`/groups/${groupId}/member/${memberUserId}`);
   return response.data;
 };
 
@@ -77,10 +62,7 @@ export const getGroupMember = async (
  * @param memberUserId - 멤버 ID입니다.
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
-export const deleteGroupMember = async (
-  groupId: number,
-  memberUserId: number
-): Promise<void> => {
+export const deleteGroupMember = async (groupId: number, memberUserId: number): Promise<void> => {
   await axiosInstance.delete(`/groups/${groupId}/member/${memberUserId}`);
 };
 
@@ -90,9 +72,7 @@ export const deleteGroupMember = async (
  * @returns 초대 링크용 토큰값이 옵니다.
  */
 export const getInvitationToken = async (groupId: number): Promise<string> => {
-  const response = await axiosInstance.get<string>(
-    `/groups/${groupId}/invitation`
-  );
+  const response = await axiosInstance.get<string>(`/groups/${groupId}/invitation`);
   return response.data;
 };
 
@@ -102,10 +82,7 @@ export const getInvitationToken = async (groupId: number): Promise<string> => {
  * @param token - 초대 링크에 포함되어있는 토큰
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
-export const postAcceptInvitation = async (
-  userEmail: string,
-  token: string
-): Promise<void> => {
+export const postAcceptInvitation = async (userEmail: string, token: string): Promise<void> => {
   await axiosInstance.post(`/groups/accept-invitation`, {
     userEmail,
     token,
@@ -133,14 +110,9 @@ export const postInvitationWithoutLink = async (
  * @param date - 2021-01-01T00:00:00Z 형식의 날짜를 받습니다.
  * @returns Group 객체를 반환합니다.
  */
-export const getDateTasks = async (
-  groupId: number,
-  date: string
-): Promise<DateTask[]> => {
+export const getDateTasks = async (groupId: number, date: string): Promise<DateTask[]> => {
   const params = new URLSearchParams(`date=${date}`);
 
-  const response = await axiosInstance.get<DateTask[]>(
-    `/groups/${groupId}/tasks?${params}`
-  );
+  const response = await axiosInstance.get<DateTask[]>(`/groups/${groupId}/tasks?${params}`);
   return response.data;
 };
