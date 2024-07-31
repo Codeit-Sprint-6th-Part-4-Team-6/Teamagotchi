@@ -24,7 +24,7 @@ type InputProps = {
  * @props disabled?: boolean;
  * @props onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
  * @props onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
- * @props onDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+ * @props onDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void; type이 search일 때 검색어 입력했을 때 나오는 x button에 등록할 이벤트 핸들러입니다.
  */
 
 export default function Input({
