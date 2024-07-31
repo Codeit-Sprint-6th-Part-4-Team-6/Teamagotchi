@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { SignUpRequest } from "@coworkers-types";
-import { signUpUser } from "./api/authApi";
+import { useAuthStore } from "@store/useAuthStore";
+import { loginUser, signUpUser } from "./api/authApi";
 
 export default function RegisterPage() {
   const [values, setValues] = useState<SignUpRequest>({
@@ -9,7 +10,7 @@ export default function RegisterPage() {
     password: "",
     passwordConfirmation: "",
   });
-  // const { setUser } = useUserStore();
+  const { setUser } = useAuthStore();
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -24,12 +25,12 @@ export default function RegisterPage() {
     e.preventDefault();
 
     await signUpUser(values);
-    // const loginData = {
-    //   email: values.email,
-    //   password: values.password,
-    // };
-    // const data = await loginUser(loginData);
-    // setUser(data.user);
+    const loginData = {
+      email: values.email,
+      password: values.password,
+    };
+    const data = await loginUser(loginData);
+    setUser(data.user);
   }
 
   return (
