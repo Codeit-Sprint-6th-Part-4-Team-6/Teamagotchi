@@ -7,19 +7,16 @@ import {
   SocialLoginAppRegister,
   SocialLoginAppResponse,
   SocialLoginRequest,
-} from '@coworkers-types';
-
-import { axiosInstance } from './axios';
+} from "@coworkers-types";
+import { axiosInstance } from "./axios";
 
 /**
  * 회원가입 API 함수입니다.
  * @param data { email, nickname, password, passwordConfirmation }를 객체로 담아서 전송합니다.
  * @returns 유저 정보 AuthResponse를 반환합니다.
  */
-export const signUpUser = async (
-  data: SignUpRequest
-): Promise<AuthResponse> => {
-  const response = await axiosInstance.post<AuthResponse>('auth/signUp', data);
+export const signUpUser = async (data: SignUpRequest): Promise<AuthResponse> => {
+  const response = await axiosInstance.post<AuthResponse>("auth/signUp", data);
   return response.data;
 };
 
@@ -29,7 +26,7 @@ export const signUpUser = async (
  * @returns 유저 정보 AuthResponse를 반환합니다.
  */
 export const loginUser = async (data: LoginRequest): Promise<AuthResponse> => {
-  const response = await axiosInstance.post<AuthResponse>('auth/signIn', data);
+  const response = await axiosInstance.post<AuthResponse>("auth/signIn", data);
   return response.data;
 };
 
@@ -38,13 +35,8 @@ export const loginUser = async (data: LoginRequest): Promise<AuthResponse> => {
  * @param refreshToken 을 전송합니다.
  * @returns accessToken을 반환합니다.
  */
-export const postRefreshToken = async (
-  refreshToken: RefreshToken
-): Promise<AccessToken> => {
-  const response = await axiosInstance.post<AccessToken>(
-    'auth/refresh-token',
-    refreshToken
-  );
+export const postRefreshToken = async (refreshToken: RefreshToken): Promise<AccessToken> => {
+  const response = await axiosInstance.post<AccessToken>("auth/refresh-token", refreshToken);
   return response.data;
 };
 
@@ -58,10 +50,7 @@ export const socialLogin = async (
   provider: string,
   data: SocialLoginRequest
 ): Promise<AuthResponse> => {
-  const response = await axiosInstance.post<AuthResponse>(
-    `auth/signIn/${provider}`,
-    data
-  );
+  const response = await axiosInstance.post<AuthResponse>(`auth/signIn/${provider}`, data);
   return response.data;
 };
 
@@ -73,9 +62,6 @@ export const socialLogin = async (
 export const postOauthApps = async (
   data: SocialLoginAppRegister
 ): Promise<SocialLoginAppResponse> => {
-  const response = await axiosInstance.post<SocialLoginAppResponse>(
-    `oauthApps`,
-    data
-  );
+  const response = await axiosInstance.post<SocialLoginAppResponse>(`oauthApps`, data);
   return response.data;
 };

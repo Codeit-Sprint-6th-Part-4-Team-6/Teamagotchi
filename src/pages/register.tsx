@@ -1,6 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { SignUpRequest } from "@coworkers-types";
+import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
+import { setAuth } from "@utils/auth";
 import { loginUser, signUpUser } from "./api/authApi";
 
 export default function RegisterPage() {
@@ -10,6 +12,7 @@ export default function RegisterPage() {
     password: "",
     passwordConfirmation: "",
   });
+  const router = useRouter();
   const { setUser } = useAuthStore();
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -25,12 +28,16 @@ export default function RegisterPage() {
     e.preventDefault();
 
     await signUpUser(values);
+
     const loginData = {
       email: values.email,
       password: values.password,
     };
+
     const data = await loginUser(loginData);
+    setAuth(data);
     setUser(data.user);
+    router.push("/team-list");
   }
 
   return (

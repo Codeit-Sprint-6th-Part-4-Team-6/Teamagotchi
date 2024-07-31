@@ -1,6 +1,8 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { LoginRequest } from "@coworkers-types";
+import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
+import { setAuth } from "@utils/auth";
 import { loginUser } from "./api/authApi";
 
 export default function LoginPage() {
@@ -8,6 +10,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+  const router = useRouter();
   const { setUser } = useAuthStore();
 
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -23,9 +26,9 @@ export default function LoginPage() {
     e.preventDefault();
 
     const data = await loginUser(values);
+    setAuth(data);
     setUser(data.user);
-    document.cookie = `accessToken = ${data.accessToken}`;
-    document.cookie = `refreshToken = ${data.refreshToken}`;
+    router.push("/team-list");
   }
 
   return (
