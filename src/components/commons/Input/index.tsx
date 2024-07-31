@@ -14,6 +14,19 @@ type InputProps = {
   onDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
+/**
+ * @props type?: "text" | "email" | "password" | "search";
+ * @props name?: string;
+ * @props id?: string;
+ * @props placeholder: string;
+ * @props value?: string;
+ * @props errorMessage?: string;
+ * @props disabled?: boolean;
+ * @props onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+ * @props onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+ * @props onDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+ */
+
 export default function Input({
   type = "text",
   name,
