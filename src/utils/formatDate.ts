@@ -5,7 +5,7 @@
  * @returns type에 따라 "2024.07.01" 형식 또는 "2024년 7월 1일" 형식의 문자열을 반환합니다.
  */
 
-export const formatDate = (dateString: string, type: "default" | "kor" = "default"): string => {
+export const formatDate = (dateString: string, type: "default" | "kor" = "default") => {
   const date = new Date(dateString);
   const year = date.getFullYear();
   const month =
