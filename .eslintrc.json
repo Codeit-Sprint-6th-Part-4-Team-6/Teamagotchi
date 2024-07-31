@@ -10,20 +10,31 @@
     "project": "./tsconfig.json",
     "createDefaultProgram": true
   },
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "extends": [
     "next/core-web-vitals",
     "airbnb",
     "airbnb-typescript",
     "airbnb/hooks",
     "prettier",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:storybook/recommended"
   ],
   "rules": {
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": 0,
     "@typescript-eslint/semi": "off",
-    "react/jsx-filename-extension": ["warn", { "extensions": [".ts", ".tsx"] }],
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ],
     "no-useless-catch": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "react/require-default-props": "off",
@@ -33,17 +44,24 @@
     "jsx-a11y/label-has-associated-control": [
       2,
       {
-        "labelAttributes": ["htmlFor"]
+        "labelAttributes": [
+          "htmlFor"
+        ]
       }
     ]
   },
   "overrides": [
     {
-      "files": ["*.tsx"],
+      "files": [
+        "*.tsx"
+      ],
       "rules": {
         "@typescript-eslint/no-use-before-define": "off"
       }
     }
   ],
-  "ignorePatterns": ["next.config.mjs", "postcss.config.mjs"]
+  "ignorePatterns": [
+    "next.config.mjs",
+    "postcss.config.mjs"
+  ]
 }
