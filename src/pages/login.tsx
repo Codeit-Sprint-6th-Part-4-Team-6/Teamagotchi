@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { LoginRequest } from "@coworkers-types";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
@@ -11,10 +11,10 @@ export default function LoginPage() {
     password: "",
   });
   const router = useRouter();
-  const { setUser } = useAuthStore();
+  const { user, setUser } = useAuthStore();
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
 
     setValues((prevValues) => ({
       ...prevValues,
@@ -22,14 +22,19 @@ export default function LoginPage() {
     }));
   }
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
 
     const data = await loginUser(values);
     setAuth(data);
     setUser(data.user);
     router.push("/team-list");
   }
+
+  // NOTE: 미들웨어 생성 후 정리될 예정
+  useEffect(() => {
+    if (user) router.push("team-list");
+  }, [user]);
 
   return (
     <form onSubmit={handleSubmit}>

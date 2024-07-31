@@ -15,8 +15,8 @@ export default function RegisterPage() {
   const router = useRouter();
   const { setUser } = useAuthStore();
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
 
     setValues((prevValues) => ({
       ...prevValues,
@@ -24,8 +24,8 @@ export default function RegisterPage() {
     }));
   }
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
 
     await signUpUser(values);
 
