@@ -1,5 +1,6 @@
+import { AccessToken } from "@coworkers-types";
 import axios, { AxiosRequestHeaders, InternalAxiosRequestConfig } from "axios";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from "cookies-next";
 
 export const baseURL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -23,29 +24,31 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
-//   _retry?: boolean;
-// }
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  _retry?: boolean;
+}
 
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   async (error) => {
-//     const originalRequest = error.config as CustomAxiosRequestConfig;
-//     const refreshToken = getCookie("refreshToken");
-//     const requestType: RefreshToken = { refreshToken: String(refreshToken) };
-//     /* eslint-disable no-underscore-dangle */
-//     if (error.response?.status === 401 && !originalRequest._retry) {
-//       /* eslint-disable no-underscore-dangle */
-//       originalRequest._retry = true;
-//       try {
-//         const data = await postRefreshToken(requestType);
-//         setCookie("accessToken", data.accessToken, { maxAge: 3600 });
-//         return axiosInstance(originalRequest);
-//       } catch (refreshError) {
-//         deleteCookie("accessToken");
-//         deleteCookie("refreshToken");
-//       }
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+// NOTE: eslint 에러가 발생하는 인터셉터
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const originalRequest = error.config as CustomAxiosRequestConfig;
+    const refreshToken = getCookie("refreshToken");
+    /* eslint-disable no-underscore-dangle */
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      /* eslint-disable no-underscore-dangle */
+      originalRequest._retry = true;
+      try {
+        const response = await axiosInstance.post<AccessToken>("auth/refresh-token", {
+          refreshToken,
+        });
+        setCookie("accessToken", response.data.accessToken, { maxAge: 3600 });
+        return await axiosInstance(originalRequest);
+      } catch (refreshError) {
+        deleteCookie("accessToken");
+        deleteCookie("refreshToken");
+      }
+    }
+    return Promise.reject(error);
+  }
+);
