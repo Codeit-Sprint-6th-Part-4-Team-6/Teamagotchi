@@ -1,23 +1,21 @@
-import React, { useRef } from "react";
+import React from "react";
+import { useModal } from "@hooks/useModal";
 
-interface ModalWrapperProps {
-  children: React.ReactNode;
-  onClose?: () => void;
-  autoClose?: boolean;
-}
+export default function ModalWrapper() {
+  const { modalType, ModalComponent, modalProps, closeModal } = useModal();
 
-export default function ModalWrapper({ children, onClose, autoClose = false }: ModalWrapperProps) {
-  const modalOverlayRef = useRef<HTMLDivElement>(null);
+  if (!modalType || !ModalComponent) return null;
 
-  const handleAutoClose: React.MouseEventHandler = (event) => {
-    if (event.target !== modalOverlayRef.current || !autoClose || !onClose) return;
-    onClose();
+  const enhancedModalProps = {
+    ...modalProps,
+    onClose: closeModal,
   };
 
   return (
-    <>
-      {/* <div className="modal-overlay" ref={modalOverlayRef} onClick={handleAutoClose}></div> */}
-      <div className="modal-container">{children}</div>
-    </>
+    <div className="modal-overlay" onClick={closeModal}>
+      <div className="modal-container" onClick={(e) => e.stopPropagation()}>
+        <ModalComponent {...enhancedModalProps} />
+      </div>
+    </div>
   );
 }

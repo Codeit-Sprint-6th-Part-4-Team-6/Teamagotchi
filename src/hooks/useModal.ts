@@ -1,24 +1,21 @@
-import { useCallback } from "react";
-import useModalStore, { ModalProps } from "@store/useModalStore";
+import { ModalProps, useModalStore } from "../store/useModalStore";
 
-const useModal = () => {
-  const { modalsData, openModal, closeModal } = useModalStore();
+interface UseModal<T extends ModalProps = ModalProps> {
+  openModal: (type: string, Component: React.ComponentType<T>, props?: T) => void;
+  closeModal: () => void;
+  modalType: string | null;
+  ModalComponent: React.ComponentType<T> | null;
+  modalProps: T;
+}
 
-  const openModalCallback = useCallback(
-    (id: string, Component: React.ComponentType, props?: ModalProps) => {
-      openModal(id, Component, props);
-    },
-    [openModal]
-  );
+export const useModal = <T extends ModalProps = ModalProps>(): UseModal<T> => {
+  const { openModal, closeModal, modalType, ModalComponent, modalProps } = useModalStore();
 
-  const closeModalCallback = useCallback(
-    (id: string) => {
-      closeModal(id);
-    },
-    [closeModal]
-  );
-
-  return { modalsData, openModal: openModalCallback, closeModal: closeModalCallback };
+  return {
+    openModal,
+    closeModal,
+    modalType,
+    ModalComponent,
+    modalProps,
+  };
 };
-
-export default useModal;

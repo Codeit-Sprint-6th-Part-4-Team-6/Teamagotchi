@@ -1,7 +1,7 @@
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
-import ModalsWrapper from "@components/modal/ModalsWrapper";
+import ModalWrapper from "@components/modal/ModalWrapper";
 import "@styles/globals.css";
 
 const pretendard = localFont({
@@ -12,9 +12,9 @@ const pretendard = localFont({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={pretendard.className}>
+    <main>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <ModalsWrapper />
+        <ModalWrapper />
         <Component {...pageProps} />
       </ThemeProvider>
     </main>
