@@ -43,10 +43,18 @@ export default function TwoInputModal({
       {!closeButton && <IconClose className="modal-close-icon" onClick={onClose} />}
       <p className="modal-title">{title}</p>
       {content && <p className="modal-content">{content}</p>}
-      <label className="font-16 mb-10 font-[500] text-[#F8FAFC]">{firstTitle}</label>
-      <Input placeholder={firstPlaceholder} />
-      <label className="font-16 my-10 font-[500] text-[#F8FAFC]">{secondTitle}</label>
-      <Input placeholder={secondPlaceholder} />
+      <div className="flex w-full flex-col">
+        <label htmlFor="first" className="font-16 mb-10 font-[500] text-[#F8FAFC]">
+          {firstTitle}
+        </label>
+        <Input id="first" placeholder={firstPlaceholder} />
+      </div>
+      <div className="flex w-full flex-col">
+        <label htmlFor="second" className="font-16 my-10 font-[500] text-[#F8FAFC]">
+          {secondTitle}
+        </label>
+        <Input id="second" placeholder={secondPlaceholder} />
+      </div>
       {closeButton ? (
         <div className="flex gap-10">
           <button onClick={onClose}>닫기</button>
