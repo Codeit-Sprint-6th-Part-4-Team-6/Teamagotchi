@@ -18,7 +18,7 @@ interface OneInputModalProps {
  * @param placeholder - 인풋에 들어가는 텍스트입니다.
  * @param buttonText - 버튼에 들어가는 텍스트입니다.
  * @param onConfirm - 버튼을 눌렀을때 동작하는 함수입니다.
- * @param onClose - 넣어주셔도 작동 안해요!! 이미 Wrapper에서 선언했습니다.
+ * @param onClose - 닫기버튼을 눌렀을때 동작하는 함수입니다.
  * @param closeButton - 닫기버튼과 X버튼을 위한 props입니다.
  */
 export default function OneInputModal({
