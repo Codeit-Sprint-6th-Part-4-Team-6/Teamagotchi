@@ -1,13 +1,13 @@
 import { UserInfo } from "@coworkers-types";
 import { create } from "zustand";
-import { devtools } from "zustand/middleware";
+import { devtools, persist } from "zustand/middleware";
 
 interface AuthState {
   user: UserInfo | null;
 }
 
 interface AuthAction {
-  setUser: (user: UserInfo) => void;
+  setUser: (user: UserInfo | null) => void;
 }
 
 /**
@@ -16,10 +16,18 @@ interface AuthAction {
  * setUser : 유저 정보 변경 함수
  */
 export const useAuthStore = create<AuthState & AuthAction>()(
-  devtools((set) => ({
-    user: null,
-    setUser: (user: UserInfo) => {
-      set({ user });
-    },
-  }))
+  devtools(
+    persist(
+      (set) => ({
+        user: null,
+        setUser: (user: UserInfo | null) => {
+          set({ user });
+        },
+      }),
+      {
+        name: "userStorage",
+        partialize: (state) => ({ user: state.user?.nickname }),
+      }
+    )
+  )
 );
