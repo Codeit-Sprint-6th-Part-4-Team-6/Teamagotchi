@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import Input from "@components/commons/Input";
+import Textarea from "@components/commons/TextArea";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
@@ -40,6 +41,9 @@ export default function Home() {
         placeholder="search x button render test입니다"
       />
       <Input name="test" placeholder="error test입니다" errorMessage="testing" />
+      <Textarea type="innerButton" placeholder="댓글을 달아주세요" height={50} />
+      <Textarea type="small" placeholder="댓글을 달아주세요" height={74} />
+      <Textarea type="big" placeholder="댓글을 달아주세요" height={104} />
     </main>
   );
 }
