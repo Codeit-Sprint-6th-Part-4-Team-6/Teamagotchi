@@ -1,36 +1,30 @@
-declare module '@coworkers-types' {
+declare module "@coworkers-types" {
   export type BaseTaskEntity = {
     name: string;
     description: string;
     displayIndex: number;
     frequencyType: string;
     monthDay: number;
-    updatedAt: string;
-    createdAt: string;
+    updatedAt: ISODateString;
+    createdAt: ISODateString;
     id: number;
   };
 
   export type BaseTaskDetails = {
-    deletedAt: string;
+    deletedAt: ISODateString;
     userId: number;
     recurringId: number;
     frequency: string;
-    date: string;
-    doneAt: string;
+    date: ISODateString;
+    doneAt: ISODateString;
     name: string;
-    updatedAt: string;
+    updatedAt: ISODateString;
     id: number;
   };
 
-  export type PostTaskRequest = Omit<
-    BaseTaskEntity,
-    'updatedAt' | 'createdAt' | 'id'
-  >;
+  export type PostTaskRequest = Omit<BaseTaskEntity, "updatedAt" | "createdAt" | "id">;
 
-  export type PatchTaskRequest = Omit<
-    PostTaskRequest,
-    'frequencyType' | 'monthDay'
-  > & {
+  export type PatchTaskRequest = Omit<PostTaskRequest, "frequencyType" | "monthDay"> & {
     done: boolean;
   };
 

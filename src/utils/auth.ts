@@ -1,0 +1,13 @@
+import { AuthResponse } from "@coworkers-types";
+import { setCookie } from "cookies-next";
+
+// NOTE: 해당 파일에는 유저 기능과 관련된 추가적인 연산 로직들이 필요시에 저장될 예정입니다.
+
+/**
+ * 회원가입, 로그인 페이지에서 POST api 요청 시 응답받은 토큰을 유효 시간과 함께 쿠키에 저장하는 함수
+ * @param data 로그인 요청 후 응답으로 오는 데이터 타입
+ */
+export const setAuth = (data: AuthResponse) => {
+  setCookie("accessToken", data.accessToken, { maxAge: 3600 });
+  setCookie("refreshToken", data.refreshToken, { maxAge: 3600 * 12 * 7 });
+};

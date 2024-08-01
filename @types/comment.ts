@@ -1,7 +1,7 @@
-declare module '@coworkers-types' {
+declare module "@coworkers-types" {
   type BaseCommentEntity = {
-    updatedAt: string;
-    createdAt: string;
+    updatedAt: ISODateString;
+    createdAt: ISODateString;
     id: number;
   };
 
