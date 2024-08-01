@@ -31,7 +31,6 @@ export default function TeamListPage() {
       <div>{testData}</div>
       <div>{testData}</div>
       <div>{testData}</div>
-
       <button type="button" onClick={handleSignOut}>
         로그아웃
       </button>

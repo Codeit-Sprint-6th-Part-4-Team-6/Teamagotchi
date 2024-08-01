@@ -1,6 +1,7 @@
 import { AuthResponse } from "@coworkers-types";
 import { deleteCookie, setCookie } from "cookies-next";
 import { useAuthStore } from "@store/useAuthStore";
+import { setCookie } from "cookies-next";
 
 // NOTE: 해당 파일에는 유저 기능과 관련된 추가적인 연산 로직들이 필요시에 저장될 예정입니다.
 
