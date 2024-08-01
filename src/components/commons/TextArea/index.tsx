@@ -7,8 +7,8 @@ type TextAreaProps = {
   id?: string;
   placeholder: string;
   value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
   height: number;
 };
 
@@ -18,8 +18,8 @@ type TextAreaProps = {
  * @props id?: string;
  * @props placeholder: string;
  * @props value?: string;
- * @props onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
- * @props onBlur?: (e: React.FocusEvent<HTMLTextAreaElement>) => void;
+ * @props onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
+ * @props onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
  * @props height: number; Textarea의 높이를 설정합니다. type이 "innerButton일" 경우 설정된 높이값에 따라 자동으로 위 아래 패딩값이 정해집니다.
  */
 
@@ -46,9 +46,9 @@ export default function Textarea({
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (onChange) {
-      onChange(e);
+      onChange(event);
     }
     // textarea 높이 조절
     if (textareaRef && textareaRef.current) {
