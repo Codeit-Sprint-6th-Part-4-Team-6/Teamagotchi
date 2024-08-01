@@ -33,18 +33,30 @@ export default function Home() {
         <p className="text-2xl font-bold text-brand-primary">bold</p>
         <p className="text-xl font-bold text-brand-primary">bold</p>
       </main>
-      <Label type="essential" htmlFor="test" content="필수 테스트" marginBottom={12} />
-      <Input name="test" placeholder="일반 test입니다" id="test" />
-      <Label content="일반 테스트" marginBottom={12} />
-      <Input type="password" name="test" placeholder="password test입니다" />
-      <Input type="search" name="test" placeholder="search test입니다" />
-      <Input
-        type="search"
-        name="test"
-        value="testing"
-        placeholder="search x button render test입니다"
-      />
-      <Input name="test" placeholder="error test입니다" errorMessage="testing" />
+      <div className="flex flex-col gap-30">
+        <div>
+          <Label type="essential" htmlFor="test" content="필수 테스트" marginBottom={12} />
+          <Input name="test" placeholder="일반 test입니다" id="test" errorMessage="test" />
+        </div>
+        <div>
+          <Label content="일반 테스트" marginBottom={12} />
+          <Input
+            type="password"
+            name="test"
+            placeholder="password test입니다"
+            errorMessage="test"
+          />
+        </div>
+        <Input type="search" name="test" placeholder="search test입니다" errorMessage="test" />
+        <Input
+          type="search"
+          name="test"
+          value="testing"
+          placeholder="search x button render test입니다"
+          errorMessage="test"
+        />
+        <Input name="test" placeholder="error test입니다" errorMessage="testing" />
+      </div>
     </>
   );
 }
