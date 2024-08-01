@@ -11,6 +11,16 @@ interface OneInputModalProps {
   closeButton?: boolean;
 }
 
+/**
+ * 하나의 인풋이 들어가는 형식의 모달입니다.
+ * @param title - 모달의 상단 제목 부분입니다.
+ * @param content - 모달의 중간 내용 부분입니다.
+ * @param placeholder - 인풋에 들어가는 텍스트입니다.
+ * @param buttonText - 버튼에 들어가는 텍스트입니다.
+ * @param onConfirm - 버튼을 눌렀을때 동작하는 함수입니다.
+ * @param onClose - 넣어주셔도 작동 안해요!! 이미 Wrapper에서 선언했습니다.
+ * @param closeButton - 닫기버튼과 X버튼을 위한 props입니다.
+ */
 export default function OneInputModal({
   title,
   content,
