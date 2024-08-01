@@ -1,14 +1,19 @@
-import { ModalProps, useModalStore } from "../store/useModalStore";
+import { ComponentType } from "react";
+import { useModalStore } from "../store/useModalStore";
 
-interface UseModal<T extends ModalProps = ModalProps> {
-  openModal: (type: string, Component: React.ComponentType<T>, props?: T) => void;
-  closeModal: () => void;
-  modalType: string | null;
-  ModalComponent: React.ComponentType<T> | null;
-  modalProps: T;
+interface ModalProps {
+  onClose?: () => void;
 }
 
-export const useModal = <T extends ModalProps = ModalProps>(): UseModal<T> => {
+interface UseModal {
+  openModal: (type: string, Component: ComponentType<ModalProps>, props?: ModalProps) => void;
+  closeModal: () => void;
+  modalType: string | null;
+  ModalComponent: ComponentType<ModalProps> | null;
+  modalProps: ModalProps | null;
+}
+
+export const useModal = (): UseModal => {
   const { openModal, closeModal, modalType, ModalComponent, modalProps } = useModalStore();
 
   return {
