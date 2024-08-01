@@ -6,6 +6,12 @@ type SocialLoginBoxProps = {
   onKakaoClick: () => void;
 };
 
+/**
+ * @prop type: "login" | "register"; 문구만 바뀝니다.
+ * @prop onGoogleClick: () => void; 구글 아이콘 클릭했을 때 실행할 함수입니다.
+ * @prop onKakaoClick: () => void; 카카오톡 아이콘 클릭했을 때 실행할 함수입니다.
+ */
+
 export default function SocialLoginBox({ type, onGoogleClick, onKakaoClick }: SocialLoginBoxProps) {
   return (
     <div className="w-full md:w-460">
