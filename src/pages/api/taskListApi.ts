@@ -1,6 +1,5 @@
-import { TaskList, TaskListInfo } from '@coworkers-types';
-
-import { axiosInstance } from './axios';
+import { TaskList, TaskListInfo } from "@coworkers-types";
+import { axiosInstance } from "./axios";
 
 /**
  * 할 일 목록을 조회하는 API 함수입니다.
@@ -16,7 +15,7 @@ export const getTaskList = async (
 ): Promise<TaskList> => {
   const params = new URLSearchParams();
   if (date) {
-    params.append('date', date);
+    params.append("date", date);
   }
 
   const response = await axiosInstance.get<TaskList>(
@@ -50,13 +49,8 @@ export const patchTaskList = async (
  * @param taskListId - 삭제할 할 일 목록의 ID입니다.
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
-export const deleteTaskList = async (
-  groupId: number,
-  taskListId: number
-): Promise<void> => {
-  await axiosInstance.delete<TaskListInfo>(
-    `groups/${groupId}/task-lists/${taskListId}`
-  );
+export const deleteTaskList = async (groupId: number, taskListId: number): Promise<void> => {
+  await axiosInstance.delete<TaskListInfo>(`groups/${groupId}/task-lists/${taskListId}`);
 };
 
 /**
@@ -65,14 +59,10 @@ export const deleteTaskList = async (
  * @param name - 생성할 할 일 목록의 이름입니다.
  * @returns 생성된 할 일 목록 정보가 담긴 객체를 반환합니다.
  */
-export const postTaskList = async (
-  groupId: number,
-  name: string
-): Promise<TaskListInfo> => {
-  const response = await axiosInstance.patch<TaskListInfo>(
-    `groups/${groupId}/task-lists`,
-    { name }
-  );
+export const postTaskList = async (groupId: number, name: string): Promise<TaskListInfo> => {
+  const response = await axiosInstance.patch<TaskListInfo>(`groups/${groupId}/task-lists`, {
+    name,
+  });
   return response.data;
 };
 
