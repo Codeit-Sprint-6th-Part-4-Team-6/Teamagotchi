@@ -1,7 +1,7 @@
-declare module '@coworkers-types' {
+declare module "@coworkers-types" {
   type BaseAuthEntity = {
-    createdAt: string;
-    updatedAt: string;
+    createdAt: ISODateString;
+    updatedAt: ISODateString;
     id: number;
   };
 

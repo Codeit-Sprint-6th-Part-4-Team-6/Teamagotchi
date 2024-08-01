@@ -1,7 +1,7 @@
-declare module '@coworkers-types' {
+declare module "@coworkers-types" {
   type BaseUserEntity = {
-    updatedAt: string;
-    createdAt: string;
+    updatedAt: ISODateString;
+    createdAt: ISODateString;
     id: number;
   };
 
@@ -35,12 +35,12 @@ declare module '@coworkers-types' {
   };
 
   export type TasksDone = BaseUserEntity & {
-    deletedAt: string;
+    deletedAt: ISODateString;
     userId: number;
     recurringId: number;
     frequency: string;
-    date: string;
-    doneAt: string;
+    date: ISODateString;
+    doneAt: ISODateString;
     description: string;
     name: string;
   };

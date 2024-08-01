@@ -1,7 +1,7 @@
-declare module '@coworkers-types' {
+declare module "@coworkers-types" {
   type BaseGroupEntity = {
-    updatedAt: string;
-    createdAt: string;
+    updatedAt: ISODateString;
+    createdAt: ISODateString;
     name: string;
     id: number;
   };
@@ -13,7 +13,7 @@ declare module '@coworkers-types' {
     taskLists: GroupTaskLists[];
   };
 
-  export type GroupInfo = Omit<Group, 'members' | 'taskLists'>;
+  export type GroupInfo = Omit<Group, "members" | "taskLists">;
 
   export type GroupTaskLists = BaseGroupEntity & {
     groupId: number;
