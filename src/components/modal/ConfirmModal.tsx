@@ -5,7 +5,7 @@ interface ConfirmModalProps {
   content: string;
   buttonText: string;
   onConfirm: () => void;
-  onClose: () => void;
+  onClose?: () => void;
 }
 
 export default function ConfirmModal({

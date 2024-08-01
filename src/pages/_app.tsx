@@ -12,7 +12,7 @@ const pretendard = localFont({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main>
+    <main className={pretendard.className}>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <ModalWrapper />
         <Component {...pageProps} />

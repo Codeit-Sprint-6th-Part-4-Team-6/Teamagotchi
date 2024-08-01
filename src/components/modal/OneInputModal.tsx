@@ -7,7 +7,7 @@ interface OneInputModalProps {
   placeholder: string;
   buttonText: string;
   onConfirm: () => void;
-  onClose: () => void;
+  onClose?: () => void;
   closeButton?: boolean;
 }
 

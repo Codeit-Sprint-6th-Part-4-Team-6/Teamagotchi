@@ -10,7 +10,7 @@ interface TwoInputModalProps {
   secondPlaceholder: string;
   buttonText: string;
   onConfirm: () => void;
-  onClose: () => void;
+  onClose?: () => void;
   closeButton?: boolean;
 }
 
