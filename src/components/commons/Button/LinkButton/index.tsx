@@ -1,9 +1,9 @@
 import Link from "next/link";
 
 type LinkButtonProps = {
-  className: string;
+  className?: string;
   href: string | undefined;
-  children: string;
+  children: React.ReactNode;
 };
 
 /**
@@ -16,10 +16,11 @@ type LinkButtonProps = {
 export default function LinkButton({ className, href, children }: LinkButtonProps) {
   if (href)
     return (
-      <Link href={href}>
-        <button type="button" className={`${className}`}>
+      <Link href={href} passHref>
+        <button type="button" className={className}>
           {children}
         </button>
       </Link>
     );
+  return null;
 }
