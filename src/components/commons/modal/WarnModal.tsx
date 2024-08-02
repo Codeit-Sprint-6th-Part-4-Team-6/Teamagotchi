@@ -1,4 +1,5 @@
 import { IconAlert } from "@utils/icon";
+import Button from "../Button";
 
 interface WarnModalProps {
   warnIcon?: boolean;
@@ -31,16 +32,13 @@ export default function WarnModal({
       {warnIcon && <IconAlert className="mb-16" />}
       <p className="modal-title">{title}</p>
       {content && <p className="modal-content">{content}</p>}
-      <div className="flex gap-10">
-        <button className="h-47 w-130 bg-[#fff]" onClick={onClose}>
+      <div className="mt-30 flex gap-10">
+        <Button buttonStyle="outlined" onClick={onClose} size="medium">
           닫기
-        </button>
-        <button
-          onClick={onConfirm}
-          className="h-47 w-130 rounded-12 bg-[#EF4444] text-16 font-[600] text-[#ffffff]"
-        >
+        </Button>
+        <Button buttonStyle="danger" onClick={onConfirm} size="medium">
           {buttonText}
-        </button>
+        </Button>
       </div>
     </div>
   );

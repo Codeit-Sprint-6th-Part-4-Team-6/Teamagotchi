@@ -2,6 +2,7 @@ import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import Textarea from "@components/commons/TextArea";
 import { IconClose } from "@utils/icon";
+import Button from "../Button";
 
 interface TwoInputModalProps {
   title: string;
@@ -68,17 +69,18 @@ export default function TwoInputModal({
         )}
       </div>
       {closeButton ? (
-        <div className="flex gap-10">
-          <button onClick={onClose}>닫기</button>
-          <button onClick={onConfirm}>{buttonText}</button>
+        <div className="mt-30 flex gap-10">
+          <Button buttonStyle="outlined" onClick={onClose} size="medium">
+            닫기
+          </Button>
+          <Button onClick={onConfirm} size="medium">
+            {buttonText}
+          </Button>
         </div>
       ) : (
-        <button
-          onClick={onConfirm}
-          className="mt-30 h-47 w-300 rounded-12 bg-[#10B981] text-16 font-[600] text-[#ffffff]"
-        >
+        <Button onClick={onConfirm} className="mt-30">
           {buttonText}
-        </button>
+        </Button>
       )}
     </div>
   );

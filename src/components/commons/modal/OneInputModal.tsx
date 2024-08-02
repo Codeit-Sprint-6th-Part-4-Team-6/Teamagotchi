@@ -1,6 +1,7 @@
 import Input from "@components/commons/Input";
 import Textarea from "@components/commons/TextArea";
 import { IconClose } from "@utils/icon";
+import Button from "../Button";
 
 interface OneInputModalProps {
   title: string;
@@ -46,16 +47,17 @@ export default function OneInputModal({
       )}
       {closeButton ? (
         <div className="flex gap-10">
-          <button onClick={onClose}>닫기</button>
-          <button onClick={onConfirm}>{buttonText}</button>
+          <Button buttonStyle="outlined" onClick={onClose} className="mt-30" size="medium">
+            닫기
+          </Button>
+          <Button onClick={onConfirm} className="mt-30" size="medium">
+            {buttonText}
+          </Button>
         </div>
       ) : (
-        <button
-          onClick={onConfirm}
-          className="mt-30 h-47 w-300 rounded-12 bg-[#10B981] text-16 font-[600] text-[#ffffff]"
-        >
+        <Button onClick={onConfirm} className="mt-30">
           {buttonText}
-        </button>
+        </Button>
       )}
     </div>
   );

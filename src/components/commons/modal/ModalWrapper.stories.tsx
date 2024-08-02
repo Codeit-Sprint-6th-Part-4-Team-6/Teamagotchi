@@ -28,6 +28,7 @@ function TaskListModal({ onClose }: { onClose?: () => void }) {
       buttonText="추가하기"
       onConfirm={() => alert("인풋하나 모달")}
       onClose={onClose}
+      closeButton
     />
   );
 }
@@ -44,6 +45,7 @@ function AddTaskModal({ onClose }: { onClose?: () => void }) {
       buttonText="만들기"
       onConfirm={() => alert("인풋두개 모달")}
       onClose={onClose}
+      closeButton
     />
   );
 }
@@ -51,11 +53,9 @@ function AddTaskModal({ onClose }: { onClose?: () => void }) {
 function WithdrawalModal({ onClose }: { onClose?: () => void }) {
   return (
     <WarnModal
-      title="회원 탈퇴를 진행하시겠어요?"
-      warnIcon
-      content="그룹장으로 있는 그룹은 자동으로 삭제되고, 모든 그룹에서 나가집니다."
+      title="로그아웃 하시겠어요?"
       onConfirm={() => alert("회원탈퇴")}
-      buttonText="회원 탈퇴"
+      buttonText="로그아웃"
       onClose={onClose}
     />
   );

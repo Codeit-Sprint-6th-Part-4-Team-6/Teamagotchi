@@ -1,4 +1,5 @@
 import { IconClose } from "@utils/icon";
+import Button from "../Button";
 
 interface ConfirmModalProps {
   title: string;
@@ -27,12 +28,7 @@ export default function ConfirmModal({
       <IconClose className="modal-close-icon" onClick={onClose} />
       <p className="modal-title">{title}</p>
       <p className="modal-content">{content}</p>
-      <button
-        onClick={onConfirm}
-        className="h-47 w-300 rounded-12 bg-[#10B981] text-16 font-[600] text-[#ffffff]"
-      >
-        {buttonText}
-      </button>
+      <Button onClick={onConfirm}>{buttonText}</Button>
     </div>
   );
 }
