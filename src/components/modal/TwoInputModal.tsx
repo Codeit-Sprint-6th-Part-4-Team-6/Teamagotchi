@@ -1,4 +1,5 @@
 import Input from "@components/commons/Input";
+import Label from "@components/commons/Label";
 import { IconClose } from "@utils/icon";
 
 interface TwoInputModalProps {
@@ -44,15 +45,11 @@ export default function TwoInputModal({
       <p className="modal-title">{title}</p>
       {content && <p className="modal-content">{content}</p>}
       <div className="flex w-full flex-col">
-        <label htmlFor="first" className="font-16 mb-10 font-[500] text-[#F8FAFC]">
-          {firstTitle}
-        </label>
+        <Label htmlFor="first" content={firstTitle} marginBottom={12} type="label" />
         <Input id="first" placeholder={firstPlaceholder} />
       </div>
-      <div className="flex w-full flex-col">
-        <label htmlFor="second" className="font-16 my-10 font-[500] text-[#F8FAFC]">
-          {secondTitle}
-        </label>
+      <div className="mt-12 flex w-full flex-col">
+        <Label htmlFor="second" content={secondTitle} marginBottom={12} type="label" />
         <Input id="second" placeholder={secondPlaceholder} />
       </div>
       {closeButton ? (
