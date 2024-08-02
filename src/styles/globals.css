@@ -19,6 +19,7 @@ textarea {
 textarea::-webkit-scrollbar,
 span::-webkit-scrollbar {
   display: none;
+}
 
 @layer components {
   .modal-overlay {
