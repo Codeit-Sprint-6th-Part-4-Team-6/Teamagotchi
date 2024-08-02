@@ -1,6 +1,9 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { SignUpRequest } from "@coworkers-types";
-import { signUpUser } from "./api/authApi";
+import { useRouter } from "next/router";
+import { useAuthStore } from "@store/useAuthStore";
+import { setAuth } from "@utils/auth";
+import { loginUser, signUpUser } from "./api/authApi";
 
 export default function RegisterPage() {
   const [values, setValues] = useState<SignUpRequest>({
@@ -9,10 +12,11 @@ export default function RegisterPage() {
     password: "",
     passwordConfirmation: "",
   });
-  // const { setUser } = useUserStore();
+  const router = useRouter();
+  const { setUser } = useAuthStore();
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
 
     setValues((prevValues) => ({
       ...prevValues,
@@ -20,16 +24,20 @@ export default function RegisterPage() {
     }));
   }
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault();
 
     await signUpUser(values);
-    // const loginData = {
-    //   email: values.email,
-    //   password: values.password,
-    // };
-    // const data = await loginUser(loginData);
-    // setUser(data.user);
+
+    const loginData = {
+      email: values.email,
+      password: values.password,
+    };
+
+    const data = await loginUser(loginData);
+    setAuth(data);
+    setUser(data.user);
+    router.push("/team-list");
   }
 
   return (
