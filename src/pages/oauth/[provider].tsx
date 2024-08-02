@@ -7,11 +7,13 @@ import { socialLogin } from "../api/authApi";
 function OAuthRedirect() {
   const router = useRouter();
   const { provider } = router.query;
-  const { user, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   useEffect(() => {
     if (provider === "kakao" || provider === "google") {
       handleRedirect(provider);
+    } else {
+      router.push("/login");
     }
   }, [provider]);
 
@@ -24,13 +26,9 @@ function OAuthRedirect() {
         token: code,
       };
 
-      console.log(type);
-
       const response = await socialLogin(type.toUpperCase(), config);
       setAuth(response);
       setUser(response.user);
-
-      console.log(user);
 
       router.push("/login");
     }

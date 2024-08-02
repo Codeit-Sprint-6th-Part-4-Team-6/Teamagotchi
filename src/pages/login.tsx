@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { LoginRequest } from "@coworkers-types";
 import { useRouter } from "next/router";
 import SocialLoginBox from "@components/commons/SocialLoginBox";
