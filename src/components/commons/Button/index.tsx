@@ -3,8 +3,8 @@ import { motion } from "framer-motion";
 import { IconCheckDisActive, IconPlus } from "@utils/icon";
 
 export type ButtonProps = {
-  buttonType: "button" | "floating";
-  size: "large" | "medium" | "small";
+  buttonType?: "button" | "floating";
+  size?: "large" | "medium" | "small";
   icon?: "none" | "check" | "plus";
   buttonStyle?:
     | "default"
@@ -15,7 +15,7 @@ export type ButtonProps = {
     | "transparent-white";
   className?: string;
   children: string;
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
 };
 /**
