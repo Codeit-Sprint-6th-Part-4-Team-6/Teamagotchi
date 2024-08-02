@@ -1,5 +1,6 @@
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
+import Textarea from "@components/commons/TextArea";
 import { IconClose } from "@utils/icon";
 
 interface TwoInputModalProps {
@@ -7,8 +8,10 @@ interface TwoInputModalProps {
   content?: string;
   firstTitle: string;
   firstPlaceholder: string;
+  firstType?: "input" | "textarea";
   secondTitle: string;
   secondPlaceholder: string;
+  secondType?: "input" | "textarea";
   buttonText: string;
   onConfirm: () => void;
   onClose?: () => void;
@@ -20,8 +23,10 @@ interface TwoInputModalProps {
  * @param content - 모달의 중간 내용 부분입니다.
  * @param firstTitle - 첫번째 인풋에 들어가는 텍스트입니다.
  * @param firstPlaceholder - 첫번째 인풋에 들어가는 텍스트입니다.
+ * @param firstType - input인지, textarea인지 확인하는 props입니다.
  * @param secondTitle - 두번째 인풋에 들어가는 텍스트입니다.
  * @param secondPlaceholder - 두번째 인풋에 들어가는 텍스트입니다.
+ * @param secondType - input인지, textarea인지 확인하는 props입니다.
  * @param buttonText - 버튼에 들어가는 텍스트입니다.
  * @param onConfirm - 버튼을 눌렀을때 동작하는 함수입니다.
  * @param onClose - 닫기버튼을 눌렀을때 동작하는 함수입니다.
@@ -32,8 +37,10 @@ export default function TwoInputModal({
   content,
   firstTitle,
   firstPlaceholder,
+  firstType = "input",
   secondTitle,
   secondPlaceholder,
+  secondType = "input",
   buttonText,
   onConfirm,
   onClose,
@@ -46,11 +53,19 @@ export default function TwoInputModal({
       {content && <p className="modal-content">{content}</p>}
       <div className="flex w-full flex-col">
         <Label htmlFor="first" content={firstTitle} marginBottom={12} type="label" />
-        <Input id="first" placeholder={firstPlaceholder} />
+        {firstType === "input" ? (
+          <Input id="first" placeholder={firstPlaceholder} />
+        ) : (
+          <Textarea id="first" placeholder={firstPlaceholder} type="small" height={80} />
+        )}
       </div>
       <div className="mt-12 flex w-full flex-col">
         <Label htmlFor="second" content={secondTitle} marginBottom={12} type="label" />
-        <Input id="second" placeholder={secondPlaceholder} />
+        {secondType === "input" ? (
+          <Input id="second" placeholder={secondPlaceholder} />
+        ) : (
+          <Textarea id="second" placeholder={secondPlaceholder} type="small" height={80} />
+        )}
       </div>
       {closeButton ? (
         <div className="flex gap-10">
