@@ -38,7 +38,7 @@ export default function TextButton({
     "text-brand-primary flex items-center text-14 md:text-16",
     {
       "": textStyle === "default",
-      "underline underline-offset-2": textStyle === "underline",
+      "underline underline-offset-4": textStyle === "underline",
     }
   );
 

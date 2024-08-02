@@ -70,7 +70,7 @@ export default function Button({
   const iconClassName = classNames("mr-6", {
     "stroke-brand-primary group-hover:stroke-interaction-hover group-active:stroke-interaction-pressed group-disabled:stroke-interaction-inactive":
       buttonStyle === "outlined",
-    "": buttonStyle === "default",
+    "stroke-text-inverse": buttonStyle === "default",
   });
 
   const buttonClassName = classNames(
