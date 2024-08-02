@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Link from "next/link";
 
 type LinkButtonProps = {
@@ -16,11 +17,11 @@ type LinkButtonProps = {
 export default function LinkButton({ className, href, children }: LinkButtonProps) {
   if (href)
     return (
-      <Link href={href} passHref>
-        <button type="button" className={className}>
+      <motion.button whileTap={{ scale: 0.97 }} type="button" className={className}>
+        <Link href={href} passHref>
           {children}
-        </button>
-      </Link>
+        </Link>
+      </motion.button>
     );
   return null;
 }

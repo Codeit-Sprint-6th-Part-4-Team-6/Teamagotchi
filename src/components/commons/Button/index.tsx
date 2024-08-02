@@ -31,8 +31,8 @@ export type ButtonProps = {
  * @returns 버튼을 렌더링합니다.
  */
 export default function Button({
-  buttonType,
-  size,
+  buttonType = "button",
+  size = "large",
   icon = "none",
   buttonStyle = "default",
   className,
