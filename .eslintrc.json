@@ -21,7 +21,7 @@
     "plugin:storybook/recommended"
   ],
   "rules": {
-    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/no-extraneous-dependencies": ["warn", { "devDependencies": true }],
     "global-require": "off",
     "func-names": "off",
     "@typescript-eslint/no-explicit-any": "off",

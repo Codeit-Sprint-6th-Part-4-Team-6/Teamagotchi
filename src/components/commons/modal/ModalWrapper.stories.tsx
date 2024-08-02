@@ -1,7 +1,9 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import { useModalStore } from "@store/useModalStore";
+import LoginPage from "../../../pages/login";
 import ConfirmModal from "./ConfirmModal";
+import CustomModal from "./CustomModal";
 import ModalWrapper from "./ModalWrapper";
 import OneInputModal from "./OneInputModal";
 import TwoInputModal from "./TwoInputModal";
@@ -61,6 +63,10 @@ function WithdrawalModal({ onClose }: { onClose?: () => void }) {
   );
 }
 
+function CustomModalTest({ onClose }: { onClose?: () => void }) {
+  return <CustomModal content={<LoginPage />} />;
+}
+
 export default {
   title: "Components/ModalWrapper",
   component: ModalWrapper,
@@ -88,6 +94,10 @@ export const Default: Story = {
       openModal("WithdrawalModal", WithdrawalModal, {});
     };
 
+    const openCustomModal = () => {
+      openModal("CustomModal", CustomModalTest, {});
+    };
+
     return (
       <>
         <ModalWrapper />
@@ -103,6 +113,9 @@ export const Default: Story = {
           </button>
           <button className="h-50 w-200 bg-[#fff]" onClick={openWithdrawalModal}>
             회원 탈퇴
+          </button>
+          <button className="h-50 w-200 bg-[#fff]" onClick={openCustomModal}>
+            커스텀 모달
           </button>
         </div>
       </>

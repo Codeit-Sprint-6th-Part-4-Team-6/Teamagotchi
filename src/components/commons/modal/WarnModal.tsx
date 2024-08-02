@@ -12,6 +12,7 @@ interface WarnModalProps {
 
 /**
  * 경고 형식의 모달입니다.
+ * 자세한 사용방법은 https://github.com/Codeit-Sprint-6th-Part-4-Team-6/coworkers/pull/14 를 참고해주세요.
  * @param warnIcon - 경고 아이콘을 위한 props 입니다.
  * @param title - 모달의 상단 제목 부분입니다.
  * @param content - 모달의 중간 내용 부분입니다.
