@@ -15,3 +15,7 @@ textarea {
   border: 0;
   font-family: "Pretendard";
 }
+
+textarea::-webkit-scrollbar {
+  display: none;
+}

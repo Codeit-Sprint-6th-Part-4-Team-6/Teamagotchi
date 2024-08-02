@@ -1,5 +1,6 @@
 import { useState } from "react";
 import classNames from "classnames";
+import { IconClose, IconSearch, IconVisibilityOff, IconVisibilityOn } from "@utils/icon";
 
 type InputProps = {
   type?: "text" | "email" | "password" | "search";
@@ -9,9 +10,9 @@ type InputProps = {
   value?: string;
   errorMessage?: string;
   disabled?: boolean;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 /**
@@ -22,9 +23,9 @@ type InputProps = {
  * @props value?: string;
  * @props errorMessage?: string;
  * @props disabled?: boolean;
- * @props onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
- * @props onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
- * @props onDelete?: (e: React.MouseEvent<HTMLButtonElement>) => void; type이 search일 때 검색어 입력했을 때 나오는 x button에 등록할 이벤트 핸들러입니다.
+ * @props onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+ * @props onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+ * @props onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void; type이 search일 때 검색어 입력했을 때 나오는 x button에 등록할 이벤트 핸들러입니다.
  */
 
 export default function Input({
@@ -45,8 +46,8 @@ export default function Input({
     setInputType((prevType) => (prevType === "password" ? "text" : "password"));
   };
 
-  const classnames = classNames(
-    "w-full h-full text-md font-normal md:text-lg rounded-[12px] border border-solid text-text-primary placeholder-text-default focus:border-interaction-focus",
+  const inputClassnames = classNames(
+    "w-full h-44 md:h-48 text-md font-normal md:text-lg rounded-[12px] border border-solid text-text-primary placeholder-text-default focus:border-interaction-focus",
     errorMessage ? "!border-status-danger" : "border-border-primary",
     disabled ? "bg-background-tertiary" : "bg-background-secondary",
     type === "password" ? "pl-16 pr-40" : "px-16",
@@ -54,7 +55,7 @@ export default function Input({
   );
 
   return (
-    <div className="relative h-44 w-full md:h-48">
+    <div className="relative w-full">
       <input
         type={inputType}
         name={name}
@@ -64,34 +65,29 @@ export default function Input({
         disabled={disabled}
         onChange={onChange}
         onBlur={onBlur}
-        className={classnames}
+        className={inputClassnames}
       />
       {type === "password" && (
         <button
           type="button"
           className="absolute right-16 top-10 md:top-12"
           onClick={handlePasswordViewClick}
+          aria-label="Toggle password visibility"
         >
-          <img
-            src={
-              inputType === "password"
-                ? "icons/ic_visibility_off.svg"
-                : "icons/ic_visibility_on.svg"
-            }
-            alt="password_visible_click"
-          />
+          {inputType === "password" ? <IconVisibilityOff /> : <IconVisibilityOn />}
         </button>
       )}
       {type === "search" && (
         <>
-          <img
-            src="icons/ic_search.svg"
-            alt="search"
-            className="absolute left-16 top-10 md:top-12"
-          />
+          <IconSearch className="absolute left-16 top-10 md:top-12" />
           {value && (
-            <button type="button" className="absolute right-16 top-10 md:top-12" onClick={onDelete}>
-              <img src="icons/ic_x.svg" alt="search_x_button" />
+            <button
+              type="button"
+              className="absolute right-16 top-10 cursor-pointer md:top-12"
+              onClick={onDelete}
+              aria-label="Clear search"
+            >
+              <IconClose />
             </button>
           )}
         </>
