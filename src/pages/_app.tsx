@@ -1,7 +1,7 @@
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
-import ModalWrapper from "@components/modal/ModalWrapper";
+import ModalWrapper from "@components/commons/modal/ModalWrapper";
 import "@styles/globals.css";
 
 const pretendard = localFont({
