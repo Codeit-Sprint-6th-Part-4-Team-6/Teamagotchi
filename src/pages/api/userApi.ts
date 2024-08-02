@@ -6,16 +6,15 @@ import {
   User,
   UserGroup,
   UserRequest,
-} from '@coworkers-types';
-
-import { axiosInstance } from './axios';
+} from "@coworkers-types";
+import { axiosInstance } from "./axios";
 
 /**
  * 유저 정보를 조회하는 API 함수입니다.
  * @returns 유저 정보 객체를 반환합니다.
  */
 export const getUser = async (): Promise<User> => {
-  const response = await axiosInstance.get<User>('user');
+  const response = await axiosInstance.get<User>("user");
   return response.data;
 };
 
@@ -25,7 +24,7 @@ export const getUser = async (): Promise<User> => {
  * @returns 완료 시 메세지를 받습니다.
  */
 export const patchUser = async (data: UserRequest): Promise<Message> => {
-  const response = await axiosInstance.patch<Message>('user', data);
+  const response = await axiosInstance.patch<Message>("user", data);
   return response.data;
 };
 
@@ -34,7 +33,7 @@ export const patchUser = async (data: UserRequest): Promise<Message> => {
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
 export const deleteUser = async (): Promise<void> => {
-  await axiosInstance.delete('user');
+  await axiosInstance.delete("user");
 };
 
 /**
@@ -42,7 +41,7 @@ export const deleteUser = async (): Promise<void> => {
  * @returns 그룹 정보 배열을 반환합니다.
  */
 export const getUserGroups = async (): Promise<UserGroup[]> => {
-  const response = await axiosInstance.get<UserGroup[]>('user/groups');
+  const response = await axiosInstance.get<UserGroup[]>("user/groups");
   return response.data;
 };
 
@@ -51,7 +50,7 @@ export const getUserGroups = async (): Promise<UserGroup[]> => {
  * @returns 그룹 정보 배열을 반환합니다.
  */
 export const getUserHistory = async (): Promise<History> => {
-  const response = await axiosInstance.get<History>('user/history');
+  const response = await axiosInstance.get<History>("user/history");
   return response.data;
 };
 
@@ -65,10 +64,7 @@ export const getUserHistory = async (): Promise<History> => {
 export const postSendResetPasswordEmail = async (
   data: SendResetPasswordRequest
 ): Promise<Message> => {
-  const response = await axiosInstance.post<Message>(
-    'user/send-reset-password-email',
-    data
-  );
+  const response = await axiosInstance.post<Message>("user/send-reset-password-email", data);
   return response.data;
 };
 
@@ -78,13 +74,8 @@ export const postSendResetPasswordEmail = async (
  * @param  data 데이터로 { passwordConfirmation, password, token }을 받습니다.
  * @returns 완료 시 메세지를 반환합니다.
  */
-export const postResetPassword = async (
-  data: ResetPassword
-): Promise<Message> => {
-  const response = await axiosInstance.post<Message>(
-    'user/reset-password',
-    data
-  );
+export const postResetPassword = async (data: ResetPassword): Promise<Message> => {
+  const response = await axiosInstance.post<Message>("user/reset-password", data);
   return response.data;
 };
 
@@ -93,9 +84,7 @@ export const postResetPassword = async (
  * @param  data 데이터로 { passwordConfirmation, password }을 받습니다.
  * @returns 완료 시 메세지를 반환합니다.
  */
-export const patchResetPassword = async (
-  data: ResetPassword
-): Promise<Message> => {
-  const response = await axiosInstance.post<Message>('user/password', data);
+export const patchResetPassword = async (data: ResetPassword): Promise<Message> => {
+  const response = await axiosInstance.post<Message>("user/password", data);
   return response.data;
 };

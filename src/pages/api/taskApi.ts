@@ -1,12 +1,5 @@
-import {
-  DateTask,
-  PatchTaskRequest,
-  PostTaskRequest,
-  Task,
-  TaskDetails,
-} from '@coworkers-types';
-
-import { axiosInstance } from './axios';
+import { DateTask, PatchTaskRequest, PostTaskRequest, Task, TaskDetails } from "@coworkers-types";
+import { axiosInstance } from "./axios";
 
 /**
  * 새로운 할 일을 생성하는 API 함수입니다.
@@ -41,7 +34,7 @@ export const getDateTaskList = async (
 ): Promise<DateTask[]> => {
   const params = new URLSearchParams();
   if (date) {
-    params.append('date', date);
+    params.append("date", date);
   }
 
   const response = await axiosInstance.get<DateTask[]>(
@@ -101,9 +94,7 @@ export const deleteTask = async (
   taskListId: number,
   taskId: number
 ): Promise<void> => {
-  await axiosInstance.delete(
-    `groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
-  );
+  await axiosInstance.delete(`groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`);
 };
 
 /**
