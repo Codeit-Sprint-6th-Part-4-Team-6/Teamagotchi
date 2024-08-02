@@ -16,6 +16,7 @@ textarea {
   font-family: "Pretendard";
 }
 
-textarea::-webkit-scrollbar {
+textarea::-webkit-scrollbar,
+span::-webkit-scrollbar {
   display: none;
 }
