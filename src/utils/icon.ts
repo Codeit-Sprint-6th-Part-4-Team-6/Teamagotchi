@@ -18,7 +18,9 @@ import IconEnterActive from "@icons/icon_enter_active.svg";
 import IconEnterDefault from "@icons/icon_enter_default.svg";
 import IconGear from "@icons/icon_gear.svg";
 import IconGnbMenu from "@icons/icon_gnb_menu.svg";
+import IconGoogle from "@icons/icon_google.svg";
 import IconImage from "@icons/icon_image.svg";
+import IconKakaotalk from "@icons/icon_kakaotalk.svg";
 import IconKebabLarge from "@icons/icon_kebab_large.svg";
 import IconKebabSmall from "@icons/icon_kebab_small.svg";
 import IconList from "@icons/icon_list.svg";
@@ -73,5 +75,7 @@ export {
   IconUser,
   IconVisibilityOff,
   IconVisibilityOn,
+  IconKakaotalk,
+  IconGoogle,
   IconSearch,
 };
