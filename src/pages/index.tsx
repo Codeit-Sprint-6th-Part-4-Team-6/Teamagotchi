@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import Input from "@components/commons/Input";
-import Textarea from "@components/commons/TextArea";
 import Label from "@components/commons/Label";
-
+import Textarea from "@components/commons/TextArea";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
