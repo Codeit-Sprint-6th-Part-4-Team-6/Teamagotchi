@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { LoginRequest } from "@coworkers-types";
 import { useRouter } from "next/router";
+import SocialLoginBox from "@components/commons/SocialLoginBox";
 import { useAuthStore } from "@store/useAuthStore";
 import { setAuth } from "@utils/auth";
 import { loginUser } from "./api/authApi";
@@ -11,7 +12,7 @@ export default function LoginPage() {
     password: "",
   });
   const router = useRouter();
-  const { user, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -31,10 +32,24 @@ export default function LoginPage() {
     router.push("/team-list");
   }
 
-  // NOTE: 미들웨어 생성 후 정리될 예정
-  useEffect(() => {
-    if (user) router.push("team-list");
-  }, [user]);
+  const handleGoogleAuth = () => {
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    const redirectUri = "http://localhost:3000/oauth/google";
+    const responseType = "code";
+    const scope = process.env.NEXT_PUBLIC_GOOGLE_SCOPE;
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
+
+    window.location.href = url;
+  };
+
+  const handleKakaoAuth = () => {
+    const clientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+    const redirectUri = "http://localhost:3000/oauth/kakao";
+    const responseType = "code";
+    const url = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`;
+
+    window.location.href = url;
+  };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -51,6 +66,11 @@ export default function LoginPage() {
       />
 
       <button type="submit">로그인</button>
+      <SocialLoginBox
+        type="login"
+        onGoogleClick={handleGoogleAuth}
+        onKakaoClick={handleKakaoAuth}
+      />
     </form>
   );
 }
