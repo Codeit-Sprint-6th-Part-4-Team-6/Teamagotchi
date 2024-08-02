@@ -27,7 +27,7 @@ const config: Config = {
      },
      colors: {
         brand: {
-          primary: '#108981',
+          primary: '#10B981',
           secondary: '#34D399',
           tertiary: '#A3E635',
           'gradient-start': '#108981', 
@@ -52,7 +52,7 @@ const config: Config = {
           inactive: '#94A3B8',
           hover: '#059669',
           pressed: '#047857',
-          focus: '#108981',
+          focus: '#10B981',
         },
         border: {
           primary: 'rgba(248, 250, 252, 0.1)',
@@ -71,7 +71,7 @@ const config: Config = {
         icon: {
           primary: '#64748B',
           inverse: '#F8FAFC',
-          brand: '#108981',
+          brand: '#10B981',
         },
       },
     extend: {
