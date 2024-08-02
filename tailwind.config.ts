@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import { PluginAPI } from 'tailwindcss/types/config';
 
 
 const config: Config = {
@@ -26,7 +27,7 @@ const config: Config = {
      },
      colors: {
         brand: {
-          primary: '#108981',
+          primary: '#10B981',
           secondary: '#34D399',
           tertiary: '#A3E635',
           'gradient-start': '#108981', 
@@ -51,7 +52,7 @@ const config: Config = {
           inactive: '#94A3B8',
           hover: '#059669',
           pressed: '#047857',
-          focus: '#108981',
+          focus: '#10B981',
         },
         border: {
           primary: 'rgba(248, 250, 252, 0.1)',
@@ -70,7 +71,7 @@ const config: Config = {
         icon: {
           primary: '#64748B',
           inverse: '#F8FAFC',
-          brand: '#108981',
+          brand: '#10B981',
         },
       },
     extend: {
@@ -81,7 +82,41 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [function ({ addUtilities }: PluginAPI) {
+    addUtilities({
+      '.modal': {
+        position: 'relative',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        paddingLeft: '48px',
+        paddingRight: '48px',
+        paddingTop: '40px',
+        paddingBottom: '40px',
+      },
+      '.modal-close-icon': {
+        position: 'absolute',
+        right: '16px',
+        top: '16px',
+        marginLeft: 'auto',
+        cursor: 'pointer',
+      },
+      '.modal-title': {
+        margin: 'auto',
+        marginBottom: '10px',
+        color: '#F8FAFC',
+        fontWeight: '500',
+        fontSize: '16px',
+      },
+      '.modal-content': {
+        margin: 'auto',
+        marginBottom: '30px',
+        color: '#CBD5E1',
+        fontWeight: '500',
+        fontSize: '14px',
+        textAlign: 'center',
+      }
+    })}],
   darkMode: 'selector',
 };
 export default config;

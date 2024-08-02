@@ -1,5 +1,6 @@
 import { AuthResponse } from "@coworkers-types";
-import { setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
+import { useAuthStore } from "@store/useAuthStore";
 
 // NOTE: 해당 파일에는 유저 기능과 관련된 추가적인 연산 로직들이 필요시에 저장될 예정입니다.
 
@@ -10,4 +11,10 @@ import { setCookie } from "cookies-next";
 export const setAuth = (data: AuthResponse) => {
   setCookie("accessToken", data.accessToken, { maxAge: 3600 });
   setCookie("refreshToken", data.refreshToken, { maxAge: 3600 * 12 * 7 });
+};
+
+export const clearAuth = () => {
+  useAuthStore.persist.clearStorage();
+  deleteCookie("accessToken");
+  deleteCookie("refreshToken");
 };

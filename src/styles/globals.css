@@ -4,7 +4,7 @@
 
 body {
   /*테스트용 배경이에요*/
-  background-color: #0f172a;
+  background-color: #fff;
 }
 
 button,
@@ -19,4 +19,13 @@ textarea {
 textarea::-webkit-scrollbar,
 span::-webkit-scrollbar {
   display: none;
+
+@layer components {
+  .modal-overlay {
+    @apply fixed left-0 top-0 z-20 h-full w-full bg-[#00000050];
+  }
+
+  .modal-container {
+    @apply fixed left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 bg-[#1E293B] rounded-12;
+  }
 }
