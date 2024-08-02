@@ -1,9 +1,10 @@
+import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 
 export default function ResetPasswordPage() {
   return (
-    <section className="py-100">
+    <section className="mx-16 py-100 md:mx-142 lg:mx-auto lg:w-520">
       <h2 className="mb-80 text-center text-4xl">비밀번호 재설정</h2>
       <form>
         <div className="mb-24">
@@ -24,13 +25,16 @@ export default function ResetPasswordPage() {
             marginBottom={12}
           />
           <Input
-            type="passwordConfirmation"
+            type="password"
             name="passwordConfirmation"
             id="passwordConfirmation"
             placeholder="비밀번호 (영문, 숫자, 특수문자 포함, 12자 이내)를 입력해주세요."
             errorMessage="비밀번호를 입력해주세요."
           />
         </div>
+        <Button buttonType="button" size="large" onClick={() => {}}>
+          재설정
+        </Button>
       </form>
     </section>
   );
