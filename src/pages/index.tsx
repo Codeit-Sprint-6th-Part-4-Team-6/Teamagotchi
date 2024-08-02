@@ -1,9 +1,15 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
+import Dropdown from "@components/commons/Dropdown";
+import FrequencyDropdown from "@components/commons/Dropdown/FrequencyDropdown";
+import ProfileDropdown from "@components/commons/Dropdown/ProfileDropdown";
+import TeamListDropdown from "@components/commons/Dropdown/TeamListDropdown";
 import Input from "@components/commons/Input";
-import Textarea from "@components/commons/TextArea";
 import Label from "@components/commons/Label";
-
+import Textarea from "@components/commons/TextArea";
+import { IconPlus } from "@utils/icon";
+import DOG2 from "../../public/images/cute.jpeg";
+import DOG1 from "../../public/images/dog.jpg";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
@@ -46,6 +52,12 @@ export default function Home() {
       <Textarea type="innerButton" placeholder="댓글을 달아주세요" height={50} />
       <Textarea type="small" placeholder="댓글을 달아주세요" height={74} />
       <Textarea type="big" placeholder="댓글을 달아주세요" height={104} />
+
+      <div className="flex h-[20vh] gap-20">
+        <ProfileDropdown />
+        <FrequencyDropdown />
+        <TeamListDropdown />
+      </div>
     </main>
   );
 }

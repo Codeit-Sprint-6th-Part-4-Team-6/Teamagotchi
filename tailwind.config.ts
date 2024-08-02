@@ -55,6 +55,7 @@ const config: Config = {
         },
         border: {
           primary: 'rgba(248, 250, 252, 0.1)',
+          white: '#ffffff'
         },
         text: {
           primary: '#F8FAFC',
