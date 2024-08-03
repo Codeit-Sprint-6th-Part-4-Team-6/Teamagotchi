@@ -49,34 +49,51 @@ function Toggle({ children }: { children: React.ReactNode }) {
   const { togglePopover } = useContext(PopoverContext);
 
   return (
-    <div
+    <button
+      type="button"
       onClick={togglePopover}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           togglePopover();
         }
       }}
-      role="button"
       tabIndex={0}
       className="cursor-pointer"
     >
       {children}
-    </div>
+    </button>
   );
 }
 
-function Wrapper({ children, align = "" }: { children: React.ReactNode; align?: string }) {
+function Wrapper({
+  children,
+  popDirection = "right",
+}: {
+  children: React.ReactNode;
+  popDirection?: "left" | "right";
+}) {
   const { isOpen } = useContext(PopoverContext);
+
   const wrapperClassName = classNames(
-    `absolute rounded-12 bg-background-secondary py-8 px-16 ${align === "center" ? "text-center" : ""}`
+    `${popDirection === "left" ? "right-0" : ""} absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8 text-center box-border max-w-218 min-w-120 md:min-w-135`
   );
 
   return isOpen ? <div className={wrapperClassName}>{children}</div> : null;
 }
 
-function Item({ children }: { children: React.ReactNode }) {
+function Item({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
   return (
-    <div className="cursor-pointer text-nowrap rounded-8 px-8 py-7 text-lg hover:bg-background-tertiary">
+    <div
+      className="cursor-pointer text-nowrap rounded-8 py-7 text-md transition-all hover:bg-background-tertiary md:text-lg"
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          onClick();
+        }
+      }}
+      role="button"
+      tabIndex={0}
+    >
       {children}
     </div>
   );
@@ -95,7 +112,7 @@ function InnerButton({
     <button
       type="button"
       onClick={onClick}
-      className="flex h-48 w-186 cursor-pointer items-center justify-center gap-5 text-nowrap rounded-8 border border-solid px-8 py-7 text-lg hover:bg-background-tertiary"
+      className="mb-10 flex h-48 w-186 cursor-pointer items-center justify-center gap-5 text-nowrap rounded-12 border border-solid px-8 py-7 text-lg hover:bg-background-tertiary"
     >
       {icon}
       {children}
@@ -107,13 +124,13 @@ function TeamItem({ imgSrc, children }: { imgSrc: string; children: React.ReactN
   return (
     <button
       type="button"
-      className="my-10 flex h-48 w-186 items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
+      className="my-10 flex h-48 w-186 items-center gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
     >
-      <div className="relative h-32 w-32 overflow-hidden rounded-6">
+      <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
         <Image src={imgSrc} alt={`${children} logo`} fill className="object-cover" />
       </div>
-      <span className="text-nowrap text-lg">{children}</span>
-      <IconKebabSmall className="mb-4" />
+      <span className="flex-grow text-left text-lg">{children}</span>
+      <IconKebabSmall className="mb-4 flex-shrink-0" />
     </button>
   );
 }

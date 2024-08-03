@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import FrequencyPopover from "@components/commons/Dropdown/FrequencyPopover";
-import ProfilePopover from "@components/commons/Dropdown/ProfilePopover";
-import TeamListPopover from "@components/commons/Dropdown/TeamListPopover";
 import Input from "@components/commons/Input";
+import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
+import ProfilePopover from "@components/commons/Popover/ProfilePopover";
+import TeamListPopover from "@components/commons/Popover/TeamListPopover";
 import Textarea from "@components/commons/TextArea";
 
 export default function Home() {
@@ -49,8 +49,9 @@ export default function Home() {
       <Textarea type="big" placeholder="댓글을 달아주세요" height={104} />
 
       <div className="flex h-[20vh] gap-20">
+        <EditDeletePopover icon="gear" handleModify={() => {}} handleDelete={() => {}} />
+        <EditDeletePopover icon="kebab" handleModify={() => {}} handleDelete={() => {}} />
         <ProfilePopover />
-        <FrequencyPopover />
         <TeamListPopover />
       </div>
     </main>
