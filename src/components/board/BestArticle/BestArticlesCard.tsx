@@ -21,8 +21,8 @@ interface Writer {
 
 export default function BestArticleCard({ item }: { item: List }) {
   return (
-    <Link key={item.id} href={`/board/${item.id}`}>
-      <div className="flex h-169 w-362 flex-col justify-between rounded-8 bg-[#1E293B] p-14 pb-10">
+    <Link key={item.id} href={`/board/${item.id}`} className="w-full">
+      <div className="flex h-169 flex-col justify-between rounded-8 bg-[#1E293B] p-14 pb-10">
         <IconBestBadge />
         <div className="flex justify-between">
           <span className="text-18 font-[500] text-[#CBD5E1]">{item.title}</span>
