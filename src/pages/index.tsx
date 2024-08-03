@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import Input from "@components/commons/Input";
-import Label from "@components/commons/Label";
 import Textarea from "@components/commons/TextArea";
 
 export default function Home() {

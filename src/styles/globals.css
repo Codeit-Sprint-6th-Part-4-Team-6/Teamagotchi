@@ -16,6 +16,11 @@ textarea {
   font-family: "Pretendard";
 }
 
+textarea::-webkit-scrollbar,
+span::-webkit-scrollbar {
+  display: none;
+}
+
 @layer components {
   .modal-overlay {
     @apply fixed left-0 top-0 z-20 h-full w-full bg-[#00000050];

@@ -24,6 +24,7 @@ import IconKakaotalk from "@icons/icon_kakaotalk.svg";
 import IconKebabLarge from "@icons/icon_kebab_large.svg";
 import IconKebabSmall from "@icons/icon_kebab_small.svg";
 import IconList from "@icons/icon_list.svg";
+import IconMember from "@icons/icon_member.svg";
 import IconPlus from "@icons/icon_plus.svg";
 import IconProgressDone from "@icons/icon_progress_done.svg";
 import IconProgressOnGoing from "@icons/icon_progress_ongoing.svg";
@@ -78,4 +79,5 @@ export {
   IconKakaotalk,
   IconGoogle,
   IconSearch,
+  IconMember,
 };
