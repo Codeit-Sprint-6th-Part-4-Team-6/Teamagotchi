@@ -10,12 +10,20 @@ interface TwoInputModalProps {
   firstTitle: string;
   firstPlaceholder: string;
   firstType?: "input" | "textarea";
+  firstValue?: string;
   secondTitle: string;
   secondPlaceholder: string;
   secondType?: "input" | "textarea";
+  secondValue?: string;
   buttonText: string;
   onConfirm: () => void;
   onClose?: () => void;
+  firstOnChange?:
+    | ((event: React.ChangeEvent<HTMLInputElement>) => void)
+    | ((event: React.ChangeEvent<HTMLTextAreaElement>) => void);
+  secondOnChange?:
+    | ((event: React.ChangeEvent<HTMLInputElement>) => void)
+    | ((event: React.ChangeEvent<HTMLTextAreaElement>) => void);
   closeButton?: boolean;
 }
 /**
@@ -40,12 +48,16 @@ export default function TwoInputModal({
   firstTitle,
   firstPlaceholder,
   firstType = "input",
+  firstValue,
   secondTitle,
   secondPlaceholder,
   secondType = "input",
+  secondValue,
   buttonText,
   onConfirm,
   onClose,
+  firstOnChange,
+  secondOnChange,
   closeButton = false,
 }: TwoInputModalProps) {
   return (
@@ -56,17 +68,41 @@ export default function TwoInputModal({
       <div className="flex w-full flex-col">
         <Label htmlFor="first" content={firstTitle} marginBottom={12} type="label" />
         {firstType === "input" ? (
-          <Input id="first" placeholder={firstPlaceholder} />
+          <Input
+            value={firstValue}
+            id="first"
+            placeholder={firstPlaceholder}
+            onChange={firstOnChange as (event: React.ChangeEvent<HTMLInputElement>) => void}
+          />
         ) : (
-          <Textarea id="first" placeholder={firstPlaceholder} type="small" height={80} />
+          <Textarea
+            value={firstValue}
+            id="first"
+            placeholder={firstPlaceholder}
+            type="small"
+            height={80}
+            onChange={firstOnChange as (event: React.ChangeEvent<HTMLTextAreaElement>) => void}
+          />
         )}
       </div>
       <div className="mt-12 flex w-full flex-col">
         <Label htmlFor="second" content={secondTitle} marginBottom={12} type="label" />
         {secondType === "input" ? (
-          <Input id="second" placeholder={secondPlaceholder} />
+          <Input
+            value={secondValue}
+            id="second"
+            placeholder={secondPlaceholder}
+            onChange={secondOnChange as (event: React.ChangeEvent<HTMLInputElement>) => void}
+          />
         ) : (
-          <Textarea id="second" placeholder={secondPlaceholder} type="small" height={80} />
+          <Textarea
+            value={secondValue}
+            id="second"
+            placeholder={secondPlaceholder}
+            type="small"
+            height={80}
+            onChange={firstOnChange as (event: React.ChangeEvent<HTMLTextAreaElement>) => void}
+          />
         )}
       </div>
       {closeButton ? (
