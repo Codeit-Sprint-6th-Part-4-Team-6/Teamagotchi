@@ -1,12 +1,13 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { IconClose, IconEdit, IconImage, IconMemberLarge } from "@utils/icon";
+import { postImageURL } from "../../../pages/api/imageApi";
 
 type ImageInputProps = {
   name: string;
   value: File | Blob | string | null;
   type: "my-profile" | "team-profile" | "article";
-  onChange: (name: string, value: File | null) => void;
+  onChange: (value: string | null) => void;
   defaultValue?: string;
 };
 
@@ -18,10 +19,11 @@ export default function ImageInput({ name, value, type, onChange, defaultValue }
     inputRef.current?.click();
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (event: ChangeEvent<HTMLInputElement>) => {
     const nextValue = event.target.files?.[0];
     if (nextValue) {
-      onChange(name, nextValue);
+      const res = await postImageURL(nextValue);
+      onChange(res.url);
     }
   };
 
@@ -30,7 +32,7 @@ export default function ImageInput({ name, value, type, onChange, defaultValue }
     if (!inputNode) return;
 
     inputNode.value = "";
-    onChange(name, null);
+    onChange(null);
   };
 
   useEffect(() => {
@@ -87,11 +89,12 @@ export default function ImageInput({ name, value, type, onChange, defaultValue }
               </div>
               <span className="text-14 text-text-gray400 md:text-16">이미지 등록</span>
             </div>
-            <span className="absolute">
-              {previewImage && (
+
+            {previewImage !== null && (
+              <span className="absolute">
                 <PreviewImage type={type} src={previewImage} handleImageDelete={handleClearClick} />
-              )}
-            </span>
+              </span>
+            )}
           </span>
         )}
       </button>
