@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import NameTag from "@components/commons/NameTag";
 import { formatDate } from "@utils/formatDate";
 import { IconBestBadge, IconComment, IconHeart } from "@utils/icon";
 
@@ -21,7 +22,7 @@ interface Writer {
 export default function BestArticleCard({ item }: { item: List }) {
   return (
     <Link key={item.id} href={`/board/${item.id}`}>
-      <div className="flex h-169 w-384 flex-col justify-between rounded-8 bg-[#1E293B] p-14 pb-10">
+      <div className="flex h-169 w-362 flex-col justify-between rounded-8 bg-[#1E293B] p-14 pb-10">
         <IconBestBadge />
         <div className="flex justify-between">
           <span className="text-18 font-[500] text-[#CBD5E1]">{item.title}</span>
@@ -29,7 +30,7 @@ export default function BestArticleCard({ item }: { item: List }) {
         </div>
         <span className="text-14 font-[500] text-[#94A3B8]">{formatDate(item.createdAt)}</span>
         <div className="flex items-center justify-between">
-          <span className="text-14 font-[400] text-[#F8FAFC]">{item.writer.nickname}</span>
+          <NameTag type="default-12" image={null} name={item.writer.nickname} />
           <div className="flex gap-12">
             <div className="flex items-center justify-center gap-5">
               <IconComment />
