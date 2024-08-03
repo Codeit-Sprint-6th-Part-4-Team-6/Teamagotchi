@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { LoginRequest } from "@coworkers-types";
 import { useRouter } from "next/router";
+import SendMailModal from "@components/auth/SendMailModal";
+import TextButton from "@components/commons/Button/TextButton";
+import { useModal } from "@hooks/useModal";
 import { useAuthStore } from "@store/useAuthStore";
 import { setAuth } from "@utils/auth";
 import { loginUser } from "./api/authApi";
@@ -11,7 +14,8 @@ export default function LoginPage() {
     password: "",
   });
   const router = useRouter();
-  const { user, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
+  const { openModal } = useModal();
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -31,6 +35,10 @@ export default function LoginPage() {
     router.push("/team-list");
   }
 
+  const handleOpenModal = () => {
+    openModal("SendMailModal", SendMailModal, {});
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -45,11 +53,11 @@ export default function LoginPage() {
           value={values.password}
           onChange={handleChange}
         />
-
         <button type="submit">로그인</button>
       </form>
-      <span>이메일 전송 Input</span>
-      <input type="text" />
+      <TextButton buttonType="button" textStyle="underline" onClick={handleOpenModal}>
+        비밀번호를 잊으셨나요?
+      </TextButton>
     </>
   );
 }
