@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
@@ -10,13 +12,18 @@ const pretendard = localFont({
   weight: "45 920",
 });
 
+const queryClient = new QueryClient();
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={pretendard.className}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <ModalWrapper />
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </main>
+    <QueryClientProvider client={queryClient}>
+      <main className={pretendard.className}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ModalWrapper />
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </main>
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
   );
 }
