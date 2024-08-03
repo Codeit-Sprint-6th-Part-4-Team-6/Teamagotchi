@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { GetServerSideProps } from "next";
+import Article from "@components/board/Article";
 import BestArticle from "@components/board/BestArticle";
 import { axiosInstance } from "../api/axios";
 
@@ -54,6 +55,7 @@ export default function BoardPage({ data }: BoardProps) {
   return (
     <div className="mx-auto my-0 w-full min-w-368 max-w-1200 px-34 py-0">
       <BestArticle Posts={sortedArticles} />
+      <Article Posts={articles} />
     </div>
   );
 }
