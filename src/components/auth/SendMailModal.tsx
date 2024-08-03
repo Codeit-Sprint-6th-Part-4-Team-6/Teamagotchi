@@ -6,7 +6,6 @@ import { postSendResetPasswordEmail } from "../../pages/api/userApi";
 export default function SendMailModal({ onClose }: { onClose?: () => void }) {
   const [email, setEmail] = useState("");
 
-  // TODO: 핸들러 props 넘기기
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
@@ -30,6 +29,7 @@ export default function SendMailModal({ onClose }: { onClose?: () => void }) {
       buttonText="링크 보내기"
       onConfirm={handleSendMail}
       onClose={onClose}
+      onChange={handleChange}
       closeButton
     />
   );
