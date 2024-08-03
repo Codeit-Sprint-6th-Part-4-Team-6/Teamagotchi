@@ -3,21 +3,21 @@ import classNames from "classnames";
 import Image from "next/image";
 import { IconKebabSmall } from "@utils/icon";
 
-const DropdownContext = createContext({
+const PopoverContext = createContext({
   isOpen: false,
-  toggleDropdown: () => {},
+  togglePopover: () => {},
 });
 
-export default function Dropdown({ children }: React.PropsWithChildren) {
+export default function Popover({ children }: React.PropsWithChildren) {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleDropdown = () => setIsOpen(!isOpen);
-  const closeDropdown = () => setIsOpen(false);
+  const togglePopover = () => setIsOpen(!isOpen);
+  const closePopover = () => setIsOpen(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const value = useMemo(
     () => ({
       isOpen,
-      toggleDropdown,
+      togglePopover,
     }),
     [isOpen]
   );
@@ -25,7 +25,7 @@ export default function Dropdown({ children }: React.PropsWithChildren) {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        closeDropdown();
+        closePopover();
       }
     }
 
@@ -37,23 +37,23 @@ export default function Dropdown({ children }: React.PropsWithChildren) {
   }, [dropdownRef]);
 
   return (
-    <DropdownContext.Provider value={value}>
+    <PopoverContext.Provider value={value}>
       <div ref={dropdownRef} className="relative">
         {children}
       </div>
-    </DropdownContext.Provider>
+    </PopoverContext.Provider>
   );
 }
 
 function Toggle({ children }: { children: React.ReactNode }) {
-  const { toggleDropdown } = useContext(DropdownContext);
+  const { togglePopover } = useContext(PopoverContext);
 
   return (
     <div
-      onClick={toggleDropdown}
+      onClick={togglePopover}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
-          toggleDropdown();
+          togglePopover();
         }
       }}
       role="button"
@@ -66,7 +66,7 @@ function Toggle({ children }: { children: React.ReactNode }) {
 }
 
 function Wrapper({ children, align = "" }: { children: React.ReactNode; align?: string }) {
-  const { isOpen } = useContext(DropdownContext);
+  const { isOpen } = useContext(PopoverContext);
   const wrapperClassName = classNames(
     `absolute rounded-12 bg-background-secondary py-8 px-16 ${align === "center" ? "text-center" : ""}`
   );
@@ -118,8 +118,8 @@ function TeamItem({ imgSrc, children }: { imgSrc: string; children: React.ReactN
   );
 }
 
-Dropdown.Toggle = Toggle;
-Dropdown.Wrapper = Wrapper;
-Dropdown.Item = Item;
-Dropdown.InnerButton = InnerButton;
-Dropdown.TeamItem = TeamItem;
+Popover.Toggle = Toggle;
+Popover.Wrapper = Wrapper;
+Popover.Item = Item;
+Popover.InnerButton = InnerButton;
+Popover.TeamItem = TeamItem;
