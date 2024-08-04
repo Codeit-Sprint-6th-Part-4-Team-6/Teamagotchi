@@ -11,11 +11,11 @@ export default function LoginPage() {
   };
 
   return (
-    <>
+    <section>
       <LoginForm />
       <TextButton buttonType="button" textStyle="underline" onClick={handleOpenModal}>
         비밀번호를 잊으셨나요?
       </TextButton>
-    </>
+    </section>
   );
 }

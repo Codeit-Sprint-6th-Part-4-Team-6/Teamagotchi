@@ -62,7 +62,7 @@ export default function ResetPasswordForm() {
           onBlur={handleBlur}
         />
       </div>
-      <Button buttonType="button" size="large" onClick={handleResetPassword}>
+      <Button buttonType="button" onClick={handleResetPassword}>
         재설정
       </Button>
     </form>
