@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArticleComment, CommentType } from "@coworkers-types";
 import classNames from "classnames";
+import { useModal } from "@hooks/useModal";
 import { useAuthStore } from "@store/useAuthStore";
 import { calculateElapsedTime } from "@utils/calculateElapsedTime";
 import { checkIsLink } from "@utils/checkIsLink";
@@ -8,13 +9,17 @@ import { IconKebabSmall } from "@utils/icon";
 import Button from "../Button";
 import TextButton from "../Button/TextButton";
 import NameTag from "../NameTag";
+import Textarea from "../TextArea";
+import {
+  CancelCommentEditModal,
+  ConfirmCommentEditModal,
+  DeleteCommentModal,
+} from "./CommentModal";
 
 type CommentProps = {
   type: "task" | "article";
   comment: CommentType | ArticleComment;
-  // isEditMode: boolean;
   onEdit: () => void;
-  onDelete: () => void;
 };
 
 // CommentType 타입 가드 함수
@@ -22,8 +27,10 @@ function isCommentType(comment: CommentType | ArticleComment): comment is Commen
   return (comment as CommentType).user !== undefined;
 }
 
-export default function Comment({ type, comment, onEdit, onDelete }: CommentProps) {
+export default function Comment({ type, comment, onEdit }: CommentProps) {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [value, setValue] = useState(comment.content);
+  const { openModal } = useModal();
   // const { user } = useAuthStore();
   const user = {
     id: 0,
@@ -32,6 +39,31 @@ export default function Comment({ type, comment, onEdit, onDelete }: CommentProp
   const showKebab = isCommentType(comment)
     ? comment.userId === user?.id
     : comment.writer.id === user?.id;
+
+  const handleBlur = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+    setValue(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const handleDelete = () => {
+    openModal("DeleteCommentModal", DeleteCommentModal, { onConfirm: handleDeleteConfirm });
+  };
+  const handleCancel = () => {
+    openModal("CancelCommentEditModal", CancelCommentEditModal, { onConfirm: handleCancelConfirm });
+  };
+  const handleEdit = () => {
+    if (!value) {
+      handleDelete();
+    } else {
+      openModal("ConfirmCommentEditModal", ConfirmCommentEditModal, {
+        onConfirm: handleEditConfirm,
+      });
+    }
+  };
+
+  const handleDeleteConfirm = () => {};
+  const handleCancelConfirm = () => {};
+  const handleEditConfirm = () => {};
 
   const classnames = classNames(
     "w-full flex flex-col",
@@ -45,16 +77,26 @@ export default function Comment({ type, comment, onEdit, onDelete }: CommentProp
       <div className={classnames}>
         {isEditMode ? (
           <>
-            {/* Textarea가 들어올 부분 */}
+            <Textarea
+              type="transparent"
+              placeholder="댓글을 입력해주세요."
+              defaultValue={comment.content}
+              onBlur={handleBlur}
+            />
             <div className="flex justify-end gap-8">
               <TextButton
                 buttonType="button"
                 className="w-48 justify-center text-14 font-semibold text-text-default md:text-14"
-                onClick={() => setIsEditMode(false)}
+                onClick={handleCancel}
               >
                 취소
               </TextButton>
-              <Button buttonType="button" size="small" buttonStyle="transparent" onClick={onEdit}>
+              <Button
+                buttonType="button"
+                size="small"
+                buttonStyle="transparent"
+                onClick={handleEdit}
+              >
                 수정하기
               </Button>
             </div>
