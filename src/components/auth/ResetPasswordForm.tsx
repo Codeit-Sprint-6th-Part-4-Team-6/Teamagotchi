@@ -1,37 +1,19 @@
-import { useState } from "react";
-import { Password, ResetPassword } from "@coworkers-types";
-import { useSearchParams } from "next/navigation";
+import React from "react";
+import { Password } from "@coworkers-types";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
-import { postResetPassword } from "../../pages/api/userApi";
+import { useAuthForm } from "@hooks/auth/useAuthForm";
+import { useResetPasswordHandler } from "@hooks/auth/useResetPasswordHandler";
+
+const initialPasswordState: Password = {
+  password: "",
+  passwordConfirmation: "",
+};
 
 export default function ResetPasswordForm() {
-  const [values, setValues] = useState<Password>({
-    passwordConfirmation: "",
-    password: "",
-  });
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
-
-  const handleResetPassword = async () => {
-    const data: ResetPassword = {
-      ...values,
-      token: token || "",
-    };
-
-    const response = await postResetPassword(data);
-    alert(response.message);
-  };
+  const { values, handleBlur } = useAuthForm<Password>(initialPasswordState);
+  const { handleResetPassword } = useResetPasswordHandler(values);
 
   return (
     <form>
@@ -57,8 +39,8 @@ export default function ResetPasswordForm() {
           type="password"
           name="passwordConfirmation"
           id="passwordConfirmation"
-          placeholder="비밀번호 (영문, 숫자, 특수문자 포함, 12자 이내)를 입력해주세요."
-          errorMessage="비밀번호를 입력해주세요."
+          placeholder="비밀번호를 입력해주세요."
+          errorMessage="비밀번호 확인을 입력해주세요."
           onBlur={handleBlur}
         />
       </div>

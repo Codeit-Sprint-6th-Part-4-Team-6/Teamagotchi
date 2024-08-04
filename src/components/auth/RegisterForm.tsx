@@ -1,47 +1,21 @@
-import { useState } from "react";
+import React from "react";
 import { SignUpRequest } from "@coworkers-types";
-import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
-import { useAuthStore } from "@store/useAuthStore";
-import { setAuth } from "@utils/auth";
-import { loginUser, signUpUser } from "../../pages/api/authApi";
+import { useAuthForm } from "@hooks/auth/useAuthForm";
+import { useRegisterHandler } from "@hooks/auth/useRegisterHandler";
+
+const initialRegisterState: SignUpRequest = {
+  email: "",
+  nickname: "",
+  password: "",
+  passwordConfirmation: "",
+};
 
 export default function RegisterForm() {
-  const [values, setValues] = useState<SignUpRequest>({
-    email: "",
-    nickname: "",
-    password: "",
-    passwordConfirmation: "",
-  });
-  const router = useRouter();
-  const { setUser } = useAuthStore();
-
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    await signUpUser(values);
-
-    const loginData = {
-      email: values.email,
-      password: values.password,
-    };
-
-    const data = await loginUser(loginData);
-    setAuth(data);
-    setUser(data.user);
-    router.push("/team-list");
-  };
+  const { values, handleBlur } = useAuthForm<SignUpRequest>(initialRegisterState);
+  const { handleSubmit } = useRegisterHandler(values);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -85,7 +59,7 @@ export default function RegisterForm() {
         type="password"
         value={values.passwordConfirmation}
         onBlur={handleBlur}
-        placeholder="이메일을 다시 한 번 입력해주세요."
+        placeholder="비밀번호를 다시 한 번 입력해주세요."
       />
 
       <Button buttonType="button">회원가입</Button>

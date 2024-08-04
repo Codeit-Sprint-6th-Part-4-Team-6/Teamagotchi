@@ -1,38 +1,19 @@
-import { useState } from "react";
+import React from "react";
 import { LoginRequest } from "@coworkers-types";
-import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
-import { useAuthStore } from "@store/useAuthStore";
-import { setAuth } from "@utils/auth";
-import { loginUser } from "../../pages/api/authApi";
+import { useAuthForm } from "@hooks/auth/useAuthForm";
+import { useLoginHandler } from "@hooks/auth/useLoginHandler";
+
+const initialLoginState: LoginRequest = {
+  email: "",
+  password: "",
+};
 
 export default function LoginForm() {
-  const [values, setValues] = useState<LoginRequest>({
-    email: "",
-    password: "",
-  });
-  const router = useRouter();
-  const { setUser } = useAuthStore();
-
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const data = await loginUser(values);
-    setAuth(data);
-    setUser(data.user);
-    router.push("/team-list");
-  };
+  const { values, handleBlur } = useAuthForm<LoginRequest>(initialLoginState);
+  const { handleSubmit } = useLoginHandler(values);
 
   return (
     <form onSubmit={handleSubmit}>
