@@ -1,17 +1,11 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
-import ImageInput from "@components/addteam/ImageInput";
 import Input from "@components/commons/Input";
 import Textarea from "@components/commons/TextArea";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [imgFile, setImgFile] = useState<string | null>(null);
-
-  const handleFileChange = (value: string | null) => {
-    setImgFile(value);
-  };
 
   useEffect(() => setMounted(true), []);
   // test@test.com test2718!
@@ -51,7 +45,6 @@ export default function Home() {
       <Textarea type="innerButton" placeholder="댓글을 달아주세요" height={50} />
       <Textarea type="small" placeholder="댓글을 달아주세요" height={74} />
       <Textarea type="big" placeholder="댓글을 달아주세요" height={104} />
-      <ImageInput type="article" name="imgFile" value="imgFile" onChange={handleFileChange} />
     </main>
   );
 }
