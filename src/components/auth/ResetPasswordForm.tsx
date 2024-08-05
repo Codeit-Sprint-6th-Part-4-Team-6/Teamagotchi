@@ -5,6 +5,7 @@ import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import { useAuthForm } from "@hooks/auth/useAuthForm";
 import { useResetPasswordHandler } from "@hooks/auth/useResetPasswordHandler";
+import { ResetPasswordSchema } from "@utils/schemas/auth";
 
 const initialPasswordState: Password = {
   password: "",
@@ -12,8 +13,10 @@ const initialPasswordState: Password = {
 };
 
 export default function ResetPasswordForm() {
-  const { values, errors, isValid, handleBlur, handleChange } =
-    useAuthForm<Password>(initialPasswordState);
+  const { values, errors, isValid, handleBlur, handleChange } = useAuthForm<Password>(
+    initialPasswordState,
+    ResetPasswordSchema
+  );
   const { handleResetPassword } = useResetPasswordHandler(values);
 
   return (

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { AuthSchema } from "@utils/schemas/auth";
+import { ZodSchema } from "zod";
 
-export const useAuthForm = <T>(initialState: T) => {
+export const useAuthForm = <T>(initialState: T, schema: ZodSchema) => {
   const [values, setValues] = useState<T>(initialState);
   const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
   const [isValid, setIsValid] = useState(false);
@@ -14,7 +14,7 @@ export const useAuthForm = <T>(initialState: T) => {
       [name]: value,
     }));
 
-    const result = AuthSchema.safeParse(values);
+    const result = schema.safeParse(values);
     if (!result.success) {
       const issue = result.error.issues.find((issues) => issues.path.includes(name));
       setErrors((prevErrors) => ({

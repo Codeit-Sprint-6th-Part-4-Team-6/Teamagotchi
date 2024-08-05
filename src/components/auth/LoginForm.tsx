@@ -5,6 +5,7 @@ import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import { useAuthForm } from "@hooks/auth/useAuthForm";
 import { useLoginHandler } from "@hooks/auth/useLoginHandler";
+import { LoginSchema } from "@utils/schemas/auth";
 
 const initialLoginState: LoginRequest = {
   email: "",
@@ -12,8 +13,10 @@ const initialLoginState: LoginRequest = {
 };
 
 export default function LoginForm() {
-  const { values, errors, isValid, handleBlur, handleChange } =
-    useAuthForm<LoginRequest>(initialLoginState);
+  const { values, errors, isValid, handleBlur, handleChange } = useAuthForm<LoginRequest>(
+    initialLoginState,
+    LoginSchema
+  );
   const { handleSubmit } = useLoginHandler(values);
 
   return (
