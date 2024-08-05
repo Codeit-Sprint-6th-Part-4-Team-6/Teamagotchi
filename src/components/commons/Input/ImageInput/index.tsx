@@ -13,6 +13,7 @@ type ImageInputProps = {
   defaultValue?: string;
   className?: string;
 };
+
 /**
  * 이미지를 넣을 수 있는 file input 입니다. value 값을 링크로 변환시켜줍니다.
  * @param id - input의 id입니다.
@@ -111,7 +112,7 @@ export default function ImageInput({
                 )}
                 {mutation.status === "pending" && (
                   <span className="absolute flex size-64 items-center justify-center rounded-full border-2 border-solid border-border-primary bg-background-secondary">
-                    로딩슾
+                    로딩스피너
                   </span>
                 )}
               </span>
@@ -122,14 +123,8 @@ export default function ImageInput({
         {type === "article" && (
           <span className="flex">
             <div className="flex size-160 flex-col items-center justify-center gap-12 rounded-12 bg-background-secondary md:size-282">
-              <div className="w-24 md:size-48">
-                <Image
-                  src="/icons/icon_plus_large.svg"
-                  alt="plus"
-                  width={24}
-                  height={24}
-                  layout="responsive"
-                />
+              <div className="w-24 md:w-48">
+                <Image src="/icons/icon_plus_large.svg" alt="plus" width={24} height={24} />
               </div>
               <span className="text-14 text-text-gray400 md:text-16">이미지 등록</span>
             </div>
@@ -166,7 +161,7 @@ function PreviewImage({ src, type, handleImageDelete }: PreviewImageProps) {
         <div className="relative size-64">
           <Image
             src={src}
-            layout="fill"
+            fill
             className="relative rounded-full object-cover"
             onClick={handleImageDelete}
             alt="이미지 미리보기"
@@ -177,14 +172,14 @@ function PreviewImage({ src, type, handleImageDelete }: PreviewImageProps) {
         <div className="relative size-160 md:size-282">
           <Image
             src={src}
-            layout="fill"
+            fill
             className="relative rounded-12 object-cover"
             onClick={handleImageDelete}
             alt="이미지 미리보기"
           />
           <IconClose
             alt="x"
-            className="absolute right-66 top-60 stroke-text-secondary p-3 md:right-130 md:top-120"
+            className="absolute right-6 top-6 stroke-text-secondary p-3 md:right-12 md:top-12"
             onClick={handleImageDelete}
           />
         </div>
