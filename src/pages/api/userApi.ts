@@ -75,7 +75,7 @@ export const postSendResetPasswordEmail = async (
  * @returns 완료 시 메세지를 반환합니다.
  */
 export const postResetPassword = async (data: ResetPassword): Promise<Message> => {
-  const response = await axiosInstance.post<Message>("user/reset-password", data);
+  const response = await axiosInstance.patch<Message>("user/reset-password", data);
   return response.data;
 };
 

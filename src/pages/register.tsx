@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { useState } from "react";
 import { SignUpRequest } from "@coworkers-types";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
@@ -15,7 +15,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const { setUser } = useAuthStore();
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
 
     setValues((prevValues) => ({
@@ -24,7 +24,7 @@ export default function RegisterPage() {
     }));
   }
 
-  async function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     await signUpUser(values);
