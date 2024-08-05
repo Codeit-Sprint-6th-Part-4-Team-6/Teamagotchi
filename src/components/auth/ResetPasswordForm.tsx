@@ -12,7 +12,7 @@ const initialPasswordState: Password = {
 };
 
 export default function ResetPasswordForm() {
-  const { values, handleBlur } = useAuthForm<Password>(initialPasswordState);
+  const { values, errors, handleBlur, handleChange } = useAuthForm<Password>(initialPasswordState);
   const { handleResetPassword } = useResetPasswordHandler(values);
 
   return (
@@ -24,8 +24,9 @@ export default function ResetPasswordForm() {
           name="password"
           id="password"
           placeholder="비밀번호 (영문, 숫자, 특수문자 포함, 12자 이내)를 입력해주세요."
-          errorMessage="비밀번호를 입력해주세요."
+          onChange={handleChange}
           onBlur={handleBlur}
+          errorMessage={errors.password}
         />
       </div>
       <div className="mb-40">
@@ -40,8 +41,9 @@ export default function ResetPasswordForm() {
           name="passwordConfirmation"
           id="passwordConfirmation"
           placeholder="비밀번호를 입력해주세요."
-          errorMessage="비밀번호 확인을 입력해주세요."
+          onChange={handleChange}
           onBlur={handleBlur}
+          errorMessage={errors.passwordConfirmation}
         />
       </div>
       <Button buttonType="button" onClick={handleResetPassword}>

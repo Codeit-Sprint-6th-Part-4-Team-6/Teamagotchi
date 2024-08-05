@@ -12,7 +12,7 @@ const initialLoginState: LoginRequest = {
 };
 
 export default function LoginForm() {
-  const { values, handleBlur } = useAuthForm<LoginRequest>(initialLoginState);
+  const { values, errors, handleBlur, handleChange } = useAuthForm<LoginRequest>(initialLoginState);
   const { handleSubmit } = useLoginHandler(values);
 
   return (
@@ -22,19 +22,24 @@ export default function LoginForm() {
         id="email"
         name="email"
         value={values.email}
+        onChange={handleChange}
         onBlur={handleBlur}
         placeholder="이메일을 입력해주세요."
+        errorMessage={errors.email}
       />
 
-      <Label type="label" content="비밀번호" htmlFor="email" marginBottom={12} />
+      <Label type="label" content="비밀번호" htmlFor="password" marginBottom={12} />
       <Input
         id="password"
         name="password"
         type="password"
         value={values.password}
+        onChange={handleChange}
         onBlur={handleBlur}
         placeholder="비밀번호를 입력해주세요."
+        errorMessage={errors.password}
       />
+
       <Button buttonType="button">로그인</Button>
     </form>
   );

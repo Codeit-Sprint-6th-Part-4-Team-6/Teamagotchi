@@ -14,7 +14,8 @@ const initialRegisterState: SignUpRequest = {
 };
 
 export default function RegisterForm() {
-  const { values, handleBlur } = useAuthForm<SignUpRequest>(initialRegisterState);
+  const { values, errors, handleBlur, handleChange } =
+    useAuthForm<SignUpRequest>(initialRegisterState);
   const { handleSubmit } = useRegisterHandler(values);
 
   return (
@@ -24,8 +25,10 @@ export default function RegisterForm() {
         id="nickname"
         name="nickname"
         value={values.nickname}
+        onChange={handleChange}
         onBlur={handleBlur}
         placeholder="이름을 입력해주세요."
+        errorMessage={errors.nickname}
       />
 
       <Label type="label" content="이메일" htmlFor="email" marginBottom={12} />
@@ -33,8 +36,10 @@ export default function RegisterForm() {
         id="email"
         name="email"
         value={values.email}
+        onChange={handleChange}
         onBlur={handleBlur}
         placeholder="이메일을 입력해주세요."
+        errorMessage={errors.email}
       />
 
       <Label type="label" content="비밀번호" htmlFor="password" marginBottom={12} />
@@ -43,8 +48,10 @@ export default function RegisterForm() {
         name="password"
         type="password"
         value={values.password}
+        onChange={handleChange}
         onBlur={handleBlur}
         placeholder="비밀번호를 입력해주세요."
+        errorMessage={errors.password}
       />
 
       <Label
@@ -58,8 +65,10 @@ export default function RegisterForm() {
         name="passwordConfirmation"
         type="password"
         value={values.passwordConfirmation}
+        onChange={handleChange}
         onBlur={handleBlur}
         placeholder="비밀번호를 다시 한 번 입력해주세요."
+        errorMessage={errors.passwordConfirmation}
       />
 
       <Button buttonType="button">회원가입</Button>
