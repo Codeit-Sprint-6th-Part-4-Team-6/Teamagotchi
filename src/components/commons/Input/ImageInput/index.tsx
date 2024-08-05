@@ -124,7 +124,13 @@ export default function ImageInput({
           <span className="flex">
             <div className="flex size-160 flex-col items-center justify-center gap-12 rounded-12 bg-background-secondary md:size-282">
               <div className="w-24 md:w-48">
-                <Image src="/icons/icon_plus_large.svg" alt="plus" width={24} height={24} />
+                <Image
+                  src="/icons/icon_plus_large.svg"
+                  alt="plus"
+                  width={24}
+                  height={24}
+                  layout="responsive"
+                />
               </div>
               <span className="text-14 text-text-gray400 md:text-16">이미지 등록</span>
             </div>
