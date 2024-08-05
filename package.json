@@ -35,6 +35,8 @@
     "ignoreBranchesMissingTickets": false
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.51.21",
+    "@tanstack/react-query-devtools": "^5.51.21",
     "axios": "^1.7.2",
     "classnames": "^2.5.1",
     "cookies-next": "^4.2.1",
