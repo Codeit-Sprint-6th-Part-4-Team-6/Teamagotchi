@@ -6,7 +6,7 @@ export const useResetPasswordHandler = (values: Password) => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
-  async function handleResetPassword() {
+  const handleResetPassword = async () => {
     const data: ResetPassword = {
       ...values,
       token: token || "",
@@ -14,7 +14,7 @@ export const useResetPasswordHandler = (values: Password) => {
 
     const response = await postResetPassword(data);
     alert(response.message);
-  }
+  };
 
   return {
     handleResetPassword,

@@ -6,7 +6,7 @@ export const useAuthForm = <T>(initialState: T) => {
   const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
   const [isValid, setIsValid] = useState(false);
 
-  function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     setValues((prevValues) => ({
@@ -29,15 +29,15 @@ export const useAuthForm = <T>(initialState: T) => {
       }));
       setIsValid(true);
     }
-  }
+  };
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
-  }
+  };
 
   return {
     values,

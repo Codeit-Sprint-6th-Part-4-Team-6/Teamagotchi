@@ -8,7 +8,7 @@ export const useRegisterHandler = (values: SignUpRequest) => {
   const router = useRouter();
   const { setUser } = useAuthStore();
 
-  async function handleSubmit(event: React.FormEvent) {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
     await signUpUser(values);
@@ -22,7 +22,7 @@ export const useRegisterHandler = (values: SignUpRequest) => {
     setAuth(data);
     setUser(data.user);
     router.push("/team-list");
-  }
+  };
 
   return {
     handleSubmit,
