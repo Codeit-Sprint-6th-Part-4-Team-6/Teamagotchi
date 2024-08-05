@@ -14,7 +14,7 @@ const initialRegisterState: SignUpRequest = {
 };
 
 export default function RegisterForm() {
-  const { values, errors, handleBlur, handleChange } =
+  const { values, errors, isValid, handleBlur, handleChange } =
     useAuthForm<SignUpRequest>(initialRegisterState);
   const { handleSubmit } = useRegisterHandler(values);
 
@@ -71,7 +71,9 @@ export default function RegisterForm() {
         errorMessage={errors.passwordConfirmation}
       />
 
-      <Button buttonType="button">회원가입</Button>
+      <Button buttonType="button" disabled={!isValid}>
+        회원가입
+      </Button>
     </form>
   );
 }

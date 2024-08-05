@@ -38,7 +38,7 @@ export default function Button({
   className,
   children,
   onClick,
-  disabled = false,
+  disabled,
 }: ButtonProps) {
   const baseButtonClassName = "rounded-[12px] font-semibold flex justify-center items-center";
 

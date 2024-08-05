@@ -12,7 +12,8 @@ const initialPasswordState: Password = {
 };
 
 export default function ResetPasswordForm() {
-  const { values, errors, handleBlur, handleChange } = useAuthForm<Password>(initialPasswordState);
+  const { values, errors, isValid, handleBlur, handleChange } =
+    useAuthForm<Password>(initialPasswordState);
   const { handleResetPassword } = useResetPasswordHandler(values);
 
   return (
@@ -46,7 +47,7 @@ export default function ResetPasswordForm() {
           errorMessage={errors.passwordConfirmation}
         />
       </div>
-      <Button buttonType="button" onClick={handleResetPassword}>
+      <Button buttonType="button" onClick={handleResetPassword} disabled={!isValid}>
         재설정
       </Button>
     </form>

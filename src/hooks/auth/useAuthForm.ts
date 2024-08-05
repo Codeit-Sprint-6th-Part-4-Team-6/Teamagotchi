@@ -4,6 +4,7 @@ import { AuthSchema } from "@utils/schemas/auth";
 export const useAuthForm = <T>(initialState: T) => {
   const [values, setValues] = useState<T>(initialState);
   const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
+  const [isValid, setIsValid] = useState(false);
 
   function handleBlur(event: React.FocusEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -13,19 +14,20 @@ export const useAuthForm = <T>(initialState: T) => {
       [name]: value,
     }));
 
-    // 필드 유효성 검사
-    const result = AuthSchema.safeParse({ [name]: value });
+    const result = AuthSchema.safeParse(values);
     if (!result.success) {
       const issue = result.error.issues.find((issues) => issues.path.includes(name));
       setErrors((prevErrors) => ({
         ...prevErrors,
         [name]: issue ? issue.message : undefined,
       }));
+      setIsValid(false);
     } else {
       setErrors((prevErrors) => ({
         ...prevErrors,
         [name]: undefined,
       }));
+      setIsValid(true);
     }
   }
 
@@ -40,6 +42,7 @@ export const useAuthForm = <T>(initialState: T) => {
   return {
     values,
     errors,
+    isValid,
     handleBlur,
     handleChange,
     setValues,

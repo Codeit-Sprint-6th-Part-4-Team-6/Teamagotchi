@@ -12,7 +12,8 @@ const initialLoginState: LoginRequest = {
 };
 
 export default function LoginForm() {
-  const { values, errors, handleBlur, handleChange } = useAuthForm<LoginRequest>(initialLoginState);
+  const { values, errors, isValid, handleBlur, handleChange } =
+    useAuthForm<LoginRequest>(initialLoginState);
   const { handleSubmit } = useLoginHandler(values);
 
   return (
@@ -40,7 +41,9 @@ export default function LoginForm() {
         errorMessage={errors.password}
       />
 
-      <Button buttonType="button">로그인</Button>
+      <Button buttonType="button" disabled={!isValid}>
+        로그인
+      </Button>
     </form>
   );
 }
