@@ -9,13 +9,13 @@ const PopoverContext = createContext({
   togglePopover: () => {},
 });
 
-export default function Popover({ children }: React.PropsWithChildren) {
+export default function Popover({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const togglePopover = () => setIsOpen(!isOpen);
   const closePopover = () => setIsOpen(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const value = useMemo(
+  const providerValue = useMemo(
     () => ({
       isOpen,
       togglePopover,
@@ -38,7 +38,7 @@ export default function Popover({ children }: React.PropsWithChildren) {
   }, [dropdownRef]);
 
   return (
-    <PopoverContext.Provider value={value}>
+    <PopoverContext.Provider value={providerValue}>
       <div ref={dropdownRef} className="relative">
         {children}
       </div>
