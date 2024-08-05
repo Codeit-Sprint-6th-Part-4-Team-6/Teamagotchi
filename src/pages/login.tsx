@@ -1,6 +1,9 @@
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import { LoginRequest } from "@coworkers-types";
 import { useRouter } from "next/router";
+import SendMailModal from "@components/auth/SendMailModal";
+import TextButton from "@components/commons/Button/TextButton";
+import { useModal } from "@hooks/useModal";
 import { useAuthStore } from "@store/useAuthStore";
 import { setAuth } from "@utils/auth";
 import { loginUser } from "./api/authApi";
@@ -11,9 +14,10 @@ export default function LoginPage() {
     password: "",
   });
   const router = useRouter();
-  const { user, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
+  const { openModal } = useModal();
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
 
     setValues((prevValues) => ({
@@ -22,7 +26,7 @@ export default function LoginPage() {
     }));
   }
 
-  async function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     const data = await loginUser(values);
@@ -31,26 +35,29 @@ export default function LoginPage() {
     router.push("/team-list");
   }
 
-  // NOTE: 미들웨어 생성 후 정리될 예정
-  useEffect(() => {
-    if (user) router.push("team-list");
-  }, [user]);
+  const handleOpenModal = () => {
+    openModal("SendMailModal", SendMailModal, {});
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="email">이메일</label>
-      <input id="email" name="email" type="text" value={values.email} onChange={handleChange} />
+    <>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">이메일</label>
+        <input id="email" name="email" type="text" value={values.email} onChange={handleChange} />
 
-      <label htmlFor="password">비밀번호</label>
-      <input
-        id="password"
-        name="password"
-        type="password"
-        value={values.password}
-        onChange={handleChange}
-      />
-
-      <button type="submit">로그인</button>
-    </form>
+        <label htmlFor="password">비밀번호</label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          value={values.password}
+          onChange={handleChange}
+        />
+        <button type="submit">로그인</button>
+      </form>
+      <TextButton buttonType="button" textStyle="underline" onClick={handleOpenModal}>
+        비밀번호를 잊으셨나요?
+      </TextButton>
+    </>
   );
 }
