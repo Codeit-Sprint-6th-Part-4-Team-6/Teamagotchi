@@ -16,7 +16,7 @@ export default function Home() {
     return <div />;
   }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24 dark:bg-background-primary">
       <button
         type="button"
         className="rounded border bg-gradient-to-r from-brand-gradient-start to-brand-gradient-end p-[5px]"

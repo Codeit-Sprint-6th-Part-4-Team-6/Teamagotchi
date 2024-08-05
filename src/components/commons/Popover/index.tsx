@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
 import classNames from "classnames";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { IconKebabSmall } from "@utils/icon";
 
@@ -78,7 +79,21 @@ function Wrapper({
     `${popDirection === "left" ? "right-0" : ""} absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8 text-center box-border max-w-218 min-w-120 md:min-w-135`
   );
 
-  return isOpen ? <div className={wrapperClassName}>{children}</div> : null;
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          className={wrapperClassName}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.1 }}
+        >
+          {children}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 }
 
 function Item({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
