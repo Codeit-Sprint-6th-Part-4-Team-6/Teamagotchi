@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import Input from "@components/commons/Input";
+import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
+import ProfilePopover from "@components/commons/Popover/ProfilePopover";
+import TeamListPopover from "@components/commons/Popover/TeamListPopover";
 import Textarea from "@components/commons/TextArea";
 
 export default function Home() {
@@ -14,7 +17,7 @@ export default function Home() {
     return <div />;
   }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-24 dark:bg-background-primary">
       <button
         type="button"
         className="rounded border bg-gradient-to-r from-brand-gradient-start to-brand-gradient-end p-[5px]"
@@ -45,6 +48,12 @@ export default function Home() {
       <Textarea type="innerButton" placeholder="댓글을 달아주세요" height={50} />
       <Textarea type="small" placeholder="댓글을 달아주세요" height={74} />
       <Textarea type="big" placeholder="댓글을 달아주세요" height={104} />
+      <div className="flex h-[20vh] gap-20">
+        <EditDeletePopover icon="gear" handleModify={() => {}} handleDelete={() => {}} />
+        <EditDeletePopover icon="kebab" handleModify={() => {}} handleDelete={() => {}} />
+        <ProfilePopover />
+        <TeamListPopover />
+      </div>
     </main>
   );
 }
