@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 
 /**
- *
- * @param apiFunction - 데이터를 패칭하는 api 함수를 매개변수로 받습니다.
- * @param params - 패치 시 id가 필요한 경우 id를 매개변수로 받습니다.
+ * GET api 함수를 넘겨 데이터와 네트워크 상태를 받아올 수 있는 hook입니다.
+ * @param apiFunction 데이터를 패칭하는 api 함수를 매개변수로 받습니다.
+ * @param params 패치 시 id가 필요한 경우 id를 매개변수로 받습니다.
  * @returns
  * data - 패칭한 데이터가 담겨있습니다.
  * loading - 로딩 중인지 여부를 boolean 으로 나타냅니다.
