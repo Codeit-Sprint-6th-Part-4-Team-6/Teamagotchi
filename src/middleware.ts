@@ -5,7 +5,7 @@ export default function middleware(request: NextRequest) {
   const isLoggedIn = request.cookies.has("refreshToken");
   const { pathname } = request.nextUrl;
 
-  // 로그인 상태일 때 랜딩, login, register 페이지에 접근하면 /team-list로 이동합니다.
+  // 로그인 상태일 때 랜딩, login, register 페이지에 접근하면 /team로 이동합니다.
   if (
     isLoggedIn &&
     (pathname.startsWith("/login") || pathname.startsWith("/register") || pathname === "/")
@@ -18,6 +18,7 @@ export default function middleware(request: NextRequest) {
     !isLoggedIn &&
     (pathname.startsWith("/add-team") ||
       pathname.startsWith("/join-team") ||
+      pathname.startsWith("/team") ||
       pathname.startsWith("/team/") ||
       pathname.startsWith("/board/") ||
       pathname.startsWith("/add-board") ||

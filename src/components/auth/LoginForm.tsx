@@ -4,7 +4,7 @@ import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import { useAuthForm } from "@hooks/auth/useAuthForm";
-import { useLoginHandler } from "@hooks/auth/useLoginHandler";
+import { useAuthHandler } from "@hooks/auth/useAuthHandler";
 import { LoginSchema } from "@utils/schemas/auth";
 
 const initialLoginState: LoginRequest = {
@@ -17,7 +17,7 @@ export default function LoginForm() {
     initialLoginState,
     LoginSchema
   );
-  const { handleSubmit } = useLoginHandler(values);
+  const { handleSubmit } = useAuthHandler(values);
 
   return (
     <form onSubmit={handleSubmit}>
