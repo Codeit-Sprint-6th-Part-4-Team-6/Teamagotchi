@@ -7,7 +7,7 @@ declare module "@coworkers-types" {
   };
 
   export type Group = BaseGroupEntity & {
-    image: string;
+    image: string | null;
     teamId: string;
     members: Member[];
     taskLists: GroupTaskLists[];

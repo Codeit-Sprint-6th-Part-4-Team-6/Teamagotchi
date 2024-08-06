@@ -2,6 +2,7 @@ import { Membership } from "@coworkers-types";
 import Image from "next/image";
 import Link from "next/link";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
+import { IconMember } from "@utils/icon";
 
 interface TeamItemProps {
   data: Membership;
@@ -15,14 +16,18 @@ export default function TeamItem({ data }: TeamItemProps) {
     >
       <Link href={`/team/${data.groupId}`} className="flex w-full items-center justify-around">
         <div className="relative h-50 w-50 flex-shrink-0 overflow-hidden rounded-6">
-          <Image
-            src="/images/cute.jpeg"
-            alt={`${data.group.name} 이미지`}
-            fill
-            className="object-cover"
-          />
+          {data.group.image ? (
+            <Image
+              src={data.group.image}
+              alt={`${data.group.name} 이미지`}
+              fill
+              className="object-cover"
+            />
+          ) : (
+            <IconMember />
+          )}
         </div>
-        <p className="flex-grow pl-15 text-left text-lg">{data.group.name}</p>
+        <p className="flex-grow pl-20 text-left text-lg">{data.group.name}</p>
       </Link>
       {data.role === "ADMIN" ? (
         <EditDeletePopover icon="kebab" handleModify={() => {}} handleDelete={() => {}} />
