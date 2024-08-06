@@ -13,6 +13,7 @@ export type ButtonProps = {
     | "danger"
     | "transparent"
     | "transparent-white";
+  type?: "button" | "submit" | "reset";
   className?: string;
   children: string;
   onClick?: () => void;
@@ -35,6 +36,7 @@ export default function Button({
   size = "large",
   icon = "none",
   buttonStyle = "default",
+  type = "button",
   className,
   children,
   onClick,
@@ -82,7 +84,7 @@ export default function Button({
   return (
     <motion.button
       whileTap={{ scale: 0.97 }}
-      type="button"
+      type={type}
       className={buttonClassName}
       onClick={onClick}
       disabled={disabled}
