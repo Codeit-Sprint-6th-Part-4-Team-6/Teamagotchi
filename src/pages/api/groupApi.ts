@@ -7,7 +7,7 @@ import { axiosInstance } from "./axios";
  * @returns Group 객체를 반환합니다.
  */
 export const getGroup = async (groupId: number): Promise<Group> => {
-  const response = await axiosInstance.get<Group>(`/groups/${groupId}`);
+  const response = await axiosInstance.get<Group>(`groups/${groupId}`);
   return response.data;
 };
 
@@ -18,7 +18,7 @@ export const getGroup = async (groupId: number): Promise<Group> => {
  * @returns 수정된 Group 객체를 반환합니다.
  */
 export const patchGroupProfile = async (groupId: number, data: Profile): Promise<GroupInfo> => {
-  const response = await axiosInstance.patch<GroupInfo>(`/groups/${groupId}`, data);
+  const response = await axiosInstance.patch<GroupInfo>(`groups/${groupId}`, data);
   return response.data;
 };
 
@@ -28,7 +28,7 @@ export const patchGroupProfile = async (groupId: number, data: Profile): Promise
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
 export const deleteGroup = async (groupId: number): Promise<void> => {
-  await axiosInstance.delete<Group>(`/groups/${groupId}`);
+  await axiosInstance.delete<Group>(`groups/${groupId}`);
 };
 
 /**
@@ -38,7 +38,7 @@ export const deleteGroup = async (groupId: number): Promise<void> => {
  * @returns 수정된 Group 객체를 반환합니다.
  */
 export const postGroup = async (name: string, image?: string): Promise<Member> => {
-  const response = await axiosInstance.patch<Member>("/groups", {
+  const response = await axiosInstance.patch<Member>("groups", {
     image,
     name,
   });
@@ -52,7 +52,7 @@ export const postGroup = async (name: string, image?: string): Promise<Member> =
  * @returns 유저 정보 객체를 받아옵니다.
  */
 export const getGroupMember = async (groupId: number, memberUserId: number): Promise<GroupInfo> => {
-  const response = await axiosInstance.get<GroupInfo>(`/groups/${groupId}/member/${memberUserId}`);
+  const response = await axiosInstance.get<GroupInfo>(`groups/${groupId}/member/${memberUserId}`);
   return response.data;
 };
 
@@ -63,7 +63,7 @@ export const getGroupMember = async (groupId: number, memberUserId: number): Pro
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
 export const deleteGroupMember = async (groupId: number, memberUserId: number): Promise<void> => {
-  await axiosInstance.delete(`/groups/${groupId}/member/${memberUserId}`);
+  await axiosInstance.delete(`groups/${groupId}/member/${memberUserId}`);
 };
 
 /**
