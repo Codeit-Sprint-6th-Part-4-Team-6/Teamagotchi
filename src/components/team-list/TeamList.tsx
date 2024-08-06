@@ -5,7 +5,7 @@ import { useFetchData } from "@hooks/useFetchData";
 import { getUserMemberships } from "../../pages/api/userApi";
 import TeamItem from "./TeamItem";
 
-function TeamList() {
+export default function TeamList() {
   const { data: teamList, loading, errorMessage } = useFetchData(getUserMemberships);
 
   if (loading) {
@@ -47,5 +47,3 @@ function TeamList() {
     </>
   );
 }
-
-export default TeamList;
