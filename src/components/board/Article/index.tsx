@@ -26,7 +26,9 @@ export default function Article({ Posts }: { Posts: List[] }) {
       </div>
       <div className="flex flex-col">
         {Posts.map((post) => (
-          <ArticleCard Posts={post} />
+          <div key={post.id}>
+            <ArticleCard Posts={post} />
+          </div>
         ))}
       </div>
     </div>
