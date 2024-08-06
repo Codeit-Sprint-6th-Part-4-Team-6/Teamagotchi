@@ -11,7 +11,7 @@ interface TeamItemProps {
 }
 
 export default function TeamItem({ data }: TeamItemProps) {
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
 
   const handleModify = () => {
     // eslint-disable-next-line no-restricted-globals
@@ -20,7 +20,6 @@ export default function TeamItem({ data }: TeamItemProps) {
 
   const handleOpenModal = () => {
     // TODO: groupId 넘겨주기
-
     openModal("DeleteTeamModal", DeleteTeamModal, {});
   };
   return (
