@@ -34,4 +34,6 @@ declare module "@coworkers-types" {
     userEmail: string;
     token: string;
   };
+
+  export type Membership = Member & { group: GroupInfo };
 }

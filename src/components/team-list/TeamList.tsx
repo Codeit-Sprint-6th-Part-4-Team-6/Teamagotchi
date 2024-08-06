@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { GroupInfo } from "@coworkers-types";
+import { Membership } from "@coworkers-types";
 import Image from "next/image";
-import { getUserGroups } from "../../pages/api/userApi";
+import { getUserMemberships } from "../../pages/api/userApi";
 import TeamItem from "./TeamItem";
 
 export default function TeamList() {
-  const [teamList, setTeamList] = useState<GroupInfo[]>([]);
+  const [teamList, setTeamList] = useState<Membership[]>([]);
 
   const getData = async () => {
-    const data = await getUserGroups();
+    const data = await getUserMemberships();
     console.log(data);
     setTeamList(data);
   };
@@ -23,7 +23,7 @@ export default function TeamList() {
         <>
           <h2 className="py-80 text-center text-4xl">소속된 팀 리스트</h2>
           <ul className="w-560">
-            {teamList?.map((data: GroupInfo) => <TeamItem key={data.id} group={data} />)}
+            {teamList?.map((data: Membership) => <TeamItem key={data.groupId} data={data} />)}
           </ul>
         </>
       ) : (
