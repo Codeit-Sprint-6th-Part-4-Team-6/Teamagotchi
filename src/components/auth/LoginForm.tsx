@@ -59,7 +59,7 @@ export default function LoginForm() {
         </TextButton>
       </div>
 
-      <Button buttonType="button" disabled={!isValid} className="mt-40">
+      <Button buttonType="button" disabled={!isValid} type="submit" className="mt-40">
         로그인
       </Button>
     </form>
