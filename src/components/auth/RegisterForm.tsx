@@ -34,47 +34,53 @@ export default function RegisterForm() {
         errorMessage={errors.nickname}
       />
 
-      <Label type="label" content="이메일" htmlFor="email" marginBottom={12} />
-      <Input
-        id="email"
-        name="email"
-        value={values.email}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="이메일을 입력해주세요."
-        errorMessage={errors.email}
-      />
+      <div className="mt-24">
+        <Label type="label" content="이메일" htmlFor="email" marginBottom={12} />
+        <Input
+          id="email"
+          name="email"
+          value={values.email}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="이메일을 입력해주세요."
+          errorMessage={errors.email}
+        />
+      </div>
 
-      <Label type="label" content="비밀번호" htmlFor="password" marginBottom={12} />
-      <Input
-        id="password"
-        name="password"
-        type="password"
-        value={values.password}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="비밀번호를 입력해주세요."
-        errorMessage={errors.password}
-      />
+      <div className="mt-24">
+        <Label type="label" content="비밀번호" htmlFor="password" marginBottom={12} />
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          value={values.password}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="비밀번호를 입력해주세요."
+          errorMessage={errors.password}
+        />
+      </div>
 
-      <Label
-        type="label"
-        content="비밀번호 확인"
-        htmlFor="passwordConfirmation"
-        marginBottom={12}
-      />
-      <Input
-        id="passwordConfirmation"
-        name="passwordConfirmation"
-        type="password"
-        value={values.passwordConfirmation}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        placeholder="비밀번호를 다시 한 번 입력해주세요."
-        errorMessage={errors.passwordConfirmation}
-      />
+      <div className="mt-24">
+        <Label
+          type="label"
+          content="비밀번호 확인"
+          htmlFor="passwordConfirmation"
+          marginBottom={12}
+        />
+        <Input
+          id="passwordConfirmation"
+          name="passwordConfirmation"
+          type="password"
+          value={values.passwordConfirmation}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          placeholder="비밀번호를 다시 한 번 입력해주세요."
+          errorMessage={errors.passwordConfirmation}
+        />
+      </div>
 
-      <Button buttonType="button" disabled={!isValid}>
+      <Button buttonType="button" disabled={!isValid} className="mt-40">
         회원가입
       </Button>
     </form>
