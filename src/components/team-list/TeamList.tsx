@@ -1,16 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { GroupInfo } from "@coworkers-types";
 import Image from "next/image";
+import { getUserGroups } from "../../pages/api/userApi";
+import TeamItem from "./TeamItem";
 
 export default function TeamList() {
-  const [teamList, setTeamList] = useState([]);
+  const [teamList, setTeamList] = useState<GroupInfo[]>([]);
+
+  const getData = async () => {
+    const data = await getUserGroups();
+    console.log(data);
+    setTeamList(data);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
       {teamList.length !== 0 ? (
-        <h2 className="mb-24 text-center text-4xl md:mb-80">소속된 팀 리스트</h2>
+        <>
+          <h2 className="py-80 text-center text-4xl">소속된 팀 리스트</h2>
+          <ul className="w-560">
+            {teamList?.map((data: GroupInfo) => <TeamItem key={data.id} group={data} />)}
+          </ul>
+        </>
       ) : (
         <>
-          <div className="relative mt-186 h-98 w-312 md:mt-272 md:h-164 md:w-520 lg:mt-212 lg:h-255 lg:w-810">
+          <div className="relative mt-186 h-98 w-312 md:mt-212 md:h-164 md:w-520 lg:h-255 lg:w-810">
             <Image
               fill
               src="/images/no_content_image.png"
@@ -18,7 +36,7 @@ export default function TeamList() {
             />
           </div>
           <p className="mt-32 text-text-default md:mt-48">아직 소속된 팀이 없습니다.</p>
-          <p className="mb-48 text-text-default md:mb-80">팀을 생성하거나 팀에 참여해보세요.</p>
+          <p className="text-text-default">팀을 생성하거나 팀에 참여해보세요.</p>
         </>
       )}
     </>

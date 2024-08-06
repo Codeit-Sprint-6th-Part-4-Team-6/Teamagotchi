@@ -6,7 +6,8 @@ export default function TeamListPage() {
   return (
     <section className="flex flex-col items-center">
       <TeamList />
-      <Button size="medium">
+
+      <Button size="medium" className="mt-48 md:mt-80">
         <Link href="/add-team" className="h-full w-full leading-[48px]">
           팀 생성하기
         </Link>
