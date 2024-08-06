@@ -15,7 +15,7 @@ export type ButtonProps = {
     | "transparent-white";
   type?: "button" | "submit" | "reset";
   className?: string;
-  children: string;
+  children: string | React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
 };

@@ -44,7 +44,7 @@ export default function LoginForm() {
         errorMessage={errors.password}
       />
 
-      <Button buttonType="button" disabled={!isValid}>
+      <Button buttonType="button" disabled={!isValid} type="submit">
         로그인
       </Button>
     </form>

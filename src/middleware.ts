@@ -17,6 +17,7 @@ export default function middleware(request: NextRequest) {
   if (
     !isLoggedIn &&
     (pathname.startsWith("/add-team") ||
+      pathname.startsWith("/join-team") ||
       pathname.startsWith("/team") ||
       pathname.startsWith("/board/") ||
       pathname.startsWith("/add-board") ||
