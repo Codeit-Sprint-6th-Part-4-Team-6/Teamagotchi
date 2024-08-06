@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
-import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import Article from "@components/board/Article";
 import BestArticle from "@components/board/BestArticle";
 import Button from "@components/commons/Button";
@@ -26,8 +26,15 @@ interface Writer {
   nickname: string;
 }
 
-const getArticle = async (page: number) => {
-  const res = await axiosInstance.get(`/articles?page=${page}&pageSize=1`);
+const getArticle = async (page: number, orderBy: string = "recent", keyword: string = "") => {
+  const res = await axiosInstance.get(`/articles`, {
+    params: {
+      page,
+      pageSize: 1,
+      orderBy,
+      keyword,
+    },
+  });
   return res.data;
 };
 
@@ -37,19 +44,23 @@ const getSortedArticles = async () => {
 };
 
 export default function BoardPage() {
-  const [page, setPage] = useState(1);
+  const router = useRouter();
+  const { page = "1", orderBy = "recent", keyword } = router.query;
+  const [currentPage, setCurrentPage] = useState<number>(Number(page));
+  const [currentOrderBy, setCurrentOrderBy] = useState<string>(orderBy as string);
+  const [currentKeyword, setCurrentKeyword] = useState<string>(keyword as string);
   const [sortedArticles, setSortedArticles] = useState<List[]>([]);
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (page !== totalCount) {
+    if (currentPage !== totalCount) {
       queryClient.prefetchQuery({
-        queryKey: ["articles", page + 1],
-        queryFn: () => getArticle(page + 1),
+        queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
+        queryFn: () => getArticle(currentPage, currentOrderBy, currentKeyword),
         staleTime: 30000, // 30초
       });
     }
-  }, [page, queryClient]);
+  }, [currentPage, currentOrderBy, currentKeyword, queryClient]);
 
   useEffect(() => {
     const fetchSortedArticles = async () => {
@@ -61,10 +72,41 @@ export default function BoardPage() {
   }, []);
 
   const { data, isPlaceholderData } = useQuery<RootObject>({
-    queryKey: ["articles", page],
-    queryFn: () => getArticle(page),
+    queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
+    queryFn: () => getArticle(currentPage, currentOrderBy, currentKeyword),
     placeholderData: keepPreviousData,
   });
+
+  const updateURL = (newPage?: number, newOrderBy?: string, newKeyword?: string) => {
+    const query: any = {};
+    if (newPage !== undefined) query.page = newPage;
+    if (newOrderBy !== undefined) query.orderBy = newOrderBy;
+    if (newKeyword !== "") query.keyword = newKeyword;
+
+    router.push(
+      {
+        pathname: "/board",
+        query,
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    updateURL(newPage, currentOrderBy, currentKeyword);
+  };
+
+  const handleOrderByChange = (newOrderBy: string) => {
+    setCurrentOrderBy(newOrderBy);
+    updateURL(currentPage, newOrderBy, currentKeyword);
+  };
+
+  const handleKeywordChange = (newKeyword: string) => {
+    setCurrentKeyword(newKeyword);
+    updateURL(currentPage, currentOrderBy, newKeyword);
+  };
 
   const articles = data?.list ?? [];
   const totalCount = data?.totalCount ?? 0;
@@ -76,15 +118,15 @@ export default function BoardPage() {
       <div className="flex justify-between">
         <Button
           size="small"
-          onClick={() => setPage((old) => Math.max(old - 1, 1))}
-          disabled={page === 1 || isPlaceholderData}
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1 || isPlaceholderData}
         >
           이전 페이지
         </Button>
         <Button
           size="small"
-          onClick={() => setPage((old) => old + 1)}
-          disabled={page === totalCount || isPlaceholderData}
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalCount || isPlaceholderData}
         >
           다음 페이지
         </Button>
