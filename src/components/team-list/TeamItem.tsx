@@ -9,6 +9,10 @@ interface TeamItemProps {
 }
 
 export default function TeamItem({ data }: TeamItemProps) {
+  const handleModify = () => {
+    // eslint-disable-next-line no-restricted-globals
+    location.href = `/team/${data.groupId}/edit`;
+  };
   return (
     <li
       key={data.groupId}
@@ -30,7 +34,7 @@ export default function TeamItem({ data }: TeamItemProps) {
         <p className="flex-grow pl-20 text-left text-lg">{data.group.name}</p>
       </Link>
       {data.role === "ADMIN" ? (
-        <EditDeletePopover icon="kebab" handleModify={() => {}} handleDelete={() => {}} />
+        <EditDeletePopover icon="kebab" handleModify={handleModify} handleDelete={() => {}} />
       ) : (
         <></>
       )}

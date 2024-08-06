@@ -10,7 +10,7 @@ export default function middleware(request: NextRequest) {
     isLoggedIn &&
     (pathname.startsWith("/login") || pathname.startsWith("/register") || pathname === "/")
   ) {
-    return NextResponse.redirect(new URL("/team-list", request.url));
+    return NextResponse.redirect(new URL("/team", request.url));
   }
 
   // 비로그인 상태일 때 조건문안의 경로로 들어가면 로그인 페이지로 이동합니다.
@@ -18,7 +18,7 @@ export default function middleware(request: NextRequest) {
     !isLoggedIn &&
     (pathname.startsWith("/add-team") ||
       pathname.startsWith("/join-team") ||
-      pathname.startsWith("/team") ||
+      pathname.startsWith("/team/") ||
       pathname.startsWith("/board/") ||
       pathname.startsWith("/add-board") ||
       pathname.startsWith("/my-page") ||
