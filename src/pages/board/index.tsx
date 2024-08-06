@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { keepPreviousData, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  QueryClient,
+  dehydrate,
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Article from "@components/board/Article";
 import BestArticle from "@components/board/BestArticle";
@@ -43,14 +50,44 @@ const getSortedArticles = async () => {
   return res.data.list;
 };
 
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const queryClient = new QueryClient();
+  const { query } = context;
+  const page = parseInt(query.page as string, 10) || 1;
+  const orderBy = (query.orderBy as string) || "recent";
+  const keyword = (query.keyword as string) || "";
+
+  await queryClient.prefetchQuery({
+    queryKey: ["articles", page, orderBy, keyword],
+    queryFn: () => getArticle(page, orderBy, keyword),
+  });
+  await queryClient.prefetchQuery({ queryKey: ["sortedArticles"], queryFn: getSortedArticles });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};
+
 export default function BoardPage() {
   const router = useRouter();
   const { page, orderBy, keyword } = router.query;
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [currentOrderBy, setCurrentOrderBy] = useState<string>("recent");
-  const [currentKeyword, setCurrentKeyword] = useState<string>("");
-  const [sortedArticles, setSortedArticles] = useState<List[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(parseInt(page as string, 10) || 1);
+  const [currentOrderBy, setCurrentOrderBy] = useState<string>((orderBy as string) || "recent");
+  const [currentKeyword, setCurrentKeyword] = useState<string>((keyword as string) || "");
   const queryClient = useQueryClient();
+
+  const { data: sortedArticles = [] } = useQuery<List[]>({
+    queryKey: ["sortedArticles"],
+    queryFn: getSortedArticles,
+  });
+
+  useEffect(() => {
+    setCurrentPage(parseInt(page as string, 10) || 1);
+    setCurrentOrderBy((orderBy as string) || "recent");
+    setCurrentKeyword((keyword as string) || "");
+  }, [page, orderBy, keyword]);
 
   useEffect(() => {
     if (currentPage !== totalCount) {
@@ -61,15 +98,6 @@ export default function BoardPage() {
       });
     }
   }, [currentPage, queryClient]);
-
-  useEffect(() => {
-    const fetchSortedArticles = async () => {
-      const data = await getSortedArticles();
-      setSortedArticles(data);
-    };
-
-    fetchSortedArticles();
-  }, []);
 
   const { data, isPlaceholderData } = useQuery<RootObject>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
@@ -92,11 +120,6 @@ export default function BoardPage() {
       { shallow: true }
     );
   };
-  useEffect(() => {
-    setCurrentPage(parseInt(page as string, 10) || 1);
-    setCurrentOrderBy((orderBy as string) || "recent");
-    setCurrentKeyword((keyword as string) || "");
-  });
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
