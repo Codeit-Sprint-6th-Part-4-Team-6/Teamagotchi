@@ -27,7 +27,7 @@ interface Writer {
 }
 
 const getArticle = async (page: number, orderBy: string = "recent", keyword: string = "") => {
-  const res = await axiosInstance.get(`/articles`, {
+  const res = await axiosInstance.get("/articles", {
     params: {
       page,
       pageSize: 1,
@@ -45,22 +45,22 @@ const getSortedArticles = async () => {
 
 export default function BoardPage() {
   const router = useRouter();
-  const { page = "1", orderBy = "recent", keyword } = router.query;
-  const [currentPage, setCurrentPage] = useState<number>(Number(page));
-  const [currentOrderBy, setCurrentOrderBy] = useState<string>(orderBy as string);
-  const [currentKeyword, setCurrentKeyword] = useState<string>(keyword as string);
+  const { page, orderBy, keyword } = router.query;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [currentOrderBy, setCurrentOrderBy] = useState<string>("recent");
+  const [currentKeyword, setCurrentKeyword] = useState<string>("");
   const [sortedArticles, setSortedArticles] = useState<List[]>([]);
   const queryClient = useQueryClient();
 
   useEffect(() => {
     if (currentPage !== totalCount) {
       queryClient.prefetchQuery({
-        queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
-        queryFn: () => getArticle(currentPage, currentOrderBy, currentKeyword),
+        queryKey: ["articles", currentPage + 1, currentOrderBy, currentKeyword],
+        queryFn: () => getArticle(currentPage + 1, currentOrderBy, currentKeyword),
         staleTime: 30000, // 30초
       });
     }
-  }, [currentPage, currentOrderBy, currentKeyword, queryClient]);
+  }, [currentPage, queryClient]);
 
   useEffect(() => {
     const fetchSortedArticles = async () => {
@@ -81,7 +81,7 @@ export default function BoardPage() {
     const query: any = {};
     if (newPage !== undefined) query.page = newPage;
     if (newOrderBy !== undefined) query.orderBy = newOrderBy;
-    if (newKeyword !== "") query.keyword = newKeyword;
+    if (newKeyword !== undefined) query.keyword = newKeyword;
 
     router.push(
       {
@@ -92,6 +92,11 @@ export default function BoardPage() {
       { shallow: true }
     );
   };
+  useEffect(() => {
+    setCurrentPage(parseInt(page as string, 10) || 1);
+    setCurrentOrderBy((orderBy as string) || "recent");
+    setCurrentKeyword((keyword as string) || "");
+  });
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
@@ -105,7 +110,7 @@ export default function BoardPage() {
 
   const handleKeywordChange = (newKeyword: string) => {
     setCurrentKeyword(newKeyword);
-    updateURL(currentPage, currentOrderBy, newKeyword);
+    updateURL(1, currentOrderBy, newKeyword);
   };
 
   const articles = data?.list ?? [];
