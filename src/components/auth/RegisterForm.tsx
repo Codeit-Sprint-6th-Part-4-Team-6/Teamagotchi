@@ -80,7 +80,7 @@ export default function RegisterForm() {
         />
       </div>
 
-      <Button buttonType="button" disabled={!isValid} className="mt-40">
+      <Button buttonType="button" disabled={!isValid} type="submit" className="mt-40">
         회원가입
       </Button>
     </form>
