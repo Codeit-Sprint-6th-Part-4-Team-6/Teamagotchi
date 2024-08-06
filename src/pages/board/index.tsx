@@ -10,6 +10,7 @@ import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Article from "@components/board/Article";
 import BestArticle from "@components/board/BestArticle";
+import Pagination from "@components/board/pagination";
 import Button from "@components/commons/Button";
 import { axiosInstance } from "../api/axios";
 
@@ -122,6 +123,13 @@ export default function BoardPage() {
   };
 
   const handlePageChange = (newPage: number) => {
+    if (
+      newPage < 1 ||
+      newPage > totalCount ||
+      (newPage === 1 && currentPage === 1) ||
+      (newPage === totalCount && currentPage === totalCount)
+    )
+      return;
     setCurrentPage(newPage);
     updateURL(newPage, currentOrderBy, currentKeyword);
   };
@@ -143,22 +151,11 @@ export default function BoardPage() {
     <div className="mx-auto my-0 w-full min-w-368 max-w-1200 px-34 py-0">
       <BestArticle Posts={sortedArticles} />
       <Article Posts={articles} />
-      <div className="flex justify-between">
-        <Button
-          size="small"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1 || isPlaceholderData}
-        >
-          이전 페이지
-        </Button>
-        <Button
-          size="small"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalCount || isPlaceholderData}
-        >
-          다음 페이지
-        </Button>
-      </div>
+      <Pagination
+        totalPages={totalCount}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

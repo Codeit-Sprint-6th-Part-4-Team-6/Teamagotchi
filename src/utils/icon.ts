@@ -1,8 +1,10 @@
 import IconAlert from "@icons/icon_alert.svg";
 import IconArrowLeft from "@icons/icon_arrow_left.svg";
 import IconArrowLeftBg from "@icons/icon_arrow_left_bg.svg";
+import IconArrowLeftGray from "@icons/icon_arrow_left_gray.svg";
 import IconArrowRight from "@icons/icon_arrow_right.svg";
 import IconArrowRightBg from "@icons/icon_arrow_right_bg.svg";
+import IconArrowRightGray from "@icons/icon_arrow_right_gray.svg";
 import IconBestBadge from "@icons/icon_best_badge.svg";
 import IconCalender from "@icons/icon_calendar.svg";
 import IconCheckActive from "@icons/icon_check_active.svg";
@@ -45,8 +47,10 @@ export {
   IconAlert,
   IconArrowLeft,
   IconArrowLeftBg,
+  IconArrowLeftGray,
   IconArrowRight,
   IconArrowRightBg,
+  IconArrowRightGray,
   IconCalender,
   IconCheckActive,
   IconCheckDisActive,
