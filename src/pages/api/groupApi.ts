@@ -1,4 +1,4 @@
-import { DateTask, Group, GroupInfo, Member, Profile } from "@coworkers-types";
+import { DateTask, Group, GroupInfo, NewGroup, Profile } from "@coworkers-types";
 import { axiosInstance } from "./axios";
 
 /**
@@ -37,8 +37,8 @@ export const deleteGroup = async (groupId: number): Promise<void> => {
  * @param image - 팀 페이지 그룹 사진
  * @returns 수정된 Group 객체를 반환합니다.
  */
-export const postGroup = async (name: string, image?: string): Promise<Member> => {
-  const response = await axiosInstance.patch<Member>("groups", {
+export const postGroup = async (name: string, image?: string | null): Promise<NewGroup> => {
+  const response = await axiosInstance.post<NewGroup>("groups", {
     image,
     name,
   });

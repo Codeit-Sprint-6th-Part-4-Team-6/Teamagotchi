@@ -33,14 +33,11 @@ export default function TextButton({
   href,
   onClick,
 }: ButtonProps): JSX.Element {
-  const styleClassName = classNames(
-    className,
-    "text-brand-primary flex items-center text-14 md:text-16",
-    {
-      "": textStyle === "default",
-      "underline underline-offset-4": textStyle === "underline",
-    }
-  );
+  const styleClassName = classNames(className, "text-brand-primary  text-14 md:text-16", {
+    "flex items-center": icon === "plus",
+    "": textStyle === "default",
+    "underline underline-offset-4": textStyle === "underline",
+  });
 
   if (buttonType === "link") {
     return (
