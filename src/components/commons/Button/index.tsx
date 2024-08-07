@@ -97,7 +97,7 @@ export default function Button({
 
   return (
     <motion.button
-      whileTap={{ scale: 0.97 }}
+      whileTap={disabled ? { scale: 1 } : { scale: 0.97 }}
       type={type}
       className={buttonClassName}
       onClick={onClick}
