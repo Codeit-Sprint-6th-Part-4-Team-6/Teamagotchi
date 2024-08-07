@@ -3,7 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
 import { setAuth } from "@utils/auth";
-import { socialLogin } from "../../api/authApi";
+import { socialLogin } from "@api/authApi";
 
 function OAuthRedirect() {
   const router = useRouter();
