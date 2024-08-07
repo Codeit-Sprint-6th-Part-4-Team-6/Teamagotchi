@@ -1,9 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import ErrorMessages from "@constants/errorMessage";
-import { postGroup } from "../pages/api/groupApi";
-import { postImageURL } from "../pages/api/imageApi";
+import { postGroup } from "@api/groupApi";
+import { postImageURL } from "@api/imageApi";
 
 export function useAddTeamForm() {
   const [imgFile, setImgFile] = useState<string | File | null>(null);
