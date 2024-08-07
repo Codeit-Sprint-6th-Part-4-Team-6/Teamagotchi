@@ -11,8 +11,7 @@ import { useRouter } from "next/router";
 import Article from "@components/board/Article";
 import BestArticle from "@components/board/BestArticle";
 import Pagination from "@components/board/pagination";
-import Button from "@components/commons/Button";
-import { axiosInstance } from "../api/axios";
+import { axiosInstance } from "@api/axios";
 
 interface RootObject {
   list: List[];
