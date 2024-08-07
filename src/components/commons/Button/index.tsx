@@ -5,6 +5,7 @@ import Spinner from "../Spinner";
 
 export type ButtonProps = {
   buttonType?: "button" | "floating";
+  type?: "button" | "submit";
   size?: "large" | "medium" | "small";
   icon?: "none" | "check" | "plus";
   buttonStyle?:
@@ -37,6 +38,7 @@ export type ButtonProps = {
  */
 export default function Button({
   buttonType = "button",
+  type = "button",
   size = "large",
   icon = "none",
   buttonStyle = "default",
