@@ -35,7 +35,7 @@ export const useAuthHandler = <T extends AuthRequest>(values: T, isRegister: boo
     }
     setAuth(data);
     setUser(data.user);
-    router.push("/team");
+    router.push("/teams");
   };
 
   return {
