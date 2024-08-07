@@ -1,12 +1,15 @@
+import { UserInfo } from "@coworkers-types";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface AuthState {
   isLoggedIn: boolean;
+  user: UserInfo | null;
 }
 
 interface AuthAction {
   setIsLoggedIn: (value: boolean) => void;
+  setUser: (user: UserInfo | null) => void;
 }
 
 /**
@@ -18,11 +21,15 @@ export const useAuthStore = create<AuthState & AuthAction>()(
   devtools(
     persist(
       (set) => ({
+        user: null,
         isLoggedIn: false,
         setIsLoggedIn: (value) => set({ isLoggedIn: value }),
+        setUser: (user: UserInfo | null) => {
+          set({ user });
+        },
       }),
       {
-        name: "login state",
+        name: "userStore",
       }
     )
   )

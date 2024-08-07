@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
 
 export const useAuth = () => {
-  const { setIsLoggedIn } = useAuthStore();
+  const { setIsLoggedIn, setUser } = useAuthStore();
   const router = useRouter();
 
   /**
@@ -23,6 +23,7 @@ export const useAuth = () => {
     }
     setCookie("loginType", loginType, { maxAge: 3600 * 12 * 7 });
     setIsLoggedIn(true);
+    setUser(data.user);
     router.push("/teams");
   };
 
@@ -34,6 +35,7 @@ export const useAuth = () => {
     deleteCookie("refreshToken");
     deleteCookie("loginType");
     setIsLoggedIn(false);
+    setUser(null);
     router.push("/login");
   };
 
