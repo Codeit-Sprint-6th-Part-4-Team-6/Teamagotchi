@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
 import { clearAuth } from "@utils/auth";
-import { getUser } from "./api/userApi";
+import { getUser } from "../api/userApi";
 
 export default function TeamListPage() {
   const [testData, setTestData] = useState<string>();
