@@ -1,4 +1,4 @@
-import DeleteAccount from "@components/user-edit/DeleteAccount";
+import DeleteAccount from "@components/editUser/DeleteAccount";
 
 export default function EditUserPage() {
   return (
