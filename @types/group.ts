@@ -7,10 +7,19 @@ declare module "@coworkers-types" {
   };
 
   export type Group = BaseGroupEntity & {
-    image: string;
+    image: string | null;
     teamId: string;
     members: Member[];
     taskLists: GroupTaskLists[];
+  };
+
+  export type NewGroup = {
+    id: number;
+    teamId: null;
+    name: string;
+    image: string;
+    createdAt: string;
+    updatedAt: string;
   };
 
   export type GroupInfo = Omit<Group, "members" | "taskLists">;
@@ -34,4 +43,6 @@ declare module "@coworkers-types" {
     userEmail: string;
     token: string;
   };
+
+  export type Membership = Member & { group: GroupInfo };
 }

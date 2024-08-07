@@ -1,63 +1,46 @@
-import { useState } from "react";
-import { LoginRequest } from "@coworkers-types";
 import { useRouter } from "next/router";
-import SendMailModal from "@components/auth/SendMailModal";
+import LoginForm from "@components/auth/LoginForm";
 import TextButton from "@components/commons/Button/TextButton";
-import { useModal } from "@hooks/useModal";
-import { useAuthStore } from "@store/useAuthStore";
-import { setAuth } from "@utils/auth";
-import { loginUser } from "./api/authApi";
+import SocialLoginBox from "@components/commons/SocialLoginBox";
 
+// TODO: 배포하고나서 url 바꿔야됨
 export default function LoginPage() {
-  const [values, setValues] = useState<LoginRequest>({
-    email: "",
-    password: "",
-  });
   const router = useRouter();
-  const { setUser } = useAuthStore();
-  const { openModal } = useModal();
 
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
+  const handleGoogleAuth = () => {
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    const redirectUri = "http://localhost:3000/oauth/google";
+    const responseType = "code";
+    const scope = process.env.NEXT_PUBLIC_GOOGLE_SCOPE;
+    const url = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
 
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  }
+    router.push(url);
+  };
 
-  async function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
+  const handleKakaoAuth = () => {
+    const clientId = process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID;
+    const redirectUri = "http://localhost:3000/oauth/kakao";
+    const responseType = "code";
+    const url = `https://kauth.kakao.com/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}`;
 
-    const data = await loginUser(values);
-    setAuth(data);
-    setUser(data.user);
-    router.push("/team-list");
-  }
-
-  const handleOpenModal = () => {
-    openModal("SendMailModal", SendMailModal, {});
+    router.push(url);
   };
 
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">이메일</label>
-        <input id="email" name="email" type="text" value={values.email} onChange={handleChange} />
-
-        <label htmlFor="password">비밀번호</label>
-        <input
-          id="password"
-          name="password"
-          type="password"
-          value={values.password}
-          onChange={handleChange}
-        />
-        <button type="submit">로그인</button>
-      </form>
-      <TextButton buttonType="button" textStyle="underline" onClick={handleOpenModal}>
-        비밀번호를 잊으셨나요?
-      </TextButton>
-    </>
+    <section className="mx-16 py-24 md:mx-142 md:py-100 lg:mx-auto lg:w-460">
+      <h2 className="mb-24 text-center text-4xl md:mb-80">로그인</h2>
+      <LoginForm />
+      <div className="mb-48 mt-24 text-center">
+        <span className="mr-12">아직 계정이 없으신가요?</span>
+        <TextButton buttonType="link" textStyle="underline" href="/register">
+          가입하기
+        </TextButton>
+      </div>
+      <SocialLoginBox
+        type="login"
+        onGoogleClick={handleGoogleAuth}
+        onKakaoClick={handleKakaoAuth}
+      />
+    </section>
   );
 }

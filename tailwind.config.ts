@@ -64,6 +64,7 @@ const config: Config = {
         default: '#64748B',
         inverse: '#FFFFFF',
         disabled: '#94A3B8',
+        gray400: '#9ca3af',
       },
       status: {
         danger: '#DC2626',
@@ -122,7 +123,7 @@ const config: Config = {
       addVariant('light', ['.light &', 'html:not(.dark) &', '@media (prefers-color-scheme: light)']);
     }
   ],
-  darkMode: 'selector',
+  darkMode: 'class', // or 'media'
 };
 
 export default config;
