@@ -2,7 +2,7 @@ import { LoginRequest } from "@coworkers-types";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
 import { setAuth } from "@utils/auth";
-import { loginUser } from "../../pages/api/authApi";
+import { loginUser } from "../../api/authApi";
 
 export const useLoginHandler = (values: LoginRequest) => {
   const router = useRouter();

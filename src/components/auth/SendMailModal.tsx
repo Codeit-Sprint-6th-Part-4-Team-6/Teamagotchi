@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SendResetPasswordRequest } from "@coworkers-types";
 import OneInputModal from "@components/commons/modal/OneInputModal";
-import { postSendResetPasswordEmail } from "../../pages/api/userApi";
+import { postSendResetPasswordEmail } from "../../api/userApi";
 
 export default function SendMailModal({ onClose }: { onClose?: () => void }) {
   const [email, setEmail] = useState("");

@@ -1,6 +1,6 @@
 import { Password, ResetPassword } from "@coworkers-types";
 import { useSearchParams } from "next/navigation";
-import { postResetPassword } from "../../pages/api/userApi";
+import { postResetPassword } from "../../api/userApi";
 
 export const useResetPasswordHandler = (values: Password) => {
   const searchParams = useSearchParams();
