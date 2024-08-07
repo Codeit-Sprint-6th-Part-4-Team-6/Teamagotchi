@@ -1,6 +1,6 @@
 import AddTeamForm from "@components/add-team/add-team-form";
 
-export default function AddTeam() {
+export default function AddTeamPage() {
   return (
     <div className="m-auto flex w-343 flex-col items-center justify-center pt-100 md:w-460">
       <h1 className="pb-24 text-24 font-medium text-text-primary md:pb-80">팀 생성하기</h1>
