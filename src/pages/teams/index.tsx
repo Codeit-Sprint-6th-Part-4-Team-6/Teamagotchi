@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Button from "@components/commons/Button";
-import TeamList from "@components/team-list/TeamList";
+import TeamList from "@components/teams/TeamList";
 
 export default function TeamsPage() {
   return (

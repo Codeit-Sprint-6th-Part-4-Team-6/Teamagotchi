@@ -95,6 +95,7 @@ const config: Config = {
         paddingRight: '48px',
         paddingTop: '40px',
         paddingBottom: '40px',
+        whiteSpace: 'pre-wrap'
       },
       '.modal-close-icon': {
         position: 'absolute',
