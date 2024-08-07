@@ -1,17 +1,12 @@
 import WarnModal from "@components/commons/modal/WarnModal";
-import { deleteGroup } from "@api/groupApi";
 
-interface DeleteTeamModalProps {
+export default function DeleteTeamModal({
+  onClose,
+  onConfirm,
+}: {
   onClose?: () => void;
-  // groupId: number;
-}
-
-// TODO: groupId 넘겨받기
-export default function DeleteTeamModal({ onClose }: DeleteTeamModalProps) {
-  const handleConfirm = async () => {
-    await deleteGroup(0);
-  };
-
+  onConfirm?: () => void;
+}) {
   return (
     <WarnModal
       warnIcon
@@ -19,7 +14,7 @@ export default function DeleteTeamModal({ onClose }: DeleteTeamModalProps) {
       description="팀을 정말 삭제하시겠어요?"
       content="삭제 후에는 모든 할일이 삭제되며 되돌릴 수 없습니다."
       buttonText="삭제하기"
-      onConfirm={handleConfirm}
+      onConfirm={onConfirm}
       onClose={onClose}
     />
   );

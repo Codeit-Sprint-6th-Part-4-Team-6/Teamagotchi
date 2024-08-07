@@ -2,7 +2,7 @@ import Link from "next/link";
 import Button from "@components/commons/Button";
 import TeamList from "@components/team-list/TeamList";
 
-export default function TeamListPage() {
+export default function TeamsPage() {
   return (
     <section className="flex flex-col items-center">
       <TeamList />
