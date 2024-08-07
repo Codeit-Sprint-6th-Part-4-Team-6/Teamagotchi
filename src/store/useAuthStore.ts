@@ -1,31 +1,28 @@
-import { UserInfo } from "@coworkers-types";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
 
 interface AuthState {
-  user: UserInfo | null;
+  isLoggedIn: boolean;
 }
 
 interface AuthAction {
-  setUser: (user: UserInfo | null) => void;
+  setIsLoggedIn: (value: boolean) => void;
 }
 
 /**
- * 사용자 정보를 전역상태로 관리하는 zustand 훅
- * user : 유저 정보 상태
- * setUser : 유저 정보 변경 함수
+ * 로그인 여부를 전역상태로 관리하는 zustand 훅
+ * isLoggedIn : 로그인 상태
+ * setIsLoggedIn : 로그인 상태 변경 함수
  */
 export const useAuthStore = create<AuthState & AuthAction>()(
   devtools(
     persist(
       (set) => ({
-        user: null,
-        setUser: (user: UserInfo | null) => {
-          set({ user });
-        },
+        isLoggedIn: false,
+        setIsLoggedIn: (value) => set({ isLoggedIn: value }),
       }),
       {
-        name: "userStore",
+        name: "login state",
       }
     )
   )

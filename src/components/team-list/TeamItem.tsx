@@ -31,7 +31,7 @@ export default function TeamItem({ data }: TeamItemProps) {
     },
   });
 
-  const deleteOnConfirm = async () => {
+  const deleteOnConfirm = () => {
     deleteGroupMutation.mutate(data.groupId);
     closeModal();
   };
