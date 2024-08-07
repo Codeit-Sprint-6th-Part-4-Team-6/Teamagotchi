@@ -14,7 +14,7 @@ export const useLoginHandler = (values: LoginRequest) => {
     const data = await loginUser(values);
     setAuth(data);
     setUser(data.user);
-    router.push("/team-list");
+    router.push("/teams");
   };
 
   return {

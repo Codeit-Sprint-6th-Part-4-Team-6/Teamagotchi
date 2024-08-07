@@ -21,7 +21,7 @@ export const useRegisterHandler = (values: SignUpRequest) => {
     const data = await loginUser(loginData);
     setAuth(data);
     setUser(data.user);
-    router.push("/team-list");
+    router.push("/teams");
   };
 
   return {
