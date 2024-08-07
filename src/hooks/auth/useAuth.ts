@@ -1,11 +1,13 @@
 import { AuthResponse } from "@coworkers-types";
+import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
 
 export const useAuth = () => {
-  const { setIsLoggedIn, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   /**
    * 로그인 시 필요한 처리를 모아놓은 함수
@@ -22,7 +24,6 @@ export const useAuth = () => {
       loginType = "GOOGLE";
     }
     setCookie("loginType", loginType, { maxAge: 3600 * 12 * 7 });
-    setIsLoggedIn(true);
     setUser(data.user);
     router.push("/teams");
   };
@@ -34,9 +35,11 @@ export const useAuth = () => {
     deleteCookie("accessToken");
     deleteCookie("refreshToken");
     deleteCookie("loginType");
-    setIsLoggedIn(false);
-    setUser(null);
-    router.push("/login");
+    queryClient.removeQueries({
+      predicate: (query) => query.queryKey[0] !== "user",
+    });
+    useAuthStore.persist.clearStorage();
+    router.push("/");
   };
 
   return { login, logout };
