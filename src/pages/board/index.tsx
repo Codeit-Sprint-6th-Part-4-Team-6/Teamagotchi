@@ -77,6 +77,7 @@ export default function BoardPage() {
   const [currentPage, setCurrentPage] = useState<number>(parseInt(page as string, 10) || 1);
   const [currentOrderBy, setCurrentOrderBy] = useState<string>((orderBy as string) || "recent");
   const [currentKeyword, setCurrentKeyword] = useState<string>((keyword as string) || "");
+  const [searchKeyword, setSearchKeyword] = useState<string>("");
   const queryClient = useQueryClient();
 
   const { data: sortedArticles = [] } = useQuery<List[]>({
@@ -98,7 +99,7 @@ export default function BoardPage() {
         staleTime: 30000, // 30초
       });
     }
-  }, [currentPage, queryClient]);
+  }, [currentPage, currentOrderBy, currentKeyword, queryClient]);
 
   const { data, isPlaceholderData } = useQuery<RootObject>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
@@ -139,9 +140,16 @@ export default function BoardPage() {
     updateURL(currentPage, newOrderBy, currentKeyword);
   };
 
-  const handleKeywordChange = (newKeyword: string) => {
-    setCurrentKeyword(newKeyword);
-    updateURL(1, currentOrderBy, newKeyword);
+  const handleKeywordEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      const target = event.target as HTMLInputElement;
+      setCurrentKeyword(target.value);
+      updateURL(1, currentOrderBy, target.value);
+    }
+  };
+
+  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
   };
 
   const articles = data?.list ?? [];
@@ -150,7 +158,12 @@ export default function BoardPage() {
   return (
     <div className="mx-auto my-0 w-full min-w-368 max-w-1200 px-34 py-0">
       <BestArticle Posts={sortedArticles} />
-      <Article Posts={articles} />
+      <Article
+        Posts={articles}
+        searchValue={searchKeyword}
+        searchChange={handleKeywordChange}
+        onEnter={handleKeywordEnter}
+      />
       <Pagination
         totalPages={totalCount}
         currentPage={currentPage}

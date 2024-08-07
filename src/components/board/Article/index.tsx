@@ -1,3 +1,4 @@
+import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import ArticleCard from "./ArticleCard";
 
@@ -16,13 +17,32 @@ interface Writer {
   nickname: string;
 }
 
-export default function Article({ Posts }: { Posts: List[] }) {
+export default function Article({
+  Posts,
+  searchValue,
+  searchChange,
+  onEnter,
+}: {
+  Posts: List[];
+  searchValue: string;
+  searchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onEnter: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+}) {
   return (
     <div className="mt-30">
-      <div className="mb-12 flex items-center justify-between">
-        <Label content="게시글" />
-        {/* 검색부분 */}
+      <div className="mb-12 flex w-full items-center justify-between gap-30">
+        <Label content="게시글" className="w-330" />
+        <Input
+          value={searchValue}
+          onChange={searchChange}
+          onKeyDown={onEnter}
+          type="search"
+          name="search"
+          placeholder="검색할 게시글을 입력해주세요."
+          className="w-600"
+        />
         {/* 정렬 */}
+        <div className="text-[#fff]">테스트 정렬</div>
       </div>
       <div className="flex flex-col">
         {Posts.map((post) => (

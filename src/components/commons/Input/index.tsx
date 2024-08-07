@@ -8,9 +8,11 @@ type InputProps = {
   id?: string;
   placeholder: string;
   value?: string;
+  className?: string;
   errorMessage?: string;
   disabled?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
@@ -34,9 +36,11 @@ export default function Input({
   id,
   placeholder,
   value,
+  className,
   errorMessage,
   disabled,
   onChange,
+  onKeyDown,
   onBlur,
   onDelete,
 }: InputProps) {
@@ -47,7 +51,7 @@ export default function Input({
   };
 
   const inputClassnames = classNames(
-    "w-full h-44 md:h-48 text-md font-normal md:text-lg rounded-[12px] border border-solid text-text-primary placeholder-text-default focus:border-interaction-focus",
+    `w-full h-44 md:h-48 text-md font-normal md:text-lg rounded-[12px] border border-solid text-text-primary placeholder-text-default focus:border-interaction-focus ${className}`,
     errorMessage ? "!border-status-danger" : "border-border-primary",
     disabled ? "bg-background-tertiary" : "bg-background-secondary",
     type === "password" ? "pl-16 pr-40" : "px-16",
@@ -64,6 +68,7 @@ export default function Input({
         value={value}
         disabled={disabled}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         onBlur={onBlur}
         className={inputClassnames}
       />
