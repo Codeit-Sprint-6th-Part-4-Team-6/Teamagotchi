@@ -1,4 +1,4 @@
-declare module '@coworkers-types' {
+declare module "@coworkers-types" {
   export type PostArticleRequest = {
     image: string;
     content: string;

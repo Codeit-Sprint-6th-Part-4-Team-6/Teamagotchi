@@ -1,5 +1,5 @@
-import { axiosInstance } from './axios';
-import { ArticleComment, AricleCommentList, Message } from '@coworkers-types';
+import { AricleCommentList, ArticleComment, Message } from "@coworkers-types";
+import { axiosInstance } from "./axios";
 
 /**
  * 게시글의 댓글을 작성하는 API 함수입니다.
@@ -7,8 +7,14 @@ import { ArticleComment, AricleCommentList, Message } from '@coworkers-types';
  * @param content - 전송하고자 하는 댓글 내용
  * @returns 댓글 작성자 정보와 댓글 내용을 객체로 반환합니다. 오류 발생시 메세지 객체를 반환합니다.
  */
-export const postArticleComment = async (articleId: number, content: string): Promise<ArticleComment | Message> => {
-  const response = await axiosInstance.post<ArticleComment | Message>(`articles/${articleId}/comments`, { content });
+export const postArticleComment = async (
+  articleId: number,
+  content: string
+): Promise<ArticleComment | Message> => {
+  const response = await axiosInstance.post<ArticleComment | Message>(
+    `articles/${articleId}/comments`,
+    { content }
+  );
   return response.data;
 };
 
@@ -26,10 +32,12 @@ export const getArticleComments = async (
 ): Promise<AricleCommentList | Message> => {
   const params = new URLSearchParams({
     limit: limit.toString(),
-    cursor: cursor ? cursor.toString() : '0',
+    cursor: cursor ? cursor.toString() : "0",
   });
 
-  const response = await axiosInstance.get<AricleCommentList | Message>(`articles/${articleId}/comments?${params}`);
+  const response = await axiosInstance.get<AricleCommentList | Message>(
+    `articles/${articleId}/comments?${params}`
+  );
   return response.data;
 };
 
@@ -39,8 +47,13 @@ export const getArticleComments = async (
  * @param content - 새로 수정한 댓글 내용
  * @returns 댓글 작성자 정보와 댓글 내용을 객체로 반환합니다. 오류 발생시 메세지 객체를 반환합니다.
  */
-export const patchArticleComment = async (commentId: number, content: string): Promise<ArticleComment | Message> => {
-  const response = await axiosInstance.patch<ArticleComment | Message>(`comments/${commentId}`, { content });
+export const patchArticleComment = async (
+  commentId: number,
+  content: string
+): Promise<ArticleComment | Message> => {
+  const response = await axiosInstance.patch<ArticleComment | Message>(`comments/${commentId}`, {
+    content,
+  });
   return response.data;
 };
 

@@ -1,5 +1,11 @@
-import { axiosInstance } from './axios';
-import { Article, ArticleDetails, Message, PostArticleRequest, TotalArticle } from '@coworkers-types';
+import {
+  Article,
+  ArticleDetails,
+  Message,
+  PostArticleRequest,
+  TotalArticle,
+} from "@coworkers-types";
+import { axiosInstance } from "./axios";
 
 /**
  * 게시글을 작성하는 API 함수입니다.
@@ -7,7 +13,7 @@ import { Article, ArticleDetails, Message, PostArticleRequest, TotalArticle } fr
  * @returns 게시글 객체를 반환합니다.
  */
 export const postArticle = async (data: PostArticleRequest): Promise<Article> => {
-  const response = await axiosInstance.post<Article>('articles', data);
+  const response = await axiosInstance.post<Article>("articles", data);
   return response.data;
 };
 
@@ -22,8 +28,8 @@ export const postArticle = async (data: PostArticleRequest): Promise<Article> =>
 export const getArticleList = async (
   page = 1,
   pageSize = 10,
-  orderBy: 'recent' | 'like' = 'recent',
-  keyword = ''
+  orderBy: "recent" | "like" = "recent",
+  keyword = ""
 ): Promise<TotalArticle> => {
   const params = new URLSearchParams({
     page: page.toString(),
@@ -51,8 +57,14 @@ export const getArticle = async (articleId: number): Promise<ArticleDetails | Me
  * @param data - article의 { image, content, title } 객체를 전송해주세요
  * @returns 게시글 상세보기 객체를 반환합니다.
  */
-export const patchArticle = async (articleId: number, data: PostArticleRequest): Promise<ArticleDetails | Message> => {
-  const response = await axiosInstance.patch<ArticleDetails | Message>(`articles/${articleId}`, data);
+export const patchArticle = async (
+  articleId: number,
+  data: PostArticleRequest
+): Promise<ArticleDetails | Message> => {
+  const response = await axiosInstance.patch<ArticleDetails | Message>(
+    `articles/${articleId}`,
+    data
+  );
   return response.data;
 };
 
@@ -82,6 +94,8 @@ export const postArticleLike = async (articleId: number): Promise<ArticleDetails
  * @returns 게시글 상세보기 객체를 반환합니다. 오류 발생시 메세지 객체를 반환합니다.
  */
 export const deleteArticleLike = async (articleId: number): Promise<ArticleDetails | Message> => {
-  const response = await axiosInstance.delete<ArticleDetails | Message>(`articles/${articleId}/like`);
+  const response = await axiosInstance.delete<ArticleDetails | Message>(
+    `articles/${articleId}/like`
+  );
   return response.data;
 };

@@ -1,4 +1,4 @@
-declare module '@coworkers-types' {
+declare module "@coworkers-types" {
   export type ArticleComment = {
     writer: Writer;
     updatedAt: string;
