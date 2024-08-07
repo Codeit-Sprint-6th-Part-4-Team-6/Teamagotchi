@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { IconCheckDisActive, IconPlus } from "@utils/icon";
+import Spinner from "../Spinner";
 
 export type ButtonProps = {
   buttonType?: "button" | "floating";
@@ -13,11 +14,14 @@ export type ButtonProps = {
     | "danger"
     | "transparent"
     | "transparent-white";
+  type?: "button" | "submit" | "reset";
   className?: string;
   children: string;
   onClick?: () => void;
   disabled?: boolean;
+  isPending?: boolean;
 };
+
 /**
  * 일반 버튼과 플로팅 버튼을 골라서 렌더링 할 수 있습니다.
  * @param buttonType "button" 혹은 "floating" 을 선택할 수 있습니다.
@@ -28,6 +32,7 @@ export type ButtonProps = {
  * @param children 버튼의 텍스트를 작성해주세요.
  * @param onClick 버튼 눌렀을 때 작동할 함수를 넣어주세요.
  * @param disabled form에서 disabled가 필요할 때 사용해주세요.
+ * @param isPending 로딩중인 상태를 나타내고 싶을 때 사용해주세요.
  * @returns 버튼을 렌더링합니다.
  */
 export default function Button({
@@ -35,10 +40,12 @@ export default function Button({
   size = "large",
   icon = "none",
   buttonStyle = "default",
+  type = "button",
   className,
   children,
   onClick,
   disabled = false,
+  isPending = false,
 }: ButtonProps) {
   const baseButtonClassName = "rounded-[12px] font-semibold flex justify-center items-center";
 
@@ -63,8 +70,9 @@ export default function Button({
   });
 
   const floatingClassName = classNames(className, "fixed rounded-[40px]", {
-    "h-48 px-21": size === "large",
-    "h-40 px-21": size === "medium" || size === "small",
+    "h-48 px-21 min-w-125": size === "large", // 높이가 더 뚱뚱한걸 large로 적용했습니다.
+    "h-40 px-21 min-w-138": size === "medium",
+    "h-40 px-21 min-w-111": size === "small",
   });
 
   const iconClassName = classNames("mr-6", {
@@ -79,21 +87,34 @@ export default function Button({
     buttonType === "button" ? sizeClassName : floatingClassName
   );
 
+  const loaderColor =
+    buttonStyle === "outlined-secondary" ||
+    buttonStyle === "outlined" ||
+    buttonStyle === "transparent"
+      ? "#10B981"
+      : "#FFFFFF";
+
   return (
     <motion.button
       whileTap={{ scale: 0.97 }}
-      type="button"
+      type={type}
       className={buttonClassName}
       onClick={onClick}
       disabled={disabled}
     >
-      {icon !== "none" &&
-        (icon === "check" ? (
-          <IconCheckDisActive className={iconClassName} />
-        ) : (
-          <IconPlus className={iconClassName} />
-        ))}
-      {children}
+      {isPending ? (
+        <Spinner size={20} color={loaderColor} />
+      ) : (
+        <>
+          {icon !== "none" &&
+            (icon === "check" ? (
+              <IconCheckDisActive className={iconClassName} />
+            ) : (
+              <IconPlus className={iconClassName} />
+            ))}
+          {children}
+        </>
+      )}
     </motion.button>
   );
 }
