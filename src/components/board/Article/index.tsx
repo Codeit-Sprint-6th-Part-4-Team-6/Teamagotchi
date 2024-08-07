@@ -31,7 +31,7 @@ export default function Article({
   return (
     <div className="mt-30">
       <div className="mb-12 flex w-full items-center justify-between gap-30">
-        <Label content="게시글" className="w-330" />
+        <Label content="게시글" className="w-100" />
         <Input
           value={searchValue}
           onChange={searchChange}
@@ -39,7 +39,7 @@ export default function Article({
           type="search"
           name="search"
           placeholder="검색할 게시글을 입력해주세요."
-          className="w-600"
+          className="flex w-600 items-center justify-center"
         />
         {/* 정렬 */}
         <div className="text-[#fff]">테스트 정렬</div>

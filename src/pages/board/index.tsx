@@ -101,7 +101,7 @@ export default function BoardPage() {
     }
   }, [currentPage, currentOrderBy, currentKeyword, queryClient]);
 
-  const { data, isPlaceholderData } = useQuery<RootObject>({
+  const { data } = useQuery<RootObject>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
     queryFn: () => getArticle(currentPage, currentOrderBy, currentKeyword),
     placeholderData: keepPreviousData,
