@@ -3,7 +3,7 @@ import LoginForm from "@components/auth/LoginForm";
 import TextButton from "@components/commons/Button/TextButton";
 import SocialLoginBox from "@components/commons/SocialLoginBox";
 
-// todo: 배포하고나서 url 바꿔야됨
+// TODO: 배포하고나서 url 바꿔야됨
 export default function LoginPage() {
   const router = useRouter();
 

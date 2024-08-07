@@ -2,7 +2,7 @@ import { SignUpRequest } from "@coworkers-types";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
 import { setAuth } from "@utils/auth";
-import { loginUser, signUpUser } from "../../pages/api/authApi";
+import { loginUser, signUpUser } from "../../api/authApi";
 
 export const useRegisterHandler = (values: SignUpRequest) => {
   const router = useRouter();
