@@ -2,7 +2,7 @@ import React from "react";
 import { Membership } from "@coworkers-types";
 import Spinner from "@components/commons/Spinner";
 import { useFetchData } from "@hooks/useFetchData";
-import { getUserMemberships } from "../../pages/api/userApi";
+import { getUserMemberships } from "@api/userApi";
 import TeamItem from "./TeamItem";
 
 export default function TeamList() {

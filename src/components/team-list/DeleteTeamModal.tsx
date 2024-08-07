@@ -1,5 +1,5 @@
 import WarnModal from "@components/commons/modal/WarnModal";
-import { deleteGroup } from "../../pages/api/groupApi";
+import { deleteGroup } from "@api/groupApi";
 
 interface DeleteTeamModalProps {
   onClose?: () => void;

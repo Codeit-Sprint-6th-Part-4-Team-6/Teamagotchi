@@ -13,6 +13,15 @@ declare module "@coworkers-types" {
     taskLists: GroupTaskLists[];
   };
 
+  export type NewGroup = {
+    id: number;
+    teamId: null;
+    name: string;
+    image: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+
   export type GroupInfo = Omit<Group, "members" | "taskLists">;
 
   export type GroupTaskLists = BaseGroupEntity & {
