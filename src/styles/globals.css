@@ -4,7 +4,7 @@
 
 body {
   /*테스트용 배경이에요*/
-  background-color: #0F172A;
+  background-color: #1e293b;
 }
 
 button,
@@ -13,7 +13,6 @@ textarea {
   box-sizing: border-box;
   outline: 0;
   border: 0;
-  font-family: "Pretendard";
 }
 
 textarea::-webkit-scrollbar,

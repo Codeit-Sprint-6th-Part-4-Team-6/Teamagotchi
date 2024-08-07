@@ -11,6 +11,7 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
+  // test@test.com test2718!
 
   if (!mounted) {
     return <div />;
@@ -47,7 +48,6 @@ export default function Home() {
       <Textarea type="innerButton" placeholder="댓글을 달아주세요" height={50} />
       <Textarea type="small" placeholder="댓글을 달아주세요" height={74} />
       <Textarea type="big" placeholder="댓글을 달아주세요" height={104} />
-
       <div className="flex h-[20vh] gap-20">
         <EditDeletePopover icon="gear" handleModify={() => {}} handleDelete={() => {}} />
         <EditDeletePopover icon="kebab" handleModify={() => {}} handleDelete={() => {}} />
