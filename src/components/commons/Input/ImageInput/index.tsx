@@ -1,0 +1,135 @@
+import { useEffect } from "react";
+import Image from "next/image";
+import { useImageInput } from "@hooks/useImageInput";
+import { IconClose, IconEdit, IconImage, IconMemberLarge } from "@utils/icon";
+
+type ImageInputProps = {
+  id: string;
+  type: "my-profile" | "team-profile" | "article";
+  onChange: (value: string | File | null) => void;
+  errorMessage: string;
+  defaultValue?: string;
+  className?: string;
+};
+
+/**
+ * 이미지를 넣을 수 있는 file input 입니다. value 값을 링크로 변환시켜줍니다.
+ * @param id - input의 id입니다.
+ * @param type - 'my-profile' / 'team' / 'article' 중 필요한 것 골라서 쓰세요.
+ * @param onChange - input의 handleChange 함수를 넣어주세요.
+ * @param errorMessage - 에러 상태 메세지를 넣어주세요.
+ * @param defaultValue - input에 기본 이미지 파일이 있을 경우 넣어주세요. (수정하기 페이지용)
+ * @param className - 추가적인 css를 작성해주세요.
+ * @returns 이미지 인풋이 렌더링됩니다.
+ */
+export default function ImageInput({
+  id,
+  type,
+  onChange,
+  errorMessage,
+  defaultValue,
+  className,
+}: ImageInputProps) {
+  const { value, previewImage, inputRef, handleClick, handleChange, handleClearClick } =
+    useImageInput({ defaultValue });
+
+  useEffect(() => {
+    onChange(value);
+  }, [value, onChange]);
+  return (
+    <div className={className}>
+      <button type="button" className="relative flex" onClick={handleClick}>
+        <input
+          id={id}
+          type="file"
+          accept="image/png, image/jpeg"
+          className="hidden"
+          ref={inputRef}
+          onChange={handleChange}
+        />
+
+        {type !== "article" && (
+          <div>
+            <span className="flex">
+              {type === "my-profile" ? <IconMemberLarge /> : <IconImage />}
+              <span className="absolute">
+                {previewImage && (
+                  <PreviewImage
+                    type={type}
+                    src={previewImage}
+                    handleImageDelete={handleClearClick}
+                  />
+                )}
+              </span>
+            </span>
+            <IconEdit className="absolute bottom-0 right-0" />
+          </div>
+        )}
+        {type === "article" && (
+          <div className="flex">
+            <div className="flex size-160 flex-col items-center justify-center gap-12 rounded-12 bg-background-secondary md:size-282">
+              <div className="w-24 md:w-48">
+                <Image
+                  src="/icons/icon_plus_large.svg"
+                  alt="plus"
+                  width={24}
+                  height={24}
+                  layout="responsive"
+                />
+              </div>
+              <span className="text-14 text-text-gray400 md:text-16">이미지 등록</span>
+            </div>
+            <span className="absolute">
+              {previewImage && (
+                <PreviewImage type={type} src={previewImage} handleImageDelete={handleClearClick} />
+              )}
+            </span>
+          </div>
+        )}
+      </button>
+      {errorMessage && value === null && (
+        <p className="mt-8 text-md font-medium text-status-danger">{errorMessage}</p>
+      )}
+    </div>
+  );
+}
+
+// 이미지 미리보기 컴포넌트
+type PreviewImageProps = {
+  src: string;
+  type?: "team-profile" | "my-profile" | "article";
+  handleImageDelete?: () => void;
+};
+
+function PreviewImage({ src, type, handleImageDelete }: PreviewImageProps) {
+  return (
+    <>
+      {type !== "article" && (
+        <div className="relative size-64">
+          <Image
+            src={src}
+            fill
+            className="relative rounded-full object-cover"
+            onClick={handleImageDelete}
+            alt="이미지 미리보기"
+          />
+        </div>
+      )}
+      {type === "article" && (
+        <div className="relative size-160 md:size-282">
+          <Image
+            src={src}
+            fill
+            className="relative rounded-12 object-cover"
+            onClick={handleImageDelete}
+            alt="이미지 미리보기"
+          />
+          <IconClose
+            className="absolute right-6 top-6 stroke-text-secondary p-3 md:right-12 md:top-12"
+            onClick={handleImageDelete}
+          />
+        </div>
+      )}
+    </>
+  );
+}

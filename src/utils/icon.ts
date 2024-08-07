@@ -12,6 +12,7 @@ import IconClose from "@icons/icon_close.svg";
 import IconComment from "@icons/icon_comment.svg";
 import IconDefaultImage from "@icons/icon_default_image.svg";
 import IconDone from "@icons/icon_done.svg";
+import IconEdit from "@icons/icon_edit.svg";
 import IconEditLarge from "@icons/icon_edit_large.svg";
 import IconEditSmall from "@icons/icon_edit_small.svg";
 import IconEnterActive from "@icons/icon_enter_active.svg";
@@ -24,7 +25,10 @@ import IconKakaotalk from "@icons/icon_kakaotalk.svg";
 import IconKebabLarge from "@icons/icon_kebab_large.svg";
 import IconKebabSmall from "@icons/icon_kebab_small.svg";
 import IconList from "@icons/icon_list.svg";
+import IconMember from "@icons/icon_member.svg";
+import IconMemberLarge from "@icons/icon_member_large.svg";
 import IconPlus from "@icons/icon_plus.svg";
+import IconPlusLarge from "@icons/icon_plus_large.svg";
 import IconProgressDone from "@icons/icon_progress_done.svg";
 import IconProgressOnGoing from "@icons/icon_progress_ongoing.svg";
 import IconRepairLarge from "@icons/icon_repair_large.svg";
@@ -78,4 +82,8 @@ export {
   IconKakaotalk,
   IconGoogle,
   IconSearch,
+  IconMember,
+  IconMemberLarge,
+  IconEdit,
+  IconPlusLarge,
 };

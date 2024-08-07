@@ -1,8 +1,6 @@
 import {
-  AccessToken,
   AuthResponse,
   LoginRequest,
-  RefreshToken,
   SignUpRequest,
   SocialLoginAppRegister,
   SocialLoginAppResponse,
@@ -27,16 +25,6 @@ export const signUpUser = async (data: SignUpRequest): Promise<AuthResponse> => 
  */
 export const loginUser = async (data: LoginRequest): Promise<AuthResponse> => {
   const response = await axiosInstance.post<AuthResponse>("auth/signIn", data);
-  return response.data;
-};
-
-/**
- * 리프레쉬토큰을 전송하여 새로운 엑세스토큰을 받는 API 함수입니다.
- * @param refreshToken 을 전송합니다.
- * @returns accessToken을 반환합니다.
- */
-export const postRefreshToken = async (refreshToken: RefreshToken): Promise<AccessToken> => {
-  const response = await axiosInstance.post<AccessToken>("auth/refresh-token", refreshToken);
   return response.data;
 };
 

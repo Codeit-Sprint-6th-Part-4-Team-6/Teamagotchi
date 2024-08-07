@@ -4,7 +4,7 @@
 
 body {
   /*테스트용 배경이에요*/
-  background-color: #fff;
+  background-color: #1e293b;
 }
 
 button,
@@ -13,7 +13,11 @@ textarea {
   box-sizing: border-box;
   outline: 0;
   border: 0;
-  font-family: "Pretendard";
+}
+
+textarea::-webkit-scrollbar,
+span::-webkit-scrollbar {
+  display: none;
 }
 
 @layer components {
@@ -22,6 +26,6 @@ textarea {
   }
 
   .modal-container {
-    @apply fixed left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 bg-[#1E293B] rounded-12;
+    @apply fixed left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 rounded-12 bg-[#1E293B];
   }
 }

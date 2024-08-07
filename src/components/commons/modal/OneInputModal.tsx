@@ -9,8 +9,12 @@ interface OneInputModalProps {
   placeholder: string;
   type?: "input" | "textarea";
   buttonText: string;
+  value?: string;
   onConfirm: () => void;
   onClose?: () => void;
+  onChange?:
+    | ((event: React.ChangeEvent<HTMLInputElement>) => void)
+    | ((event: React.ChangeEvent<HTMLTextAreaElement>) => void);
   closeButton?: boolean;
 }
 
@@ -20,11 +24,13 @@ interface OneInputModalProps {
  * @param title - 모달의 상단 제목 부분입니다.
  * @param content - 모달의 중간 내용 부분입니다.
  * @param placeholder - 인풋에 들어가는 텍스트입니다.
- * @param type - input인지, textarea인지 확인하는 props입니다.
+ * @param type - input인지, textarea인지 확인하는 props 입니다.
  * @param buttonText - 버튼에 들어가는 텍스트입니다.
+ * @param value - input 또는 textarea에 들어가는 value 입니다.
  * @param onConfirm - 버튼을 눌렀을때 동작하는 함수입니다.
  * @param onClose - 닫기버튼을 눌렀을때 동작하는 함수입니다.
- * @param closeButton - 닫기버튼과 X버튼을 위한 props입니다.
+ * @param onChange - input 또는 textarea에 들어가는 onChange 함수입니다.
+ * @param closeButton - 닫기버튼과 X버튼을 위한 props 입니다.
  */
 export default function OneInputModal({
   title,
@@ -32,8 +38,10 @@ export default function OneInputModal({
   placeholder,
   type = "input",
   buttonText,
+  value,
   onConfirm,
   onClose,
+  onChange,
   closeButton = false,
 }: OneInputModalProps) {
   return (
@@ -42,9 +50,19 @@ export default function OneInputModal({
       <p className="modal-title">{title}</p>
       {content && <p className="modal-content">{content}</p>}
       {type === "input" ? (
-        <Input placeholder={placeholder} />
+        <Input
+          value={value}
+          onChange={onChange as (event: React.ChangeEvent<HTMLInputElement>) => void}
+          placeholder={placeholder}
+        />
       ) : (
-        <Textarea placeholder={placeholder} type="small" height={80} />
+        <Textarea
+          value={value}
+          onChange={onChange as (event: React.ChangeEvent<HTMLTextAreaElement>) => void}
+          placeholder={placeholder}
+          type="small"
+          height={80}
+        />
       )}
       {closeButton ? (
         <div className="flex gap-10">
