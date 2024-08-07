@@ -2,12 +2,12 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { useImageInput } from "@hooks/useImageInput";
 import { IconClose, IconEdit, IconImage, IconMemberLarge } from "@utils/icon";
+import ErrorMessages from "@constants/errorMessage";
 
 type ImageInputProps = {
   id: string;
   type: "my-profile" | "team-profile" | "article";
   onChange: (value: string | File | null) => void;
-  errorMessage: string;
   defaultValue?: string;
   className?: string;
 };
@@ -17,7 +17,6 @@ type ImageInputProps = {
  * @param id - input의 id입니다.
  * @param type - 'my-profile' / 'team' / 'article' 중 필요한 것 골라서 쓰세요.
  * @param onChange - input의 handleChange 함수를 넣어주세요.
- * @param errorMessage - 에러 상태 메세지를 넣어주세요.
  * @param defaultValue - input에 기본 이미지 파일이 있을 경우 넣어주세요. (수정하기 페이지용)
  * @param className - 추가적인 css를 작성해주세요.
  * @returns 이미지 인풋이 렌더링됩니다.
@@ -26,7 +25,6 @@ export default function ImageInput({
   id,
   type,
   onChange,
-  errorMessage,
   defaultValue,
   className,
 }: ImageInputProps) {
@@ -38,7 +36,7 @@ export default function ImageInput({
   }, [value, onChange]);
   return (
     <div className={className}>
-      <button type="button" className="relative flex" onClick={handleClick}>
+      <button type="button" className="relative flex flex-col" onClick={handleClick}>
         <input
           id={id}
           type="file"
@@ -47,27 +45,25 @@ export default function ImageInput({
           ref={inputRef}
           onChange={handleChange}
         />
-
         {type !== "article" && (
-          <div>
-            <span className="flex">
-              {type === "my-profile" ? <IconMemberLarge /> : <IconImage />}
-              <span className="absolute">
-                {previewImage && (
-                  <PreviewImage
-                    type={type}
-                    src={previewImage}
-                    handleImageDelete={handleClearClick}
-                  />
-                )}
-              </span>
+          <span className="relative flex">
+            {type === "my-profile" ? <IconMemberLarge /> : <IconImage />}
+            <span className="absolute">
+              {previewImage && (
+                <PreviewImage type={type} src={previewImage} handleImageDelete={handleClearClick} />
+              )}
             </span>
             <IconEdit className="absolute bottom-0 right-0" />
-          </div>
+          </span>
+        )}
+        {type === "team-profile" && value === null && (
+          <p className="mt-8 text-md font-medium text-status-danger">
+            {ErrorMessages.PROFILE_REQUIRED}
+          </p>
         )}
         {type === "article" && (
           <div className="flex">
-            <div className="flex size-160 flex-col items-center justify-center gap-12 rounded-12 bg-background-secondary md:size-282">
+            <div className="flex size-160 flex-col items-center justify-center gap-12 rounded-12 border border-solid border-border-primary/10 bg-background-secondary md:size-282">
               <div className="w-24 md:w-48">
                 <Image
                   src="/icons/icon_plus_large.svg"
@@ -87,9 +83,6 @@ export default function ImageInput({
           </div>
         )}
       </button>
-      {errorMessage && value === null && (
-        <p className="mt-8 text-md font-medium text-status-danger">{errorMessage}</p>
-      )}
     </div>
   );
 }
