@@ -1,4 +1,4 @@
-import { DateTask, Group, GroupInfo, NewGroup, Profile } from "@coworkers-types";
+import { DateTask, Group, GroupInfo, Message, NewGroup, Profile } from "@coworkers-types";
 import { axiosInstance } from "./axios";
 
 /**
@@ -35,10 +35,13 @@ export const deleteGroup = async (groupId: number): Promise<void> => {
  * 팀 페이지 그룹을 생성하는 API 함수입니다.
  * @param name - 팀 페이지 그룹명
  * @param image - 팀 페이지 그룹 사진
- * @returns 수정된 Group 객체를 반환합니다.
+ * @returns 수정된 Group 객체를 반환합니다. 오류 발생시 에러 메세지 객체를 반환합니다.
  */
-export const postGroup = async (name: string, image?: string | null): Promise<NewGroup> => {
-  const response = await axiosInstance.post<NewGroup>("groups", {
+export const postGroup = async (
+  name: string,
+  image?: string | null
+): Promise<NewGroup | Message> => {
+  const response = await axiosInstance.post<NewGroup | Message>("groups", {
     image,
     name,
   });

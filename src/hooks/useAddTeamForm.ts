@@ -25,8 +25,9 @@ export function useAddTeamForm() {
     onSuccess: () => {
       router.push("/team-list");
     },
-    onError: () => {
-      setNameErrorMessage(`${ErrorMessages.INVALID_TEAMNAME}`);
+    onError: (error: any) => {
+      const message = error.response.data?.message || "그룹을 생헝하는 중 오류가 발생했습니다.";
+      setNameErrorMessage(message);
     },
   });
 
