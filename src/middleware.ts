@@ -8,7 +8,7 @@ export default function middleware(request: NextRequest) {
   // 로그인 상태일 때 랜딩, login, register 페이지에 접근하면 /teams로 이동합니다.
   if (
     isLoggedIn &&
-    (pathname.startsWith("/login") || pathname.startsWith("/register") || pathname.startsWith("/"))
+    (pathname.startsWith("/login") || pathname.startsWith("/register") || pathname === "/")
   ) {
     return NextResponse.redirect(new URL("/teams", request.url));
   }
