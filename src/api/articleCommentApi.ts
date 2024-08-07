@@ -47,14 +47,10 @@ export const getArticleComments = async (
  * @param content - 새로 수정한 댓글 내용
  * @returns 댓글 작성자 정보와 댓글 내용을 객체로 반환합니다. 오류 발생시 메세지 객체를 반환합니다.
  */
-export const patchArticleComment = async (
-  commentId: number,
-  content: string
-): Promise<ArticleComment | Message> => {
-  const response = await axiosInstance.patch<ArticleComment | Message>(`comments/${commentId}`, {
+export const patchArticleComment = async (commentId: number, content: string): Promise<void> => {
+  await axiosInstance.patch<ArticleComment>(`comments/${commentId}`, {
     content,
   });
-  return response.data;
 };
 
 /**
@@ -62,7 +58,6 @@ export const patchArticleComment = async (
  * @param commentId - 삭제하고자 하는 comment ID입니다.
  * @returns ID를 반환합니다. 오류 발생시 메세지 객체를 반환합니다.
  */
-export const deleteArticleComment = async (commentId: number): Promise<number | Message> => {
-  const response = await axiosInstance.patch<number | Message>(`comments/${commentId}`);
-  return response.data;
+export const deleteArticleComment = async (commentId: number): Promise<void> => {
+  await axiosInstance.patch<number | Message>(`comments/${commentId}`);
 };

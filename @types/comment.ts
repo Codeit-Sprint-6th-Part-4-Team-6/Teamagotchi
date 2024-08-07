@@ -29,15 +29,4 @@ declare module "@coworkers-types" {
   export type CommentRequest = {
     content: string;
   };
-
-  export type ArticleWriterInfo = {
-    id: number;
-    nickname: string;
-    image: string | null;
-  };
-
-  export type ArticleComment = BaseCommentEntity & {
-    content: string;
-    writer: ArticleWriterInfo;
-  };
 }
