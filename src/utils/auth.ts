@@ -11,10 +11,20 @@ import { useAuthStore } from "@store/useAuthStore";
 export const setAuth = (data: AuthResponse) => {
   setCookie("accessToken", data.accessToken, { maxAge: 3600 });
   setCookie("refreshToken", data.refreshToken, { maxAge: 3600 * 12 * 7 });
+  // 이메일 형식에 따라 userType 쿠키 설정
+  let loginType = "USER";
+  if (data.user.email.toLowerCase().endsWith("@kakao.com")) {
+    loginType = "KAKAO";
+  } else if (data.user.email.toLowerCase().endsWith("@gmail.com")) {
+    loginType = "GOOGLE";
+  }
+
+  setCookie("loginType", loginType, { maxAge: 3600 * 12 * 7 });
 };
 
 export const clearAuth = () => {
   useAuthStore.persist.clearStorage();
   deleteCookie("accessToken");
   deleteCookie("refreshToken");
+  deleteCookie("loginType");
 };
