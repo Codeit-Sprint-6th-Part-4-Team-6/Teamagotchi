@@ -15,7 +15,6 @@ export type ButtonProps = {
     | "danger"
     | "transparent"
     | "transparent-white";
-  type?: "button" | "submit" | "reset";
   className?: string;
   children: string;
   onClick?: () => void;
@@ -26,6 +25,7 @@ export type ButtonProps = {
 /**
  * 일반 버튼과 플로팅 버튼을 골라서 렌더링 할 수 있습니다.
  * @param buttonType "button" 혹은 "floating" 을 선택할 수 있습니다.
+ * @param type "button" 혹은 "submit" 을 선택할 수 있습니다. 기본값은 button 입니다.
  * @param size 기본 버튼 large (w-full) medium (w-184) small (w-74) / 플로팅 버튼 large (h-48) medium&small (h-40)
  * @param icon 'plus' 와 'check' 중에 골라주세요. 기본값은 'none'입니다.
  * @param buttonStyle 'default' / 'outlined' / outlined-secondary / danger / transparent / transparent-white 으로 이루어져 있습니다. (피그마와 이름 똑같음)
@@ -42,7 +42,6 @@ export default function Button({
   size = "large",
   icon = "none",
   buttonStyle = "default",
-  type = "button",
   className,
   children,
   onClick,
