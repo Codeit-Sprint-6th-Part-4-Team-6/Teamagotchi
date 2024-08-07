@@ -18,7 +18,6 @@ declare module "@coworkers-types" {
   };
 
   export type SocialLoginRequest = {
-    state: string;
     redirectUri: string;
     token: string;
   };
