@@ -4,7 +4,7 @@ import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import { useAuthForm } from "@hooks/auth/useAuthForm";
-import { useRegisterHandler } from "@hooks/auth/useRegisterHandler";
+import { useAuthHandler } from "@hooks/auth/useAuthHandler";
 import { RegisterSchema } from "@utils/schemas/auth";
 
 const initialRegisterState: SignUpRequest = {
@@ -19,7 +19,7 @@ export default function RegisterForm() {
     initialRegisterState,
     RegisterSchema
   );
-  const { handleSubmit } = useRegisterHandler(values);
+  const { handleSubmit } = useAuthHandler(values, true);
 
   return (
     <form onSubmit={handleSubmit}>

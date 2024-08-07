@@ -16,7 +16,7 @@ export type ButtonProps = {
     | "transparent"
     | "transparent-white";
   className?: string;
-  children: string;
+  children: string | React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
   isPending?: boolean;
