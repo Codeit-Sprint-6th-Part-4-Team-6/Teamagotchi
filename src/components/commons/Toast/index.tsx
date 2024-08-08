@@ -21,12 +21,10 @@ export default function Toast() {
       break;
   }
 
-  const toastActive = isOpen
-    ? "right-1/2 top-30 translate-x-1/2 md:right-20 md:translate-x-0"
-    : "-translate-y-full delay-500 md:-translate-x-full";
+  const toastActive = isOpen ? "delay-500 right-20" : "delay-500 -right-1000";
 
   return (
-    <div className={`fixed ${toastActive}`}>
+    <div className={`fixed top-30 ${toastActive}`}>
       <div className="flex h-80 items-center rounded-lg bg-text-primary light:bg-background-primary">
         <span className={`h-full w-5 rounded-l-lg ${pointColor}`} />
         <div className="px-20">

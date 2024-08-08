@@ -1,18 +1,16 @@
 import { useToastStore } from "@store/useToastStore";
 
-const useToast = () => {
+export const useToast = () => {
   const { setToast, setIsOpen } = useToastStore();
 
   const toast = (type: "info" | "success" | "warn" | "danger", content: string) => {
     const data = { type, content };
     setToast(data);
+    setIsOpen(true);
 
     setTimeout(() => {
-      setIsOpen(true);
-      setTimeout(() => {
-        setIsOpen(false);
-      }, 500);
-    });
+      setIsOpen(false);
+    }, 3000);
   };
 
   return { toast };
