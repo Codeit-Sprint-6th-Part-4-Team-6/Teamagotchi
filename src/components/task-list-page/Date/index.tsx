@@ -7,10 +7,10 @@ export default function Date() {
       <div className="flex items-center gap-12">
         <time>5월 18일 (화)</time>
         <span className="flex gap-4">
-          <IconArrowLeftBg />
-          <IconArrowRightBg />
+          <IconArrowLeftBg className="cursor-pointer" />
+          <IconArrowRightBg className="cursor-pointer" />
         </span>
-        <IconCalenderBg />
+        <IconCalenderBg className="cursor-pointer" />
       </div>
       <TextButton icon="plus">새로운 목록 추가하기</TextButton>
     </div>

@@ -1,6 +1,10 @@
+import { useState } from "react";
+import classNames from "classnames";
+import { motion } from "framer-motion";
 import {
   IconArrowReload,
   IconCalender,
+  IconCheckboxActive,
   IconCheckboxDefault,
   IconComment,
   IconKebabSmall,
@@ -8,24 +12,36 @@ import {
 } from "@utils/icon";
 
 export default function Task() {
-  return (
-    <div className="flex w-full flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12">
-      <div className="flex justify-between">
-        <div className="flex items-center gap-8">
-          <button>
-            <IconCheckboxDefault />
-          </button>
-          <span className="text-14">등기 비용 안내 드리기</span>
-        </div>
+  const [isChecked, setIsChecked] = useState(false);
+  const handleCheckButton = () => {
+    setIsChecked((prev) => !prev);
+  };
 
-        <div className="flex items-center gap-8">
+  const descriptionClassName = classNames("text-14 pt-2", {
+    "line-through": isChecked,
+  });
+
+  return (
+    <motion.div
+      whileTap={{ scale: 0.99 }}
+      className="flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12"
+    >
+      <div className="flex items-center justify-between gap-8">
+        <div className="flex grow justify-between md:justify-start md:gap-12">
+          <div className="flex items-center gap-8">
+            <button onClick={handleCheckButton}>
+              {isChecked ? <IconCheckboxActive /> : <IconCheckboxDefault />}
+            </button>
+            <span className={descriptionClassName}>등기 비용 안내 드리기</span>
+          </div>
           <span className="flex items-center gap-2">
             <IconComment />
             <span className="text-12 text-text-default">3</span>
           </span>
-          <IconKebabSmall />
         </div>
+        <IconKebabSmall />
       </div>
+
       <div className="flex items-center gap-10">
         <span className="flex items-center gap-6">
           <IconCalender />
@@ -42,6 +58,6 @@ export default function Task() {
           <span className="text-12 text-text-default">매일 반복</span>
         </span>
       </div>
-    </div>
+    </motion.div>
   );
 }
