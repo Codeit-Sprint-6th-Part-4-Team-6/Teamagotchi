@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { motion } from "framer-motion";
-import { IconPlus } from "@utils/icon";
+import { IconPlusSmall } from "@utils/icon";
 import LinkButton from "../LinkButton";
 
 export type ButtonProps = {
@@ -54,7 +54,7 @@ export default function TextButton({
       className={styleClassName}
       onClick={onClick}
     >
-      {icon !== "none" && <IconPlus className="mb-1 mr-2 stroke-brand-primary" />}
+      {icon !== "none" && <IconPlusSmall className="mb-1 mr-2 stroke-brand-primary" />}
       {children}
     </motion.button>
   );

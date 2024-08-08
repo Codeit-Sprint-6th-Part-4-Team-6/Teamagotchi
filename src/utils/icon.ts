@@ -31,6 +31,7 @@ import IconMember from "@icons/icon_member.svg";
 import IconMemberLarge from "@icons/icon_member_large.svg";
 import IconPlus from "@icons/icon_plus.svg";
 import IconPlusLarge from "@icons/icon_plus_large.svg";
+import IconPlusSmall from "@icons/icon_plus_small.svg";
 import IconProgressDone from "@icons/icon_progress_done.svg";
 import IconProgressOnGoing from "@icons/icon_progress_ongoing.svg";
 import IconRepairLarge from "@icons/icon_repair_large.svg";
@@ -90,4 +91,5 @@ export {
   IconPlusLarge,
   IconCalenderBg,
   IconArrowReload,
+  IconPlusSmall,
 };

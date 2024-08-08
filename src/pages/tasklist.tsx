@@ -1,5 +1,5 @@
-import Date from "@components/taskListPage/Date";
-import TaskList from "@components/taskListPage/TaskList";
+import Date from "@components/task-list-page/Date";
+import TaskList from "@components/task-list-page/TaskList";
 
 export default function TaskListPage() {
   return (
