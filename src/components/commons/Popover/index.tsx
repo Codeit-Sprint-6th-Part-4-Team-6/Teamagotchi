@@ -146,7 +146,7 @@ function TeamItem({ id, imgSrc, title }: { id: number; imgSrc: string | null; ti
   };
 
   return (
-    <Link href={`${id}`}>
+    <Link href={`/teams/${id}`}>
       <button
         type="button"
         className="my-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
