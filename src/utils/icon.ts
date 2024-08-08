@@ -11,6 +11,7 @@ import IconCheckboxDefault from "@icons/icon_checkbox_default.svg";
 import IconClose from "@icons/icon_close.svg";
 import IconComment from "@icons/icon_comment.svg";
 import IconDefaultImage from "@icons/icon_default_image.svg";
+import IconDeleteAccount from "@icons/icon_delete_account.svg";
 import IconDone from "@icons/icon_done.svg";
 import IconEdit from "@icons/icon_edit.svg";
 import IconEditLarge from "@icons/icon_edit_large.svg";
@@ -60,6 +61,7 @@ export {
   IconClose,
   IconComment,
   IconDefaultImage,
+  IconDeleteAccount,
   IconDone,
   IconEditLarge,
   IconEditSmall,

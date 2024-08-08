@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useAuthStore } from "@store/useAuthStore";
-import { setAuth } from "@utils/auth";
+import { useAuth } from "@hooks/auth/useAuth";
 import { socialLogin } from "@api/authApi";
 
 function OAuthRedirect() {
   const router = useRouter();
   const { provider, code } = router.query;
-  const { setUser } = useAuthStore();
+  const { login } = useAuth();
 
   useEffect(() => {
     if (provider === "google") {
@@ -39,10 +38,7 @@ function OAuthRedirect() {
         token,
       });
 
-      setAuth(response);
-      setUser(response.user);
-
-      router.push("/");
+      login(response);
     }
   };
 
@@ -57,10 +53,7 @@ function OAuthRedirect() {
       };
 
       const response = await socialLogin(type.toUpperCase(), config);
-      setAuth(response);
-      setUser(response.user);
-
-      router.push("/");
+      login(response);
     }
   };
 
