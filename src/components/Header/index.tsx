@@ -132,7 +132,7 @@ export default function Header() {
       </nav>
       <div
         className={classNames(
-          "absolute left-0 top-0 h-[100vh] w-204 bg-background-tertiary p-16 transition-transform duration-300 md:hidden",
+          "absolute left-0 top-0 z-50 h-[100vh] w-204 bg-background-tertiary p-16 transition-transform duration-300 md:hidden",
           {
             "translate-x-0 transform": sidebarOpen,
             "-translate-x-full transform": !sidebarOpen,
@@ -145,6 +145,9 @@ export default function Header() {
           </button>
         </div>
         <div className="flex flex-col gap-24">
+          <Link href="/boards" className="text-md">
+            자유게시판
+          </Link>
           <Link href="/teams" className="text-md">
             팀 리스트
           </Link>
