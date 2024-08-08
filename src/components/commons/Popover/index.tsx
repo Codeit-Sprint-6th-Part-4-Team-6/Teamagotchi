@@ -2,11 +2,12 @@ import React, { createContext, useContext, useEffect, useMemo, useRef, useState 
 import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { IconKebabSmall } from "@utils/icon";
+import Link from "next/link";
 
 const PopoverContext = createContext({
   isOpen: false,
   togglePopover: () => {},
+  closePopover: () => {},
 });
 
 export default function Popover({ children }: { children: React.ReactNode }) {
@@ -19,6 +20,7 @@ export default function Popover({ children }: { children: React.ReactNode }) {
     () => ({
       isOpen,
       togglePopover,
+      closePopover,
     }),
     [isOpen]
   );
@@ -35,7 +37,7 @@ export default function Popover({ children }: { children: React.ReactNode }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownRef]);
+  }, [dropdownRef, closePopover]);
 
   return (
     <PopoverContext.Provider value={providerValue}>
@@ -59,7 +61,7 @@ function Toggle({ children }: { children: React.ReactNode }) {
         }
       }}
       tabIndex={0}
-      className="cursor-pointer"
+      className="flex cursor-pointer items-center gap-5 text-nowrap"
     >
       {children}
     </button>
@@ -99,7 +101,7 @@ function Wrapper({
 function Item({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
   return (
     <div
-      className="cursor-pointer text-nowrap rounded-8 py-7 text-md transition-all hover:bg-background-tertiary md:text-lg"
+      className="cursor-pointer text-nowrap rounded-8 py-7 text-md text-text-primary transition-all hover:bg-background-tertiary md:text-lg"
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
@@ -114,39 +116,53 @@ function Item({ children, onClick }: { children: React.ReactNode; onClick: () =>
   );
 }
 
-function InnerButton({
-  children,
-  onClick,
-  icon,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  icon?: React.ReactNode;
-}) {
+function InnerButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+  const { closePopover } = useContext(PopoverContext);
+
+  const handleClick = () => {
+    closePopover();
+  };
+
   return (
     <button
       type="button"
-      onClick={onClick}
-      className="mb-10 flex h-48 w-186 cursor-pointer items-center justify-center gap-5 text-nowrap rounded-12 border border-solid px-8 py-7 text-lg hover:bg-background-tertiary"
+      onClick={() => {
+        onClick();
+        handleClick();
+      }}
+      className="mb-10 box-border flex h-[48px] w-[186px] cursor-pointer items-center justify-center gap-5 text-nowrap rounded-12 border border-solid px-8 py-7 text-lg hover:bg-background-tertiary"
     >
-      {icon}
-      {children}
+      <Image className="block" src="/icons/icon_plus.svg" alt="plus btn" width={16} height={16} />
+      <p className="mt-3 text-nowrap">{children}</p>
     </button>
   );
 }
 
-function TeamItem({ imgSrc, children }: { imgSrc: string; children: React.ReactNode }) {
+function TeamItem({ id, imgSrc, title }: { id: number; imgSrc: string | null; title: string }) {
+  const { closePopover } = useContext(PopoverContext);
+
+  const handleClick = () => {
+    closePopover();
+  };
+
   return (
-    <button
-      type="button"
-      className="my-10 flex h-48 w-186 items-center gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
-    >
-      <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
-        <Image src={imgSrc} alt={`${children} logo`} fill className="object-cover" />
-      </div>
-      <span className="flex-grow text-left text-lg">{children}</span>
-      <IconKebabSmall className="mb-4 flex-shrink-0" />
-    </button>
+    <Link href={`/teams/${id}`}>
+      <button
+        type="button"
+        className="my-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
+        onClick={handleClick}
+      >
+        <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
+          <Image
+            src={imgSrc || "/icons/icon_default_image.svg"}
+            alt={`${title} logo`}
+            fill
+            className="object-cover"
+          />
+        </div>
+        <span className="flex-grow truncate text-left text-lg">{title}</span>
+      </button>
+    </Link>
   );
 }
 

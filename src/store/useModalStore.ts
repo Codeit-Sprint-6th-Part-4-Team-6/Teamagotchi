@@ -3,6 +3,7 @@ import create from "zustand";
 
 interface ModalProps {
   onClose?: () => void;
+  onConfirm?: () => void;
   onChange?:
     | ((event: React.ChangeEvent<HTMLInputElement>) => void)
     | ((event: React.ChangeEvent<HTMLTextAreaElement>) => void);
