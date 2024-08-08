@@ -3,6 +3,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
+import Toast from "@components/commons/Toast";
 import ModalWrapper from "@components/commons/modal/ModalWrapper";
 import "@styles/globals.css";
 
@@ -20,6 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <main className={pretendard.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ModalWrapper />
+          <Toast />
           <Component {...pageProps} />
         </ThemeProvider>
       </main>
