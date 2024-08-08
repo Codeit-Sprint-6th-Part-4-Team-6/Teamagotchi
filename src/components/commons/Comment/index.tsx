@@ -2,11 +2,11 @@ import { useState } from "react";
 import { ArticleComment, CommentType } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
+import DOMPurify from "dompurify";
 import { useModal } from "@hooks/useModal";
 import { useAuthStore } from "@store/useAuthStore";
 import { calculateElapsedTime } from "@utils/calculateElapsedTime";
 import { checkIsLink } from "@utils/checkIsLink";
-import { IconKebabSmall } from "@utils/icon";
 import { deleteArticleComment, patchArticleComment } from "@api/articleCommentApi";
 import { deleteComment, patchComment } from "@api/commentApi";
 import Button from "../Button";
@@ -150,7 +150,7 @@ export default function Comment({ type, comment }: CommentProps) {
           <div className="flex justify-between">
             <div className="text-md font-normal text-text-primary">
               {comment.content.split("\n").map((line) => (
-                <p dangerouslySetInnerHTML={{ __html: checkIsLink(line) }} />
+                <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(checkIsLink(line)) }} />
               ))}
             </div>
             {showKebab && (
