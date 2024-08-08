@@ -9,16 +9,19 @@ import NameTag from "@components/commons/NameTag";
 import Popover from "@components/commons/Popover";
 import { useAuthStore } from "@store/useAuthStore";
 import { clearAuth } from "@utils/auth";
-import { IconClose, IconList, IconToggle } from "@utils/icon";
+import { IconList, IconToggle } from "@utils/icon";
 import { getUserGroups } from "@api/userApi";
 import LOGO from "@images/logo.png";
 
 export default function Header() {
+  // 현재 유저 정보 가져오기
+  const { user, setUser } = useAuthStore();
   const router = useRouter();
   const { pathname, query } = router;
   const { data: groups } = useQuery({
     queryKey: ["userGroups"],
     queryFn: getUserGroups,
+    enabled: !!user,
   });
 
   // 현재 페이지가 특정한 팀 페이지라면 상단에 Menu Select
@@ -28,9 +31,6 @@ export default function Header() {
   const [curTeamPage, setCurTeamPage] = useState<UserGroup | undefined>(getCurTeamPage);
   // 모바일 사이드 바 상태
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  // 현재 유저 정보 가져오기
-  const { user, setUser } = useAuthStore();
 
   const handleSignOut = (): void => {
     alert("로그아웃 되었습니다.");
@@ -61,17 +61,19 @@ export default function Header() {
 
   return (
     <header className="relative flex h-60 items-center justify-center border-b border-border-primary border-opacity-10 bg-background-secondary">
-      <nav className="flex w-full max-w-full items-center justify-between px-10 md:min-w-696 md:max-w-1200 lg:max-w-1200">
+      <nav className="flex w-full max-w-full items-center justify-between px-10 md:min-w-696 md:max-w-1200">
         <div className="flex gap-10">
-          <button
-            // 모바일 사이즈 때만 보이는 햄버거 아이콘
-            className="md:hidden"
-            onClick={() => {
-              setSidebarOpen(true);
-            }}
-          >
-            <IconList />
-          </button>
+          {!isAuthPage && user && (
+            <button
+              // 모바일 사이즈 때만 보이는 햄버거 아이콘
+              className="md:hidden"
+              onClick={() => {
+                setSidebarOpen(true);
+              }}
+            >
+              <IconList />
+            </button>
+          )}
           <Link href={user ? "/team-list" : "/"}>
             <Image src={LOGO} alt="코워커스 로고 이미지" className="w-102 md:w-158" priority />
           </Link>
@@ -104,9 +106,7 @@ export default function Header() {
                       onClick={() => {
                         router.push("/add-team");
                       }}
-                    >
-                      팀 추가하기
-                    </Popover.InnerButton>
+                    />
                   </Popover.Wrapper>
                 </Popover>
               </div>
@@ -141,7 +141,7 @@ export default function Header() {
       >
         <div className="mb-24 flex w-full justify-end">
           <button onClick={() => setSidebarOpen(false)}>
-            <IconClose />
+            <Image src="/icons/icon_close.svg" alt="사이드바 닫기 버튼" width={24} height={24} />
           </button>
         </div>
         <div className="flex flex-col gap-24">
@@ -152,7 +152,7 @@ export default function Header() {
             팀 리스트
           </Link>
           {groups?.map((group) => (
-            <Link className="text-md" href={`${group.id}`} key={group.id}>
+            <Link className="text-md" href={`/teams/${group.id}`} key={group.id}>
               {group.name}
             </Link>
           ))}
