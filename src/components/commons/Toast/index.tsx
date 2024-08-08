@@ -21,15 +21,13 @@ export default function Toast() {
       break;
   }
 
+  const toastActive = isOpen
+    ? "right-1/2 top-30 translate-x-1/2 md:right-20 md:translate-x-0"
+    : "-translate-y-full delay-500 md:-translate-x-full";
+
   return (
-    <div
-      className={
-        isOpen
-          ? `fixed right-1/2 top-30 translate-x-1/2 md:right-20 md:translate-x-0`
-          : `-translate-y-full delay-500 md:-translate-x-full`
-      }
-    >
-      <div className="light:bg-background-primary flex h-80 items-center rounded-lg bg-text-primary">
+    <div className={`fixed ${toastActive}`}>
+      <div className="flex h-80 items-center rounded-lg bg-text-primary light:bg-background-primary">
         <span className={`h-full w-5 rounded-l-lg ${pointColor}`} />
         <div className="px-20">
           {toast?.type === "info" ? <IconToastInfo /> : ""}
@@ -37,7 +35,7 @@ export default function Toast() {
           {toast?.type === "warn" ? <IconToastWarning /> : ""}
           {toast?.type === "danger" ? <IconToastDanger /> : ""}
         </div>
-        <p className="text-black light:text-text-primary pr-25 font-medium">{toast?.content}</p>
+        <p className="text-black pr-25 font-medium light:text-text-primary">{toast?.content}</p>
       </div>
     </div>
   );
