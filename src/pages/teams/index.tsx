@@ -35,10 +35,10 @@ export default function TeamListPage() {
       <button type="button" onClick={handleSignOut}>
         로그아웃
       </button>
-      <div className="w-1000">
+      <div className="w-full">
         <TaskCommentList taskId={30} />
       </div>
-      <div className="w-1000">
+      <div className="w-full">
         <ArticleCommentList articleId={3} />
       </div>
     </div>

@@ -99,7 +99,7 @@ function Wrapper({
 function Item({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
   return (
     <div
-      className="cursor-pointer text-nowrap rounded-8 py-7 text-md transition-all hover:bg-background-tertiary md:text-lg"
+      className="cursor-pointer text-nowrap rounded-8 py-7 text-md text-text-primary transition-all hover:bg-background-tertiary md:text-lg"
       onClick={onClick}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
