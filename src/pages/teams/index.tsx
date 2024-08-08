@@ -1,38 +1,22 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { useAuthStore } from "@store/useAuthStore";
-import { clearAuth } from "@utils/auth";
-import { getUser } from "@api/userApi";
+import Link from "next/link";
+import Button from "@components/commons/Button";
+import TeamList from "@components/team-list/TeamList";
 
-export default function TeamListPage() {
-  const [testData, setTestData] = useState<string>();
-  const { setUser } = useAuthStore();
-  const router = useRouter();
-
-  const getData = async () => {
-    const data = await getUser();
-    setTestData(data.nickname);
-  };
-
-  const handleSignOut = (): void => {
-    alert("로그아웃 되었습니다.");
-    setUser(null);
-    clearAuth();
-    router.push("/login");
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
+export default function TeamsPage() {
   return (
-    <div className="text-white">
-      <div>{testData}</div>
-      <div>{testData}</div>
-      <div>{testData}</div>
-      <button type="button" onClick={handleSignOut}>
-        로그아웃
-      </button>
-    </div>
+    <section className="flex flex-col items-center">
+      <TeamList />
+
+      <Button size="medium" className="mt-48 md:mt-80">
+        <Link href="/add-team" className="h-full w-full leading-[48px]">
+          팀 생성하기
+        </Link>
+      </Button>
+      <Button buttonStyle="transparent" size="medium" className="mt-8 lg:mt-16">
+        <Link href="/join-team" className="h-full w-full leading-[48px]">
+          팀 참여하기
+        </Link>
+      </Button>
+    </section>
   );
 }

@@ -16,7 +16,7 @@ export type ButtonProps = {
     | "transparent"
     | "transparent-white";
   className?: string;
-  children: string;
+  children: string | React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
   isPending?: boolean;
@@ -97,7 +97,7 @@ export default function Button({
 
   return (
     <motion.button
-      whileTap={{ scale: 0.97 }}
+      whileTap={disabled ? { scale: 1 } : { scale: 0.97 }}
       type={type}
       className={buttonClassName}
       onClick={onClick}

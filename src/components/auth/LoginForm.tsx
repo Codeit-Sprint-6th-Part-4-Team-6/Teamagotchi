@@ -6,7 +6,7 @@ import TextButton from "@components/commons/Button/TextButton";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import { useAuthForm } from "@hooks/auth/useAuthForm";
-import { useLoginHandler } from "@hooks/auth/useLoginHandler";
+import { useAuthHandler } from "@hooks/auth/useAuthHandler";
 import { useModal } from "@hooks/useModal";
 import { LoginSchema } from "@utils/schemas/auth";
 
@@ -20,7 +20,8 @@ export default function LoginForm() {
     initialLoginState,
     LoginSchema
   );
-  const { handleSubmit } = useLoginHandler(values);
+
+  const { handleSubmit } = useAuthHandler(values);
   const { openModal } = useModal();
 
   const handleOpenModal = () => {

@@ -3,6 +3,7 @@ import { useModalStore } from "../store/useModalStore";
 
 interface ModalProps {
   onClose?: () => void;
+  onConfirm?: () => void;
   onChange?:
     | ((event: React.ChangeEvent<HTMLInputElement>) => void)
     | ((event: React.ChangeEvent<HTMLTextAreaElement>) => void);
