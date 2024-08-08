@@ -16,7 +16,7 @@ interface TwoInputModalProps {
   secondType?: "input" | "textarea";
   secondValue?: string;
   buttonText: string;
-  onConfirm: () => void;
+  onConfirm?: () => void;
   onClose?: () => void;
   firstOnChange?:
     | ((event: React.ChangeEvent<HTMLInputElement>) => void)
@@ -24,7 +24,20 @@ interface TwoInputModalProps {
   secondOnChange?:
     | ((event: React.ChangeEvent<HTMLInputElement>) => void)
     | ((event: React.ChangeEvent<HTMLTextAreaElement>) => void);
+  firstOnBlur?:
+    | ((event: React.FocusEvent<HTMLInputElement>) => void)
+    | ((event: React.FocusEvent<HTMLTextAreaElement>) => void);
+  secondOnBlur?:
+    | ((event: React.FocusEvent<HTMLInputElement>) => void)
+    | ((event: React.FocusEvent<HTMLTextAreaElement>) => void);
   closeButton?: boolean;
+  firstInputType?: "text" | "email" | "password" | "search";
+  secondInputType?: "text" | "email" | "password" | "search";
+  firstInputErrorMessage?: string;
+  secondInputErrorMessage?: string;
+  firstInputName?: string;
+  secondInputName?: string;
+  disabled?: boolean;
 }
 /**
  * 두개의 인풋이 들어가는 형식의 모달입니다.
@@ -58,7 +71,16 @@ export default function TwoInputModal({
   onClose,
   firstOnChange,
   secondOnChange,
+  firstOnBlur,
+  secondOnBlur,
   closeButton = false,
+  firstInputType = "text",
+  secondInputType = "text",
+  firstInputName,
+  secondInputName,
+  firstInputErrorMessage,
+  secondInputErrorMessage,
+  disabled,
 }: TwoInputModalProps) {
   return (
     <div className="modal">
@@ -69,10 +91,14 @@ export default function TwoInputModal({
         <Label htmlFor="first" content={firstTitle} marginBottom={12} type="label" />
         {firstType === "input" ? (
           <Input
+            type={firstInputType}
             value={firstValue}
             id="first"
+            name={firstInputName}
+            errorMessage={firstInputErrorMessage}
             placeholder={firstPlaceholder}
             onChange={firstOnChange as (event: React.ChangeEvent<HTMLInputElement>) => void}
+            onBlur={firstOnBlur as (event: React.FocusEvent<HTMLInputElement>) => void}
           />
         ) : (
           <Textarea
@@ -82,6 +108,7 @@ export default function TwoInputModal({
             type="small"
             height={80}
             onChange={firstOnChange as (event: React.ChangeEvent<HTMLTextAreaElement>) => void}
+            onBlur={firstOnBlur as (event: React.FocusEvent<HTMLTextAreaElement>) => void}
           />
         )}
       </div>
@@ -89,10 +116,14 @@ export default function TwoInputModal({
         <Label htmlFor="second" content={secondTitle} marginBottom={12} type="label" />
         {secondType === "input" ? (
           <Input
+            type={secondInputType}
             value={secondValue}
             id="second"
+            name={secondInputName}
+            errorMessage={secondInputErrorMessage}
             placeholder={secondPlaceholder}
             onChange={secondOnChange as (event: React.ChangeEvent<HTMLInputElement>) => void}
+            onBlur={secondOnBlur as (event: React.FocusEvent<HTMLInputElement>) => void}
           />
         ) : (
           <Textarea
@@ -102,6 +133,7 @@ export default function TwoInputModal({
             type="small"
             height={80}
             onChange={firstOnChange as (event: React.ChangeEvent<HTMLTextAreaElement>) => void}
+            onBlur={secondOnBlur as (event: React.FocusEvent<HTMLTextAreaElement>) => void}
           />
         )}
       </div>
@@ -110,7 +142,7 @@ export default function TwoInputModal({
           <Button buttonStyle="outlined" onClick={onClose} size="medium">
             닫기
           </Button>
-          <Button onClick={onConfirm} size="medium">
+          <Button onClick={onConfirm} size="medium" disabled={disabled}>
             {buttonText}
           </Button>
         </div>

@@ -8,7 +8,6 @@ import { useRouter } from "next/router";
 import NameTag from "@components/commons/NameTag";
 import Popover from "@components/commons/Popover";
 import { useAuth } from "@hooks/auth/useAuth";
-import { useAuthStore } from "@store/useAuthStore";
 import { IconClose, IconList, IconToggle } from "@utils/icon";
 import { getUserGroups } from "@api/userApi";
 import LOGO from "@images/logo.png";
