@@ -78,9 +78,6 @@ export default function Home() {
         <ProfilePopover />
         <TeamListPopover />
       </div>
-      <div className="w-1000">
-        <TaskCommentList taskId={30} />
-      </div>
     </main>
   );
 }

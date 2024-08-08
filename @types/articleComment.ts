@@ -13,7 +13,7 @@ declare module "@coworkers-types" {
     id: number;
   };
 
-  export type AricleCommentList = {
+  export type ArticleCommentList = {
     nextCursor: number;
     list: ArticleComment[];
   };

@@ -1,4 +1,4 @@
-import { AricleCommentList, ArticleComment, Message } from "@coworkers-types";
+import { ArticleComment, ArticleCommentList, Message } from "@coworkers-types";
 import { axiosInstance } from "./axios";
 
 /**
@@ -29,13 +29,13 @@ export const getArticleComments = async (
   articleId: number,
   limit: number,
   cursor?: number
-): Promise<AricleCommentList | Message> => {
+): Promise<ArticleCommentList> => {
   const params = new URLSearchParams({
     limit: limit.toString(),
     cursor: cursor ? cursor.toString() : "0",
   });
 
-  const response = await axiosInstance.get<AricleCommentList | Message>(
+  const response = await axiosInstance.get<ArticleCommentList>(
     `articles/${articleId}/comments?${params}`
   );
   return response.data;
