@@ -1,8 +1,7 @@
-import { LoginRequest, SignUpRequest } from "@coworkers-types";
-import { useRouter } from "next/router";
-import { useAuthStore } from "@store/useAuthStore";
-import { setAuth } from "@utils/auth";
+import { AuthResponse, LoginRequest, SignUpRequest } from "@coworkers-types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { loginUser, signUpUser } from "@api/authApi";
+import { useAuth } from "./useAuth";
 
 type AuthRequest = SignUpRequest | LoginRequest;
 
@@ -13,29 +12,40 @@ type AuthRequest = SignUpRequest | LoginRequest;
  * @returns submit 버튼에 넘길 수 있는 핸들러가 반환됩니다.
  */
 export const useAuthHandler = <T extends AuthRequest>(values: T, isRegister: boolean = false) => {
-  const router = useRouter();
-  const { setUser } = useAuthStore();
+  const queryClient = useQueryClient();
+  const { login } = useAuth();
+
+  const loginMutation = useMutation({
+    mutationFn: (loginValue: LoginRequest) => loginUser(loginValue),
+    onSuccess: (data: AuthResponse) => {
+      // TODO: 토스트
+      login(data);
+      queryClient.setQueryData(["user"], data.user);
+    },
+    onError: (error: any) => {
+      // TODO: 토스트?
+      alert(error.response.data.message);
+    },
+  });
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    let data;
-
     if (isRegister) {
-      await signUpUser(values as SignUpRequest);
-
-      const loginData = {
-        email: (values as SignUpRequest).email,
-        password: (values as SignUpRequest).password,
-      };
-
-      data = await loginUser(loginData);
-    } else {
-      data = await loginUser(values as LoginRequest);
+      try {
+        await signUpUser(values as SignUpRequest);
+      } catch (error: any) {
+        // TODO: 토스트
+        alert(error.response.data.message);
+      }
     }
-    setAuth(data);
-    setUser(data.user);
-    router.push("/teams");
+
+    const loginData = {
+      email: values.email,
+      password: values.password,
+    };
+
+    loginMutation.mutate(loginData);
   };
 
   return {
