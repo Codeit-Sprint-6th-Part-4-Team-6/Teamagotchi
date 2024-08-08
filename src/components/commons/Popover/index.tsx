@@ -7,6 +7,7 @@ import Link from "next/link";
 const PopoverContext = createContext({
   isOpen: false,
   togglePopover: () => {},
+  closePopover: () => {},
 });
 
 export default function Popover({ children }: { children: React.ReactNode }) {
@@ -19,6 +20,7 @@ export default function Popover({ children }: { children: React.ReactNode }) {
     () => ({
       isOpen,
       togglePopover,
+      closePopover,
     }),
     [isOpen]
   );
@@ -35,7 +37,7 @@ export default function Popover({ children }: { children: React.ReactNode }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownRef]);
+  }, [dropdownRef, closePopover]);
 
   return (
     <PopoverContext.Provider value={providerValue}>
@@ -59,7 +61,7 @@ function Toggle({ children }: { children: React.ReactNode }) {
         }
       }}
       tabIndex={0}
-      className="mt-2 flex cursor-pointer items-center gap-5"
+      className="flex cursor-pointer items-center gap-5 text-nowrap"
     >
       {children}
     </button>
@@ -115,10 +117,19 @@ function Item({ children, onClick }: { children: React.ReactNode; onClick: () =>
 }
 
 function InnerButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+  const { closePopover } = useContext(PopoverContext);
+
+  const handleClick = () => {
+    closePopover();
+  };
+
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={() => {
+        onClick();
+        handleClick();
+      }}
       className="mb-10 box-border flex h-[48px] w-[186px] cursor-pointer items-center justify-center gap-5 text-nowrap rounded-12 border border-solid px-8 py-7 text-lg hover:bg-background-tertiary"
     >
       <Image className="block" src="/icons/icon_plus.svg" alt="plus btn" width={16} height={16} />
@@ -128,11 +139,18 @@ function InnerButton({ children, onClick }: { children: React.ReactNode; onClick
 }
 
 function TeamItem({ id, imgSrc, title }: { id: number; imgSrc: string | null; title: string }) {
+  const { closePopover } = useContext(PopoverContext);
+
+  const handleClick = () => {
+    closePopover();
+  };
+
   return (
     <Link href={`${id}`}>
       <button
         type="button"
         className="my-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
+        onClick={handleClick}
       >
         <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
           <Image

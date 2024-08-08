@@ -51,7 +51,7 @@ export default function TeamItem({ data }: TeamItemProps) {
     >
       <Link href={`/teams/${data.groupId}`} className="flex w-full items-center justify-around">
         <div className="relative h-50 w-50 flex-shrink-0 overflow-hidden rounded-6">
-          {data.group.image ? (
+          {/* {data.group.image ? (
             <Image
               src={data.group.image}
               alt={`${data.group.name} 이미지`}
@@ -60,9 +60,9 @@ export default function TeamItem({ data }: TeamItemProps) {
             />
           ) : (
             <IconMember />
-          )}
+          )} */}
         </div>
-        <p className="flex-grow pl-20 text-left text-lg">{data.group.name}</p>
+        {/* <p className="flex-grow pl-20 text-left text-lg">{data.group.name}</p> */}
       </Link>
       {data.role === "ADMIN" ? (
         <EditDeletePopover
