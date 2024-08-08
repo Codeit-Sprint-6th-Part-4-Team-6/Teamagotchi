@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import Input from "@components/commons/Input";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
-import ProfilePopover from "@components/commons/Popover/ProfilePopover";
-import TeamListPopover from "@components/commons/Popover/TeamListPopover";
 import Textarea from "@components/commons/TextArea";
 
 export default function Home() {
@@ -51,8 +49,6 @@ export default function Home() {
       <div className="flex h-[20vh] gap-20">
         <EditDeletePopover icon="gear" handleModify={() => {}} handleDelete={() => {}} />
         <EditDeletePopover icon="kebab" handleModify={() => {}} handleDelete={() => {}} />
-        <ProfilePopover />
-        <TeamListPopover />
       </div>
     </main>
   );
