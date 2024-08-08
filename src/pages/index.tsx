@@ -48,7 +48,8 @@ export default function Home() {
       <Textarea type="big" placeholder="댓글을 달아주세요" height={104} />
       <div className="flex h-[20vh] gap-20">
         <EditDeletePopover icon="gear" handleModify={() => {}} handleDelete={() => {}} />
-        <EditDeletePopover icon="kebab" handleModify={() => {}} handleDelete={() => {}} />
+        <EditDeletePopover icon="kebabLarge" handleModify={() => {}} handleDelete={() => {}} />
+        <EditDeletePopover icon="kebabSmall" handleModify={() => {}} handleDelete={() => {}} />
       </div>
     </main>
   );
