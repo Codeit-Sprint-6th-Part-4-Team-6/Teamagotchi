@@ -4,7 +4,7 @@ import { IconPlus } from "@utils/icon";
 import LinkButton from "../LinkButton";
 
 export type ButtonProps = {
-  buttonType: "button" | "link";
+  buttonType?: "button" | "link";
   icon?: "none" | "plus";
   textStyle?: "default" | "underline";
   className?: string;
@@ -25,7 +25,7 @@ export type ButtonProps = {
  * @returns 텍스트 버튼 컴포넌트를 렌더링합니다.
  */
 export default function TextButton({
-  buttonType,
+  buttonType = "button",
   icon = "none",
   textStyle = "default",
   className,
@@ -33,7 +33,7 @@ export default function TextButton({
   href,
   onClick,
 }: ButtonProps): JSX.Element {
-  const styleClassName = classNames(className, "text-brand-primary  text-14 md:text-16", {
+  const styleClassName = classNames(className, "text-brand-primary text-14 md:text-16", {
     "flex items-center": icon === "plus",
     "": textStyle === "default",
     "underline underline-offset-4": textStyle === "underline",
@@ -54,7 +54,7 @@ export default function TextButton({
       className={styleClassName}
       onClick={onClick}
     >
-      {icon !== "none" && <IconPlus className="mr-2 stroke-brand-primary" />}
+      {icon !== "none" && <IconPlus className="mb-1 mr-2 stroke-brand-primary" />}
       {children}
     </motion.button>
   );
