@@ -123,7 +123,7 @@ const config: Config = {
       addVariant('light', ['.light &', 'html:not(.dark) &', '@media (prefers-color-scheme: light)']);
     }
   ],
-  darkMode: 'class', // or 'media'
+  darkMode: 'selector',
 };
 
 export default config;
