@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { useImageInput } from "@hooks/useImageInput";
 import { IconClose, IconEdit, IconImage, IconMemberLarge } from "@utils/icon";
-import ErrorMessages from "@constants/errorMessage";
 
 type ImageInputProps = {
   id: string;
@@ -15,7 +14,7 @@ type ImageInputProps = {
 /**
  * 이미지를 넣을 수 있는 file input 입니다. value 값을 링크로 변환시켜줍니다.
  * @param id - input의 id입니다.
- * @param type - 'my-profile' / 'team' / 'article' 중 필요한 것 골라서 쓰세요.
+ * @param type - 'my-profile' / 'team-profile' / 'article' 중 필요한 것 골라서 쓰세요.
  * @param onChange - input의 handleChange 함수를 넣어주세요.
  * @param defaultValue - input에 기본 이미지 파일이 있을 경우 넣어주세요. (수정하기 페이지용)
  * @param className - 추가적인 css를 작성해주세요.
@@ -55,11 +54,6 @@ export default function ImageInput({
             </span>
             <IconEdit className="absolute bottom-0 right-0" />
           </span>
-        )}
-        {type === "team-profile" && value === null && (
-          <p className="mt-8 text-md font-medium text-status-danger">
-            {ErrorMessages.PROFILE_REQUIRED}
-          </p>
         )}
         {type === "article" && (
           <div className="flex">

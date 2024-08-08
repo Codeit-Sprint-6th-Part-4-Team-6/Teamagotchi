@@ -7,7 +7,6 @@ import { useAddTeamForm } from "@hooks/useAddTeamForm";
 export default function AddTeamForm() {
   const {
     teamName,
-    disabled,
     nameErrorMessage,
     handleFileChange,
     handleTeamNameChange,
@@ -18,7 +17,12 @@ export default function AddTeamForm() {
   return (
     <form onSubmit={handleSubmit} className="w-full">
       <Label type="label" content="팀 프로필" htmlFor="team-profile" marginBottom={12} />
-      <ImageInput id="imgFile" type="team-profile" onChange={handleFileChange} className="mb-24" />
+      <ImageInput
+        id="image-file"
+        type="team-profile"
+        onChange={handleFileChange}
+        className="mb-24"
+      />
       <Label type="label" content="팀 이름" htmlFor="team-name" marginBottom={12} />
       <Input
         value={teamName}
@@ -28,7 +32,7 @@ export default function AddTeamForm() {
         errorMessage={nameErrorMessage}
         onChange={handleTeamNameChange}
       />
-      <Button className="mt-40" disabled={disabled} type="submit" isPending={isPending}>
+      <Button className="mt-40" disabled={teamName.length < 1} type="submit" isPending={isPending}>
         생성하기
       </Button>
     </form>

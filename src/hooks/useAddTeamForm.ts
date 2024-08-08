@@ -1,18 +1,17 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { postGroup } from "@api/groupApi";
 import { postImageURL } from "@api/imageApi";
 
 export function useAddTeamForm() {
-  const [imgFile, setImgFile] = useState<string | File | null>(null);
+  const [imageFile, setImageFile] = useState<string | File | null>(null);
   const [teamName, setTeamName] = useState("");
-  const [disabled, setDisabled] = useState(true);
   const [nameErrorMessage, setNameErrorMessage] = useState("");
   const router = useRouter();
 
   const handleFileChange = (value: string | File | null) => {
-    setImgFile(value);
+    setImageFile(value);
   };
 
   const handleTeamNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -20,12 +19,12 @@ export function useAddTeamForm() {
   };
 
   const postGroupMutation = useMutation({
-    mutationFn: ({ name, image }: { name: string; image: string | null }) => postGroup(name, image),
+    mutationFn: ({ name, image }: { name: string; image?: string }) => postGroup({ name, image }),
     onSuccess: () => {
       router.push("/team-list");
     },
     onError: (error: any) => {
-      const message = error.response.data?.message || "그룹을 생헝하는 중 오류가 발생했습니다.";
+      const message = error.response.data?.message;
       setNameErrorMessage(message);
     },
   });
@@ -42,29 +41,20 @@ export function useAddTeamForm() {
 
   const isPending = postGroupMutation.isPending || imagePostMutation.isPending;
 
-  useEffect(() => {
-    if (imgFile && teamName) {
-      setDisabled(false);
-    } else {
-      setDisabled(true);
-    }
-  }, [imgFile, teamName]);
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!imgFile || !teamName) return;
+    if (!teamName) return;
 
-    if (imgFile instanceof File) {
-      imagePostMutation.mutate(imgFile);
+    if (imageFile instanceof File) {
+      imagePostMutation.mutate(imageFile);
     } else {
-      postGroupMutation.mutate({ name: teamName, image: imgFile });
+      postGroupMutation.mutate({ name: teamName });
     }
   };
 
   return {
-    imgFile,
+    imageFile,
     teamName,
-    disabled,
     nameErrorMessage,
     handleFileChange,
     handleTeamNameChange,

@@ -33,18 +33,14 @@ export const deleteGroup = async (groupId: number): Promise<void> => {
 
 /**
  * 팀 페이지 그룹을 생성하는 API 함수입니다.
- * @param name - 팀 페이지 그룹명
- * @param image - 팀 페이지 그룹 사진
- * @returns 수정된 Group 객체를 반환합니다. 오류 발생시 에러 메세지 객체를 반환합니다.
+ * @param data - {name, image}를 담은 객체를 전송해주세요.
+ * @returns 생성된 Group 객체를 반환합니다. 오류 발생시 에러 메세지 객체를 반환합니다.
  */
-export const postGroup = async (
-  name: string,
-  image?: string | null
-): Promise<NewGroup | Message> => {
-  const response = await axiosInstance.post<NewGroup | Message>("groups", {
-    image,
-    name,
-  });
+export const postGroup = async (data: {
+  image?: string;
+  name: string;
+}): Promise<NewGroup | Message> => {
+  const response = await axiosInstance.post<NewGroup | Message>("groups", data);
   return response.data;
 };
 
