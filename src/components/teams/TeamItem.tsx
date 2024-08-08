@@ -66,7 +66,7 @@ export default function TeamItem({ data }: TeamItemProps) {
       </Link>
       {data.role === "ADMIN" ? (
         <EditDeletePopover
-          icon="kebab"
+          icon="kebabLarge"
           handleModify={handleModify}
           handleDelete={handleOpenModal}
         />
