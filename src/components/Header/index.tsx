@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
-import { UserGroup } from "@coworkers-types";
-import { useQuery } from "@tanstack/react-query";
+import { UserGroup, UserInfo } from "@coworkers-types";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import NameTag from "@components/commons/NameTag";
 import Popover from "@components/commons/Popover";
-import { useAuthStore } from "@store/useAuthStore";
-import { clearAuth } from "@utils/auth";
+import { useAuth } from "@hooks/auth/useAuth";
 import { IconList, IconToggle } from "@utils/icon";
 import { getUserGroups } from "@api/userApi";
 import LOGO from "@images/logo.png";
 
 export default function Header() {
   // 현재 유저 정보 가져오기
-  const { user, setUser } = useAuthStore();
+  const cache = useQueryClient();
+  const user = cache.getQueryData(["user"]) as UserInfo;
+
   const router = useRouter();
   const { pathname, query } = router;
   const { data: groups } = useQuery({
@@ -23,6 +24,8 @@ export default function Header() {
     queryFn: getUserGroups,
     enabled: !!user,
   });
+
+  console.log(user);
 
   // 현재 페이지가 특정한 팀 페이지라면 상단에 Menu Select
   const getCurTeamPage = () => groups?.find((group) => group.id?.toString() === query.teamId);
@@ -32,11 +35,11 @@ export default function Header() {
   // 모바일 사이드 바 상태
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const { logout } = useAuth();
+
   const handleSignOut = (): void => {
     alert("로그아웃 되었습니다.");
-    setUser(null);
-    clearAuth();
-    router.push("/login");
+    logout();
   };
 
   // 현재 페이지가 로그인 or 회원가입인지
@@ -63,18 +66,16 @@ export default function Header() {
     <header className="relative flex h-60 items-center justify-center border-b border-border-primary border-opacity-10 bg-background-secondary">
       <nav className="flex w-full max-w-full items-center justify-between px-10 md:min-w-696 md:max-w-1200">
         <div className="flex gap-10">
-          {!isAuthPage && user && (
-            <button
-              // 모바일 사이즈 때만 보이는 햄버거 아이콘
-              className="md:hidden"
-              onClick={() => {
-                setSidebarOpen(true);
-              }}
-            >
-              <IconList />
-            </button>
-          )}
-          <Link href={user ? "/team-list" : "/"}>
+          <button
+            // 모바일 사이즈 때만 보이는 햄버거 아이콘
+            className="md:hidden"
+            onClick={() => {
+              setSidebarOpen(true);
+            }}
+          >
+            <IconList />
+          </button>
+          <Link href={user ? "/teams" : "/"}>
             <Image src={LOGO} alt="코워커스 로고 이미지" className="w-102 md:w-158" priority />
           </Link>
         </div>
@@ -117,9 +118,27 @@ export default function Header() {
                     <NameTag type="profile" name={user.nickname} image={user.image} />
                   </Popover.Toggle>
                   <Popover.Wrapper popDirection="left">
-                    <Popover.Item onClick={() => {}}>마이 히스토리</Popover.Item>
-                    <Popover.Item onClick={() => {}}>계정 설정</Popover.Item>
-                    <Popover.Item onClick={() => {}}>팀 참여</Popover.Item>
+                    <Popover.Item
+                      onClick={() => {
+                        router.push("/user/history");
+                      }}
+                    >
+                      마이 히스토리
+                    </Popover.Item>
+                    <Popover.Item
+                      onClick={() => {
+                        router.push("/user/edit");
+                      }}
+                    >
+                      계정 설정
+                    </Popover.Item>
+                    <Popover.Item
+                      onClick={() => {
+                        router.push("/join-team");
+                      }}
+                    >
+                      팀 참여
+                    </Popover.Item>
                     <Popover.Item onClick={handleSignOut}>로그아웃</Popover.Item>
                   </Popover.Wrapper>
                 </Popover>
