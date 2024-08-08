@@ -7,7 +7,7 @@ type TextAreaProps = {
   id?: string;
   placeholder: string;
   value?: string;
-  defaultValue: string;
+  defaultValue?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
   height?: number;
@@ -19,7 +19,7 @@ type TextAreaProps = {
  * @props id?: string;
  * @props placeholder: string;
  * @props value?: string;
- * @props defaultValue: string; 기본값을 넣어줄 수 있습니다. 사용하지 않을 시 자동으로 빈 문자열이 됩니다.
+ * @props defaultValue?: string; 기본값을 넣어줄 수 있습니다. 사용하지 않을 시 자동으로 빈 문자열이 됩니다.
  * @props onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
  * @props onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
  * @props height?: number; Textarea의 높이를 설정합니다. type이 "innerButton일" 경우 설정된 높이값에 따라 자동으로 위 아래 패딩값이 정해집니다. defaultValue prop을 받을 경우 이 값은 딱히 필요 없이, 기본값의 높이에 맞춰서 자동으로 높이가 정해집니다.
