@@ -6,6 +6,7 @@ import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import ProfilePopover from "@components/commons/Popover/ProfilePopover";
 import TeamListPopover from "@components/commons/Popover/TeamListPopover";
 import Textarea from "@components/commons/TextArea";
+import TaskCommentList from "@components/task-list/TaskCommentList";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
@@ -69,13 +70,16 @@ export default function Home() {
       {/* <Textarea type="innerButton" placeholder="댓글을 달아주세요" height={50} />
       <Textarea type="small" placeholder="댓글을 달아주세요" height={74} />
       <Textarea type="big" placeholder="댓글을 달아주세요" height={104} /> */}
-      <Comment type="article" comment={comment} onEdit={() => 1} />
+      <Comment type="article" comment={comment} />
       {/* <Textarea type="big" placeholder="댓글을 달아주세요" height={104} /> */}
       <div className="flex h-[20vh] gap-20">
         <EditDeletePopover icon="gear" handleModify={() => {}} handleDelete={() => {}} />
         <EditDeletePopover icon="kebab" handleModify={() => {}} handleDelete={() => {}} />
         <ProfilePopover />
         <TeamListPopover />
+      </div>
+      <div className="w-1000">
+        <TaskCommentList taskId={30} />
       </div>
     </main>
   );
