@@ -17,12 +17,12 @@ declare module "@coworkers-types" {
   };
 
   export type UserGroup = {
-    role: string;
-    userImage: string;
-    userEmail: string;
-    userName: string;
-    groupId: number;
-    userId: number;
+    createdAt: string;
+    id: number;
+    image: string | null;
+    name: string;
+    teamId: number;
+    updatedAt: string;
   };
 
   export type UserRequest = {
