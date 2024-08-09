@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import Comment from "@components/commons/Comment";
 import { sortCommentList } from "@utils/sortCommentList";
-import { getComments } from "@api/commentApi";
+import { getTaskComments } from "@api/taskCommentApi";
 
 export default function TaskCommentList({ taskId }: { taskId: number }) {
   const { data: commentList } = useQuery({
     queryKey: ["taskComments", taskId],
-    queryFn: () => getComments(taskId),
+    queryFn: () => getTaskComments(taskId),
   });
 
   return (

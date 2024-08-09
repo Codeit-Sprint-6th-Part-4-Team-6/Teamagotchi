@@ -5,28 +5,24 @@ declare module "@coworkers-types" {
     id: number;
   };
 
-  type BaseCommentUserInfo = BaseCommentEntity & {
+  type TaskCommentUserInfo = BaseCommentEntity & {
     teamId: string;
     image: string | null;
     nickname: string;
     email: string;
   };
 
-  export type CommentWriterInfo = BaseCommentUserInfo & {
+  export type TaskCommentWriterInfo = TaskCommentUserInfo & {
     encryptedPassword: string;
   };
 
-  export type CommentInfo = BaseCommentEntity & {
+  export type TaskCommentInfo = BaseCommentEntity & {
     userId: number;
     taskId: number;
     content: string;
   };
 
-  export type CommentType = { user: CommentWriterInfo } & CommentInfo;
+  export type TaskComment = { user: TaskCommentWriterInfo } & TaskCommentInfo;
 
-  export type Comments = CommentType[];
-
-  export type CommentRequest = {
-    content: string;
-  };
+  export type TaskCommentList = TaskComment[];
 }

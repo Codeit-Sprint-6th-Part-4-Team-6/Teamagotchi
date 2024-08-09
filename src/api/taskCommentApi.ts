@@ -1,4 +1,4 @@
-import { CommentInfo, Comments } from "@coworkers-types";
+import { TaskCommentInfo, TaskCommentList } from "@coworkers-types";
 import { axiosInstance } from "./axios";
 
 /**
@@ -6,8 +6,8 @@ import { axiosInstance } from "./axios";
  * @param taskId - 댓글을 받아올 task의 ID입니다.
  * @returns Comments 배열을 반환합니다.
  */
-export const getComments = async (taskId: number): Promise<Comments> => {
-  const response = await axiosInstance.get<Comments>(`tasks/${taskId}/comments`);
+export const getTaskComments = async (taskId: number): Promise<TaskCommentList> => {
+  const response = await axiosInstance.get<TaskCommentList>(`tasks/${taskId}/comments`);
   return response.data;
 };
 
@@ -17,8 +17,13 @@ export const getComments = async (taskId: number): Promise<Comments> => {
  * @param content - 댓글 내용입니다.
  * @returns 새로운 comment 객체를 반환합니다.
  */
-export const postComment = async (taskId: number, content: string): Promise<CommentInfo> => {
-  const response = await axiosInstance.post<CommentInfo>(`tasks/${taskId}/comments`, { content });
+export const postTaskComment = async (
+  taskId: number,
+  content: string
+): Promise<TaskCommentInfo> => {
+  const response = await axiosInstance.post<TaskCommentInfo>(`tasks/${taskId}/comments`, {
+    content,
+  });
   return response.data;
 };
 
@@ -29,7 +34,7 @@ export const postComment = async (taskId: number, content: string): Promise<Comm
  * @param content - 수정할 댓글 내용입니다.
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
-export const patchComment = async (
+export const patchTaskComment = async (
   taskId: number,
   commentId: number,
   content: string
@@ -45,6 +50,6 @@ export const patchComment = async (
  * @param commentId - 삭제할 댓글의 ID입니다.
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
-export const deleteComment = async (taskId: number, commentId: number): Promise<void> => {
+export const deleteTaskComment = async (taskId: number, commentId: number): Promise<void> => {
   await axiosInstance.delete(`tasks/${taskId}/comments/${commentId}`);
 };

@@ -1,10 +1,7 @@
 declare module "@coworkers-types" {
-  export type ArticleComment = {
+  export type ArticleComment = BaseCommentEntity & {
     writer: Writer;
-    updatedAt: string;
-    createdAt: string;
     content: string;
-    id: number;
   };
 
   export type Writer = {
