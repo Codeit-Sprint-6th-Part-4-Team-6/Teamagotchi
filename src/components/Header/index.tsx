@@ -87,7 +87,7 @@ export default function Header() {
                 // 모바일 사이즈일 때는 hidden
                 className="hidden flex-grow items-center gap-10 px-20 text-lg md:flex"
               >
-                <Link href="/boards" className="text-nowrap">
+                <Link href="/board" className="text-nowrap">
                   자유게시판
                 </Link>
                 <Popover>
@@ -166,7 +166,7 @@ export default function Header() {
           </button>
         </div>
         <div className="flex flex-col gap-24">
-          <Link href="/boards" className="text-md">
+          <Link href="/board" className="text-md">
             자유게시판
           </Link>
           <Link href="/teams" className="text-md">

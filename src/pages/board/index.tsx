@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import {
+  DehydratedState,
+  HydrationBoundary,
   QueryClient,
   dehydrate,
   keepPreviousData,
@@ -70,7 +72,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function BoardPage() {
+export default function BoardPage({ dehydratedState }: { dehydratedState: any }) {
   const router = useRouter();
   const { page, orderBy, keyword } = router.query;
   const [currentPage, setCurrentPage] = useState<number>(parseInt(page as string, 10) || 1);
@@ -155,19 +157,21 @@ export default function BoardPage() {
   const totalCount = data?.totalCount ?? 0;
 
   return (
-    <div className="mx-auto my-0 w-full min-w-368 max-w-1200 px-34 py-0">
-      <BestArticle Posts={sortedArticles} />
-      <Article
-        Posts={articles}
-        searchValue={searchKeyword}
-        searchChange={handleKeywordChange}
-        onEnter={handleKeywordEnter}
-      />
-      <Pagination
-        totalPages={totalCount}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-    </div>
+    <HydrationBoundary state={dehydratedState}>
+      <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-0">
+        <BestArticle Posts={sortedArticles} />
+        <Article
+          Posts={articles}
+          searchValue={searchKeyword}
+          searchChange={handleKeywordChange}
+          onEnter={handleKeywordEnter}
+        />
+        <Pagination
+          totalPages={totalCount}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      </div>
+    </HydrationBoundary>
   );
 }
