@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArticleComment, CommentType } from "@coworkers-types";
+import { ArticleComment, CommentType, Comments } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import DOMPurify from "dompurify";
@@ -40,15 +40,46 @@ export default function Comment({ type, comment }: CommentProps) {
     id: 86,
   };
   const deleteCommentMutation = useMutation({
-    mutationFn: ({ taskId, commentId }: { taskId?: number; commentId: number }) => {
+    mutationFn: async ({ taskId, commentId }: { taskId?: number; commentId: number }) => {
       if (isCommentType(comment) && taskId) {
         return deleteComment(taskId, commentId);
       }
       return deleteArticleComment(commentId);
     },
-    onSuccess: () =>
+    onMutate: async ({ taskId, commentId }) => {
+      await queryClient.cancelQueries({
+        queryKey: isCommentType(comment)
+          ? ["taskComments", taskId]
+          : ["articleComments", commentId],
+      });
+
+      const previousComments = queryClient.getQueryData(
+        isCommentType(comment) ? ["taskComments", taskId] : ["articleComments", commentId]
+      );
+
+      queryClient.setQueryData(
+        isCommentType(comment) ? ["taskComments", taskId] : ["articleComments", commentId],
+        (oldComments: Comments | ArticleComment[]) =>
+          oldComments.filter((oldComment) => oldComment.id !== commentId)
+      );
+
+      return { previousComments };
+    },
+    onError: (error, variables, context) => {
+      if (context?.previousComments) {
+        queryClient.setQueryData(
+          isCommentType(comment)
+            ? ["taskComments", variables.taskId]
+            : ["articleComments", variables.commentId],
+          context.previousComments
+        );
+      }
+    },
+    onSettled: (data, error, variables) =>
       queryClient.invalidateQueries({
-        queryKey: isCommentType(comment) ? ["taskComments"] : ["articleComments"],
+        queryKey: isCommentType(comment)
+          ? ["taskComments", variables.taskId]
+          : ["articleComments", variables.commentId],
       }),
   });
   const editCommentMutation = useMutation({
@@ -66,12 +97,45 @@ export default function Comment({ type, comment }: CommentProps) {
       }
       return patchArticleComment(commentId, content);
     },
-    onSuccess: () =>
+    onMutate: async ({ taskId, commentId, content }) => {
+      await queryClient.cancelQueries({
+        queryKey: isCommentType(comment)
+          ? ["taskComments", taskId]
+          : ["articleComments", commentId],
+      });
+
+      const previousComments = queryClient.getQueryData(
+        isCommentType(comment) ? ["taskComments", taskId] : ["articleComments", commentId]
+      );
+
+      queryClient.setQueryData(
+        isCommentType(comment) ? ["taskComments", taskId] : ["articleComments", commentId],
+        (oldComments: Comments | ArticleComment[]) =>
+          oldComments.map((oldComment: CommentType | ArticleComment) =>
+            oldComment.id === commentId ? { ...oldComment, content } : oldComment
+          )
+      );
+
+      return { previousComments };
+    },
+    onError: (error, variables, context) => {
+      if (context?.previousComments) {
+        queryClient.setQueryData(
+          isCommentType(comment)
+            ? ["taskComments", variables.taskId]
+            : ["articleComments", variables.commentId],
+          context.previousComments
+        );
+      }
+    },
+    onSettled: (data, error, variables) =>
       queryClient.invalidateQueries({
-        queryKey: isCommentType(comment) ? ["taskComments"] : ["articleComments"],
+        queryKey: isCommentType(comment)
+          ? ["taskComments", variables.taskId]
+          : ["articleComments", variables.commentId],
       }),
-    // onError를 통해 에러를 던져서 에러 바운더리에서 한번에 처리할 수도
   });
+  // onError를 통해 에러를 던져서 에러 바운더리에서 한번에 처리할 수도
 
   const showKebab = isCommentType(comment)
     ? comment.userId === user?.id
@@ -113,6 +177,7 @@ export default function Comment({ type, comment }: CommentProps) {
         ? { taskId: comment.taskId, commentId: comment.id, content: value }
         : { commentId: comment.id, content: value }
     );
+    setIsEditMode(false);
   };
 
   const classnames = classNames(
@@ -150,7 +215,10 @@ export default function Comment({ type, comment }: CommentProps) {
           <div className="flex justify-between">
             <div className="text-md font-normal text-text-primary">
               {comment.content.split("\n").map((line) => (
-                <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(checkIsLink(line)) }} />
+                <p
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(checkIsLink(line)) }}
+                  key={line}
+                />
               ))}
             </div>
             {showKebab && (

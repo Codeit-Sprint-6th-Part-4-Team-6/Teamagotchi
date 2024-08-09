@@ -13,7 +13,10 @@ export function DeleteCommentModal({
     <WarnModal
       title="댓글을 삭제하시겠어요?"
       warnIcon
-      onConfirm={onConfirm}
+      onConfirm={() => {
+        if (onConfirm) onConfirm();
+        if (onClose) onClose();
+      }}
       buttonText="삭제"
       onClose={onClose}
     />
@@ -30,9 +33,11 @@ export function CancelCommentEditModal({
     <WarnModal
       title="수정을 취소 하시겠어요?"
       warnIcon
-      // onConfirm={() => setIsEditMode(false)}
-      onConfirm={onConfirm}
-      buttonText="취소"
+      onConfirm={() => {
+        if (onConfirm) onConfirm();
+        if (onClose) onClose();
+      }}
+      buttonText="예"
       onClose={onClose}
     />
   );
@@ -53,7 +58,13 @@ export function ConfirmCommentEditModal({
             <Button buttonStyle="outlined" onClick={onClose} size="medium">
               아니오
             </Button>
-            <Button onClick={onConfirm} size="medium">
+            <Button
+              onClick={() => {
+                if (onConfirm) onConfirm();
+                if (onClose) onClose();
+              }}
+              size="medium"
+            >
               예
             </Button>
           </div>
