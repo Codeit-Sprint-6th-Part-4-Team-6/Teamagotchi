@@ -25,8 +25,6 @@ export default function Header() {
     enabled: !!user,
   });
 
-  console.log(user);
-
   // 현재 페이지가 특정한 팀 페이지라면 상단에 Menu Select
   const getCurTeamPage = () => groups?.find((group) => group.id?.toString() === query.teamId);
 
