@@ -56,4 +56,10 @@ declare module "@coworkers-types" {
   };
 
   export type ResetPassword = Password & { token: string };
+
+  export type LocalUser = {
+    state: {
+      user: UserInfo;
+    };
+  };
 }
