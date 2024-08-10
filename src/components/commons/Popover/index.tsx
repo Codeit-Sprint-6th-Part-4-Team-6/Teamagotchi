@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-const PopoverContext = createContext({
+export const PopoverContext = createContext({
   isOpen: false,
   togglePopover: () => {},
   closePopover: () => {},
