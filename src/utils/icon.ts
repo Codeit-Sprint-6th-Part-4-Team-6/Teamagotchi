@@ -4,6 +4,8 @@ import IconArrowLeftBg from "@icons/icon_arrow_left_bg.svg";
 import IconArrowReload from "@icons/icon_arrow_reload.svg";
 import IconArrowRight from "@icons/icon_arrow_right.svg";
 import IconArrowRightBg from "@icons/icon_arrow_right_bg.svg";
+import IconArrowWhiteLeft from "@icons/icon_arrow_white_left.svg";
+import IconArrowWhiteRight from "@icons/icon_arrow_white_right.svg";
 import IconCalender from "@icons/icon_calendar.svg";
 import IconCalenderBg from "@icons/icon_calendar_bg.svg";
 import IconCheckActive from "@icons/icon_check_active.svg";
@@ -92,4 +94,6 @@ export {
   IconCalenderBg,
   IconArrowReload,
   IconPlusSmall,
+  IconArrowWhiteLeft,
+  IconArrowWhiteRight,
 };
