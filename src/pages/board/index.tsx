@@ -29,7 +29,7 @@ const getArticle = async (page: number, orderBy: string = "recent", keyword: str
   return res.data;
 };
 
-const getbestArticles = async (pageSize: number) => {
+const getBestArticles = async (pageSize: number) => {
   const res = await axiosInstance.get(`/articles?page=1&pageSize=${pageSize}&orderBy=like`);
   return res.data.list;
 };
@@ -41,14 +41,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const orderBy = (query.orderBy as string) || "recent";
   const keyword = (query.keyword as string) || "";
 
+  const userAgent = context.req?.headers["user-agent"] || "";
+
+  let bestArticleCount = 3;
+  if (/Mobi|Android|iPhone|iPod/i.test(userAgent)) {
+    bestArticleCount = 1;
+  } else if (/Tablet|iPad/i.test(userAgent)) {
+    bestArticleCount = 2;
+  }
+
   await queryClient.prefetchQuery({
     queryKey: ["articles", page, orderBy, keyword],
     queryFn: () => getArticle(page, orderBy, keyword),
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ["bestArticles", 3],
-    queryFn: () => getbestArticles(3),
+    queryKey: ["bestArticles", bestArticleCount],
+    queryFn: () => getBestArticles(bestArticleCount),
   });
 
   return {
@@ -90,7 +99,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
 
   const { data: bestArticles = [] } = useQuery<Article[]>({
     queryKey: ["bestArticles", sortedArticleCount],
-    queryFn: () => getbestArticles(sortedArticleCount),
+    queryFn: () => getBestArticles(sortedArticleCount),
   });
 
   useEffect(() => {
@@ -108,10 +117,10 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
       });
     }
 
-    for (let i = 1; i <= 2; i++) {
+    for (let i = 1; i <= 3; i++) {
       queryClient.prefetchQuery({
         queryKey: ["bestArticles", i],
-        queryFn: () => getbestArticles(i),
+        queryFn: () => getBestArticles(i),
       });
     }
   });
