@@ -71,9 +71,6 @@ function Toggle({ children }: { children: React.ReactNode }) {
       DAILY: "매일",
       WEEKLY: "주 반복",
       MONTHLY: "월 반복",
-      latest: "최신순",
-      oldest: "오래된순",
-      likes: "좋아요 많은순",
       recent: "최신순",
       like: "좋아요순",
     };

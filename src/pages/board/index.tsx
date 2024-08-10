@@ -64,17 +64,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     queryKey: ["articles", page, orderBy, keyword],
     queryFn: () => getArticle(page, orderBy, keyword),
   });
+
   await queryClient.prefetchQuery({
     queryKey: ["sortedArticles", 3],
     queryFn: () => getSortedArticles(3),
-  });
-  await queryClient.prefetchQuery({
-    queryKey: ["sortedArticles", 2],
-    queryFn: () => getSortedArticles(2),
-  });
-  await queryClient.prefetchQuery({
-    queryKey: ["sortedArticles", 1],
-    queryFn: () => getSortedArticles(1),
   });
 
   return {
@@ -126,14 +119,21 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
   }, [page, orderBy, keyword]);
 
   useEffect(() => {
-    if (currentPage !== totalCount) {
+    for (let i = 1; i <= totalCount; i++) {
       queryClient.prefetchQuery({
-        queryKey: ["articles", currentPage + 1, currentOrderBy, currentKeyword],
-        queryFn: () => getArticle(currentPage + 1, currentOrderBy, currentKeyword),
+        queryKey: ["articles", i, currentOrderBy, currentKeyword],
+        queryFn: () => getArticle(i, currentOrderBy, currentKeyword),
         staleTime: 30000, // 30초
       });
     }
-  }, [currentPage, currentOrderBy, currentKeyword, queryClient]);
+
+    for (let i = 1; i <= 2; i++) {
+      queryClient.prefetchQuery({
+        queryKey: ["sortedArticles", i],
+        queryFn: () => getSortedArticles(i),
+      });
+    }
+  });
 
   const { data } = useQuery<RootObject>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
