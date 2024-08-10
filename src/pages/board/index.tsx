@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 import Article from "@components/board/Article";
 import BestArticle from "@components/board/BestArticle";
 import Pagination from "@components/board/pagination";
+import useMediaQuery from "@hooks/useMediaQuery";
 import { axiosInstance } from "@api/axios";
 
 interface RootObject {
@@ -47,8 +48,8 @@ const getArticle = async (page: number, orderBy: string = "recent", keyword: str
   return res.data;
 };
 
-const getSortedArticles = async () => {
-  const res = await axiosInstance.get(`/articles?page=1&pageSize=3&orderBy=like`);
+const getSortedArticles = async (pageSize: number) => {
+  const res = await axiosInstance.get(`/articles?page=1&pageSize=${pageSize}&orderBy=like`);
   return res.data.list;
 };
 
@@ -63,7 +64,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     queryKey: ["articles", page, orderBy, keyword],
     queryFn: () => getArticle(page, orderBy, keyword),
   });
-  await queryClient.prefetchQuery({ queryKey: ["sortedArticles"], queryFn: getSortedArticles });
+  await queryClient.prefetchQuery({
+    queryKey: ["sortedArticles", 3],
+    queryFn: () => getSortedArticles(3),
+  });
 
   return {
     props: {
@@ -81,9 +85,28 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const queryClient = useQueryClient();
 
+  const { isMobile, isTablet, isDesktop } = useMediaQuery();
+
+  let sortedArticleCount: number;
+
+  switch (true) {
+    case isMobile:
+      sortedArticleCount = 1;
+      break;
+    case isTablet:
+      sortedArticleCount = 2;
+      break;
+    case isDesktop:
+      sortedArticleCount = 3;
+      break;
+    default:
+      sortedArticleCount = 3;
+      break;
+  }
+
   const { data: sortedArticles = [] } = useQuery<List[]>({
-    queryKey: ["sortedArticles"],
-    queryFn: getSortedArticles,
+    queryKey: ["sortedArticles", sortedArticleCount],
+    queryFn: () => getSortedArticles(sortedArticleCount),
   });
 
   useEffect(() => {
@@ -101,6 +124,17 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
       });
     }
   }, [currentPage, currentOrderBy, currentKeyword, queryClient]);
+
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["sortedArticles", 2],
+      queryFn: () => getSortedArticles(2),
+    });
+    queryClient.prefetchQuery({
+      queryKey: ["sortedArticles", 1],
+      queryFn: () => getSortedArticles(1),
+    });
+  });
 
   const { data } = useQuery<RootObject>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
