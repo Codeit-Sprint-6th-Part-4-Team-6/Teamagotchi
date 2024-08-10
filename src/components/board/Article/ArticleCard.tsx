@@ -9,9 +9,9 @@ export default function ArticleCard({ Posts }: { Posts: Article }) {
   return (
     <Link href={`/board/${Posts.id}`}>
       <div className="mb-24 flex h-176 w-full flex-col justify-between rounded-8 bg-background-secondary p-24">
-        <div>
+        <div className="flex justify-between">
           <span className="text-18 font-[500] text-text-secondary">{Posts.title}</span>
-          <div>{Posts.image && <Image width={72} height={72} alt="image" src={Posts.image} />}</div>
+          {Posts.image && <Image width={72} height={72} alt="image" src={Posts.image} />}
         </div>
         <div className="flex justify-between">
           <div className="flex items-center justify-center gap-12">
