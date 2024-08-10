@@ -27,7 +27,7 @@ declare module "@coworkers-types" {
 
   export type UserRequest = {
     nickname?: string;
-    image?: string;
+    image?: string | File | null;
   };
 
   export type History = {

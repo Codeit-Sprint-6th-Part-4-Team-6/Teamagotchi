@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import TeamList from "@components/teams/TeamList";
 import { useAuth } from "@hooks/auth/useAuth";
 
 export default function TeamsPage() {
   const { logout } = useAuth();
+  const router = useRouter();
 
   return (
     <section className="flex flex-col items-center">

@@ -21,7 +21,7 @@ export function useAddTeamForm() {
   const postGroupMutation = useMutation({
     mutationFn: ({ name, image }: { name: string; image?: string }) => postGroup({ name, image }),
     onSuccess: () => {
-      router.push("/team-list");
+      router.push("/teams");
     },
     onError: (error: any) => {
       const message = error.response.data?.message;
