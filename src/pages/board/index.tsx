@@ -29,7 +29,7 @@ const getArticle = async (page: number, orderBy: string = "recent", keyword: str
   return res.data;
 };
 
-const getSortedArticles = async (pageSize: number) => {
+const getbestArticles = async (pageSize: number) => {
   const res = await axiosInstance.get(`/articles?page=1&pageSize=${pageSize}&orderBy=like`);
   return res.data.list;
 };
@@ -47,8 +47,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ["sortedArticles", 3],
-    queryFn: () => getSortedArticles(3),
+    queryKey: ["bestArticles", 3],
+    queryFn: () => getbestArticles(3),
   });
 
   return {
@@ -88,9 +88,9 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
       break;
   }
 
-  const { data: sortedArticles = [] } = useQuery<Article[]>({
-    queryKey: ["sortedArticles", sortedArticleCount],
-    queryFn: () => getSortedArticles(sortedArticleCount),
+  const { data: bestArticles = [] } = useQuery<Article[]>({
+    queryKey: ["bestArticles", sortedArticleCount],
+    queryFn: () => getbestArticles(sortedArticleCount),
   });
 
   useEffect(() => {
@@ -110,8 +110,8 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
 
     for (let i = 1; i <= 2; i++) {
       queryClient.prefetchQuery({
-        queryKey: ["sortedArticles", i],
-        queryFn: () => getSortedArticles(i),
+        queryKey: ["bestArticles", i],
+        queryFn: () => getbestArticles(i),
       });
     }
   });
@@ -173,7 +173,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-        <BestArticle Posts={sortedArticles} />
+        <BestArticle Posts={bestArticles} />
         <ArticleSection
           Posts={articles}
           searchValue={searchKeyword}
