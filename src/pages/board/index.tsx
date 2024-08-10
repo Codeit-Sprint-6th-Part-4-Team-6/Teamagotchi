@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Article, TotalArticle } from "@coworkers-types";
 import {
   DehydratedState,
@@ -29,8 +29,8 @@ const getArticle = async (page: number, orderBy: string = "recent", keyword: str
   return res.data;
 };
 
-const getBestArticles = async (pageSize: number) => {
-  const res = await axiosInstance.get(`/articles?page=1&pageSize=${pageSize}&orderBy=like`);
+const getBestArticles = async () => {
+  const res = await axiosInstance.get(`/articles?page=1&pageSize=3&orderBy=like`);
   return res.data.list;
 };
 
@@ -41,23 +41,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const orderBy = (query.orderBy as string) || "recent";
   const keyword = (query.keyword as string) || "";
 
-  const userAgent = context.req?.headers["user-agent"] || "";
-
-  let bestArticleCount = 3;
-  if (/Mobi|Android|iPhone|iPod/i.test(userAgent)) {
-    bestArticleCount = 1;
-  } else if (/Tablet|iPad/i.test(userAgent)) {
-    bestArticleCount = 2;
-  }
-
   await queryClient.prefetchQuery({
     queryKey: ["articles", page, orderBy, keyword],
     queryFn: () => getArticle(page, orderBy, keyword),
   });
 
   await queryClient.prefetchQuery({
-    queryKey: ["bestArticles", bestArticleCount],
-    queryFn: () => getBestArticles(bestArticleCount),
+    queryKey: ["bestArticles"],
+    queryFn: getBestArticles,
   });
 
   return {
@@ -80,26 +71,9 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
 
   const { isMobile, isTablet, isDesktop } = useMediaQuery();
 
-  let sortedArticleCount: number;
-
-  switch (true) {
-    case isMobile:
-      sortedArticleCount = 1;
-      break;
-    case isTablet:
-      sortedArticleCount = 2;
-      break;
-    case isDesktop:
-      sortedArticleCount = 3;
-      break;
-    default:
-      sortedArticleCount = 3;
-      break;
-  }
-
   const { data: bestArticles = [] } = useQuery<Article[]>({
-    queryKey: ["bestArticles", sortedArticleCount],
-    queryFn: () => getBestArticles(sortedArticleCount),
+    queryKey: ["bestArticles"],
+    queryFn: () => getBestArticles(),
   });
 
   useEffect(() => {
@@ -114,13 +88,6 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
         queryKey: ["articles", i, currentOrderBy, currentKeyword],
         queryFn: () => getArticle(i, currentOrderBy, currentKeyword),
         staleTime: 30000, // 30초
-      });
-    }
-
-    for (let i = 1; i <= 3; i++) {
-      queryClient.prefetchQuery({
-        queryKey: ["bestArticles", i],
-        queryFn: () => getBestArticles(i),
       });
     }
   });
@@ -176,13 +143,20 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
     setSearchKeyword(event.target.value);
   };
 
+  const displayedBestArticles = useMemo(() => {
+    if (isMobile) return bestArticles.slice(0, 1);
+    if (isTablet) return bestArticles.slice(0, 2);
+    if (isDesktop) return bestArticles.slice(0, 3);
+    return bestArticles.slice(0, 3);
+  }, [isMobile, isTablet, isDesktop]);
+
   const articles = data?.list ?? [];
   const totalCount = data ? Math.ceil((data.totalCount ?? 1) / PAGE_SIZE) : 1;
 
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-        <BestArticle Posts={bestArticles} />
+        <BestArticle Posts={displayedBestArticles} />
         <ArticleSection
           Posts={articles}
           searchValue={searchKeyword}
