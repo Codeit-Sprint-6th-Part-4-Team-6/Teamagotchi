@@ -14,9 +14,16 @@ import useComment from "./useComment";
 type CommentProps = {
   type: "task" | "article";
   comment: TaskComment | ArticleComment;
+  articleId?: number;
 };
 
-export default function Comment({ type, comment }: CommentProps) {
+/**
+ * 댓글 하나를 보여주는 컴포넌트입니다, 어떤 종류인지, 댓글의 정보, 게시글의 경우 어떤 게시글인지 등의 정보를 받아 렌더링합니다.
+ * @param type = "task" | "article", comment = TaskComment | ArticleComment, articleId?: number;
+ * @returns 댓글을 렌더링 합니다.
+ */
+
+export default function Comment({ type, comment, articleId }: CommentProps) {
   const {
     isEditMode,
     setIsEditMode,
@@ -25,7 +32,7 @@ export default function Comment({ type, comment }: CommentProps) {
     handleDelete,
     handleCancel,
     handleEdit,
-  } = useComment(comment);
+  } = useComment(comment, articleId);
 
   const classnames = classNames(
     "w-full flex flex-col",

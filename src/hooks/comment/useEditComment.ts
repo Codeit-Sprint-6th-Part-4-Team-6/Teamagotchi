@@ -1,4 +1,9 @@
-import { ArticleComment, TaskComment, TaskCommentList } from "@coworkers-types";
+import {
+  ArticleComment,
+  ArticleCommentsWithParams,
+  TaskComment,
+  TaskCommentList,
+} from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { isTaskCommentType } from "@utils/typeGuard/isTaskCommentType";
 import { patchArticleComment } from "@api/articleCommentApi";
@@ -8,7 +13,7 @@ import { patchTaskComment } from "@api/taskCommentApi";
  * 댓글 수정 뮤테이션을 제공하는 훅입니다.
  */
 
-const useEditComment = () => {
+const useEditComment = (articleId?: number) => {
   const queryClient = useQueryClient();
 
   const editCommentMutation = useMutation({
@@ -29,23 +34,36 @@ const useEditComment = () => {
       await queryClient.cancelQueries({
         queryKey: isTaskCommentType(comment)
           ? ["taskComments", comment.taskId]
-          : ["articleComments", comment.id],
+          : ["articleComments", articleId],
       });
 
       const previousComments = queryClient.getQueryData(
         isTaskCommentType(comment)
           ? ["taskComments", comment.taskId]
-          : ["articleComments", comment.id]
+          : ["articleComments", articleId]
       );
 
       queryClient.setQueryData(
         isTaskCommentType(comment)
           ? ["taskComments", comment.taskId]
-          : ["articleComments", comment.id],
-        (oldComments: TaskCommentList | ArticleComment[]) =>
-          oldComments.map((oldComment: TaskComment | ArticleComment) =>
-            oldComment.id === comment.id ? { ...oldComment, content } : oldComment
-          )
+          : ["articleComments", articleId],
+        (oldComments: TaskCommentList | ArticleCommentsWithParams) => {
+          if (isTaskCommentType(comment)) {
+            return (oldComments as TaskCommentList).map(
+              (oldComment: TaskComment | ArticleComment) =>
+                oldComment.id === comment.id ? { ...oldComment, content } : oldComment
+            );
+          }
+          return {
+            pageParams: (oldComments as ArticleCommentsWithParams).pageParams,
+            pages: (oldComments as ArticleCommentsWithParams).pages.map((page) => ({
+              list: page.list.map((articleComment) =>
+                articleComment.id === comment.id ? { ...articleComment, content } : articleComment
+              ),
+              nextCursor: page.nextCursor,
+            })),
+          };
+        }
       );
 
       return { previousComments };
@@ -56,7 +74,7 @@ const useEditComment = () => {
         queryClient.setQueryData(
           isTaskCommentType(variables.comment)
             ? ["taskComments", variables.comment.taskId]
-            : ["articleComments", variables.comment.id],
+            : ["articleComments", articleId],
           context.previousComments
         );
       }
@@ -66,7 +84,7 @@ const useEditComment = () => {
       queryClient.invalidateQueries({
         queryKey: isTaskCommentType(variables.comment)
           ? ["taskComments", variables.comment.taskId]
-          : ["articleComments", variables.comment.id],
+          : ["articleComments", articleId],
       }),
   });
 

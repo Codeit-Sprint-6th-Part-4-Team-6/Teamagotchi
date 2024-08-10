@@ -10,7 +10,7 @@ export default function TaskCommentList({ taskId }: { taskId: number }) {
   });
 
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-16 pb-16">
       {commentList &&
         sortCommentList(commentList)?.map((comment) => (
           <Comment type="task" comment={comment} key={comment.id} />

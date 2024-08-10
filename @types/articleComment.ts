@@ -14,4 +14,9 @@ declare module "@coworkers-types" {
     nextCursor: number;
     list: ArticleComment[];
   };
+
+  export type ArticleCommentsWithParams = {
+    pageParams: number[];
+    pages: { list: ArticleComment[]; nextCursor: number }[];
+  };
 }

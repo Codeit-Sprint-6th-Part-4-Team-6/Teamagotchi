@@ -59,5 +59,5 @@ export const patchArticleComment = async (commentId: number, content: string): P
  * @returns ID를 반환합니다. 오류 발생시 메세지 객체를 반환합니다.
  */
 export const deleteArticleComment = async (commentId: number): Promise<void> => {
-  await axiosInstance.patch<number | Message>(`comments/${commentId}`);
+  await axiosInstance.delete<number | Message>(`comments/${commentId}`);
 };

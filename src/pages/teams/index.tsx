@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import ArticleCommentList from "@components/board-details/ArticleCommentList";
-import TaskCommentList from "@components/task-list/TaskCommentList";
 import { useAuthStore } from "@store/useAuthStore";
 import { clearAuth } from "@utils/auth";
 import { getUser } from "@api/userApi";
@@ -35,12 +33,6 @@ export default function TeamListPage() {
       <button type="button" onClick={handleSignOut}>
         로그아웃
       </button>
-      <div className="w-full">
-        <TaskCommentList taskId={30} />
-      </div>
-      <div className="w-full">
-        <ArticleCommentList articleId={3} />
-      </div>
     </div>
   );
 }

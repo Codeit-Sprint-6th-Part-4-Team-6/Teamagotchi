@@ -15,18 +15,16 @@ import {
  * Comment 컴포넌트의 로직을 모아놓은 훅입니다.
  */
 
-function useComment(comment: TaskComment | ArticleComment) {
+function useComment(comment: TaskComment | ArticleComment, articleId?: number) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [value, setValue] = useState(comment.content);
-  const deleteCommentMutation = useDeleteComment();
-  const editCommentMutation = useEditComment();
+  const deleteCommentMutation = useDeleteComment(articleId);
+  const editCommentMutation = useEditComment(articleId);
   const { openModal } = useModal();
-  // const { user } = useAuthStore();
-  const user = {
-    id: 86,
-  };
-
-  console.log(user);
+  const { user } = useAuthStore();
+  // const user = {
+  //   id: 86,
+  // };
 
   const showKebab = isTaskCommentType(comment)
     ? comment.userId === user?.id
