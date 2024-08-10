@@ -88,8 +88,11 @@ const mock = {
     },
   ],
 };
+type Props = {
+  date: Date;
+};
 
-export default function TaskList() {
+export default function TaskList({ date }: Props) {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const handleActiveTab = (index: number) => {
