@@ -15,7 +15,7 @@ export default function BestArticle({ Posts }: { Posts: Article[] }) {
       </div>
       <div className="flex gap-24">
         {Posts.map((item) => (
-          <BestArticleCard item={item} />
+          <BestArticleCard item={item} key={item.id} />
         ))}
       </div>
     </div>
