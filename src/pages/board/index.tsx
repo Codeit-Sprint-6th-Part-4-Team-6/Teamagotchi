@@ -44,11 +44,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   await queryClient.prefetchQuery({
     queryKey: ["articles", page, orderBy, keyword],
     queryFn: () => getArticle(page, orderBy, keyword),
+    staleTime: Infinity,
   });
 
   await queryClient.prefetchQuery({
     queryKey: ["bestArticles"],
     queryFn: getBestArticles,
+    staleTime: Infinity,
   });
 
   return {
@@ -87,7 +89,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
       queryClient.prefetchQuery({
         queryKey: ["articles", i, currentOrderBy, currentKeyword],
         queryFn: () => getArticle(i, currentOrderBy, currentKeyword),
-        staleTime: 30000, // 30초
+        staleTime: Infinity,
       });
     }
   });
@@ -96,6 +98,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
     queryFn: () => getArticle(currentPage, currentOrderBy, currentKeyword),
     placeholderData: keepPreviousData,
+    staleTime: Infinity,
   });
 
   const updateURL = (newPage?: number, newOrderBy?: string, newKeyword?: string) => {
