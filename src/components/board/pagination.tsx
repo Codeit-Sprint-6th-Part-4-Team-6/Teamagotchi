@@ -13,11 +13,11 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
   const pageNumbers = [];
 
   const commonPageClassName =
-    "flex h-40 w-40 cursor-pointer select-none items-center justify-center text-20 font-normal hover:bg-[#1e293b]";
+    "flex h-40 w-40 cursor-pointer select-none items-center justify-center text-20 font-normal hover:bg-background-secondary";
   const ellipsisClassName =
     "flex h-40 w-40 cursor-default select-none items-center justify-center text-20 font-normal text-[#818181]";
   const commonIconClassName =
-    "flex h-40 w-40 cursor-pointer select-none items-center justify-center text-20 font-normal";
+    "flex h-40 w-40 select-none items-center justify-center text-20 font-normal";
 
   if (totalPages <= 7) {
     for (let i = 1; i <= totalPages; i++) {
@@ -26,7 +26,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
           key={i}
           onClick={() => onPageChange(i)}
           className={classNames(commonPageClassName, {
-            "text-[#10B981]": currentPage === i,
+            "text-interaction-focus": currentPage === i,
             "text-[#818181]": currentPage !== i,
           })}
         >
@@ -42,7 +42,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
             key={i}
             onClick={() => onPageChange(i)}
             className={classNames(commonPageClassName, {
-              "text-[#10B981]": currentPage === i,
+              "text-interaction-focus": currentPage === i,
               "text-[#818181]": currentPage !== i,
             })}
           >
@@ -60,7 +60,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
           key={totalPages}
           onClick={() => onPageChange(totalPages)}
           className={classNames(commonPageClassName, {
-            "text-[#10B981]": currentPage === totalPages,
+            "text-interaction-focus": currentPage === totalPages,
             "text-[#818181]": currentPage !== totalPages,
           })}
         >
@@ -73,7 +73,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
           key={1}
           onClick={() => onPageChange(1)}
           className={classNames(commonPageClassName, {
-            "text-[#10B981]": currentPage === 1,
+            "text-interaction-focus": currentPage === 1,
             "text-[#818181]": currentPage !== 1,
           })}
         >
@@ -91,7 +91,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
             key={i}
             onClick={() => onPageChange(i)}
             className={classNames(commonPageClassName, {
-              "text-[#10B981]": currentPage === i,
+              "text-interaction-focus": currentPage === i,
               "text-[#818181]": currentPage !== i,
             })}
           >
@@ -105,7 +105,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
           key={1}
           onClick={() => onPageChange(1)}
           className={classNames(commonPageClassName, {
-            "text-[#10B981]": currentPage === 1,
+            "text-interaction-focus": currentPage === 1,
             "text-[#818181]": currentPage !== 1,
           })}
         >
@@ -123,7 +123,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
             key={i}
             onClick={() => onPageChange(i)}
             className={classNames(commonPageClassName, {
-              "text-[#10B981]": currentPage === i,
+              "text-interaction-focus": currentPage === i,
               "text-[#818181]": currentPage !== i,
             })}
           >
@@ -141,7 +141,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
           key={totalPages}
           onClick={() => onPageChange(totalPages)}
           className={classNames(commonPageClassName, {
-            "text-[#10B981]": currentPage === totalPages,
+            "text-interaction-focus": currentPage === totalPages,
             "text-[#818181]": currentPage !== totalPages,
           })}
         >
@@ -157,6 +157,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
         <IconArrowLeftGray
           className={classNames(commonIconClassName, {
             "cursor-not-allowed": currentPage === 1,
+            "cursor-pointer": currentPage !== 1,
           })}
           alt="arrow_left"
         />
@@ -164,6 +165,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
         <IconArrowLeft
           className={classNames(commonIconClassName, {
             "cursor-not-allowed": currentPage === 1,
+            "cursor-pointer": currentPage !== 1,
           })}
           onClick={() => onPageChange(currentPage - 1)}
           alt="arrow_left"
@@ -174,6 +176,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
         <IconArrowRightGray
           className={classNames(commonIconClassName, {
             "cursor-not-allowed": currentPage === totalPages,
+            "cursor-pointer": currentPage !== totalPages,
           })}
           alt="arrow_right"
         />
@@ -181,6 +184,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
         <IconArrowRight
           className={classNames(commonIconClassName, {
             "cursor-not-allowed": currentPage === totalPages,
+            "cursor-pointer": currentPage !== totalPages,
           })}
           onClick={() => onPageChange(currentPage + 1)}
           alt="arrow_right"

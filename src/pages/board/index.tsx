@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Article, TotalArticle } from "@coworkers-types";
 import {
   DehydratedState,
   HydrationBoundary,
@@ -10,31 +11,11 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import Article from "@components/board/Article";
+import ArticleSection from "@components/board/Article";
 import BestArticle from "@components/board/BestArticle";
 import Pagination from "@components/board/pagination";
 import useMediaQuery from "@hooks/useMediaQuery";
 import { axiosInstance } from "@api/axios";
-
-interface RootObject {
-  list: List[];
-  totalCount: number;
-}
-
-interface List {
-  id: number;
-  title: string;
-  image: null;
-  createdAt: string;
-  updatedAt: string;
-  writer: Writer;
-  likeCount: number;
-}
-
-interface Writer {
-  id: number;
-  nickname: string;
-}
 
 const getArticle = async (page: number, orderBy: string = "recent", keyword: string = "") => {
   const res = await axiosInstance.get("/articles", {
@@ -107,7 +88,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
       break;
   }
 
-  const { data: sortedArticles = [] } = useQuery<List[]>({
+  const { data: sortedArticles = [] } = useQuery<Article[]>({
     queryKey: ["sortedArticles", sortedArticleCount],
     queryFn: () => getSortedArticles(sortedArticleCount),
   });
@@ -135,7 +116,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
     }
   });
 
-  const { data } = useQuery<RootObject>({
+  const { data } = useQuery<TotalArticle>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
     queryFn: () => getArticle(currentPage, currentOrderBy, currentKeyword),
     placeholderData: keepPreviousData,
@@ -193,7 +174,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
     <HydrationBoundary state={dehydratedState}>
       <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
         <BestArticle Posts={sortedArticles} />
-        <Article
+        <ArticleSection
           Posts={articles}
           searchValue={searchKeyword}
           searchChange={handleKeywordChange}

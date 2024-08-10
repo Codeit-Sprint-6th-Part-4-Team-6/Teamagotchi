@@ -1,24 +1,10 @@
+import { Article } from "@coworkers-types";
 import Dropdown from "@components/commons/Dropdown";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import ArticleCard from "./ArticleCard";
 
-interface List {
-  id: number;
-  title: string;
-  image: null;
-  createdAt: string;
-  updatedAt: string;
-  writer: Writer;
-  likeCount: number;
-}
-
-interface Writer {
-  id: number;
-  nickname: string;
-}
-
-export default function Article({
+export default function ArticleSection({
   Posts,
   searchValue,
   searchChange,
@@ -26,7 +12,7 @@ export default function Article({
   sortValue,
   sortChange,
 }: {
-  Posts: List[];
+  Posts: Article[];
   searchValue: string;
   searchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onEnter: (event: React.KeyboardEvent<HTMLInputElement>) => void;

@@ -1,34 +1,17 @@
+import { Article } from "@coworkers-types";
 import Image from "next/image";
 import Link from "next/link";
 import NameTag from "@components/commons/NameTag";
 import { formatDate } from "@utils/formatDate";
 import { IconComment, IconHeart } from "@utils/icon";
 
-interface List {
-  id: number;
-  title: string;
-  image: null;
-  createdAt: string;
-  updatedAt: string;
-  writer: Writer;
-  likeCount: number;
-}
-
-interface Writer {
-  id: number;
-  nickname: string;
-}
-
-export default function ArticleCard({ Posts }: { Posts: List }) {
+export default function ArticleCard({ Posts }: { Posts: Article }) {
   return (
     <Link href={`/board/${Posts.id}`}>
-      <div className="mb-24 flex h-176 w-full flex-col justify-between rounded-8 bg-[#1E293B] p-24">
+      <div className="mb-24 flex h-176 w-full flex-col justify-between rounded-8 bg-background-secondary p-24">
         <div>
           <span className="text-18 font-[500] text-text-secondary">{Posts.title}</span>
-          <div>
-            {Posts.image && <Image width={72} height={72} alt="image" src={Posts.image} />}
-            {/* 드롭다운 부분 */}
-          </div>
+          <div>{Posts.image && <Image width={72} height={72} alt="image" src={Posts.image} />}</div>
         </div>
         <div className="flex justify-between">
           <div className="flex items-center justify-center gap-12">
