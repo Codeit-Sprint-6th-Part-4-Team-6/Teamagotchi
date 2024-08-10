@@ -40,7 +40,7 @@ const getArticle = async (page: number, orderBy: string = "recent", keyword: str
   const res = await axiosInstance.get("/articles", {
     params: {
       page,
-      pageSize: 1,
+      pageSize: PAGE_SIZE,
       orderBy,
       keyword,
     },
@@ -68,6 +68,14 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     queryKey: ["sortedArticles", 3],
     queryFn: () => getSortedArticles(3),
   });
+  await queryClient.prefetchQuery({
+    queryKey: ["sortedArticles", 2],
+    queryFn: () => getSortedArticles(2),
+  });
+  await queryClient.prefetchQuery({
+    queryKey: ["sortedArticles", 1],
+    queryFn: () => getSortedArticles(1),
+  });
 
   return {
     props: {
@@ -75,6 +83,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
+
+const PAGE_SIZE = 3;
 
 export default function BoardPage({ dehydratedState }: { dehydratedState: any }) {
   const router = useRouter();
@@ -124,17 +134,6 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
       });
     }
   }, [currentPage, currentOrderBy, currentKeyword, queryClient]);
-
-  useEffect(() => {
-    queryClient.prefetchQuery({
-      queryKey: ["sortedArticles", 2],
-      queryFn: () => getSortedArticles(2),
-    });
-    queryClient.prefetchQuery({
-      queryKey: ["sortedArticles", 1],
-      queryFn: () => getSortedArticles(1),
-    });
-  });
 
   const { data } = useQuery<RootObject>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
@@ -188,16 +187,18 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
   };
 
   const articles = data?.list ?? [];
-  const totalCount = data?.totalCount ?? 0;
+  const totalCount = data ? Math.ceil((data.totalCount ?? 1) / PAGE_SIZE) : 1;
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-0">
+      <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
         <BestArticle Posts={sortedArticles} />
         <Article
           Posts={articles}
           searchValue={searchKeyword}
           searchChange={handleKeywordChange}
+          sortValue={currentOrderBy}
+          sortChange={handleOrderByChange}
           onEnter={handleKeywordEnter}
         />
         <Pagination

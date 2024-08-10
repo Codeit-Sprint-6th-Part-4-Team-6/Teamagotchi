@@ -74,6 +74,8 @@ function Toggle({ children }: { children: React.ReactNode }) {
       latest: "최신순",
       oldest: "오래된순",
       likes: "좋아요 많은순",
+      recent: "최신순",
+      like: "좋아요순",
     };
     return options[value] || value;
   };
