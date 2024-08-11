@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { UserGroup, UserInfo } from "@coworkers-types";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Membership } from "@coworkers-types";
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,28 +8,29 @@ import { useRouter } from "next/router";
 import NameTag from "@components/commons/NameTag";
 import Popover from "@components/commons/Popover";
 import { useAuth } from "@hooks/auth/useAuth";
+import { useAuthStore } from "@store/useAuthStore";
 import { IconList, IconToggle } from "@utils/icon";
-import { getUserGroups } from "@api/userApi";
+import { getUserMemberships } from "@api/userApi";
 import LOGO from "@images/logo.png";
 
 export default function Header() {
   // 현재 유저 정보 가져오기
-  const cache = useQueryClient();
-  const user = cache.getQueryData(["user"]) as UserInfo;
+  const { isLoggedIn } = useAuth();
+  const { user } = useAuthStore();
 
   const router = useRouter();
   const { pathname, query } = router;
-  const { data: groups } = useQuery({
-    queryKey: ["userGroups"],
-    queryFn: getUserGroups,
+  const { data: groups, isPending } = useQuery({
+    queryKey: ["groups"],
+    queryFn: getUserMemberships,
     enabled: !!user,
   });
 
   // 현재 페이지가 특정한 팀 페이지라면 상단에 Menu Select
-  const getCurTeamPage = () => groups?.find((group) => group.id?.toString() === query.teamId);
+  const getCurTeamPage = () => groups?.find((group) => group.groupId.toString() === query.teamId);
 
   // 현재 팀 페이지 정보 저장 상태
-  const [curTeamPage, setCurTeamPage] = useState<UserGroup | undefined>(getCurTeamPage);
+  const [curTeamPage, setCurTeamPage] = useState<Membership | undefined>(getCurTeamPage);
   // 모바일 사이드 바 상태
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -42,6 +43,10 @@ export default function Header() {
 
   // 현재 페이지가 로그인 or 회원가입인지
   const isAuthPage = pathname === "/login" || pathname === "/register";
+
+  useEffect(() => {
+    isLoggedIn();
+  }, []);
 
   useEffect(() => {
     setCurTeamPage(getCurTeamPage());
@@ -90,15 +95,17 @@ export default function Header() {
                 </Link>
                 <Popover>
                   <Popover.Toggle>
-                    {curTeamPage?.name || "팀 리스트"} <IconToggle />
+                    {curTeamPage?.group.name || "팀 리스트"} <IconToggle />
                   </Popover.Toggle>
                   <Popover.Wrapper>
                     {groups?.map((group) => (
                       <Popover.TeamItem
-                        key={`group-${group.id}`}
-                        title={group.name}
-                        id={group.id}
-                        imgSrc={group.image}
+                        key={`group-${group.groupId}`}
+                        title={group.group.name}
+                        id={group.groupId}
+                        imgSrc={group.group.image}
+                        role={group.role}
+                        isPending={isPending}
                       />
                     ))}
                     <Popover.InnerButton
@@ -169,8 +176,8 @@ export default function Header() {
             팀 리스트
           </Link>
           {groups?.map((group) => (
-            <Link className="text-md" href={`/teams/${group.id}`} key={group.id}>
-              {group.name}
+            <Link className="text-md" href={`/teams/${group.groupId}`} key={group.groupId}>
+              {group.group.name}
             </Link>
           ))}
         </div>

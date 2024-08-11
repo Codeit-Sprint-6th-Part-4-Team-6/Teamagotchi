@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@components/commons/Button";
+import { IconCrown, IconMember } from "@utils/icon";
+import Spinner from "../Spinner";
 
 const PopoverContext = createContext({
   isOpen: false,
@@ -138,12 +140,32 @@ function InnerButton({ onClick }: { onClick: () => void }) {
   );
 }
 
-function TeamItem({ id, imgSrc, title }: { id: number; imgSrc: string | null; title: string }) {
+function TeamItem({
+  id,
+  imgSrc,
+  title,
+  role,
+  isPending,
+}: {
+  id: number;
+  imgSrc: string | null;
+  title: string;
+  role: string;
+  isPending: boolean;
+}) {
   const { closePopover } = useContext(PopoverContext);
 
   const handleClick = () => {
     closePopover();
   };
+
+  if (isPending) {
+    return (
+      <div className="pb-80 pt-180">
+        <Spinner size={200} color="#fff" />
+      </div>
+    );
+  }
 
   return (
     <Link href={`/teams/${id}`}>
@@ -153,14 +175,14 @@ function TeamItem({ id, imgSrc, title }: { id: number; imgSrc: string | null; ti
         onClick={handleClick}
       >
         <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
-          <Image
-            src={imgSrc || "/icons/icon_default_image.svg"}
-            alt={`${title} logo`}
-            fill
-            className="object-cover"
-          />
+          {imgSrc ? (
+            <Image src={imgSrc} alt={`${title} 이미지`} fill className="object-cover" />
+          ) : (
+            <IconMember />
+          )}
         </div>
         <span className="flex-grow truncate text-left text-lg">{title}</span>
+        {role === "ADMIN" ? <IconCrown /> : ""}
       </button>
     </Link>
   );
