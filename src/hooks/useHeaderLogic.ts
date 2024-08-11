@@ -5,12 +5,14 @@ import { useRouter } from "next/router";
 import { useAuth } from "@hooks/auth/useAuth";
 import { useAuthStore } from "@store/useAuthStore";
 import { getUser } from "@api/userApi";
+import { useToast } from "./useToast";
 
 export function useHeaderLogic() {
   const { isLoggedIn, logout } = useAuth();
   const { user } = useAuthStore();
   const router = useRouter();
   const { pathname, query } = router;
+  const { toast } = useToast();
 
   const { data: userInfo, isPending } = useQuery({
     queryKey: ["user"],
@@ -48,7 +50,7 @@ export function useHeaderLogic() {
   }, [router]);
 
   const handleSignOut = (): void => {
-    alert("로그아웃 되었습니다.");
+    toast("success", "로그아웃에 성공했습니다.");
     logout();
   };
 
