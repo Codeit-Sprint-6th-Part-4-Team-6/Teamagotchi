@@ -1,5 +1,5 @@
 import { AuthResponse, LoginRequest, SignUpRequest } from "@coworkers-types";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@hooks/useToast";
 import { loginUser, signUpUser } from "@api/authApi";
 import { useAuth } from "./useAuth";
@@ -13,7 +13,6 @@ type AuthRequest = SignUpRequest | LoginRequest;
  * @returns submit 버튼에 넘길 수 있는 핸들러가 반환됩니다.
  */
 export const useAuthHandler = <T extends AuthRequest>(values: T, isRegister: boolean = false) => {
-  const queryClient = useQueryClient();
   const { login } = useAuth();
   const { toast } = useToast();
 
@@ -22,7 +21,6 @@ export const useAuthHandler = <T extends AuthRequest>(values: T, isRegister: boo
     onSuccess: (data: AuthResponse) => {
       toast("success", "로그인에 성공하셨습니다.");
       login(data);
-      queryClient.setQueryData(["user"], data.user);
     },
     onError: (error: any) => {
       toast("danger", error.response.data.message);
