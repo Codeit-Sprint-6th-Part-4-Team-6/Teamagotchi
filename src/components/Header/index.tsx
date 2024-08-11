@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useHeaderLogic } from "@hooks/useHeaderLogic";
 import { DesktopNavigation } from "./DesktopNavigation";
 import { Logo } from "./Logo";
@@ -8,6 +9,7 @@ import { UserPopoverMenu } from "./UserPopoverMenu";
 export default function Header() {
   const {
     isAuthPage,
+    isRendingPage,
     user,
     curTeamPage,
     groups,
@@ -30,6 +32,7 @@ export default function Header() {
             <UserPopoverMenu user={user} handleSignOut={handleSignOut} />
           </>
         )}
+        {isRendingPage && <Link href="/login">로그인</Link>}
       </nav>
       <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} groups={groups} />
     </header>

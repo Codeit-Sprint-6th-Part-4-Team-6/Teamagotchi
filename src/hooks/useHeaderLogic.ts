@@ -25,6 +25,8 @@ export function useHeaderLogic() {
 
   const isAuthPage = pathname === "/login" || pathname === "/register";
 
+  const isRendingPage = pathname === "/";
+
   useEffect(() => {
     isLoggedIn();
   }, []);
@@ -51,6 +53,7 @@ export function useHeaderLogic() {
 
   return {
     isAuthPage,
+    isRendingPage,
     user,
     curTeamPage,
     groups,
