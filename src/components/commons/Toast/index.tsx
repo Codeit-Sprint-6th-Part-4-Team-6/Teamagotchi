@@ -21,20 +21,22 @@ export default function Toast() {
       break;
   }
 
-  const toastActive = isOpen ? "delay-500 right-20" : "delay-500 -right-1000";
-
   return (
-    <div className={`fixed top-30 ${toastActive}`}>
-      <div className="flex h-80 items-center rounded-lg bg-text-primary light:bg-background-primary">
-        <span className={`h-full w-5 rounded-l-lg ${pointColor}`} />
-        <div className="px-20">
-          {toast?.type === "info" ? <IconToastInfo /> : ""}
-          {toast?.type === "success" ? <IconToastSuccess /> : ""}
-          {toast?.type === "warn" ? <IconToastWarning /> : ""}
-          {toast?.type === "danger" ? <IconToastDanger /> : ""}
+    <>
+      {isOpen && (
+        <div className="fixed bottom-60 left-1/2 z-10 -translate-x-1/2 animate-fadeIn">
+          <div className="flex h-80 items-center rounded-lg bg-text-primary light:bg-background-primary">
+            <span className={`h-full w-5 rounded-l-lg ${pointColor}`} />
+            <div className="px-20">
+              {toast?.type === "info" ? <IconToastInfo /> : ""}
+              {toast?.type === "success" ? <IconToastSuccess /> : ""}
+              {toast?.type === "warn" ? <IconToastWarning /> : ""}
+              {toast?.type === "danger" ? <IconToastDanger /> : ""}
+            </div>
+            <p className="text-black pr-25 font-medium light:text-text-primary">{toast?.content}</p>
+          </div>
         </div>
-        <p className="text-black pr-25 font-medium light:text-text-primary">{toast?.content}</p>
-      </div>
-    </div>
+      )}
+    </>
   );
 }

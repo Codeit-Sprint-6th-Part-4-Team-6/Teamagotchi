@@ -83,6 +83,15 @@ const config: Config = {
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
+    keyframes: {
+      fadeIn: {
+        from: {opacity: "0", transform: "translate3d(-50%, 60px, 0)"},
+        to: {opacity: "1", transform: "translate3d(-50%, 0, 0)"}
+      }
+    },
+    animation: {
+      fadeIn: "fadeIn 0.5s",
+    }
   },
   plugins: [
     function ({ addUtilities }: PluginAPI) {
