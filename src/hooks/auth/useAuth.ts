@@ -1,21 +1,15 @@
-import { AuthResponse, BaseUserInfo } from "@coworkers-types";
+import { AuthResponse } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
-
-type LocalStorageData = {
-  state: {
-    user: BaseUserInfo;
-    isLoggedIn: boolean;
-  };
-  version: number;
-};
 
 export const useAuth = () => {
   const { setUser } = useAuthStore();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   /**
    * 로그인 시 필요한 처리를 모아놓은 함수
@@ -59,7 +53,7 @@ export const useAuth = () => {
         setUser(user);
         queryClient.setQueryData(["user"], user);
       } catch (error) {
-        alert("로그인 된 사용자만 이용이 가능합니다.");
+        toast("danger", "로그인 된 사용자만 이용이 가능합니다.");
         router.push("/login");
       }
     }

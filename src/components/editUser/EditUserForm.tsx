@@ -1,35 +1,34 @@
 import { useState } from "react";
-import { LocalUser } from "@coworkers-types";
 import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
+import { useToast } from "@hooks/useToast";
+import { useAuthStore } from "@store/useAuthStore";
+import { postImageURL } from "@api/imageApi";
 import { patchUser } from "@api/userApi";
 
 export default function EditUserForm() {
-  const data: LocalUser = JSON.parse(
-    typeof window !== "undefined" ? (localStorage.getItem("userStore") ?? "") : ""
-  );
-  const { user } = data.state;
-  // const { user } = userAuthStore();
-  const [image, setImage] = useState<string | File | null>(user.image);
-  const [nickname, setNickname] = useState(user.nickname);
+  const { user } = useAuthStore();
+  const [profileImage, setProfileImage] = useState<string | File | null>(user?.image ?? null);
+  const [name, setName] = useState(user?.nickname);
   const [errorMessage, setErrorMessage] = useState("");
+  const { toast } = useToast();
 
   const handleFileChange = (value: string | File | null) => {
-    setImage(value);
+    setProfileImage(value);
   };
 
   const handleNickNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setNickname(event.target.value);
+    setName(event.target.value);
   };
 
   const patchUserMutation = useMutation({
-    mutationFn: () => patchUser({ nickname, image }),
+    mutationFn: ({ nickname, image }: { nickname?: string; image?: string }) =>
+      patchUser({ nickname, image }),
     onSuccess: () => {
-      alert("계정 설정에 성공했습니다.");
+      toast("success", "계정 설정 변경에 성공하셨습니다.");
     },
     onError: (error: any) => {
       const message = error.response.data?.message;
@@ -37,13 +36,27 @@ export default function EditUserForm() {
     },
   });
 
-  const isPending = patchUserMutation.isPending || patchUserMutation.isPending;
+  const imagePostMutation = useMutation({
+    mutationFn: (file: File) => postImageURL(file),
+    onSuccess: (data: { url: string }) => {
+      patchUserMutation.mutate({ nickname: name, image: data.url });
+    },
+    onError: (error: any) => {
+      alert(`Error uploading image: ${error}`);
+    },
+  });
+
+  const isPending = patchUserMutation.isPending || imagePostMutation.isPending;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!nickname) return;
+    if (!name) return;
 
-    patchUserMutation.mutate();
+    if (profileImage instanceof File) {
+      imagePostMutation.mutate(profileImage);
+    } else {
+      patchUserMutation.mutate({ nickname: name });
+    }
   };
 
   return (
@@ -75,7 +88,4 @@ export default function EditUserForm() {
       </div>
     </form>
   );
-}
-function userAuthStore(): { user: any } {
-  throw new Error("Function not implemented.");
 }
