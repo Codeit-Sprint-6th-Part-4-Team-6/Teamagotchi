@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useAuth } from "@hooks/auth/useAuth";
 import { useAuthStore } from "@store/useAuthStore";
-import { getUserMemberships } from "@api/userApi";
+import { getUser } from "@api/userApi";
 
 export function useHeaderLogic() {
   const { isLoggedIn, logout } = useAuth();
@@ -12,13 +12,14 @@ export function useHeaderLogic() {
   const router = useRouter();
   const { pathname, query } = router;
 
-  const { data: groups, isPending } = useQuery({
-    queryKey: ["groups"],
-    queryFn: getUserMemberships,
+  const { data: userInfo, isPending } = useQuery({
+    queryKey: ["user"],
+    queryFn: getUser,
     enabled: !!user,
   });
 
-  const getCurTeamPage = () => groups?.find((group) => group.groupId.toString() === query.teamId);
+  const getCurTeamPage = () =>
+    userInfo?.memberships?.find((group) => group.groupId.toString() === query.teamId);
 
   const [curTeamPage, setCurTeamPage] = useState<Membership | undefined>(getCurTeamPage);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -33,7 +34,7 @@ export function useHeaderLogic() {
 
   useEffect(() => {
     setCurTeamPage(getCurTeamPage());
-  }, [groups, query.teamId]);
+  }, [userInfo?.memberships, query.teamId]);
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -54,9 +55,8 @@ export function useHeaderLogic() {
   return {
     isAuthPage,
     isRendingPage,
-    user,
+    userInfo,
     curTeamPage,
-    groups,
     isPending,
     sidebarOpen,
     setSidebarOpen,
