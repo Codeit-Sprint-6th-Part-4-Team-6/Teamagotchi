@@ -24,7 +24,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <Header />
           <ModalWrapper />
           <Toast />
-          <ModalWrapper />
           <Component {...pageProps} />
         </ThemeProvider>
       </main>

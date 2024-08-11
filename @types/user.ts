@@ -13,7 +13,7 @@ declare module "@coworkers-types" {
   };
 
   export type User = BaseUserInfo & {
-    groups: UserGroup[];
+    memberships: Membership[];
   };
 
   export type UserGroup = {
