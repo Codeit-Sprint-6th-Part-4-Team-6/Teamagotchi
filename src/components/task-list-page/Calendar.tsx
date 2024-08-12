@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import {
   addDays,
@@ -12,17 +12,22 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns";
-import Popover, { PopoverContext } from "@components/commons/Popover";
-import { IconArrowWhiteLeft, IconArrowWhiteRight, IconCalenderBg } from "@utils/icon";
+import { PopoverContext } from "@components/commons/Popover";
+import { IconArrowWhiteLeft, IconArrowWhiteRight } from "@utils/icon";
 
 type CalendarProps = {
+  type?: "popover" | "modal";
   onDateSelect: (date: Date) => void;
   selectedDate: Date;
 };
 
-function Calendar({ onDateSelect, selectedDate }: CalendarProps) {
+export default function Calendar({ onDateSelect, selectedDate, type = "popover" }: CalendarProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const { closePopover } = useContext(PopoverContext);
+
+  useEffect(() => {
+    setCurrentMonth(startOfMonth(selectedDate));
+  }, [selectedDate]);
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -52,18 +57,20 @@ function Calendar({ onDateSelect, selectedDate }: CalendarProps) {
     return (
       <div
         key={format(day, "yyyy-MM-dd")}
-        className={classNames("p-8 text-center", {
+        className={classNames("rounded-full p-8 text-center", {
           "cursor-pointer": isCurrentMonth,
           "text-text-default opacity-50": !isCurrentMonth,
-          "text-brand-primary": isSameDay(day, new Date()),
-          "rounded-8 bg-brand-primary text-background-primary": isSelected,
-          "rounded-8 hover:bg-brand-primary hover:text-background-primary":
-            isCurrentMonth && !isSameDay(day, new Date()),
+          "bg-brand-primary/20 text-brand-primary": isSelected,
+          "text-brand-primary/80": !isSelected && isSameDay(day, new Date()),
+          "hover:bg-brand-primary/20 hover:text-brand-primary":
+            isCurrentMonth && (!isSelected || isSameDay(day, new Date())),
         })}
         onClick={() => {
           if (isCurrentMonth) {
             onDateSelect(day);
-            closePopover();
+            if (type === "popover") {
+              closePopover();
+            }
           }
         }}
       >
@@ -106,18 +113,5 @@ function Calendar({ onDateSelect, selectedDate }: CalendarProps) {
         </div>
       ))}
     </div>
-  );
-}
-
-export default function CalendarPopover({ onDateSelect, selectedDate }: CalendarProps) {
-  return (
-    <Popover>
-      <Popover.Toggle>
-        <IconCalenderBg className="cursor-pointer" />
-      </Popover.Toggle>
-      <Popover.Wrapper>
-        <Calendar onDateSelect={onDateSelect} selectedDate={selectedDate} />
-      </Popover.Wrapper>
-    </Popover>
   );
 }

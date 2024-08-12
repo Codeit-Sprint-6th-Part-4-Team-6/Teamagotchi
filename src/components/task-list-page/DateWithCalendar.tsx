@@ -1,8 +1,9 @@
 import { addDays, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import TextButton from "@components/commons/Button/TextButton";
-import { IconArrowLeftBg, IconArrowRightBg } from "@utils/icon";
-import CalendarPopover from "./Calendar";
+import Popover from "@components/commons/Popover";
+import { IconArrowLeftBg, IconArrowRightBg, IconCalenderBg } from "@utils/icon";
+import Calendar from "./Calendar";
 
 type Props = {
   date: Date;
@@ -30,7 +31,14 @@ export default function DateWithCalendar({ date, onDateChange }: Props) {
           <IconArrowLeftBg className="cursor-pointer" onClick={handlePrevDay} />
           <IconArrowRightBg className="cursor-pointer" onClick={handleNextDay} />
         </span>
-        <CalendarPopover onDateSelect={handleDateSelect} selectedDate={date} />
+        <Popover>
+          <Popover.Toggle>
+            <IconCalenderBg className="cursor-pointer" />
+          </Popover.Toggle>
+          <Popover.Wrapper>
+            <Calendar onDateSelect={handleDateSelect} selectedDate={date} />
+          </Popover.Wrapper>
+        </Popover>
       </div>
       <TextButton icon="plus">새로운 목록 추가하기</TextButton>
     </div>

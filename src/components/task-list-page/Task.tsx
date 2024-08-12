@@ -18,15 +18,21 @@ type Props = {
   task: DateTask;
 };
 
+const frequencyMap = {
+  ONCE: "한 번",
+  DAILY: "매일 반복",
+  WEEKLY: "매주 반복",
+  MONTHLY: "매월 반복",
+};
+
 export default function Task({ task }: Props) {
   const [isChecked, setIsChecked] = useState(false);
   const handleCheckButton = () => {
     setIsChecked((prev) => !prev);
   };
 
-  const descriptionClassName = classNames("text-14 pt-2", {
-    "line-through": isChecked,
-  });
+  const getFrequencyText = (frequency: keyof typeof frequencyMap) =>
+    frequencyMap[frequency] || frequency;
 
   return (
     <motion.div
@@ -39,7 +45,9 @@ export default function Task({ task }: Props) {
             <button onClick={handleCheckButton}>
               {isChecked ? <IconCheckboxActive /> : <IconCheckboxDefault />}
             </button>
-            <span className={descriptionClassName}>{task.name}</span>
+            <span className={classNames("pt-2 text-14", { "line-through": isChecked })}>
+              {task.name}
+            </span>
           </div>
           <span className="flex items-center gap-2">
             <IconComment />
@@ -60,13 +68,15 @@ export default function Task({ task }: Props) {
         <span className="flex items-center gap-6">
           <IconTime />
           <time className="text-12 text-text-default">
-            {format(new Date(task.doneAt), "a h:mm", { locale: ko })}
+            {format(new Date(task.date), "a h:mm", { locale: ko })}
           </time>
         </span>
         <span className="h-10 border border-l border-solid border-background-tertiary" />
         <span className="flex items-center gap-6">
           <IconArrowReload />
-          <span className="text-12 text-text-default">{task.frequency}</span>
+          <span className="text-12 text-text-default">
+            {getFrequencyText(task.frequency as keyof typeof frequencyMap)}
+          </span>
         </span>
       </div>
     </motion.div>
