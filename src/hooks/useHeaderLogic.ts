@@ -28,7 +28,7 @@ export function useHeaderLogic() {
 
   const isAuthPage = pathname === "/login" || pathname === "/register";
 
-  const isRendingPage = pathname === "/";
+  const isLandingPage = pathname === "/";
 
   useEffect(() => {
     isLoggedIn();
@@ -56,7 +56,7 @@ export function useHeaderLogic() {
 
   return {
     isAuthPage,
-    isRendingPage,
+    isLandingPage,
     userInfo,
     curTeamPage,
     isPending,

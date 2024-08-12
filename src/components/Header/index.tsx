@@ -9,7 +9,7 @@ import { UserPopoverMenu } from "./UserPopoverMenu";
 export default function Header() {
   const {
     isAuthPage,
-    isRendingPage,
+    isLandingPage,
     userInfo,
     curTeamPage,
     isPending,
@@ -35,7 +35,7 @@ export default function Header() {
             <UserPopoverMenu user={userInfo} handleSignOut={handleSignOut} />
           </>
         )}
-        {isRendingPage && <Link href="/login">로그인</Link>}
+        {isLandingPage && <Link href="/login">로그인</Link>}
       </nav>
       <Sidebar
         sidebarOpen={sidebarOpen}
