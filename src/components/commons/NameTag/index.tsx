@@ -29,7 +29,7 @@ export default function NameTag({ type, image, name, email, onClick }: NameTagPr
       ? "grid grid-cols-[auto_1fr] grid-rows-[auto_auto] items-center gap-x-8 md:gap-x-12 gap-y-6 md:gap-y-2"
       : "flex items-center",
     {
-      "max-w-120": type === "default-6" || type === "default-12" || type === "profile",
+      "": type === "default-6" || type === "default-12" || type === "profile",
       "gap-6 md:gap-12": type === "default-6",
       "gap-12": type === "default-12",
       "gap-8": type === "profile",
@@ -43,7 +43,7 @@ export default function NameTag({ type, image, name, email, onClick }: NameTagPr
     "md:row-[1/3] w-24 h-24 md:w-32 md:h-32": type === "email",
   });
   const nameStyles = classNames(
-    "font-medium text-text-primary overflow-x-scroll text-nowrap",
+    "font-medium text-text-primary text-nowrap",
     type === "default-6" || type === "default-12" ? "text-xs md:text-md" : "text-md",
     type === "profile" ? "hidden lg:inline" : ""
   );
