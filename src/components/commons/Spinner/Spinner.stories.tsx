@@ -17,13 +17,13 @@ type Story = StoryObj<typeof meta>;
 export const Size20: Story = {
   args: {
     size: 20,
-    color: "#10B981",
+    color: "primary",
   },
 };
 
 export const Size30: Story = {
   args: {
     size: 30,
-    color: "#fff",
+    color: "white",
   },
 };
