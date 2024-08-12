@@ -13,7 +13,13 @@ import { IconComment, IconHeart, IconHeartFill } from "@utils/icon";
 import { deleteArticle, deleteArticleLike, postArticleLike } from "@api/articleApi";
 import DeleteArticleModal from "./DeleteArticleModal";
 
-export default function ArticleDetail({ article }: { article?: ArticleDetails }) {
+export default function ArticleDetail({
+  article,
+  refetch,
+}: {
+  article?: ArticleDetails;
+  refetch: () => void;
+}) {
   const [isLiked, setIsLiked] = useState(article?.isLiked);
   const [likeCount, setLikeCount] = useState(article?.likeCount || 0);
   const { openModal, closeModal } = useModal();
@@ -45,10 +51,7 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
       setIsLiked(true);
       setLikeCount((prev) => prev + 1);
     },
-    onError: () => {
-      setIsLiked(false);
-      setLikeCount((prev) => prev - 1);
-    },
+    onSuccess: () => refetch(),
   });
 
   const unlikeMutation = useMutation({
@@ -57,13 +60,14 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
       setIsLiked(false);
       setLikeCount((prev) => prev - 1);
     },
-    onError: () => {
-      setIsLiked(true);
-      setLikeCount((prev) => prev + 1);
-    },
+    onSuccess: () => refetch(),
   });
 
   const handleLikeClick = () => {
+    if (likeMutation.isPending || unlikeMutation.isPending) {
+      return;
+    }
+
     if (isLiked) {
       unlikeMutation.mutate();
     } else {
@@ -97,9 +101,15 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
           </div>
           <div className="flex items-center justify-center gap-5">
             {isLiked ? (
-              <IconHeartFill onClick={handleLikeClick} className="cursor-pointer" />
+              <IconHeartFill
+                onClick={handleLikeClick}
+                className={`${likeMutation.isPending || unlikeMutation.isPending ? "cursor-not-allowed" : "cursor-pointer"}`}
+              />
             ) : (
-              <IconHeart onClick={handleLikeClick} className="cursor-pointer" />
+              <IconHeart
+                onClick={handleLikeClick}
+                className={`${likeMutation.isPending || unlikeMutation.isPending ? "cursor-not-allowed" : "cursor-pointer"}`}
+              />
             )}
             <span className="text-14 font-[400] text-text-disabled">{likeCount}</span>
           </div>
