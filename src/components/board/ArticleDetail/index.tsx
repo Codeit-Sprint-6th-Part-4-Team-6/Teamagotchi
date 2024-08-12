@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import { useModal } from "@hooks/useModal";
+import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
 import { formatDate } from "@utils/formatDate";
 import { IconComment, IconHeart } from "@utils/icon";
@@ -11,9 +12,10 @@ import { deleteArticle } from "@api/articleApi";
 import DeleteArticleModal from "./DeleteArticleModal";
 
 export default function ArticleDetail({ article }: { article?: ArticleDetails }) {
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
   const router = useRouter();
   const { user } = useAuthStore();
+  const { toast } = useToast();
 
   if (!article) {
     return router.push("/board");
@@ -21,8 +23,16 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
 
   const { title, writer, createdAt, likeCount, image, content, id } = article;
 
+  const handleDeleteConfirm = () => {
+    deleteArticle(id).then(() => {
+      toast("success", "게시글 삭제에 성공했습니다.");
+      closeModal();
+      router.push("/board");
+    });
+  };
+
   const handleOpenWarnModal = () => {
-    openModal("DeleteModal", DeleteArticleModal, { onConfirm: () => deleteArticle(id) });
+    openModal("DeleteModal", DeleteArticleModal, { onConfirm: handleDeleteConfirm });
   };
 
   return (
