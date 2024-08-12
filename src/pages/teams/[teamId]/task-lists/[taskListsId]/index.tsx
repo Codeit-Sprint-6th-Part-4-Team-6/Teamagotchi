@@ -42,9 +42,26 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
+    updateURL(date, taskListId);
   };
+
   const handleTaskListId = (id: string | string[] | undefined) => {
     setTaskListId(id);
+    updateURL(selectedDate, id);
+  };
+
+  const updateURL = (date: Date, id: string | string[] | undefined) => {
+    const path = `/teams/${teamId}/task-lists/${id}`;
+    const query = { date: date.toISOString().slice(0, 10) };
+
+    router.push(
+      {
+        pathname: path,
+        query,
+      },
+      undefined,
+      { shallow: true }
+    );
   };
 
   const {
