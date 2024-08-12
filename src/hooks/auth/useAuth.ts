@@ -1,4 +1,4 @@
-import { AuthResponse } from "@coworkers-types";
+import { AuthResponse, BaseUserInfo } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";

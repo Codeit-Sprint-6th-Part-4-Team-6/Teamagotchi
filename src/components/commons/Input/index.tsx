@@ -9,9 +9,11 @@ type InputProps = {
   placeholder?: string;
   defaultValue?: string;
   value?: string;
+  className?: string;
   errorMessage?: string;
   disabled?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onDelete?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
@@ -36,9 +38,11 @@ export default function Input({
   placeholder,
   defaultValue,
   value,
+  className,
   errorMessage,
   disabled,
   onChange,
+  onKeyDown,
   onBlur,
   onDelete,
 }: InputProps) {
@@ -49,7 +53,7 @@ export default function Input({
   };
 
   const inputClassnames = classNames(
-    "w-full h-44 md:h-48 text-md font-normal md:text-lg rounded-[12px] border border-solid text-text-primary placeholder-text-default focus:border-interaction-focus",
+    `w-full h-48 md:h-48 text-md font-normal md:text-lg rounded-[12px] border border-solid text-text-primary placeholder-text-default focus:border-interaction-focus`,
     errorMessage ? "!border-status-danger" : "border-border-primary",
     disabled ? "bg-background-tertiary" : "bg-background-secondary",
     type === "password" ? "pl-16 pr-40" : "px-16",
@@ -57,7 +61,7 @@ export default function Input({
   );
 
   return (
-    <div className="relative w-full">
+    <div className={`relative w-full ${className}`}>
       <input
         type={inputType}
         name={name}
@@ -67,13 +71,14 @@ export default function Input({
         value={value}
         disabled={disabled}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         onBlur={onBlur}
         className={inputClassnames}
       />
       {type === "password" && (
         <button
           type="button"
-          className="absolute right-16 top-10 md:top-12"
+          className="absolute right-16 top-12"
           onClick={handlePasswordViewClick}
           aria-label="Toggle password visibility"
         >
@@ -82,11 +87,11 @@ export default function Input({
       )}
       {type === "search" && (
         <>
-          <IconSearch className="absolute left-16 top-10 md:top-12" />
+          <IconSearch className="absolute left-16 top-12" />
           {value && (
             <button
               type="button"
-              className="absolute right-16 top-10 cursor-pointer md:top-12"
+              className="absolute right-16 top-6 cursor-pointer"
               onClick={onDelete}
               aria-label="Clear search"
             >

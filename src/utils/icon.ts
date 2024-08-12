@@ -1,8 +1,11 @@
 import IconAlert from "@icons/icon_alert.svg";
 import IconArrowLeft from "@icons/icon_arrow_left.svg";
 import IconArrowLeftBg from "@icons/icon_arrow_left_bg.svg";
+import IconArrowLeftGray from "@icons/icon_arrow_left_gray.svg";
 import IconArrowRight from "@icons/icon_arrow_right.svg";
 import IconArrowRightBg from "@icons/icon_arrow_right_bg.svg";
+import IconArrowRightGray from "@icons/icon_arrow_right_gray.svg";
+import IconBestBadge from "@icons/icon_best_badge.svg";
 import IconCalender from "@icons/icon_calendar.svg";
 import IconCheckActive from "@icons/icon_check_active.svg";
 import IconCheckDisActive from "@icons/icon_check_disactive.svg";
@@ -22,6 +25,7 @@ import IconEnterDefault from "@icons/icon_enter_default.svg";
 import IconGear from "@icons/icon_gear.svg";
 import IconGnbMenu from "@icons/icon_gnb_menu.svg";
 import IconGoogle from "@icons/icon_google.svg";
+import IconHeart from "@icons/icon_heart.svg";
 import IconImage from "@icons/icon_image.svg";
 import IconKakaotalk from "@icons/icon_kakaotalk.svg";
 import IconKebabLarge from "@icons/icon_kebab_large.svg";
@@ -52,8 +56,10 @@ export {
   IconAlert,
   IconArrowLeft,
   IconArrowLeftBg,
+  IconArrowLeftGray,
   IconArrowRight,
   IconArrowRightBg,
+  IconArrowRightGray,
   IconCalender,
   IconCheckActive,
   IconCheckDisActive,
@@ -95,6 +101,8 @@ export {
   IconGoogle,
   IconSearch,
   IconMember,
+  IconBestBadge,
+  IconHeart,
   IconMemberLarge,
   IconEdit,
   IconPlusLarge,

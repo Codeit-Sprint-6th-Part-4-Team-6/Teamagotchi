@@ -132,7 +132,7 @@ export default function TwoInputModal({
             placeholder={secondPlaceholder}
             type="small"
             height={80}
-            onChange={firstOnChange as (event: React.ChangeEvent<HTMLTextAreaElement>) => void}
+            onChange={secondOnChange as (event: React.ChangeEvent<HTMLTextAreaElement>) => void}
             onBlur={secondOnBlur as (event: React.FocusEvent<HTMLTextAreaElement>) => void}
           />
         )}
