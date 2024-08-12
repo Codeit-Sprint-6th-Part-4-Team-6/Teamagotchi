@@ -4,7 +4,6 @@ import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
 import Header from "@components/Header";
-import UserInfo from "@components/auth/UserInfo";
 import Toast from "@components/commons/Toast";
 import ModalWrapper from "@components/commons/modal/ModalWrapper";
 import "@styles/globals.css";
@@ -23,7 +22,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <main className={pretendard.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Header />
-          <UserInfo />
           <ModalWrapper />
           <Toast />
           <Component {...pageProps} />

@@ -1,8 +1,16 @@
-import { AuthResponse } from "@coworkers-types";
+import { AuthResponse, BaseUserInfo } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
+
+type LocalStorageData = {
+  state: {
+    user: BaseUserInfo;
+    isLoggedIn: boolean;
+  };
+  version: number;
+};
 
 export const useAuth = () => {
   const { setUser } = useAuthStore();
@@ -25,6 +33,7 @@ export const useAuth = () => {
     }
     setCookie("loginType", loginType, { maxAge: 3600 * 12 * 7 });
     setUser(data.user);
+    queryClient.setQueryData(["user"], data.user);
     router.push("/teams");
   };
 
@@ -35,12 +44,26 @@ export const useAuth = () => {
     deleteCookie("accessToken");
     deleteCookie("refreshToken");
     deleteCookie("loginType");
-    queryClient.removeQueries({
-      predicate: (query) => query.queryKey[0] !== "user",
-    });
+    queryClient.removeQueries();
+    setUser(null);
     useAuthStore.persist.clearStorage();
     router.push("/");
   };
 
-  return { login, logout };
+  const isLoggedIn = () => {
+    const result = localStorage.getItem("userStore");
+
+    if (result) {
+      try {
+        const { user } = JSON.parse(result).state;
+        setUser(user);
+        queryClient.setQueryData(["user"], user);
+      } catch (error) {
+        alert("로그인 된 사용자만 이용이 가능합니다.");
+        router.push("/login");
+      }
+    }
+  };
+
+  return { login, logout, isLoggedIn };
 };
