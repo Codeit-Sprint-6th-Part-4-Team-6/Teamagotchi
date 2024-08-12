@@ -1,11 +1,5 @@
 import { ArticleDetails } from "@coworkers-types";
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-  keepPreviousData,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, dehydrate, keepPreviousData, useQuery } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import ArticleDetail from "@components/board/ArticleDetail";
@@ -14,10 +8,11 @@ import { getArticle } from "@api/articleApi";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { boardId } = context.query;
+  const token = context.req.cookies["accessToken"];
 
-  await queryClient.prefetchQuery({
+  await queryClient.fetchQuery({
     queryKey: ["article", boardId],
-    queryFn: () => getArticle(boardId as string),
+    queryFn: () => getArticle(boardId as string, token),
     staleTime: Infinity,
   });
 
@@ -27,6 +22,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
+
 export default function BoardDetailPage() {
   const router = useRouter();
   const { boardId } = router.query;
@@ -37,7 +33,6 @@ export default function BoardDetailPage() {
     placeholderData: keepPreviousData,
     staleTime: Infinity,
   });
-
   return (
     <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
       <ArticleDetail article={ArticleData} />

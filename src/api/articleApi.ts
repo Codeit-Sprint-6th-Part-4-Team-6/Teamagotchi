@@ -46,8 +46,12 @@ export const getArticleList = async (
  * @param articleId - article의 ID입니다.
  * @returns 게시글 객체를 반환합니다. 오류 발생시 메세지 객체를 반환합니다.
  */
-export const getArticle = async (articleId: string): Promise<ArticleDetails> => {
-  const response = await axiosInstance.get<ArticleDetails>(`articles/${articleId}`);
+export const getArticle = async (articleId: string, token?: string): Promise<ArticleDetails> => {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const response = await axiosInstance.get<ArticleDetails>(`articles/${articleId}`, { headers });
   return response.data;
 };
 

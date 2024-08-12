@@ -8,7 +8,7 @@ import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
 import { formatDate } from "@utils/formatDate";
 import { IconComment, IconHeart } from "@utils/icon";
-import { deleteArticle } from "@api/articleApi";
+import { deleteArticle, postArticleLike } from "@api/articleApi";
 import DeleteArticleModal from "./DeleteArticleModal";
 
 export default function ArticleDetail({ article }: { article?: ArticleDetails }) {
@@ -18,7 +18,7 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
   const { toast } = useToast();
 
   if (!article) {
-    return router.push("/board");
+    return <div>no data</div>;
   }
 
   const { title, writer, createdAt, likeCount, image, content, id } = article;
@@ -33,6 +33,10 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
 
   const handleOpenWarnModal = () => {
     openModal("DeleteModal", DeleteArticleModal, { onConfirm: handleDeleteConfirm });
+  };
+
+  const handleLikeClick = () => {
+    postArticleLike(id);
   };
 
   return (
@@ -60,7 +64,7 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
             <span className="text-14 font-[400] text-text-disabled">{likeCount}</span>
           </div>
           <div className="flex items-center justify-center gap-5">
-            <IconHeart />
+            <IconHeart onClick={handleLikeClick} className="cursor-pointer" />
             <span className="text-14 font-[400] text-text-disabled">{likeCount}</span>
           </div>
         </div>

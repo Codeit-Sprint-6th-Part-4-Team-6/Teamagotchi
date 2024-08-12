@@ -28,7 +28,7 @@ declare module "@coworkers-types" {
   };
 
   export type ArticleDetails = BaseArticleEntity & {
-    isLiked: boolean;
+    isLiked: boolean | null;
     content: string;
   };
 }
