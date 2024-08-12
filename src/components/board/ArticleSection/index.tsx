@@ -14,18 +14,21 @@ export default function ArticleSection({
 }: {
   Posts: Article[];
   searchValue: string;
-  searchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  searchChange: (value: string) => void;
   onEnter: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   sortValue: string;
   sortChange: (value: string) => void;
 }) {
+  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    searchChange(event.target.value);
+  };
   return (
     <div className="mt-30">
       <div className="mb-12 flex w-full items-center justify-between gap-30">
         <Label content="게시글" className="w-100" />
         <Input
           value={searchValue}
-          onChange={searchChange}
+          onChange={handleKeywordChange}
           onKeyDown={onEnter}
           type="search"
           name="search"

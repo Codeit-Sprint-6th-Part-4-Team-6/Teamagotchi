@@ -15,6 +15,7 @@ import ArticleSection from "@components/board/ArticleSection";
 import BestArticleSection from "@components/board/BestArticleSection";
 import Pagination from "@components/board/pagination";
 import useMediaQuery from "@hooks/useMediaQuery";
+import usePagination from "@hooks/usePagination";
 import { getArticleList } from "@api/articleApi";
 
 const PAGE_SIZE = 3;
@@ -60,6 +61,12 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: Dehydr
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const queryClient = useQueryClient();
 
+  const { handlePageChange, handleOrderByChange, handleKeywordEnter } = usePagination(
+    currentPage,
+    currentOrderBy,
+    currentKeyword
+  );
+
   const { isMobile, isTablet, isDesktop } = useMediaQuery();
 
   const { data: bestArticles } = useQuery<TotalArticle>({
@@ -90,51 +97,6 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: Dehydr
     staleTime: Infinity,
   });
 
-  const updateURL = (newPage?: number, newOrderBy?: string, newKeyword?: string) => {
-    const query: any = {};
-    if (newPage !== undefined) query.page = newPage;
-    if (newOrderBy !== undefined) query.orderBy = newOrderBy;
-    if (newKeyword !== undefined) query.keyword = newKeyword;
-
-    router.push(
-      {
-        pathname: "/board",
-        query,
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
-
-  const handlePageChange = (newPage: number) => {
-    if (
-      newPage < 1 ||
-      newPage > totalCount ||
-      (newPage === 1 && currentPage === 1) ||
-      (newPage === totalCount && currentPage === totalCount)
-    )
-      return;
-    setCurrentPage(newPage);
-    updateURL(newPage, currentOrderBy, currentKeyword);
-  };
-
-  const handleOrderByChange = (newOrderBy: string) => {
-    setCurrentOrderBy(newOrderBy);
-    updateURL(currentPage, newOrderBy, currentKeyword);
-  };
-
-  const handleKeywordEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      const target = event.target as HTMLInputElement;
-      setCurrentKeyword(target.value);
-      updateURL(1, currentOrderBy, target.value);
-    }
-  };
-
-  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value);
-  };
-
   const displayedBestArticles = useMemo(() => {
     const bestArticlesList = bestArticles?.list || [];
     if (isMobile) return bestArticlesList.slice(0, MOBILE_SIZE);
@@ -153,7 +115,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: Dehydr
         <ArticleSection
           Posts={articles}
           searchValue={searchKeyword}
-          searchChange={handleKeywordChange}
+          searchChange={setSearchKeyword}
           sortValue={currentOrderBy}
           sortChange={handleOrderByChange}
           onEnter={handleKeywordEnter}
