@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import ArticleCommentList from "@components/board-details/ArticleCommentList";
 import Textarea from "@components/commons/TextArea";
 import { useAuthStore } from "@store/useAuthStore";
 import { clearAuth } from "@utils/auth";
@@ -34,7 +35,6 @@ export default function TeamListPage() {
       <button type="button" onClick={handleSignOut}>
         로그아웃
       </button>
-      <Textarea type="innerButton" placeholder="테스트" height={50} />
     </div>
   );
 }

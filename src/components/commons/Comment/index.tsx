@@ -1,6 +1,6 @@
 import { ArticleComment, TaskComment } from "@coworkers-types";
 import classNames from "classnames";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import { calculateElapsedTime } from "@utils/calculateElapsedTime";
 import { checkIsLink } from "@utils/checkIsLink";
 import { isTaskCommentType } from "@utils/typeGuard/isTaskCommentType";

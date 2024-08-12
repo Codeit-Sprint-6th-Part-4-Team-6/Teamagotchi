@@ -27,17 +27,25 @@ export default function ArticleCommentList({ articleId }: { articleId: number })
 
   return (
     <div className="relative flex flex-col gap-16 pb-16">
-      {commentList &&
-        commentList.pages.map((threeComments) =>
-          threeComments.list?.map((comment) => (
-            <Comment type="article" comment={comment} articleId={articleId} key={comment.id} />
-          ))
-        )}
-      {isFetching ? (
-        <Spinner size={36} color="#64748B" />
-      ) : (
-        hasNextPage && <div ref={targetRef} className="absolute bottom-400" />
+      {isFetching && <Spinner size={36} color="#64748B" />}
+
+      {!isFetching && commentList && commentList.pages[0].list.length > 0 && (
+        <>
+          {commentList.pages.map((threeComments) =>
+            threeComments.list?.map((comment) => (
+              <Comment type="article" comment={comment} articleId={articleId} key={comment.id} />
+            ))
+          )}
+        </>
       )}
+
+      {!isFetching && commentList?.pages[0].list.length === 0 && (
+        <div className="flex h-300 items-center justify-center text-md font-medium text-text-default md:text-lg">
+          아직 작성된 댓글이 없습니다.
+        </div>
+      )}
+
+      {!isFetching && hasNextPage && <div ref={targetRef} className="absolute bottom-400" />}
     </div>
   );
 }
