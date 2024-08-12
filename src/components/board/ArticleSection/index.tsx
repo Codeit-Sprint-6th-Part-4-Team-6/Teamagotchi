@@ -43,7 +43,7 @@ export default function ArticleSection({
       <div className="mt-20 flex flex-col">
         {Posts.map((post) => (
           <div key={post.id}>
-            <ArticleCard Posts={post} />
+            <ArticleCard Post={post} />
           </div>
         ))}
       </div>

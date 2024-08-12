@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { TotalArticle } from "@coworkers-types";
 import {
+  type DehydratedState,
   HydrationBoundary,
   QueryClient,
   dehydrate,
@@ -10,8 +11,8 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import ArticleSection from "@components/board/Article";
-import BestArticle from "@components/board/BestArticle";
+import ArticleSection from "@components/board/ArticleSection";
+import BestArticleSection from "@components/board/BestArticleSection";
 import Pagination from "@components/board/pagination";
 import useMediaQuery from "@hooks/useMediaQuery";
 import { getArticleList } from "@api/articleApi";
@@ -48,7 +49,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function BoardPage({ dehydratedState }: { dehydratedState: any }) {
+export default function BoardPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
   const router = useRouter();
   const { page, orderBy, keyword } = router.query;
   const [currentPage, setCurrentPage] = useState<number>(parseInt(page as string, 10) || 1);
@@ -148,7 +149,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-        <BestArticle Posts={displayedBestArticles} />
+        <BestArticleSection Posts={displayedBestArticles} />
         <ArticleSection
           Posts={articles}
           searchValue={searchKeyword}
