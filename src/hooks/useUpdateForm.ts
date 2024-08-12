@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useToast } from "@hooks/useToast";
 import { postImageURL } from "@api/imageApi";
 
-interface UseImageUploadFormProps {
+interface UseUploadFormProps {
   initialName: string;
   initialImage?: string | null;
   onSubmit: (data: { name: string; image?: string }) => Promise<any>;
@@ -20,7 +20,7 @@ export function useUploadForm({
   successMessage,
   redirectPath,
   queryKey,
-}: UseImageUploadFormProps) {
+}: UseUploadFormProps) {
   const [imageFile, setImageFile] = useState<string | File | null>(initialImage);
   const [changedName, setChangedName] = useState(initialName);
   const [errorMessage, setErrorMessage] = useState("");
