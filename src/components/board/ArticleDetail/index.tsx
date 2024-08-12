@@ -29,7 +29,7 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
     <div className="flex flex-col gap-20">
       <div className="flex justify-between">
         <h1 className="text-18 font-[500] text-text-secondary">{title}</h1>
-        {user?.id === id && (
+        {user?.id === writer.id && (
           <EditDeletePopover
             icon="kebabLarge"
             handleModify={() => router.push(`/board/${id}/edit`)}
@@ -47,11 +47,11 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
         <div className="flex gap-12">
           <div className="flex items-center justify-center gap-5">
             <IconComment />
-            <span className="text-14 font-[400] text-[#94A3B8]">{likeCount}</span>
+            <span className="text-14 font-[400] text-text-disabled">{likeCount}</span>
           </div>
           <div className="flex items-center justify-center gap-5">
             <IconHeart />
-            <span className="text-14 font-[400] text-[#94A3B8]">{likeCount}</span>
+            <span className="text-14 font-[400] text-text-disabled">{likeCount}</span>
           </div>
         </div>
       </div>
