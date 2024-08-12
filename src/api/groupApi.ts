@@ -6,7 +6,7 @@ import { axiosInstance } from "./axios";
  * @param groupId - group의 ID입니다.
  * @returns Group 객체를 반환합니다.
  */
-export const getGroup = async (groupId: number): Promise<Group> => {
+export const getGroup = async (groupId: string): Promise<Group> => {
   const response = await axiosInstance.get<Group>(`groups/${groupId}`);
   return response.data;
 };
