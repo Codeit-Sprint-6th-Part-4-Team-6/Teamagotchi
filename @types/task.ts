@@ -42,7 +42,7 @@ declare module "@coworkers-types" {
   };
 
   export type TaskDetails = BaseTaskDetails & {
-    comments: CommentInfo[];
+    comments: TaskCommentInfo[];
     recurring: Recurring;
     user: TaskUserInfo;
     description: string;
