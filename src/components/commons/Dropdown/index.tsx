@@ -1,4 +1,12 @@
-import React, { createContext, useContext, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconToggle } from "@utils/icon";
 
@@ -24,14 +32,17 @@ export default function Dropdown({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Dropdown 열기/닫기
-  const toggleDropdown = () => setIsOpen(!isOpen);
-  const closeDropdown = () => setIsOpen(false);
+  const toggleDropdown = useCallback(() => setIsOpen((prev) => !prev), []);
+  const closeDropdown = useCallback(() => setIsOpen(false), []);
 
   // 아이템 선택 시 동작
-  const selectItem = (value: string) => {
-    onSelect(value);
-    closeDropdown();
-  };
+  const selectItem = useCallback(
+    (value: string) => {
+      onSelect(value);
+      closeDropdown();
+    },
+    [onSelect, closeDropdown]
+  );
 
   // Context Provider 값 생성
   const providerValue = useMemo(
@@ -49,6 +60,21 @@ export default function Dropdown({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [dropdownRef]);
+
+  // Esc 키를 눌렀을 때 드롭다운 닫기
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeDropdown();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, closeDropdown]);
 
   return (
     <DropdownContext.Provider value={providerValue}>
@@ -105,7 +131,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="absolute top-50 box-border w-full rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8"
+          className="absolute top-50 box-border flex w-full flex-col gap-5 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -120,11 +146,18 @@ function Wrapper({ children }: { children: React.ReactNode }) {
 
 // Dropdown 항목 (Item)
 function Item({ children, value }: { children: React.ReactNode; value: string }) {
-  const { selectItem } = useContext(DropdownContext);
+  const { selectItem, selectedValue } = useContext(DropdownContext);
+
+  // 현재 아이템이 선택된 값인지 확인
+  const isSelected = selectedValue === value;
 
   return (
     <div
-      className="cursor-pointer text-nowrap rounded-8 px-8 py-7 text-md text-text-primary transition-all hover:bg-background-tertiary md:text-lg"
+      className={`cursor-pointer text-nowrap rounded-8 px-8 py-7 text-md transition-all md:text-lg ${
+        isSelected
+          ? "text-text-highlighted bg-background-tertiary"
+          : "text-text-primary hover:bg-background-tertiary"
+      }`}
       onClick={() => selectItem(value)}
       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && selectItem(value)}
       role="button"
