@@ -64,6 +64,8 @@ export const getUserMemberships = async (): Promise<Membership[]> => {
 export const getUserHistory = async (): Promise<TaskDone[][]> => {
   const response = await axiosInstance.get<History>("user/history");
 
+  if (response.data[0].tasksDone.length === 0) return [];
+
   const groupHistory = (history: History) => {
     const groupedTasks: Record<string, TaskDone[]> = {};
 
@@ -77,7 +79,7 @@ export const getUserHistory = async (): Promise<TaskDone[][]> => {
       groupedTasks[date].push(doneTask); // 해당 날짜에 task 추가
     });
 
-    return Object.values(groupedTasks); // 2차원 배열로 반환
+    return Object.values(groupedTasks).reverse(); // 2차원 배열로 반환(순서 반대로)
   };
 
   const history = groupHistory(response.data);
