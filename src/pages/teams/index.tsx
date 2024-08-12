@@ -22,10 +22,6 @@ export default function TeamsPage() {
           팀 참여하기
         </Link>
       </Button>
-
-      <button type="button" onClick={logout}>
-        로그아웃
-      </button>
     </section>
   );
 }

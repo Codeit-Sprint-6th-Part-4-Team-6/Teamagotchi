@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { User, UserInfo } from "@coworkers-types";
-import { useMutation } from "@tanstack/react-query";
+import { UserInfo } from "@coworkers-types";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
@@ -10,11 +10,25 @@ import { useAuthStore } from "@store/useAuthStore";
 import { postImageURL } from "@api/imageApi";
 import { patchUser } from "@api/userApi";
 
+const defaultUserInfo: UserInfo = {
+  nickname: "",
+  image: "",
+  createdAt: "",
+  updatedAt: "",
+  id: 0,
+  email: "",
+  teamId: "",
+};
+
 export default function EditUserForm() {
-  const { user, setUser } = useAuthStore();
+  const { setUser } = useAuthStore();
+  const queryClient = useQueryClient();
+  const userData = queryClient.getQueryData<UserInfo>(["user"]) || defaultUserInfo;
+  const user: UserInfo = userData;
   const [profileImage, setProfileImage] = useState<string | File | null>(user?.image ?? null);
-  const [name, setName] = useState(user?.nickname);
+  const [name, setName] = useState(user?.nickname ?? "");
   const [errorMessage, setErrorMessage] = useState("");
+
   const { toast } = useToast();
 
   const handleFileChange = (value: string | File | null) => {
@@ -29,7 +43,13 @@ export default function EditUserForm() {
     mutationFn: ({ nickname, image }: { nickname?: string; image?: string }) =>
       patchUser({ nickname, image }),
     onSuccess: () => {
-      // TODO: 변경된 유저 정보 store에 저장
+      const updatedData = {
+        ...user,
+        nickname: name,
+        image: profileImage instanceof File ? user.image : profileImage,
+      };
+      setUser(updatedData);
+      queryClient.setQueryData(["user"], updatedData);
       toast("success", "계정 설정 변경에 성공하셨습니다.");
     },
     onError: (error: any) => {
@@ -59,6 +79,8 @@ export default function EditUserForm() {
     } else {
       patchUserMutation.mutate({ nickname: name });
     }
+
+    queryClient.invalidateQueries({ queryKey: ["user"] });
   };
 
   return (
