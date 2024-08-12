@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { ArticleDetails } from "@coworkers-types";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import NameTag from "@components/commons/NameTag";
@@ -7,21 +9,23 @@ import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
 import { formatDate } from "@utils/formatDate";
-import { IconComment, IconHeart } from "@utils/icon";
-import { deleteArticle, postArticleLike } from "@api/articleApi";
+import { IconComment, IconHeart, IconHeartFill } from "@utils/icon";
+import { deleteArticle, deleteArticleLike, postArticleLike } from "@api/articleApi";
 import DeleteArticleModal from "./DeleteArticleModal";
 
 export default function ArticleDetail({ article }: { article?: ArticleDetails }) {
+  const [isLiked, setIsLiked] = useState(article?.isLiked);
+  const [likeCount, setLikeCount] = useState(article?.likeCount || 0);
   const { openModal, closeModal } = useModal();
   const router = useRouter();
   const { user } = useAuthStore();
   const { toast } = useToast();
 
   if (!article) {
-    return <div>no data</div>;
+    return <div>No data</div>;
   }
 
-  const { title, writer, createdAt, likeCount, image, content, id } = article;
+  const { title, writer, createdAt, image, content, id } = article;
 
   const handleDeleteConfirm = () => {
     deleteArticle(id).then(() => {
@@ -35,8 +39,36 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
     openModal("DeleteModal", DeleteArticleModal, { onConfirm: handleDeleteConfirm });
   };
 
+  const likeMutation = useMutation({
+    mutationFn: () => postArticleLike(id),
+    onMutate: () => {
+      setIsLiked(true);
+      setLikeCount((prev) => prev + 1);
+    },
+    onError: () => {
+      setIsLiked(false);
+      setLikeCount((prev) => prev - 1);
+    },
+  });
+
+  const unlikeMutation = useMutation({
+    mutationFn: () => deleteArticleLike(id),
+    onMutate: () => {
+      setIsLiked(false);
+      setLikeCount((prev) => prev - 1);
+    },
+    onError: () => {
+      setIsLiked(true);
+      setLikeCount((prev) => prev + 1);
+    },
+  });
+
   const handleLikeClick = () => {
-    postArticleLike(id);
+    if (isLiked) {
+      unlikeMutation.mutate();
+    } else {
+      likeMutation.mutate();
+    }
   };
 
   return (
@@ -64,13 +96,19 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
             <span className="text-14 font-[400] text-text-disabled">{likeCount}</span>
           </div>
           <div className="flex items-center justify-center gap-5">
-            <IconHeart onClick={handleLikeClick} className="cursor-pointer" />
+            {isLiked ? (
+              <IconHeartFill onClick={handleLikeClick} className="cursor-pointer" />
+            ) : (
+              <IconHeart onClick={handleLikeClick} className="cursor-pointer" />
+            )}
             <span className="text-14 font-[400] text-text-disabled">{likeCount}</span>
           </div>
         </div>
       </div>
       <div>
-        {image && <Image width={512} height={512} src={image} alt="image" />}
+        {image && (
+          <Image layout="responsive" width={512} height={512} src={image} alt="Article image" />
+        )}
         <p className="mt-4 text-lg font-normal text-text-secondary">{content}</p>
       </div>
     </div>
