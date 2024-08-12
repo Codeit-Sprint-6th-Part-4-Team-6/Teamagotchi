@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import classNames from "classnames";
 
 type TextAreaProps = {
@@ -51,21 +51,24 @@ export default function Textarea({
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const regulateTextarea = () => {
+  const regulateTextarea = useCallback(() => {
     if (textareaRef && textareaRef.current) {
       textareaRef.current.style.height = "0px";
       const { scrollHeight } = textareaRef.current;
       textareaRef.current.style.height = `${scrollHeight}px`;
     }
-  };
+  }, []);
 
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (onChange) {
-      onChange(event);
-    }
-    // textarea 높이 조절
-    regulateTextarea();
-  };
+  const handleChange = useCallback(
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      if (onChange) {
+        onChange(event);
+      }
+      // textarea 높이 조절
+      regulateTextarea();
+    },
+    [onChange]
+  );
 
   useEffect(() => {
     if (defaultValue) {

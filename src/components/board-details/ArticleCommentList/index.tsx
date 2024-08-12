@@ -3,8 +3,7 @@ import Comment from "@components/commons/Comment";
 import Spinner from "@components/commons/Spinner";
 import { useObserver } from "@hooks/useObserver";
 import { getArticleComments } from "@api/articleCommentApi";
-
-const LIMIT = 3;
+import { ARTICLE_COMMENT_LIMIT } from "@constants/ArticleCommentLimit";
 
 /**
  * 게시글의 아이디를 받아 게시글의 댓글 리스트를 렌더링합니다. 무한 스크롤로 구현되어 있습니다.
@@ -19,7 +18,7 @@ export default function ArticleCommentList({ articleId }: { articleId: number })
     isFetching,
   } = useInfiniteQuery({
     queryKey: ["articleComments", articleId],
-    queryFn: ({ pageParam }) => getArticleComments(articleId, LIMIT, pageParam),
+    queryFn: ({ pageParam }) => getArticleComments(articleId, ARTICLE_COMMENT_LIMIT, pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
