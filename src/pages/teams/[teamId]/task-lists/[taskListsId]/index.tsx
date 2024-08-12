@@ -10,6 +10,7 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import Button from "@components/commons/Button";
 import DateWithCalendar from "@components/task-list-page/DateWithCalendar";
 import TaskList from "@components/task-list-page/TaskList";
 import { getTaskList } from "@api/taskListApi";
@@ -87,6 +88,13 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
           handleTaskListId={handleTaskListId}
         />
       </div>
+      <Button
+        buttonType="floating"
+        icon="plus"
+        className="bottom-24 right-24 lg:bottom-48 lg:right-100"
+      >
+        할 일 추가
+      </Button>
     </HydrationBoundary>
   );
 }
