@@ -18,11 +18,7 @@ export default function TeamList() {
   });
 
   if (isPending) {
-    return (
-      <div className="pb-80 pt-180">
-        <Spinner size={200} color="#fff" />
-      </div>
-    );
+    return <Spinner className="pb-80 pt-180" />;
   }
 
   if (isError) {
