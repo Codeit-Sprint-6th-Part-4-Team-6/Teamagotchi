@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Membership } from "@coworkers-types";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useAuth } from "@hooks/auth/useAuth";
 import { useAuthStore } from "@store/useAuthStore";
