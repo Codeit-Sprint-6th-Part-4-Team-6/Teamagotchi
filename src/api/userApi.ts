@@ -5,6 +5,7 @@ import {
   Password,
   ResetPassword,
   SendResetPasswordRequest,
+  TaskDone,
   User,
   UserGroup,
   UserRequest,
@@ -60,9 +61,30 @@ export const getUserMemberships = async (): Promise<Membership[]> => {
  * 유저의 마이 히스토리를 조회하는 API 함수입니다.
  * @returns 그룹 정보 배열을 반환합니다.
  */
-export const getUserHistory = async (): Promise<History> => {
+export const getUserHistory = async (): Promise<TaskDone[][]> => {
   const response = await axiosInstance.get<History>("user/history");
-  return response.data;
+
+  if (response.data[0].tasksDone.length === 0) return [];
+
+  const groupHistory = (history: History) => {
+    const groupedTasks: Record<string, TaskDone[]> = {};
+
+    history[0].tasksDone.forEach((doneTask) => {
+      const date = new Date(doneTask.doneAt).toLocaleDateString(); // 날짜만 추출
+
+      if (!groupedTasks[date]) {
+        groupedTasks[date] = []; // 해당 날짜 그룹이 없으면 초기화
+      }
+
+      groupedTasks[date].push(doneTask); // 해당 날짜에 task 추가
+    });
+
+    return Object.values(groupedTasks).reverse(); // 2차원 배열로 반환(순서 반대로)
+  };
+
+  const history = groupHistory(response.data);
+
+  return history;
 };
 
 /**

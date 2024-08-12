@@ -160,11 +160,7 @@ function TeamItem({
   };
 
   if (isPending) {
-    return (
-      <div className="pb-80 pt-180">
-        <Spinner size={200} color="#fff" />
-      </div>
-    );
+    return <Spinner size={200} color="white" className="pb-80 pt-180" />;
   }
 
   return (
