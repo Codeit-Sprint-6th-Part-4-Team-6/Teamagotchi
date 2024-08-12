@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { User, UserInfo } from "@coworkers-types";
 import { useMutation } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
@@ -10,7 +11,7 @@ import { postImageURL } from "@api/imageApi";
 import { patchUser } from "@api/userApi";
 
 export default function EditUserForm() {
-  const { user } = useAuthStore();
+  const { user, setUser } = useAuthStore();
   const [profileImage, setProfileImage] = useState<string | File | null>(user?.image ?? null);
   const [name, setName] = useState(user?.nickname);
   const [errorMessage, setErrorMessage] = useState("");
@@ -28,6 +29,7 @@ export default function EditUserForm() {
     mutationFn: ({ nickname, image }: { nickname?: string; image?: string }) =>
       patchUser({ nickname, image }),
     onSuccess: () => {
+      // TODO: 변경된 유저 정보 store에 저장
       toast("success", "계정 설정 변경에 성공하셨습니다.");
     },
     onError: (error: any) => {
