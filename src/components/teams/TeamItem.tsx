@@ -31,7 +31,7 @@ export default function TeamItem({ data }: TeamItemProps) {
     },
   });
 
-  const deleteOnConfirm = async () => {
+  const deleteOnConfirm = () => {
     deleteGroupMutation.mutate(data.groupId);
     closeModal();
   };
@@ -41,7 +41,7 @@ export default function TeamItem({ data }: TeamItemProps) {
   };
 
   if (deleteGroupMutation.isPending) {
-    return <Spinner size={70} color="#fff" />;
+    return <Spinner />;
   }
 
   return (

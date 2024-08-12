@@ -92,8 +92,8 @@ export default function Button({
     buttonStyle === "outlined-secondary" ||
     buttonStyle === "outlined" ||
     buttonStyle === "transparent"
-      ? "#10B981"
-      : "#FFFFFF";
+      ? "primary"
+      : "white";
 
   return (
     <motion.button
@@ -104,7 +104,7 @@ export default function Button({
       disabled={disabled}
     >
       {isPending ? (
-        <Spinner size={20} color={loaderColor} />
+        <Spinner color={loaderColor} />
       ) : (
         <>
           {icon !== "none" &&

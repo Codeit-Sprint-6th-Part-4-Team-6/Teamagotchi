@@ -1,4 +1,3 @@
-import React from "react";
 import { SignUpRequest } from "@coworkers-types";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";

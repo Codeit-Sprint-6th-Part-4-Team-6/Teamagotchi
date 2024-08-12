@@ -3,6 +3,9 @@ import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import Button from "@components/commons/Button";
+import { IconCrown, IconMember } from "@utils/icon";
+import Spinner from "../Spinner";
 
 export const PopoverContext = createContext({
   isOpen: false,
@@ -78,7 +81,7 @@ function Wrapper({
   const { isOpen } = useContext(PopoverContext);
 
   const wrapperClassName = classNames(
-    `${popDirection === "left" ? "right-0" : ""} absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8 text-center box-border max-w-218 min-w-120 md:min-w-135`
+    `${popDirection === "left" ? "right-0" : ""} z-50 absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8 text-center box-border max-w-218 min-w-120 md:min-w-135`
   );
 
   return (
@@ -116,7 +119,7 @@ function Item({ children, onClick }: { children: React.ReactNode; onClick: () =>
   );
 }
 
-function InnerButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+function InnerButton({ onClick }: { onClick: () => void }) {
   const { closePopover } = useContext(PopoverContext);
 
   const handleClick = () => {
@@ -124,26 +127,41 @@ function InnerButton({ children, onClick }: { children: React.ReactNode; onClick
   };
 
   return (
-    <button
-      type="button"
+    <Button
+      buttonStyle="transparent-white"
+      icon="plus"
       onClick={() => {
         onClick();
         handleClick();
       }}
-      className="mb-10 box-border flex h-[48px] w-[186px] cursor-pointer items-center justify-center gap-5 text-nowrap rounded-12 border border-solid px-8 py-7 text-lg hover:bg-background-tertiary"
     >
-      <Image className="block" src="/icons/icon_plus.svg" alt="plus btn" width={16} height={16} />
-      <p className="mt-3 text-nowrap">{children}</p>
-    </button>
+      팀 생성하기
+    </Button>
   );
 }
 
-function TeamItem({ id, imgSrc, title }: { id: number; imgSrc: string | null; title: string }) {
+function TeamItem({
+  id,
+  imgSrc,
+  title,
+  role,
+  isPending,
+}: {
+  id: number;
+  imgSrc: string | null;
+  title: string;
+  role: string;
+  isPending: boolean;
+}) {
   const { closePopover } = useContext(PopoverContext);
 
   const handleClick = () => {
     closePopover();
   };
+
+  if (isPending) {
+    return <Spinner size={200} color="white" className="pb-80 pt-180" />;
+  }
 
   return (
     <Link href={`/teams/${id}`}>
@@ -153,14 +171,14 @@ function TeamItem({ id, imgSrc, title }: { id: number; imgSrc: string | null; ti
         onClick={handleClick}
       >
         <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
-          <Image
-            src={imgSrc || "/icons/icon_default_image.svg"}
-            alt={`${title} logo`}
-            fill
-            className="object-cover"
-          />
+          {imgSrc ? (
+            <Image src={imgSrc} alt={`${title} 이미지`} fill className="object-cover" />
+          ) : (
+            <IconMember />
+          )}
         </div>
         <span className="flex-grow truncate text-left text-lg">{title}</span>
+        {role === "ADMIN" ? <IconCrown /> : ""}
       </button>
     </Link>
   );

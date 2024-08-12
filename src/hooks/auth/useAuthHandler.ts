@@ -1,8 +1,8 @@
-import { LoginRequest, SignUpRequest } from "@coworkers-types";
-import { useRouter } from "next/router";
-import { useAuthStore } from "@store/useAuthStore";
-import { setAuth } from "@utils/auth";
+import { AuthResponse, LoginRequest, SignUpRequest } from "@coworkers-types";
+import { useMutation } from "@tanstack/react-query";
+import { useToast } from "@hooks/useToast";
 import { loginUser, signUpUser } from "@api/authApi";
+import { useAuth } from "./useAuth";
 
 type AuthRequest = SignUpRequest | LoginRequest;
 
@@ -13,29 +13,39 @@ type AuthRequest = SignUpRequest | LoginRequest;
  * @returns submit 버튼에 넘길 수 있는 핸들러가 반환됩니다.
  */
 export const useAuthHandler = <T extends AuthRequest>(values: T, isRegister: boolean = false) => {
-  const router = useRouter();
-  const { setUser } = useAuthStore();
+  const { login } = useAuth();
+  const { toast } = useToast();
+
+  const loginMutation = useMutation({
+    mutationFn: (loginValue: LoginRequest) => loginUser(loginValue),
+    onSuccess: (data: AuthResponse) => {
+      toast("success", "로그인에 성공하셨습니다.");
+      login(data);
+    },
+    onError: (error: any) => {
+      toast("danger", error.response.data.message);
+    },
+  });
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    let data;
-
     if (isRegister) {
-      await signUpUser(values as SignUpRequest);
+      try {
+        await signUpUser(values as SignUpRequest);
+        toast("success", "회원가입에 성공하셨습니다.");
+        const loginData = {
+          email: values.email,
+          password: values.password,
+        };
 
-      const loginData = {
-        email: (values as SignUpRequest).email,
-        password: (values as SignUpRequest).password,
-      };
-
-      data = await loginUser(loginData);
+        loginMutation.mutate(loginData);
+      } catch (error: any) {
+        toast("danger", error.response.data.message);
+      }
     } else {
-      data = await loginUser(values as LoginRequest);
+      loginMutation.mutate(values);
     }
-    setAuth(data);
-    setUser(data.user);
-    router.push("/teams");
   };
 
   return {
