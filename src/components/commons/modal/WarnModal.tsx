@@ -4,6 +4,7 @@ import Button from "../Button";
 interface WarnModalProps {
   warnIcon?: boolean;
   title: string;
+  description?: string;
   content?: string;
   buttonText: string;
   onConfirm?: () => void;
@@ -15,6 +16,7 @@ interface WarnModalProps {
  * 자세한 사용방법은 https://github.com/Codeit-Sprint-6th-Part-4-Team-6/coworkers/pull/14 를 참고해주세요.
  * @param warnIcon - 경고 아이콘을 위한 props 입니다.
  * @param title - 모달의 상단 제목 부분입니다.
+ * @param description - 제목 아래 토글 설명 부분입니다.
  * @param content - 모달의 중간 내용 부분입니다.
  * @param buttonText - 버튼에 들어가는 텍스트입니다.
  * @param onConfirm - 버튼을 눌렀을때 동작하는 함수입니다.
@@ -23,6 +25,7 @@ interface WarnModalProps {
 export default function WarnModal({
   warnIcon = false,
   title,
+  description,
   content,
   buttonText,
   onConfirm,
@@ -32,6 +35,7 @@ export default function WarnModal({
     <div className="modal">
       {warnIcon && <IconAlert className="mb-16" />}
       <p className="modal-title">{title}</p>
+      <p className="modal-title">{description}</p>
       {content && <p className="modal-content">{content}</p>}
       <div className="mt-30 flex gap-10">
         <Button buttonStyle="outlined" onClick={onClose} size="medium">

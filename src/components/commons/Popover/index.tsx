@@ -2,11 +2,15 @@ import React, { createContext, useContext, useEffect, useMemo, useRef, useState 
 import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { IconKebabSmall } from "@utils/icon";
+import Link from "next/link";
+import Button from "@components/commons/Button";
+import { IconCrown, IconMember } from "@utils/icon";
+import Spinner from "../Spinner";
 
 const PopoverContext = createContext({
   isOpen: false,
   togglePopover: () => {},
+  closePopover: () => {},
 });
 
 export default function Popover({ children }: { children: React.ReactNode }) {
@@ -19,6 +23,7 @@ export default function Popover({ children }: { children: React.ReactNode }) {
     () => ({
       isOpen,
       togglePopover,
+      closePopover,
     }),
     [isOpen]
   );
@@ -35,7 +40,7 @@ export default function Popover({ children }: { children: React.ReactNode }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dropdownRef]);
+  }, [dropdownRef, closePopover]);
 
   return (
     <PopoverContext.Provider value={providerValue}>
@@ -59,7 +64,7 @@ function Toggle({ children }: { children: React.ReactNode }) {
         }
       }}
       tabIndex={0}
-      className="cursor-pointer"
+      className="flex cursor-pointer items-center gap-5 text-nowrap"
     >
       {children}
     </button>
@@ -76,7 +81,7 @@ function Wrapper({
   const { isOpen } = useContext(PopoverContext);
 
   const wrapperClassName = classNames(
-    `${popDirection === "left" ? "right-0" : ""} absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8 text-center box-border max-w-218 min-w-120 md:min-w-135`
+    `${popDirection === "left" ? "right-0" : ""} z-50 absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8 text-center box-border max-w-218 min-w-120 md:min-w-135`
   );
 
   return (
@@ -114,39 +119,68 @@ function Item({ children, onClick }: { children: React.ReactNode; onClick: () =>
   );
 }
 
-function InnerButton({
-  children,
-  onClick,
-  icon,
-}: {
-  children: React.ReactNode;
-  onClick: () => void;
-  icon?: React.ReactNode;
-}) {
+function InnerButton({ onClick }: { onClick: () => void }) {
+  const { closePopover } = useContext(PopoverContext);
+
+  const handleClick = () => {
+    closePopover();
+  };
+
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="mb-10 flex h-48 w-186 cursor-pointer items-center justify-center gap-5 text-nowrap rounded-12 border border-solid px-8 py-7 text-lg hover:bg-background-tertiary"
+    <Button
+      buttonStyle="transparent-white"
+      icon="plus"
+      onClick={() => {
+        onClick();
+        handleClick();
+      }}
     >
-      {icon}
-      {children}
-    </button>
+      팀 생성하기
+    </Button>
   );
 }
 
-function TeamItem({ imgSrc, children }: { imgSrc: string; children: React.ReactNode }) {
+function TeamItem({
+  id,
+  imgSrc,
+  title,
+  role,
+  isPending,
+}: {
+  id: number;
+  imgSrc: string | null;
+  title: string;
+  role: string;
+  isPending: boolean;
+}) {
+  const { closePopover } = useContext(PopoverContext);
+
+  const handleClick = () => {
+    closePopover();
+  };
+
+  if (isPending) {
+    return <Spinner size={200} color="white" className="pb-80 pt-180" />;
+  }
+
   return (
-    <button
-      type="button"
-      className="my-10 flex h-48 w-186 items-center gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
-    >
-      <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
-        <Image src={imgSrc} alt={`${children} logo`} fill className="object-cover" />
-      </div>
-      <span className="flex-grow text-left text-lg">{children}</span>
-      <IconKebabSmall className="mb-4 flex-shrink-0" />
-    </button>
+    <Link href={`/teams/${id}`}>
+      <button
+        type="button"
+        className="my-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
+        onClick={handleClick}
+      >
+        <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
+          {imgSrc ? (
+            <Image src={imgSrc} alt={`${title} 이미지`} fill className="object-cover" />
+          ) : (
+            <IconMember />
+          )}
+        </div>
+        <span className="flex-grow truncate text-left text-lg">{title}</span>
+        {role === "ADMIN" ? <IconCrown /> : ""}
+      </button>
+    </Link>
   );
 }
 

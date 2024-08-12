@@ -16,7 +16,7 @@ export type ButtonProps = {
     | "transparent"
     | "transparent-white";
   className?: string;
-  children: string;
+  children: string | React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
   isPending?: boolean;
@@ -92,19 +92,19 @@ export default function Button({
     buttonStyle === "outlined-secondary" ||
     buttonStyle === "outlined" ||
     buttonStyle === "transparent"
-      ? "#10B981"
-      : "#FFFFFF";
+      ? "primary"
+      : "white";
 
   return (
     <motion.button
-      whileTap={{ scale: 0.97 }}
+      whileTap={disabled ? { scale: 1 } : { scale: 0.97 }}
       type={type}
       className={buttonClassName}
       onClick={onClick}
       disabled={disabled}
     >
       {isPending ? (
-        <Spinner size={20} color={loaderColor} />
+        <Spinner color={loaderColor} />
       ) : (
         <>
           {icon !== "none" &&

@@ -27,8 +27,8 @@ export const postArticle = async (data: PostArticleRequest): Promise<Article> =>
  */
 export const getArticleList = async (
   page = 1,
-  pageSize = 10,
-  orderBy: "recent" | "like" = "recent",
+  pageSize = 3,
+  orderBy: string = "recent",
   keyword = ""
 ): Promise<TotalArticle> => {
   const params = new URLSearchParams({

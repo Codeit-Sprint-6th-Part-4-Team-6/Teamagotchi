@@ -1,5 +1,7 @@
 import {
+  GroupInfo,
   History,
+  Membership,
   Message,
   ResetPassword,
   SendResetPasswordRequest,
@@ -42,6 +44,15 @@ export const deleteUser = async (): Promise<void> => {
  */
 export const getUserGroups = async (): Promise<UserGroup[]> => {
   const response = await axiosInstance.get<UserGroup[]>("user/groups");
+  return response.data;
+};
+
+/**
+ * 유저의 그룹 정보를 조회하는 API 함수입니다.
+ * @returns 그룹 정보 배열을 반환합니다.
+ */
+export const getUserMemberships = async (): Promise<Membership[]> => {
+  const response = await axiosInstance.get<Membership[]>("user/memberships");
   return response.data;
 };
 
