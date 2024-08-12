@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import { useModal } from "@hooks/useModal";
+import { useAuthStore } from "@store/useAuthStore";
 import { formatDate } from "@utils/formatDate";
 import { IconComment, IconHeart } from "@utils/icon";
 import { deleteArticle } from "@api/articleApi";
@@ -12,9 +13,10 @@ import DeleteArticleModal from "./DeleteArticleModal";
 export default function ArticleDetail({ article }: { article?: ArticleDetails }) {
   const { openModal } = useModal();
   const router = useRouter();
+  const { user } = useAuthStore();
 
   if (!article) {
-    return <div>no article data</div>;
+    return router.push("/board");
   }
 
   const { title, writer, createdAt, likeCount, image, content, id } = article;
@@ -27,11 +29,13 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
     <div className="flex flex-col gap-20">
       <div className="flex justify-between">
         <h1 className="text-18 font-[500] text-text-secondary">{title}</h1>
-        <EditDeletePopover
-          icon="kebabLarge"
-          handleModify={() => router.push(`/board/${id}/edit`)}
-          handleDelete={handleOpenWarnModal}
-        />
+        {user?.id === id && (
+          <EditDeletePopover
+            icon="kebabLarge"
+            handleModify={() => router.push(`/board/${id}/edit`)}
+            handleDelete={handleOpenWarnModal}
+          />
+        )}
       </div>
       <div className="flex justify-between border-t border-solid border-background-tertiary">
         <div className="flex items-center gap-12 pt-20">
