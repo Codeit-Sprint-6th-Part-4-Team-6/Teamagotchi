@@ -16,22 +16,28 @@ import Pagination from "@components/board/pagination";
 import useMediaQuery from "@hooks/useMediaQuery";
 import { getArticleList } from "@api/articleApi";
 
+const PAGE_SIZE = 3;
+const MOBILE_SIZE = 1;
+const TABLET_SIZE = 2;
+const DESKTOP_SIZE = 3;
+const INITIAL_ORDER = "recent";
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { query } = context;
   const page = parseInt(query.page as string, 10) || 1;
-  const orderBy = (query.orderBy as string) || "recent";
+  const orderBy = (query.orderBy as string) || INITIAL_ORDER;
   const keyword = (query.keyword as string) || "";
 
   await queryClient.prefetchQuery({
     queryKey: ["articles", page, orderBy, keyword],
-    queryFn: () => getArticleList(page, 3, orderBy, keyword),
+    queryFn: () => getArticleList(page, PAGE_SIZE, orderBy, keyword),
     staleTime: Infinity,
   });
 
   await queryClient.prefetchQuery({
     queryKey: ["bestArticles"],
-    queryFn: () => getArticleList(1, 3, "like", ""),
+    queryFn: () => getArticleList(1, PAGE_SIZE, "like", ""),
     staleTime: Infinity,
   });
 
@@ -42,13 +48,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-const PAGE_SIZE = 3;
-
 export default function BoardPage({ dehydratedState }: { dehydratedState: any }) {
   const router = useRouter();
   const { page, orderBy, keyword } = router.query;
   const [currentPage, setCurrentPage] = useState<number>(parseInt(page as string, 10) || 1);
-  const [currentOrderBy, setCurrentOrderBy] = useState<string>((orderBy as string) || "recent");
+  const [currentOrderBy, setCurrentOrderBy] = useState<string>(
+    (orderBy as string) || INITIAL_ORDER
+  );
   const [currentKeyword, setCurrentKeyword] = useState<string>((keyword as string) || "");
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const queryClient = useQueryClient();
@@ -57,12 +63,12 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
 
   const { data: bestArticles } = useQuery<TotalArticle>({
     queryKey: ["bestArticles"],
-    queryFn: () => getArticleList(1, 3, "like", ""),
+    queryFn: () => getArticleList(1, PAGE_SIZE, "like", ""),
   });
 
   useEffect(() => {
     setCurrentPage(parseInt(page as string, 10) || 1);
-    setCurrentOrderBy((orderBy as string) || "recent");
+    setCurrentOrderBy((orderBy as string) || INITIAL_ORDER);
     setCurrentKeyword((keyword as string) || "");
   }, [page, orderBy, keyword]);
 
@@ -70,7 +76,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
     for (let i = 1; i <= totalCount; i++) {
       queryClient.prefetchQuery({
         queryKey: ["articles", i, currentOrderBy, currentKeyword],
-        queryFn: () => getArticleList(i, 3, currentOrderBy, currentKeyword),
+        queryFn: () => getArticleList(i, PAGE_SIZE, currentOrderBy, currentKeyword),
         staleTime: Infinity,
       });
     }
@@ -78,7 +84,7 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
 
   const { data } = useQuery<TotalArticle>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
-    queryFn: () => getArticleList(currentPage, 3, currentOrderBy, currentKeyword),
+    queryFn: () => getArticleList(currentPage, PAGE_SIZE, currentOrderBy, currentKeyword),
     placeholderData: keepPreviousData,
     staleTime: Infinity,
   });
@@ -130,10 +136,10 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: any })
 
   const displayedBestArticles = useMemo(() => {
     const bestArticlesList = bestArticles?.list || [];
-    if (isMobile) return bestArticlesList.slice(0, 1);
-    if (isTablet) return bestArticlesList.slice(0, 2);
-    if (isDesktop) return bestArticlesList.slice(0, 3);
-    return bestArticlesList.slice(0, 3);
+    if (isMobile) return bestArticlesList.slice(0, MOBILE_SIZE);
+    if (isTablet) return bestArticlesList.slice(0, TABLET_SIZE);
+    if (isDesktop) return bestArticlesList.slice(0, DESKTOP_SIZE);
+    return bestArticlesList.slice(0, DESKTOP_SIZE);
   }, [bestArticles, isMobile, isTablet, isDesktop]);
 
   const articles = data?.list ?? [];
