@@ -14,7 +14,7 @@ declare module "@coworkers-types" {
     deletedAt: ISODateString;
     userId: number;
     recurringId: number;
-    frequency: string;
+    frequency: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
     date: ISODateString;
     doneAt: ISODateString;
     name: string;

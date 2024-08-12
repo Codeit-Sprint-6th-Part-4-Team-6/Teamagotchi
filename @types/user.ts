@@ -31,18 +31,12 @@ declare module "@coworkers-types" {
   };
 
   export type History = {
-    tasksDone: TasksDone[];
-  };
+    tasksDone: TaskDone[];
+  }[];
 
-  export type TasksDone = BaseUserEntity & {
-    deletedAt: ISODateString;
-    userId: number;
-    recurringId: number;
-    frequency: string;
-    date: ISODateString;
-    doneAt: ISODateString;
+  export type TaskDone = BaseTaskDetails & {
+    displayIndex: number;
     description: string;
-    name: string;
   };
 
   export type SendResetPasswordRequest = {
