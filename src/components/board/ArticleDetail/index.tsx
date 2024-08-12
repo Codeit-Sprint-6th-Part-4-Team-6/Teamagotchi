@@ -88,7 +88,7 @@ export default function ArticleDetail({
         )}
       </div>
       <div className="flex justify-between border-t border-solid border-background-tertiary">
-        <div className="flex items-center gap-12 pt-20">
+        <div className="mt-12 flex items-center justify-center gap-12">
           <NameTag type="default-12" image={writer.image} name={writer.nickname} />
           <span className="border-l border-solid border-background-tertiary pl-12 text-14 font-[500] text-text-disabled">
             {formatDate(createdAt)}
@@ -115,7 +115,7 @@ export default function ArticleDetail({
           </div>
         </div>
       </div>
-      <div>
+      <div className="flex flex-col gap-24">
         {image && (
           <Image layout="responsive" width={512} height={512} src={image} alt="Article image" />
         )}
