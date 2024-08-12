@@ -27,7 +27,7 @@ export default function ArticleCommentList({ articleId }: { articleId: number })
 
   return (
     <div className="relative flex flex-col gap-16 pb-16">
-      {isFetching && <Spinner size={36} color="#64748B" />}
+      {isFetching && <Spinner size={36} color="primary" className="!h-300" />}
 
       {!isFetching && commentList && commentList.pages[0].list.length > 0 && (
         <>
