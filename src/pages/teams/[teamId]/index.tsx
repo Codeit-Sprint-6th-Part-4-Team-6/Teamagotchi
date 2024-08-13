@@ -12,15 +12,13 @@ import { getGroup } from "@api/groupApi";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { teamId } = context.query;
-
-  console.log("Server-side teamId:", teamId);
-
+  const token = context.req.cookies["accessToken"];
   // teamId가 유효한 숫자인지 확인
   if (typeof teamId === "string") {
     try {
       await queryClient.fetchQuery({
         queryKey: ["userGroups", teamId],
-        queryFn: () => getGroup(teamId),
+        queryFn: () => getGroup(teamId, token),
         staleTime: Infinity,
       });
     } catch (error) {
@@ -41,19 +39,19 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
   const router = useRouter();
   const { teamId } = router.query;
 
-  console.log("Client-side teamId:", teamId);
-
-  const { data: groupData, error } = useQuery({
-    queryKey: ["userGroups", teamId],
+  const {
+    data: groupData,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["Group", teamId],
     queryFn: () => getGroup(teamId as string),
     enabled: !!teamId,
   });
 
-  console.log("Query data:", groupData);
-  console.log("Query error:", error);
+  if (isError) return <div>Error!</div>;
 
-  if (error) return <div>Error loading data</div>;
-  if (!groupData) return <div>데이터를 찾을 수 없습니다.</div>;
+  if (isLoading) return <div>Loading!</div>;
 
   return (
     <HydrationBoundary state={dehydratedState}>
