@@ -20,6 +20,7 @@ declare module "@coworkers-types" {
     name: string;
     updatedAt: ISODateString;
     id: number;
+    commentCount: number;
   };
 
   export type PostTaskRequest = Omit<BaseTaskEntity, "updatedAt" | "createdAt" | "id">;

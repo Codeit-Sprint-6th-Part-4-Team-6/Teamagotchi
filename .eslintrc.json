@@ -22,6 +22,7 @@
   ],
   "rules": {
     "import/no-extraneous-dependencies": ["warn", { "devDependencies": true }],
+    "@typescript-eslint/dot-notation": "off",
     "no-lonely-if": "off",
     "no-plusplus": "off",
     "global-require": "off",
