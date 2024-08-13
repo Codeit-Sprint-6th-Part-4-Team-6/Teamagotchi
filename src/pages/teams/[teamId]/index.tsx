@@ -17,8 +17,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (typeof teamId === "string") {
     try {
       await queryClient.fetchQuery({
-        queryKey: ["userGroups", teamId],
-        queryFn: () => getGroup(teamId, token),
+        queryKey: ["groups", teamId],
+        queryFn: () => getGroup(Number(teamId), token),
         staleTime: Infinity,
       });
     } catch (error) {
@@ -44,9 +44,9 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ["Group", teamId],
-    queryFn: () => getGroup(teamId as string),
-    enabled: !!teamId,
+    queryKey: ["groups", teamId],
+    queryFn: () => getGroup(Number(teamId)),
+    staleTime: Infinity,
   });
 
   if (isError) return <div>Error!</div>;
