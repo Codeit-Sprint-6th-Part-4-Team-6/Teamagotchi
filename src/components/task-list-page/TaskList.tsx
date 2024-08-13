@@ -22,7 +22,7 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
 
   // 탭의 정보를 받아오기 위해서 사용했는데, 추후에는 팀페이지에서 받은 그룹데이터를 getQueryClient 사용 예정
   const { data: groupData } = useQuery({
-    queryKey: ["groups", teamId],
+    queryKey: ["group", teamId],
     queryFn: () => getGroup(Number(teamId)),
     enabled: !!teamId,
   });

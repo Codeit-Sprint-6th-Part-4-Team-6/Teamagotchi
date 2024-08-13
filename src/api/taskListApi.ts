@@ -75,7 +75,7 @@ export const postTaskList = async (
   groupId: string | string[] | undefined,
   name: string
 ): Promise<TaskListInfo> => {
-  const response = await axiosInstance.patch<TaskListInfo>(`groups/${groupId}/task-lists`, {
+  const response = await axiosInstance.post<TaskListInfo>(`groups/${groupId}/task-lists`, {
     name,
   });
   return response.data;
