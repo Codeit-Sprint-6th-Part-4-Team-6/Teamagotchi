@@ -1,24 +1,23 @@
-import { FormEvent } from "react";
 import classNames from "classnames";
 import Image from "next/image";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import Spinner from "@components/commons/Spinner";
-import { useGroupPreview } from "@hooks/useGroupPreview";
-import { useInvitation } from "@hooks/useInvitation";
+import { useJoinTeam } from "@hooks/useJoinTeam";
+import { validateImage } from "@utils/validateImage";
 
 export default function JoinTeamPage() {
-  const { handleCopyClick } = useInvitation(33);
-  const { groupInfo, isFetching, errorMessage, value, handleChange } = useGroupPreview();
-
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    // if (!errorMessage) {
-
-    // }
-  };
+  const {
+    groupInfo,
+    isFetching,
+    isPending,
+    isDisabled,
+    errorMessage,
+    value,
+    handleChange,
+    handleSubmit,
+  } = useJoinTeam();
 
   const classnames = classNames(
     "text-2xl font-medium lg:text-4xl",
@@ -35,10 +34,15 @@ export default function JoinTeamPage() {
           <div className="mb-40 flex flex-col items-center gap-16">
             <div className="relative h-80 w-80 rounded-full lg:h-100 lg:w-100">
               <Image
-                src={groupInfo.image ? groupInfo.image : "icons/icon_member_large.svg"}
+                src={
+                  groupInfo.image && validateImage(groupInfo.image)
+                    ? groupInfo.image
+                    : "icons/icon_member_large.svg"
+                }
                 alt="profile"
                 fill
                 className="rounded-full"
+                priority
               />
             </div>
             <span>{groupInfo.name}</span>
@@ -60,16 +64,19 @@ export default function JoinTeamPage() {
           onChange={handleChange}
           errorMessage={errorMessage}
         />
-        <Button type="submit" size="large" isPending={false} className="mb-24">
+        <Button
+          type="submit"
+          size="large"
+          isPending={isPending}
+          className="mb-24"
+          disabled={isDisabled}
+        >
           참여하기
         </Button>
       </form>
       <div className="text-md font-normal md:text-lg">
         공유받은 팀 링크를 입력해 참여할 수 있어요.
       </div>
-      <button type="button" onClick={handleCopyClick}>
-        테스트용 링크 생성버튼
-      </button>
     </div>
   );
 }
