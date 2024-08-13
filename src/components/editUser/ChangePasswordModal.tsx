@@ -21,7 +21,6 @@ export default function ChangePasswordModal({ onClose }: { onClose?: () => void 
   const patchPasswordMutation = useMutation({
     mutationFn: (value: Password) => patchResetPassword(value),
     onSuccess: () => {
-      // TODO: 토스트
       toast("success", "비밀번호 변경에 성공했습니다.");
     },
     onError: () => {
