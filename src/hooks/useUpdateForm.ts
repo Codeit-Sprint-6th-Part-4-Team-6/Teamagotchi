@@ -6,7 +6,7 @@ import { postImageURL } from "@api/imageApi";
 
 interface UseUploadFormProps {
   initialName: string;
-  initialImage?: string | null;
+  initialImage?: string | File | null;
   onSubmit: (data: { name: string; image?: string }) => Promise<any>;
   successMessage: string;
   redirectPath?: string;

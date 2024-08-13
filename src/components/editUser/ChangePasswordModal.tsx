@@ -2,6 +2,7 @@ import { Password } from "@coworkers-types";
 import { useMutation } from "@tanstack/react-query";
 import TwoInputModal from "@components/commons/modal/TwoInputModal";
 import { useAuthForm } from "@hooks/auth/useAuthForm";
+import { useToast } from "@hooks/useToast";
 import { ResetPasswordSchema } from "@utils/schemas/auth";
 import { patchResetPassword } from "@api/userApi";
 
@@ -15,15 +16,16 @@ export default function ChangePasswordModal({ onClose }: { onClose?: () => void 
     initialPasswordState,
     ResetPasswordSchema
   );
+  const { toast } = useToast();
 
   const patchPasswordMutation = useMutation({
     mutationFn: (value: Password) => patchResetPassword(value),
     onSuccess: () => {
       // TODO: 토스트
-      alert("비밀번호 변경에 성공했습니다.");
+      toast("success", "비밀번호 변경에 성공했습니다.");
     },
     onError: () => {
-      alert("비밀번호 변경에 실패했습니다.");
+      toast("danger", "비밀번호 변경에 실패했습니다.");
     },
   });
 
