@@ -27,7 +27,7 @@ export default function LoginPage() {
   };
 
   return (
-    <section className="mx-16 py-24 md:mx-142 md:py-100 lg:mx-auto lg:w-460">
+    <section className="mx-16 py-24 md:mx-auto md:w-460">
       <h2 className="mb-24 text-center text-4xl md:mb-80">로그인</h2>
       <LoginForm />
       <div className="mb-48 mt-24 text-center">

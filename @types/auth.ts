@@ -43,7 +43,7 @@ declare module "@coworkers-types" {
   export type UserInfo = BaseAuthEntity & {
     email: string;
     nickname: string;
-    image: null;
+    image: string | null;
     teamId: string;
   };
 

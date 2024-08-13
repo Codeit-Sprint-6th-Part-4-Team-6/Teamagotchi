@@ -27,7 +27,7 @@ declare module "@coworkers-types" {
 
   export type UserRequest = {
     nickname?: string;
-    image?: string;
+    image?: string | File | null;
   };
 
   export type History = {
@@ -50,4 +50,10 @@ declare module "@coworkers-types" {
   };
 
   export type ResetPassword = Password & { token: string };
+
+  export type LocalUser = {
+    state: {
+      user: UserInfo;
+    };
+  };
 }
