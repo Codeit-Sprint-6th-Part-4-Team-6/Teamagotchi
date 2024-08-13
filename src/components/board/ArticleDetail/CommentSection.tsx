@@ -34,7 +34,12 @@ export default function CommentSection({ boardId }: { boardId: number }) {
         onChange={handleTextareaChange}
       />
       <div className="flex justify-end">
-        <Button size="medium" disabled={comment.length < 1} onClick={postMutation.mutate}>
+        <Button
+          size="medium"
+          disabled={comment.length < 1}
+          onClick={postMutation.mutate}
+          isPending={postMutation.isPending}
+        >
           등록
         </Button>
       </div>
