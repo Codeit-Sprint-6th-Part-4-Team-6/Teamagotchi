@@ -16,7 +16,7 @@ export const useAuth = () => {
    * 로그인 시 필요한 처리를 모아놓은 함수
    * @param data 로그인 시 응답 값
    */
-  const login = (data: AuthResponse) => {
+  const login = async (data: AuthResponse) => {
     setCookie("accessToken", data.accessToken, { maxAge: 3600 });
     setCookie("refreshToken", data.refreshToken, { maxAge: 3600 * 12 * 7 });
     // 이메일 형식에 따라 userType 쿠키 설정
@@ -27,6 +27,8 @@ export const useAuth = () => {
       loginType = "GOOGLE";
     }
     setCookie("loginType", loginType, { maxAge: 3600 * 12 * 7 });
+    const userInfo = await getUser();
+    setUser(userInfo);
     setIsLoggedIn(true);
     router.push("/teams");
   };
@@ -46,19 +48,13 @@ export const useAuth = () => {
   };
 
   const setUserData = async () => {
-    const localData = localStorage.getItem("userStore") ?? "";
     const hasToken = hasCookie("refreshToken");
 
     if (hasToken) {
-      const { user } = JSON.parse(localData).state;
-      if (user) {
-        setUser(user);
-        queryClient.setQueryData(["user"], user);
-      } else {
-        const data = await getUser();
-        setUser(data);
-        queryClient.setQueryData(["user"], data);
-      }
+      const data = await getUser();
+      setUser(data);
+      setIsLoggedIn(true);
+      queryClient.setQueryData(["user"], data);
     } else {
       toast("danger", "로그인 된 사용자만 이용이 가능합니다.");
       router.push("/login");
