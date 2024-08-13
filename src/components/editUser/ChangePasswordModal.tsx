@@ -11,7 +11,7 @@ const initialPasswordState: Password = {
 };
 
 export default function ChangePasswordModal({ onClose }: { onClose?: () => void }) {
-  const { values, errors, isValid, handleBlur, handleChange } = useAuthForm<Password>(
+  const { values, errors, isValid, handleChange } = useAuthForm<Password>(
     initialPasswordState,
     ResetPasswordSchema
   );
@@ -41,8 +41,6 @@ export default function ChangePasswordModal({ onClose }: { onClose?: () => void 
       buttonText="변경하기"
       onConfirm={changeOnConfirm}
       onClose={onClose}
-      firstOnBlur={handleBlur}
-      secondOnBlur={handleBlur}
       firstOnChange={handleChange}
       secondOnChange={handleChange}
       closeButton
