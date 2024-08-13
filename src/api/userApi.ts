@@ -1,8 +1,8 @@
 import {
-  GroupInfo,
   History,
   Membership,
   Message,
+  Password,
   ResetPassword,
   SendResetPasswordRequest,
   TaskDone,
@@ -117,7 +117,7 @@ export const postResetPassword = async (data: ResetPassword): Promise<Message> =
  * @param  data 데이터로 { passwordConfirmation, password }을 받습니다.
  * @returns 완료 시 메세지를 반환합니다.
  */
-export const patchResetPassword = async (data: ResetPassword): Promise<Message> => {
-  const response = await axiosInstance.post<Message>("user/password", data);
+export const patchResetPassword = async (data: Password): Promise<Message> => {
+  const response = await axiosInstance.patch<Message>("user/password", data);
   return response.data;
 };

@@ -33,7 +33,7 @@ export default function DeleteAccount() {
       onClick={handleOpenModal}
       className="flex items-center text-status-danger"
     >
-      <IconDeleteAccount className="inline" />
+      <IconDeleteAccount className="mr-8 inline" />
       회원 탈퇴하기
     </button>
   );
