@@ -10,11 +10,17 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { boardId } = context.query;
   const token = context.req.cookies["accessToken"];
 
-  await queryClient.fetchQuery({
-    queryKey: ["article", boardId],
-    queryFn: () => getArticle(boardId as string, token),
-    staleTime: Infinity,
-  });
+  try {
+    await queryClient.fetchQuery({
+      queryKey: ["article", boardId],
+      queryFn: () => getArticle(boardId as string, token),
+      staleTime: Infinity,
+    });
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
