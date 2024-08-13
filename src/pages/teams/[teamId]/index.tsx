@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import CircleProgressBar from "@components/TeamDetailPage/CircleProgressBar";
 import { getGroup } from "@api/groupApi";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -55,7 +56,16 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div>태스크와 리포트, 팀원이 보이는 페이지</div>
+      <div>태스크와 리포트, 팀원이 보이는 페이지
+      <CircleProgressBar className="w-20" strokeWidth={30} progress={80} />
+      <CircleProgressBar
+        className="w-200"
+        strokeWidth={35}
+        progress={30}
+        transitionDuration={1.25}
+        isGradientCircle
+      />
+      </div>
     </HydrationBoundary>
   );
 }
