@@ -7,10 +7,9 @@ export default function TeamDetailPage() {
       <CircleProgressBar
         className="w-200"
         strokeWidth={35}
-        progress={80}
-        transitionDuration={1}
-        background="#334155"
-        isGradient
+        progress={30}
+        transitionDuration={1.25}
+        isGradientCircle
       />
     </div>
   );

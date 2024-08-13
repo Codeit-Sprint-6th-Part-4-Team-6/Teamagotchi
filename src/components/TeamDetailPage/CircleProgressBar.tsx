@@ -5,10 +5,8 @@ interface ProgressProps {
   progress?: number; // 진행률 (0 ~ 100)
   strokeWidth?: number; // 원형 경로의 두께
   transitionDuration?: number; // 애니메이션 지속 시간 (초)
-  transitionTimingFunction?: string; // 애니메이션 타이밍 함수
-  background?: string; // 배경 원형 색상
   className?: string; // 추가적인 CSS 클래스
-  isGradient?: boolean; // 그라데이션 사용 여부
+  isGradientCircle?: boolean; // 그라데이션 사용 여부
 }
 
 // CircleProgressBar 컴포넌트 정의
@@ -16,10 +14,8 @@ function CircleProgressBar({
   progress = 0, // 기본 진행률은 0%
   strokeWidth = 4, // 기본 원형 경로의 두께는 4px
   transitionDuration = 0.5, // 기본 애니메이션 지속 시간은 0.5초
-  transitionTimingFunction = "ease", // 기본 애니메이션 타이밍 함수는 "ease"
-  background = "#dde2e9", // 기본 배경 원형 색상은 회색
   className, // 사용자 정의 CSS 클래스 적용
-  isGradient = false, // 기본적으로 그라데이션은 사용하지 않음
+  isGradientCircle = false, // 기본적으로 그라데이션은 사용하지 않음
 }: ProgressProps) {
   const [displayProgress, setDisplayProgress] = useState(0);
 
@@ -34,7 +30,7 @@ function CircleProgressBar({
   }, [progress]);
 
   // isGradient가 true일 경우, 기본 그라데이션 색상 배열 설정
-  const appliedGradient = isGradient
+  const appliedGradient = isGradientCircle
     ? [
         { stop: 0.0, color: "#10B982" }, // 그라데이션 시작 색상
         { stop: 1, color: "#A3E635" }, // 그라데이션 끝 색상
@@ -76,13 +72,13 @@ function CircleProgressBar({
           strokeDasharray={circumference}
           strokeDashoffset={circumference * reduction}
           fill="none"
-          stroke={background}
+          stroke={isGradientCircle ? "#334155" : "#F8FAFC"}
           strokeLinecap="round"
         />
         {/* 진행률에 따른 원형 경로 */}
         <circle
           style={{
-            transition: `stroke-dashoffset ${transitionDuration}s ${transitionTimingFunction}`,
+            transition: `stroke-dashoffset ${transitionDuration}s ease-in-out`,
           }}
           transform={`rotate(${rotate} ${center} ${center})`}
           cx={center}
