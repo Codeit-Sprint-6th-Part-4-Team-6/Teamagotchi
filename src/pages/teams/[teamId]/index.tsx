@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import MembersSection from "@components/TeamDetailPage/MembersSection";
 // import CircleProgressBar from "@components/TeamDetailPage/CircleProgressBar";
 import TeamTitle from "@components/TeamDetailPage/TeamTitle";
 import Spinner from "@components/commons/Spinner";
@@ -38,6 +39,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
+
+// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJncm91cElkIjoyNjYsInNjb3BlIjoiaW52aXRhdGlvbiIsImlhdCI6MTcyMzU3NjI3NSwiZXhwIjoxNzIzODM1NDc1LCJpc3MiOiJzcC1jb3dvcmtlcnMtbWFpbGVyIn0.ng6RZg9AdzGz1l19bWM7dX5ZIqWp6t_7V4nH3iUnUxU"
 
 export default function TeamDetailPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
   const router = useRouter();
@@ -83,6 +86,8 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
       </div>
     );
 
+  console.log(groupData);
+
   // 현재 페이지의 내 역할 정보를 정제
   const curTeamMembership = Array.isArray(membershipData)
     ? membershipData.find((group) => group.groupId === groupData?.id)
@@ -91,13 +96,14 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="m-auto px-16 py-24 md:px-24 lg:w-1200">
-        <section>
+        <section className="mb-30">
           <TeamTitle
             teamName={groupData?.name ?? ""}
             teamId={groupData?.id ?? 0}
             role={curTeamMembership?.role ?? ""}
           />
         </section>
+        <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
         {/* <CircleProgressBar className="w-20" strokeWidth={30} progress={80} />
         <CircleProgressBar
           className="w-200"
