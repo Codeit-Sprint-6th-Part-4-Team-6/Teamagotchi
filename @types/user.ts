@@ -27,22 +27,16 @@ declare module "@coworkers-types" {
 
   export type UserRequest = {
     nickname?: string;
-    image?: string;
+    image?: string | File | null;
   };
 
   export type History = {
-    tasksDone: TasksDone[];
-  };
+    tasksDone: TaskDone[];
+  }[];
 
-  export type TasksDone = BaseUserEntity & {
-    deletedAt: ISODateString;
-    userId: number;
-    recurringId: number;
-    frequency: string;
-    date: ISODateString;
-    doneAt: ISODateString;
+  export type TaskDone = BaseTaskDetails & {
+    displayIndex: number;
     description: string;
-    name: string;
   };
 
   export type SendResetPasswordRequest = {
@@ -56,4 +50,10 @@ declare module "@coworkers-types" {
   };
 
   export type ResetPassword = Password & { token: string };
+
+  export type LocalUser = {
+    state: {
+      user: UserInfo;
+    };
+  };
 }
