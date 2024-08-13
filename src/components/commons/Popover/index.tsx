@@ -102,10 +102,15 @@ function Wrapper({
 }
 
 function Item({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+  const { closePopover } = useContext(PopoverContext);
+
   return (
     <div
       className="cursor-pointer text-nowrap rounded-8 py-7 text-md text-text-primary transition-all hover:bg-background-tertiary md:text-lg"
-      onClick={onClick}
+      onClick={() => {
+        onClick();
+        closePopover();
+      }}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           onClick();
