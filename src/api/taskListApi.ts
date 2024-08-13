@@ -9,17 +9,26 @@ import { axiosInstance } from "./axios";
  * @returns 조회된 할 일 목록 객체를 반환합니다.
  */
 export const getTaskList = async (
-  groupId: number,
-  taskListId: number,
-  date?: string
+  groupId: string | string[] | undefined,
+  taskListId: string | string[] | undefined,
+  date: string,
+  token?: string
 ): Promise<TaskList> => {
   const params = new URLSearchParams();
+
   if (date) {
     params.append("date", date);
   }
 
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const response = await axiosInstance.get<TaskList>(
-    `groups/${groupId}/task-lists/${taskListId}?${params.toString()}`
+    `groups/${groupId}/task-lists/${taskListId}?${params.toString()}`,
+    {
+      headers,
+    }
   );
   return response.data;
 };
@@ -32,8 +41,8 @@ export const getTaskList = async (
  * @returns 그룹정보와 할 일 목록이 담긴 객체를 반환합니다.
  */
 export const patchTaskList = async (
-  groupId: number,
-  taskListId: number,
+  groupId: string | string[] | undefined,
+  taskListId: string | string[] | undefined,
   name: string
 ): Promise<TaskListInfo> => {
   const response = await axiosInstance.patch<TaskListInfo>(
@@ -49,7 +58,10 @@ export const patchTaskList = async (
  * @param taskListId - 삭제할 할 일 목록의 ID입니다.
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
-export const deleteTaskList = async (groupId: number, taskListId: number): Promise<void> => {
+export const deleteTaskList = async (
+  groupId: string | string[] | undefined,
+  taskListId: string | string[] | undefined
+): Promise<void> => {
   await axiosInstance.delete<TaskListInfo>(`groups/${groupId}/task-lists/${taskListId}`);
 };
 
@@ -59,7 +71,10 @@ export const deleteTaskList = async (groupId: number, taskListId: number): Promi
  * @param name - 생성할 할 일 목록의 이름입니다.
  * @returns 생성된 할 일 목록 정보가 담긴 객체를 반환합니다.
  */
-export const postTaskList = async (groupId: number, name: string): Promise<TaskListInfo> => {
+export const postTaskList = async (
+  groupId: string | string[] | undefined,
+  name: string
+): Promise<TaskListInfo> => {
   const response = await axiosInstance.patch<TaskListInfo>(`groups/${groupId}/task-lists`, {
     name,
   });
@@ -74,8 +89,8 @@ export const postTaskList = async (groupId: number, name: string): Promise<TaskL
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
 export const patchTaskListOrder = async (
-  groupId: number,
-  taskListId: number,
+  groupId: string | string[] | undefined,
+  taskListId: string | string[] | undefined,
   displayIndex: number
 ): Promise<void> => {
   await axiosInstance.patch(`groups/${groupId}/task-lists/${taskListId}`, {
