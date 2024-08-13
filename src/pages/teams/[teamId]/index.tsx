@@ -40,8 +40,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-// "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJncm91cElkIjoyNjYsInNjb3BlIjoiaW52aXRhdGlvbiIsImlhdCI6MTcyMzU3NjI3NSwiZXhwIjoxNzIzODM1NDc1LCJpc3MiOiJzcC1jb3dvcmtlcnMtbWFpbGVyIn0.ng6RZg9AdzGz1l19bWM7dX5ZIqWp6t_7V4nH3iUnUxU"
-
 export default function TeamDetailPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
   const router = useRouter();
   const { teamId } = router.query;
