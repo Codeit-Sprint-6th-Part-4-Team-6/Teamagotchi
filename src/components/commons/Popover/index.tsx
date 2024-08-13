@@ -7,7 +7,7 @@ import Button from "@components/commons/Button";
 import { IconCrown, IconMember } from "@utils/icon";
 import Spinner from "../Spinner";
 
-const PopoverContext = createContext({
+export const PopoverContext = createContext({
   isOpen: false,
   togglePopover: () => {},
   closePopover: () => {},
