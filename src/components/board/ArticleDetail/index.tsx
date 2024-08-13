@@ -31,7 +31,7 @@ export default function ArticleDetail({
     return <div>No data</div>;
   }
 
-  const { title, writer, createdAt, image, content, id } = article;
+  const { title, writer, createdAt, image, content, id, commentCount } = article;
 
   const handleDeleteConfirm = () => {
     deleteArticle(id).then(() => {
@@ -97,7 +97,7 @@ export default function ArticleDetail({
         <div className="flex gap-12">
           <div className="flex items-center justify-center gap-5">
             <IconComment />
-            <span className="text-14 font-[400] text-text-disabled">{likeCount}</span>
+            <span className="text-14 font-[400] text-text-disabled">{commentCount}</span>
           </div>
           <div className="flex items-center justify-center gap-5">
             {isLiked ? (
