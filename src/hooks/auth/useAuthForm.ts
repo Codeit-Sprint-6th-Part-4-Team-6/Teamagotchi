@@ -6,17 +6,21 @@ export const useAuthForm = <T>(initialState: T, schema: ZodSchema) => {
   const [errors, setErrors] = useState<Partial<Record<keyof T, string>>>({});
   const [isValid, setIsValid] = useState(false);
 
-  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+  // handleChange에서 상태 업데이트와 유효성 검사를 모두 수행
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
 
-    const result = schema.safeParse(values);
+    const result = schema.safeParse({
+      ...values,
+      [name]: value, // 업데이트된 값으로 검증
+    });
+
     if (!result.success) {
-      const issue = result.error.issues.find((issues) => issues.path.includes(name));
+      const issue = result.error.issues.find((issueData) => issueData.path.includes(name));
       setErrors((prevErrors) => ({
         ...prevErrors,
         [name]: issue ? issue.message : undefined,
@@ -31,19 +35,10 @@ export const useAuthForm = <T>(initialState: T, schema: ZodSchema) => {
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-  };
-
   return {
     values,
     errors,
     isValid,
-    handleBlur,
     handleChange,
     setValues,
   };

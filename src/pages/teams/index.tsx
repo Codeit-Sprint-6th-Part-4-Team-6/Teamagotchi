@@ -4,8 +4,6 @@ import TeamList from "@components/teams/TeamList";
 import { useAuth } from "@hooks/auth/useAuth";
 
 export default function TeamsPage() {
-  const { logout } = useAuth();
-
   return (
     <section className="flex flex-col items-center">
       <TeamList />
@@ -20,10 +18,6 @@ export default function TeamsPage() {
           팀 참여하기
         </Link>
       </Button>
-
-      <button type="button" onClick={logout}>
-        로그아웃
-      </button>
     </section>
   );
 }
