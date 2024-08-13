@@ -1,21 +1,16 @@
-import { AuthResponse, BaseUserInfo } from "@coworkers-types";
+import { AuthResponse } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
-import { deleteCookie, setCookie } from "cookies-next";
+import { deleteCookie, hasCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
+import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
-
-type LocalStorageData = {
-  state: {
-    user: BaseUserInfo;
-    isLoggedIn: boolean;
-  };
-  version: number;
-};
+import { getUser } from "@api/userApi";
 
 export const useAuth = () => {
-  const { setUser } = useAuthStore();
+  const { setUser, setIsLoggedIn } = useAuthStore();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   /**
    * 로그인 시 필요한 처리를 모아놓은 함수
@@ -32,8 +27,7 @@ export const useAuth = () => {
       loginType = "GOOGLE";
     }
     setCookie("loginType", loginType, { maxAge: 3600 * 12 * 7 });
-    setUser(data.user);
-    queryClient.setQueryData(["user"], data.user);
+    setIsLoggedIn(true);
     router.push("/teams");
   };
 
@@ -47,23 +41,29 @@ export const useAuth = () => {
     queryClient.removeQueries();
     setUser(null);
     useAuthStore.persist.clearStorage();
+    setIsLoggedIn(false);
     router.push("/");
   };
 
-  const isLoggedIn = () => {
-    const result = localStorage.getItem("userStore");
+  const setUserData = async () => {
+    const localData = localStorage.getItem("userStore") ?? "";
+    const hasToken = hasCookie("refreshToken");
 
-    if (result) {
-      try {
-        const { user } = JSON.parse(result).state;
+    if (hasToken) {
+      const { user } = JSON.parse(localData).state;
+      if (user) {
         setUser(user);
         queryClient.setQueryData(["user"], user);
-      } catch (error) {
-        alert("로그인 된 사용자만 이용이 가능합니다.");
-        router.push("/login");
+      } else {
+        const data = await getUser();
+        setUser(data);
+        queryClient.setQueryData(["user"], data);
       }
+    } else {
+      toast("danger", "로그인 된 사용자만 이용이 가능합니다.");
+      router.push("/login");
     }
   };
 
-  return { login, logout, isLoggedIn };
+  return { login, logout, setUserData };
 };

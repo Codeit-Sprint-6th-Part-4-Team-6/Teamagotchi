@@ -20,7 +20,6 @@ export default function LoginForm() {
     initialLoginState,
     LoginSchema
   );
-
   const { handleSubmit } = useAuthHandler(values);
   const { openModal } = useModal();
 

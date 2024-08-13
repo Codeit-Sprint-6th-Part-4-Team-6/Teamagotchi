@@ -8,8 +8,8 @@ import { getUser } from "@api/userApi";
 import { useToast } from "./useToast";
 
 export function useHeaderLogic() {
-  const { isLoggedIn, logout } = useAuth();
-  const { user } = useAuthStore();
+  const { logout, setUserData } = useAuth();
+  const { isLoggedIn } = useAuthStore();
   const router = useRouter();
   const { pathname, query } = router;
   const { toast } = useToast();
@@ -17,7 +17,8 @@ export function useHeaderLogic() {
   const { data: userInfo, isPending } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
-    enabled: !!user,
+    enabled: isLoggedIn,
+    refetchInterval: 3,
   });
 
   const getCurTeamPage = () =>
@@ -31,7 +32,7 @@ export function useHeaderLogic() {
   const isLandingPage = pathname === "/";
 
   useEffect(() => {
-    isLoggedIn();
+    setUserData();
   }, []);
 
   useEffect(() => {
