@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TaskList as TaskListType } from "@coworkers-types";
 import {
   type DehydratedState,
@@ -37,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 export default function TaskListPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
   const router = useRouter();
-  const { teamId, taskListsId } = router.query;
+  const { teamId, taskListsId, date: urlDate } = router.query;
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [taskListId, setTaskListId] = useState(taskListsId);
 
@@ -50,6 +50,12 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
     setTaskListId(id);
     updateURL(selectedDate, id);
   };
+
+  useEffect(() => {
+    if (urlDate && typeof urlDate === "string") {
+      setSelectedDate(new Date(urlDate));
+    }
+  }, [urlDate]);
 
   const updateURL = (date: Date, id: string | string[] | undefined) => {
     const path = `/teams/${teamId}/task-lists/${id}`;
