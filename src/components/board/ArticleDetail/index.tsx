@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArticleDetails } from "@coworkers-types";
 import { useMutation } from "@tanstack/react-query";
+import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import NameTag from "@components/commons/NameTag";
@@ -8,7 +9,6 @@ import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
-import { formatDate } from "@utils/formatDate";
 import { IconComment, IconHeart, IconHeartFill } from "@utils/icon";
 import { deleteArticle, deleteArticleLike, postArticleLike } from "@api/articleApi";
 import DeleteArticleModal from "./DeleteArticleModal";
@@ -28,6 +28,7 @@ export default function ArticleDetail({
   const { toast } = useToast();
 
   if (!article) {
+    router.replace("/404");
     return <div>No data</div>;
   }
 
@@ -91,7 +92,7 @@ export default function ArticleDetail({
         <div className="mt-12 flex items-center justify-center gap-12">
           <NameTag type="default-12" image={writer.image} name={writer.nickname} />
           <span className="border-l border-solid border-background-tertiary pl-12 text-14 font-[500] text-text-disabled">
-            {formatDate(createdAt)}
+            {format(createdAt, "yyyy. MM. dd")}
           </span>
         </div>
         <div className="flex gap-12">
