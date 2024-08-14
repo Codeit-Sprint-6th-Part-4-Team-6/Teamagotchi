@@ -17,7 +17,7 @@ export default function CommentSection({ boardId }: { boardId: number }) {
 
   const postMutation = useMutation({
     mutationFn: () => postArticleComment(boardId, comment),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["comment"] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["articleComments"] }),
     onSettled: () => {
       toast("success", "댓글을 작성하였습니다.");
       setComment("");
