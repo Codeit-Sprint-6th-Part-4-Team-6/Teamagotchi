@@ -1,3 +1,5 @@
+import { ITaskList } from "@components/TeamDetailPage/TaskTypes";
+
 declare module "@coworkers-types" {
   type BaseGroupEntity = {
     updatedAt: ISODateString;
@@ -10,7 +12,7 @@ declare module "@coworkers-types" {
     image: string | null;
     teamId: string;
     members: Member[];
-    taskLists: GroupTaskLists[];
+    taskLists: ITaskList[];
   };
 
   export type NewGroup = {

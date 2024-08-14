@@ -8,7 +8,7 @@ import {
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import MembersSection from "@components/TeamDetailPage/MembersSection";
-// import CircleProgressBar from "@components/TeamDetailPage/CircleProgressBar";
+import TaskListSection from "@components/TeamDetailPage/TaskListSection";
 import TeamTitle from "@components/TeamDetailPage/TeamTitle";
 import Spinner from "@components/commons/Spinner";
 import { getGroup } from "@api/groupApi";
@@ -101,15 +101,11 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
             role={curTeamMembership?.role ?? ""}
           />
         </section>
+        <TaskListSection
+          taskLists={groupData?.taskLists ?? []}
+          role={curTeamMembership?.role ?? ""}
+        />
         <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
-        {/* <CircleProgressBar className="w-20" strokeWidth={30} progress={80} />
-        <CircleProgressBar
-          className="w-200"
-          strokeWidth={35}
-          progress={30}
-          transitionDuration={1.25}
-          isGradientCircle
-        /> */}
       </div>
     </HydrationBoundary>
   );
