@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Label from "@components/commons/Label";
 import Textarea from "@components/commons/TextArea";
@@ -9,6 +9,7 @@ import { postArticleComment } from "@api/articleCommentApi";
 export default function CommentSection({ boardId }: { boardId: number }) {
   const [comment, setComment] = useState<string>("");
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(event.target.value);
@@ -16,11 +17,11 @@ export default function CommentSection({ boardId }: { boardId: number }) {
 
   const postMutation = useMutation({
     mutationFn: () => postArticleComment(boardId, comment),
-    onSuccess: () => {
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["comment"] }),
+    onSettled: () => {
       toast("success", "댓글을 작성하였습니다.");
       setComment("");
     },
-    // onSuccess: 댓글 refetch 기능이랑 article refetch (댓글 전체 수) 넣어야할듯
   });
 
   return (
