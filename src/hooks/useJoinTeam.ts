@@ -39,7 +39,7 @@ export const useJoinTeam = () => {
       });
     },
     onError: () => {
-      toast("danger", "Error Occurred");
+      toast("danger", "에러 발생");
     },
   });
 
