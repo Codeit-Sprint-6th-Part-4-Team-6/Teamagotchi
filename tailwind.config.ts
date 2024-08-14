@@ -67,6 +67,7 @@ const config: Config = {
         inverse: '#FFFFFF',
         disabled: '#94A3B8',
         gray400: '#9ca3af',
+        transparent: 'transparent'
       },
       status: {
         danger: '#DC2626',

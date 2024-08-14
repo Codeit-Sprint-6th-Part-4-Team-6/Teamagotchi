@@ -8,6 +8,7 @@ import {
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import MembersSection from "@components/TeamDetailPage/MembersSection";
+import ReportSection from "@components/TeamDetailPage/ReportSection";
 import TaskListSection from "@components/TeamDetailPage/TaskListSection";
 import TeamTitle from "@components/TeamDetailPage/TeamTitle";
 import Spinner from "@components/commons/Spinner";
@@ -105,6 +106,7 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
           taskLists={groupData?.taskLists ?? []}
           role={curTeamMembership?.role ?? ""}
         />
+        <ReportSection />
         <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
       </div>
     </HydrationBoundary>
