@@ -1,9 +1,12 @@
-import { ArticleDetails } from "@coworkers-types";
+import { ArticleCommentList, ArticleDetails } from "@coworkers-types";
 import { QueryClient, dehydrate, keepPreviousData, useQuery } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import ArticleDetail from "@components/board/ArticleDetail";
+import CommentSection from "@components/board/ArticleDetail/CommentSection";
+import Comment from "@components/commons/Comment";
 import { getArticle } from "@api/articleApi";
+import { getArticleComments } from "@api/articleCommentApi";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
@@ -15,6 +18,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       queryKey: ["article", boardId],
       queryFn: () => getArticle(boardId as string, token),
       staleTime: Infinity,
+    });
+    await queryClient.fetchQuery({
+      queryKey: ["comment", boardId],
+      queryFn: () => getArticleComments(Number(boardId), 999),
     });
   } catch (error) {
     return {
@@ -39,9 +46,19 @@ export default function BoardDetailPage() {
     placeholderData: keepPreviousData,
     staleTime: Infinity,
   });
+
+  const { data: CommentData } = useQuery<ArticleCommentList>({
+    queryKey: ["comment", boardId],
+    queryFn: () => getArticleComments(Number(boardId), 999),
+    placeholderData: keepPreviousData,
+    staleTime: Infinity,
+  });
+
   return (
-    <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+    <div className="mx-auto my-0 mt-20 flex w-full min-w-368 max-w-1200 flex-col gap-24 px-34 py-20">
       <ArticleDetail article={ArticleData} refetch={refetch} />
+      <CommentSection boardId={Number(boardId)} />
+      {CommentData?.list.map((comment) => <Comment type="article" comment={comment} />)}
     </div>
   );
 }
