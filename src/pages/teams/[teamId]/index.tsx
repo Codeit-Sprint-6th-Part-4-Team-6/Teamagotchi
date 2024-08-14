@@ -15,6 +15,15 @@ import Spinner from "@components/commons/Spinner";
 import { getGroup } from "@api/groupApi";
 import { getUserMemberships } from "@api/userApi";
 
+// todos
+// 반응형 작업
+// 할 일 없을 때 보여줄 UI
+// 새로운 목록 추가하기 모달
+// 할 일 목록 수정 및 삭제
+// 새로운 멤버 초대하기 모달
+// 멤버 클릭 시 할 일 리스트 페이지로 이동
+// 멤버 추방하기
+
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { teamId } = context.query;
@@ -76,11 +85,9 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
 
   if (groupLoading || membershipLoading)
     return (
-      <div className="m-auto px-16 py-24 md:px-24 lg:w-1200">
+      <div className="mx-auto mt-20 flex h-[80vh] w-full min-w-368 max-w-1200 items-center justify-center px-34 py-20">
         <section>
-          <div className="h-[64px] rounded-12 border border-solid border-border-primary bg-background-secondary">
-            <Spinner />
-          </div>
+          <Spinner size={200} />
         </section>
       </div>
     );
@@ -94,7 +101,7 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
 
   return (
     <HydrationBoundary state={dehydratedState}>
-      <div className="m-auto px-16 py-24 md:px-24 lg:w-1200">
+      <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
         <section className="mb-30">
           <TeamTitle
             teamName={groupData?.name ?? ""}

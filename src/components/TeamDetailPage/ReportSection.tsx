@@ -10,24 +10,27 @@ export default function ReportSection() {
       </div>
       <div className="box-border flex h-224 rounded-12 bg-background-secondary p-24">
         <div className="flex w-full items-center justify-between">
-          <div className="flex items-center justify-center gap-30">
+          <div className="relative flex items-center justify-center gap-30">
             <CircleProgressBar
-              className="w-200"
+              className="w-120 md:w-200"
               strokeWidth={30}
               progress={25}
               transitionDuration={1.25}
               isGradientCircle
             />
-            <div>
-              <p>
-                오늘의 <br /> 진행 상황
+            <div className="absolute block text-center md:static md:pr-20 md:text-left">
+              <p className="text-md text-text-primary">
+                <span className="text-xs md:text-md">오늘</span>
+                <span className="hidden md:inline">
+                  의 <br /> 진행 상황
+                </span>
               </p>
-              <h4 className="inline-block bg-gradient-to-r from-brand-gradient-start to-brand-gradient-end bg-clip-text text-4xl font-bold text-text-transparent">
+              <h4 className="inline-block bg-gradient-to-r from-brand-gradient-start to-brand-gradient-end bg-clip-text text-xl font-bold text-text-transparent md:text-4xl">
                 25%
               </h4>
             </div>
           </div>
-          <div className="flex w-full max-w-400 flex-col gap-15">
+          <div className="flex w-142 min-w-120 flex-col gap-15 md:w-280 lg:w-400">
             <div className="flex justify-between rounded-12 bg-background-tertiary p-16">
               <div className="flex flex-col justify-between">
                 <span className="text-xs text-text-secondary">오늘의 할 일</span>
