@@ -18,15 +18,20 @@ import { getTaskList } from "@api/taskListApi";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { query } = context;
-  const { teamId, taskListsId } = query;
+  const { teamId, taskListsId, date } = query;
   const token = context.req.cookies["accessToken"];
-  const date = new Date().toISOString().slice(0, 10);
 
-  await queryClient.prefetchQuery({
-    queryKey: ["taskLists", Number(taskListsId), date],
-    queryFn: () => getTaskList(teamId, taskListsId, token as string),
-    staleTime: Infinity,
-  });
+  try {
+    await queryClient.fetchQuery({
+      queryKey: ["taskLists", Number(taskListsId), date],
+      queryFn: () => getTaskList(teamId, taskListsId, date as string, token as string),
+      staleTime: Infinity,
+    });
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
@@ -38,8 +43,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function TaskListPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
   const router = useRouter();
   const { teamId, taskListsId, date: urlDate } = router.query;
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(
+    urlDate && typeof urlDate === "string" ? new Date(urlDate) : new Date()
+  );
   const [taskListId, setTaskListId] = useState(taskListsId);
+  // const queryClient = useQueryClient();
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
@@ -56,6 +64,26 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
       setSelectedDate(new Date(urlDate));
     }
   }, [urlDate]);
+
+  // 대양님 페이지 연결되면 적용 예정입니다.
+  // const groupData: Group | undefined = queryClient.getQueryData(["group", teamId]);
+
+  // useEffect(() => {
+  //   if (groupData && groupData.taskLists.length > 1) {
+  //     for (let i = 0; i <= groupData.taskLists.length; i++) {
+  //       queryClient.prefetchQuery({
+  //         queryKey: [
+  //           "taskLists",
+  //           groupData.taskLists[i].id,
+  //           selectedDate.toISOString().slice(0, 10),
+  //         ],
+  //         queryFn: () =>
+  //           getTaskList(teamId, groupData.taskLists[i].id.toString(), selectedDate.toISOString()),
+  //         staleTime: Infinity,
+  //       });
+  //     }
+  //   }
+  // });
 
   const updateURL = (date: Date, id: string | string[] | undefined) => {
     const path = `/teams/${teamId}/task-lists/${id}`;

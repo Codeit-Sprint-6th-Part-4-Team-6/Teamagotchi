@@ -31,7 +31,7 @@ export default function Task({ task }: Props) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
-  const [isChecked, setIsChecked] = useState(task.doneBy.user !== null);
+  const [isChecked, setIsChecked] = useState(task.doneAt !== null);
   const [isEditMode, setIsEditMode] = useState(false);
   const handleCheckButton = () => {
     setIsChecked((prev) => !prev);
