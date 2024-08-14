@@ -1,4 +1,4 @@
-import { TaskList, TaskListInfo } from "@coworkers-types";
+import { Message, TaskList, TaskListInfo } from "@coworkers-types";
 import { axiosInstance } from "./axios";
 
 /**
@@ -15,10 +15,7 @@ export const getTaskList = async (
   token?: string
 ): Promise<TaskList> => {
   const params = new URLSearchParams();
-
-  if (date) {
-    params.append("date", date);
-  }
+  params.append("date", date);
 
   const headers = {
     Authorization: `Bearer ${token}`,
