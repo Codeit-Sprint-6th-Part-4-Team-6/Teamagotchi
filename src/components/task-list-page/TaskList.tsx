@@ -52,7 +52,7 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
 
   return (
     <section>
-      <div className="mb-16 mt-19 flex gap-12" role="tablist">
+      <div className="mb-16 mt-19 flex gap-12 overflow-auto" role="tablist">
         {groupData?.taskLists.map((taskList, index) => (
           <div
             key={taskList.id}
