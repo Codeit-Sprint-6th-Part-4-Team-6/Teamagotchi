@@ -75,7 +75,7 @@ export default function Dropdown({
 
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, closeDropdown]);
-      
+
   return (
     <DropdownContext.Provider value={providerValue}>
       <div ref={dropdownRef} className="relative">

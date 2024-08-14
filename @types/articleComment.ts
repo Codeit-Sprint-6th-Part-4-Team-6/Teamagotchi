@@ -1,10 +1,7 @@
 declare module "@coworkers-types" {
-  export type ArticleComment = {
+  export type ArticleComment = BaseCommentEntity & {
     writer: Writer;
-    updatedAt: string;
-    createdAt: string;
     content: string;
-    id: number;
   };
 
   export type Writer = {
@@ -13,8 +10,13 @@ declare module "@coworkers-types" {
     id: number;
   };
 
-  export type AricleCommentList = {
+  export type ArticleCommentList = {
     nextCursor: number;
     list: ArticleComment[];
+  };
+
+  export type ArticleCommentsWithParams = {
+    pageParams: number[];
+    pages: { list: ArticleComment[]; nextCursor: number }[];
   };
 }

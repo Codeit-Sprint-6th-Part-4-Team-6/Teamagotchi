@@ -14,12 +14,13 @@ declare module "@coworkers-types" {
     deletedAt: ISODateString;
     userId: number;
     recurringId: number;
-    frequency: string;
+    frequency: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
     date: ISODateString;
     doneAt: ISODateString;
     name: string;
     updatedAt: ISODateString;
     id: number;
+    commentCount: number;
   };
 
   export type PostTaskRequest = Omit<BaseTaskEntity, "updatedAt" | "createdAt" | "id">;
@@ -42,7 +43,7 @@ declare module "@coworkers-types" {
   };
 
   export type TaskDetails = BaseTaskDetails & {
-    comments: CommentInfo[];
+    comments: TaskCommentInfo[];
     recurring: Recurring;
     user: TaskUserInfo;
     description: string;
