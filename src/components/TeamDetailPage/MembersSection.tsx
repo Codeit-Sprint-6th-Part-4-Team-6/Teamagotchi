@@ -3,7 +3,7 @@ import TextButton from "@components/commons/Button/TextButton";
 import Label from "@components/commons/Label";
 import { useModal } from "@hooks/useModal";
 import MemberCard from "./MemberCard";
-import { InviteMemberModal } from "./TeamPageModal";
+import { InviteMemberModal, UserInfoModal } from "./TeamPageModal";
 
 export default function MembersSection({
   members = [],
@@ -12,10 +12,14 @@ export default function MembersSection({
   members: Member[];
   role: string;
 }) {
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
 
   const handleOpenModal = () => {
     openModal("TeamPageModal", InviteMemberModal);
+  };
+
+  const handleUserOpenModal = (name: string, email: string, image: string | null) => {
+    openModal("UserInfoModal", UserInfoModal, { name, email, image });
   };
 
   return (
@@ -38,6 +42,9 @@ export default function MembersSection({
             name={member.userName}
             email={member.userEmail}
             image={member.userImage}
+            onClick={() => {
+              handleUserOpenModal(member.userName, member.userEmail, member.userImage);
+            }}
           />
         ))}
       </div>
