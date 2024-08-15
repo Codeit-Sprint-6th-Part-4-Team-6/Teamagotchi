@@ -53,7 +53,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function TeamDetailPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
   const router = useRouter();
   const { teamId } = router.query;
-
   const {
     data: groupData,
     isLoading: groupLoading,
