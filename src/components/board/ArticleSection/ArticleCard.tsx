@@ -17,7 +17,7 @@ export default function ArticleCard({ Post }: { Post: Article }) {
         <div className="flex justify-between">
           <div className="flex items-center justify-center gap-12">
             <NameTag type="default-12" image={writer.image} name={writer.nickname} />
-            <div className="h- border-l border-solid border-background-tertiary pl-12">
+            <div className="border-l border-solid border-background-tertiary pl-12">
               <span className="text-14 font-[500] text-text-disabled">{formatDate(createdAt)}</span>
             </div>
           </div>

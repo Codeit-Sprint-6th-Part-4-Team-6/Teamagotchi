@@ -28,7 +28,7 @@ export function Sidebar({
         </button>
       </div>
       <div className="flex flex-col gap-24">
-        <Link href="/boards" className="text-md">
+        <Link href="/board" className="text-md">
           자유게시판
         </Link>
         <Link href="/teams" className="text-md">
