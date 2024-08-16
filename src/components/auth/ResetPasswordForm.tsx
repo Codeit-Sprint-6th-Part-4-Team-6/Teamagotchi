@@ -13,7 +13,7 @@ const initialPasswordState: Password = {
 };
 
 export default function ResetPasswordForm() {
-  const { values, errors, isValid, handleBlur, handleChange } = useAuthForm<Password>(
+  const { values, errors, isValid, handleChange } = useAuthForm<Password>(
     initialPasswordState,
     ResetPasswordSchema
   );
@@ -29,7 +29,6 @@ export default function ResetPasswordForm() {
           id="password"
           placeholder="비밀번호 (영문, 숫자, 특수문자 포함, 12자 이내)를 입력해주세요."
           onChange={handleChange}
-          onBlur={handleBlur}
           errorMessage={errors.password}
         />
       </div>
@@ -46,7 +45,6 @@ export default function ResetPasswordForm() {
           id="passwordConfirmation"
           placeholder="비밀번호를 입력해주세요."
           onChange={handleChange}
-          onBlur={handleBlur}
           errorMessage={errors.passwordConfirmation}
         />
       </div>

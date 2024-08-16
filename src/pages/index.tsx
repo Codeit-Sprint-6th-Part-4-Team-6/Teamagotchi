@@ -5,8 +5,6 @@ import Comment from "@components/commons/Comment";
 import Dropdown from "@components/commons/Dropdown";
 import Input from "@components/commons/Input";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
-import Textarea from "@components/commons/TextArea";
-import TaskCommentList from "@components/task-list/TaskCommentList";
 
 export default function Home() {
   const { theme, setTheme } = useTheme();
@@ -36,7 +34,6 @@ export default function Home() {
   const [sortValue, setSortValue] = useState<string>("latest");
 
   useEffect(() => setMounted(true), []);
-  // test@test.com test2718!
 
   if (!mounted) {
     return <div />;
