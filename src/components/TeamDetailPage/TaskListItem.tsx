@@ -53,7 +53,7 @@ export default function TaskListItem({
     closeModal();
   };
 
-  const handleOpenModal = () => {
+  const handleDeleteTaskListOpenModal = () => {
     openModal("DeleteTaskListModal", DeleteTaskListModal, { onConfirm: deleteOnConfirm });
   };
 
@@ -66,7 +66,8 @@ export default function TaskListItem({
         {role === "ADMIN" ? (
           <EditDeletePopover
             icon="kebabSmall"
-            handleDelete={handleOpenModal}
+            handleDelete={handleDeleteTaskListOpenModal}
+            // TODO : 할 일 목록 수정하기 모달 연결
             handleModify={() => {}}
           />
         ) : null}

@@ -19,7 +19,7 @@ import { getUserMemberships } from "@api/userApi";
 // 할 일 목록 생성
 // 할 일 목록 수정
 // 멤버 클릭 시 할 일 리스트 페이지로 이동
-// 멤버 추방하기
+// 타입 정리
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();

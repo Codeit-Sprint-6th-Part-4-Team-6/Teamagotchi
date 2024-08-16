@@ -3,6 +3,7 @@ import Label from "@components/commons/Label";
 import CircleProgressBar from "./CircleProgressBar";
 
 export default function ReportSection() {
+  // TODO : 현재 UI만 구현, 데이터 연결 필요
   return (
     <section className="mb-30">
       <div className="mb-20">
