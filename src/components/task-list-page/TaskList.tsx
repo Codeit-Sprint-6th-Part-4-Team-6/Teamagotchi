@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { DateTask, GroupTaskLists, TaskList } from "@coworkers-types";
+import { GroupTaskLists, TaskList } from "@coworkers-types";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
 import Link from "next/link";

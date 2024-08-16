@@ -1,4 +1,4 @@
-import { GroupTaskLists, TaskList } from "@coworkers-types";
+import { GroupTaskLists } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { useRouter } from "next/router";
