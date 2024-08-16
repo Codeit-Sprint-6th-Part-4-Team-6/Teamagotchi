@@ -16,11 +16,8 @@ import { getGroup } from "@api/groupApi";
 import { getUserMemberships } from "@api/userApi";
 
 // todos
-// 반응형 작업
-// 할 일 없을 때 보여줄 UI
-// 새로운 목록 추가하기 모달
-// 할 일 목록 수정 및 삭제
-// 새로운 멤버 초대하기 모달
+// 할 일 목록 생성
+// 할 일 목록 수정
 // 멤버 클릭 시 할 일 리스트 페이지로 이동
 // 멤버 추방하기
 
@@ -86,12 +83,10 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
     return (
       <div className="mx-auto mt-20 flex h-[80vh] w-full min-w-368 max-w-1200 items-center justify-center px-34 py-20">
         <section>
-          <Spinner size={200} />
+          <Spinner size={100} />
         </section>
       </div>
     );
-
-  console.log(groupData);
 
   // 현재 페이지의 내 역할 정보를 정제
   const curTeamMembership = Array.isArray(membershipData)

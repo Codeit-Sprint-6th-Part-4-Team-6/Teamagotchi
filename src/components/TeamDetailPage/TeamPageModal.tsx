@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import ConfirmModal from "@components/commons/modal/ConfirmModal";
 import CustomModal from "@components/commons/modal/CustomModal";
+import WarnModal from "@components/commons/modal/WarnModal";
 import { useInvitation } from "@hooks/useInvitation";
 import { useToast } from "@hooks/useToast";
 import { IconCloseSmall, IconMemberLarge } from "@utils/icon";
@@ -77,6 +78,26 @@ export function UserInfoModal({
           <Button onClick={copyEmailToClipboard}>이메일 복사하기</Button>
         </div>
       }
+    />
+  );
+}
+
+export function DeleteTaskListModal({
+  onClose,
+  onConfirm,
+}: {
+  onClose?: () => void;
+  onConfirm?: () => void;
+}) {
+  return (
+    <WarnModal
+      warnIcon
+      title="할 일 목록 삭제하기"
+      description="해당 목록을 정말 삭제하시겠어요?"
+      content="해당 목록의 모든 할 일이 삭제되며 되돌릴 수 없습니다."
+      buttonText="삭제하기"
+      onClose={onClose}
+      onConfirm={onConfirm}
     />
   );
 }

@@ -1,7 +1,13 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
+import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
+import { useModal } from "@hooks/useModal";
+import { useToast } from "@hooks/useToast";
+import { deleteTaskList } from "@api/taskListApi";
 import TaskListProgress from "./TaskListProgress";
 import { ITask, ITaskList } from "./TaskTypes";
+import { DeleteTaskListModal } from "./TeamPageModal";
 
 export default function TaskListItem({
   task,
@@ -27,6 +33,29 @@ export default function TaskListItem({
 
   // index에 따라 색상 선택
   const colorClass = colors[index % colors.length];
+  const router = useRouter();
+  const { teamId } = router.query;
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  const deleteTaskListMutation = useMutation({
+    mutationFn: () => deleteTaskList(teamId, task.id.toString()),
+    onSuccess: () => {
+      toast("success", "해당 팀이 삭제되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["team", teamId] });
+    },
+  });
+
+  const { openModal, closeModal } = useModal();
+
+  const deleteOnConfirm = () => {
+    deleteTaskListMutation.mutate();
+    closeModal();
+  };
+
+  const handleOpenModal = () => {
+    openModal("DeleteTaskListModal", DeleteTaskListModal, { onConfirm: deleteOnConfirm });
+  };
 
   return (
     <div className="flex h-40 items-center rounded-12 bg-background-secondary text-md">
@@ -35,7 +64,11 @@ export default function TaskListItem({
       <div className="mr-5 flex items-center">
         <TaskListProgress tasks={task.tasks as ITask[]} />
         {role === "ADMIN" ? (
-          <EditDeletePopover icon="kebabSmall" handleDelete={() => {}} handleModify={() => {}} />
+          <EditDeletePopover
+            icon="kebabSmall"
+            handleDelete={handleOpenModal}
+            handleModify={() => {}}
+          />
         ) : null}
       </div>
     </div>
