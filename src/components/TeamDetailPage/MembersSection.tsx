@@ -12,12 +12,11 @@ export default function MembersSection({
   members: Member[];
   role: string;
 }) {
-  const { openModal, closeModal } = useModal();
+  const { openModal } = useModal();
 
   const handleOpenModal = () => {
-    openModal("TeamPageModal", InviteMemberModal);
+    openModal("InviteMemberModal", InviteMemberModal);
   };
-
   const handleUserOpenModal = (name: string, email: string, image: string | null) => {
     openModal("UserInfoModal", UserInfoModal, { name, email, image });
   };
@@ -39,12 +38,14 @@ export default function MembersSection({
         {members.map((member) => (
           <MemberCard
             key={`member-${member.userId}`}
+            memberId={member.userId}
             name={member.userName}
             email={member.userEmail}
             image={member.userImage}
             onClick={() => {
               handleUserOpenModal(member.userName, member.userEmail, member.userImage);
             }}
+            role={role}
           />
         ))}
       </div>

@@ -101,3 +101,22 @@ export function DeleteTaskListModal({
     />
   );
 }
+
+export function DeleteGroupMemberModal({
+  onClose,
+  onConfirm,
+}: {
+  onClose?: () => void;
+  onConfirm?: () => void;
+}) {
+  return (
+    <WarnModal
+      warnIcon
+      title="멤버 추방하기"
+      description="해당 멤버를 정말 추방하시겠어요?"
+      buttonText="추방하기"
+      onClose={onClose}
+      onConfirm={onConfirm}
+    />
+  );
+}
