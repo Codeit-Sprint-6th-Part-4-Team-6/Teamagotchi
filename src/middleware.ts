@@ -16,7 +16,6 @@ export default function middleware(request: NextRequest) {
       (pathname.startsWith("/teams") ||
         pathname.startsWith("/add-team") ||
         pathname.startsWith("/join-team") ||
-        pathname.startsWith("/reset-password") ||
         pathname.startsWith("/board") ||
         pathname.startsWith("/user")):
       return NextResponse.redirect(new URL("/login", request.url));

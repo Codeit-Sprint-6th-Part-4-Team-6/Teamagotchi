@@ -14,7 +14,6 @@ export default function AddTeamForm() {
     handleSubmit,
     isPending,
   } = useUploadForm({
-    initialName: "",
     onSubmit: ({ name, image }) => postGroup({ name, image }),
     successMessage: "팀이 성공적으로 생성되었습니다.",
     redirectPath: "/teams",
@@ -40,7 +39,7 @@ export default function AddTeamForm() {
       />
       <Button
         className="mt-40"
-        disabled={changedName.length < 1}
+        disabled={changedName !== undefined ? changedName.length < 1 : undefined}
         type="submit"
         isPending={isPending}
       >
