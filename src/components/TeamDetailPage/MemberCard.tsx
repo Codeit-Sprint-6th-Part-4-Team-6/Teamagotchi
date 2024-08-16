@@ -4,6 +4,7 @@ import NameTag from "@components/commons/NameTag";
 import Popover from "@components/commons/Popover";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
+import { useAuthStore } from "@store/useAuthStore";
 import { IconKebabLarge } from "@utils/icon";
 import { deleteGroupMember } from "@api/groupApi";
 import { DeleteGroupMemberModal } from "./TeamPageModal";
@@ -28,6 +29,7 @@ export default function MemberCard({
   const { teamId } = router.query;
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { user } = useAuthStore();
 
   const deleteGroupMemberMutation = useMutation({
     mutationFn: () => deleteGroupMember(Number(teamId), Number(memberId)),
@@ -56,7 +58,7 @@ export default function MemberCard({
           </Popover.Toggle>
           <Popover.Wrapper popDirection="left">
             <Popover.Item onClick={onClick}>정보보기</Popover.Item>
-            {role === "ADMIN" ? (
+            {role === "ADMIN" && user?.email !== email ? (
               <Popover.Item onClick={handleOpenMemberDeleteModal}>추방하기</Popover.Item>
             ) : null}
           </Popover.Wrapper>
