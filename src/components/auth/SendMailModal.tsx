@@ -15,8 +15,7 @@ export default function SendMailModal({ onClose }: { onClose?: () => void }) {
 
   const userData: SendResetPasswordRequest = {
     email,
-    // NOTE: 배포 후에 Url 변경 필요.
-    redirectUrl: "http://localhost:3000",
+    redirectUrl: String(process.env.NEXT_PUBLIC_URL),
   };
 
   const { mutate } = useMutation({

@@ -55,9 +55,6 @@ export const useAuth = () => {
       setUser(data);
       setIsLoggedIn(true);
       queryClient.setQueryData(["user"], data);
-    } else {
-      toast("danger", "로그인 된 사용자만 이용이 가능합니다.");
-      router.push("/login");
     }
   };
 

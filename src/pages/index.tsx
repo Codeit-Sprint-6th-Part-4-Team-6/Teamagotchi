@@ -34,7 +34,6 @@ export default function Home() {
   const [sortValue, setSortValue] = useState<string>("latest");
 
   useEffect(() => setMounted(true), []);
-  // test@test.com test2718!
 
   if (!mounted) {
     return <div />;
