@@ -1,13 +1,13 @@
+import { DateTask, GroupTaskLists, TaskList } from "@coworkers-types";
 import TextButton from "@components/commons/Button/TextButton";
 import Label from "@components/commons/Label";
 import TaskListItem from "./TaskListItem";
-import { ITaskList } from "./TaskTypes";
 
 export default function TaskListSection({
   taskLists = [],
   role,
 }: {
-  taskLists: ITaskList[];
+  taskLists: GroupTaskLists[];
   role: string;
 }) {
   return (

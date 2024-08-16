@@ -37,9 +37,24 @@ declare module "@coworkers-types" {
     weekDays: number[];
   };
 
-  export type DateTask = BaseTaskDetails & {
+  export type DateTask = {
+    id: number;
+    name: string;
+    description: string;
+    date: ISODateString;
+    startDate: ISODateString;
+    doneAt: ISODateString;
+    updatedAt: ISODateString;
+    user: TaskUserInfo;
     recurringId: number;
-    userId: number;
+    deletedAt: ISODateString | null;
+    displayIndex: number;
+    writer: string | null;
+    doneBy: {
+      user: TaskUserInfo;
+    };
+    commentCount: number;
+    frequency: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
   };
 
   export type TaskDetails = BaseTaskDetails & {

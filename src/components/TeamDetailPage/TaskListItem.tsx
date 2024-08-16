@@ -1,3 +1,4 @@
+import { GroupTaskLists, TaskList } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { useRouter } from "next/router";
@@ -6,7 +7,6 @@ import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { deleteTaskList } from "@api/taskListApi";
 import TaskListProgress from "./TaskListProgress";
-import { ITask, ITaskList } from "./TaskTypes";
 import { DeleteTaskListModal } from "./TeamPageModal";
 
 export default function TaskListItem({
@@ -14,7 +14,7 @@ export default function TaskListItem({
   index,
   role,
 }: {
-  task: ITaskList;
+  task: GroupTaskLists;
   index: number;
   role: string;
 }) {
@@ -62,7 +62,7 @@ export default function TaskListItem({
       <div className={classNames("h-full w-12 rounded-l-12", colorClass)} />
       <p className="grow truncate px-12 font-medium">{task.name}</p>
       <div className="mr-5 flex items-center">
-        <TaskListProgress tasks={task.tasks as ITask[]} />
+        <TaskListProgress tasks={task.tasks} />
         {role === "ADMIN" ? (
           <EditDeletePopover
             icon="kebabSmall"

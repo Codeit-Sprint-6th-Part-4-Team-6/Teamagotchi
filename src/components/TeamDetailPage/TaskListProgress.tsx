@@ -1,8 +1,8 @@
+import { DateTask } from "@coworkers-types";
 import { IconDone } from "@utils/icon";
 import CircleProgressBar from "./CircleProgressBar";
-import { ITask } from "./TaskTypes";
 
-export default function TaskListProgress({ tasks }: { tasks: ITask[] }) {
+export default function TaskListProgress({ tasks }: { tasks: DateTask[] }) {
   const completedTasks = tasks.filter((task) => task.doneAt).length;
   const totalTasks = tasks.length;
 
