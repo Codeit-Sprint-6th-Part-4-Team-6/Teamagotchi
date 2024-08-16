@@ -17,7 +17,7 @@ export function DesktopNavigation({
 
   return (
     <div className="hidden flex-grow items-center gap-15 px-20 text-lg md:flex">
-      <Link href="/boards" className="text-nowrap">
+      <Link href="/board" className="text-nowrap">
         자유게시판
       </Link>
       <span>|</span>
