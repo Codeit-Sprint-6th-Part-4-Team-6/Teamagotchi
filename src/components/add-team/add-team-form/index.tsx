@@ -2,7 +2,7 @@ import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
-import { useUploadForm } from "@hooks/useUpdateForm";
+import { useUpdateForm } from "@hooks/useUpdateForm";
 import { postGroup } from "@api/groupApi";
 
 export default function AddTeamForm() {
@@ -13,7 +13,7 @@ export default function AddTeamForm() {
     handleNameChange: handleTeamNameChange,
     handleSubmit,
     isPending,
-  } = useUploadForm({
+  } = useUpdateForm({
     initialName: "",
     onSubmit: ({ name, image }) => postGroup({ name, image }),
     successMessage: "팀이 성공적으로 생성되었습니다.",

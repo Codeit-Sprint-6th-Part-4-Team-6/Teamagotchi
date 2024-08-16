@@ -1,14 +1,14 @@
-import { UserInfo } from "@coworkers-types";
+import { User, UserInfo } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
-import { useUploadForm } from "@hooks/useUpdateForm";
+import { useUpdateForm } from "@hooks/useUpdateForm";
 import { useAuthStore } from "@store/useAuthStore";
 import { patchUser } from "@api/userApi";
 
-const defaultUserInfo: UserInfo = {
+const defaultUserInfo: User = {
   nickname: "",
   image: "",
   createdAt: "",
@@ -16,12 +16,13 @@ const defaultUserInfo: UserInfo = {
   id: 0,
   email: "",
   teamId: "",
+  memberships: [],
 };
 
 export default function EditUserForm() {
   const { setUser } = useAuthStore();
   const queryClient = useQueryClient();
-  const user = queryClient.getQueryData<UserInfo>(["user"]) || defaultUserInfo;
+  const user = queryClient.getQueryData<User>(["user"]) || defaultUserInfo;
 
   const {
     imageFile,
@@ -31,7 +32,7 @@ export default function EditUserForm() {
     handleNameChange,
     handleSubmit,
     isPending,
-  } = useUploadForm({
+  } = useUpdateForm({
     initialName: user.nickname,
     initialImage: user.image,
     onSubmit: ({ name, image }) => patchUser({ nickname: name, image }),
