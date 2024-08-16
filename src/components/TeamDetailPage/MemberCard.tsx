@@ -47,7 +47,7 @@ export default function MemberCard({
   };
 
   return (
-    <div className="flex h-73 cursor-pointer items-center rounded-16 bg-background-secondary px-24 py-2 transition-all">
+    <div className="flex h-73 items-center rounded-16 bg-background-secondary px-24 py-2 transition-all">
       <div className="flex w-full items-center justify-between">
         <NameTag type="email" name={name} email={email} image={image} />
         <Popover>
