@@ -1,4 +1,4 @@
-import { User, UserInfo } from "@coworkers-types";
+import { User } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
@@ -43,9 +43,9 @@ export default function EditUserForm() {
   const handleUserSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     handleSubmit(event);
 
-    const updatedData = {
+    const updatedData: User = {
       ...user,
-      nickname: changedName,
+      nickname: changedName ?? "",
       image: imageFile instanceof File ? user.image : imageFile,
     };
     setUser(updatedData);

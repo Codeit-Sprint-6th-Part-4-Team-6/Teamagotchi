@@ -40,7 +40,7 @@ export default function AddTeamForm() {
       />
       <Button
         className="mt-40"
-        disabled={changedName.length < 1}
+        disabled={changedName !== undefined ? changedName.length < 1 : undefined}
         type="submit"
         isPending={isPending}
       >

@@ -1,24 +1,35 @@
 import { useState } from "react";
-import { SendResetPasswordRequest } from "@coworkers-types";
+import { Message, SendResetPasswordRequest } from "@coworkers-types";
+import { useMutation } from "@tanstack/react-query";
 import OneInputModal from "@components/commons/modal/OneInputModal";
+import { useToast } from "@hooks/useToast";
 import { postSendResetPasswordEmail } from "@api/userApi";
 
 export default function SendMailModal({ onClose }: { onClose?: () => void }) {
   const [email, setEmail] = useState("");
+  const { toast } = useToast();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
 
-  const handleSendMail = async () => {
-    const data: SendResetPasswordRequest = {
-      email,
-      // NOTE: 배포 후에 Url 변경 필요.
-      redirectUrl: "http://localhost:3000",
-    };
+  const userData: SendResetPasswordRequest = {
+    email,
+    redirectUrl: String(process.env.NEXT_PUBLIC_URL),
+  };
 
-    const response = await postSendResetPasswordEmail(data);
-    alert(response.message);
+  const { mutate } = useMutation({
+    mutationFn: (data: SendResetPasswordRequest) => postSendResetPasswordEmail(data),
+    onSuccess: (response: Message) => {
+      toast("success", response.message);
+    },
+    onError: (error: any) => {
+      toast("danger", error.response.data.message);
+    },
+  });
+
+  const handleSendMail = async () => {
+    mutate(userData);
   };
 
   return (

@@ -16,11 +16,10 @@ const initialLoginState: LoginRequest = {
 };
 
 export default function LoginForm() {
-  const { values, errors, isValid, handleBlur, handleChange } = useAuthForm<LoginRequest>(
+  const { values, errors, isValid, handleChange } = useAuthForm<LoginRequest>(
     initialLoginState,
     LoginSchema
   );
-
   const { handleSubmit } = useAuthHandler(values);
   const { openModal } = useModal();
 
@@ -36,7 +35,6 @@ export default function LoginForm() {
         name="email"
         value={values.email}
         onChange={handleChange}
-        onBlur={handleBlur}
         placeholder="이메일을 입력해주세요."
         errorMessage={errors.email}
       />
@@ -48,7 +46,6 @@ export default function LoginForm() {
           type="password"
           value={values.password}
           onChange={handleChange}
-          onBlur={handleBlur}
           placeholder="비밀번호를 입력해주세요."
           errorMessage={errors.password}
         />
