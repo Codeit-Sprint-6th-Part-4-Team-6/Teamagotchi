@@ -1,4 +1,3 @@
-import { useParams, usePathname, useSearchParams } from "next/navigation";
 import UpdateTeam from "@components/commons/UpdateTeam";
 import EditTeamForm from "@components/edit-team/EditTeamForm";
 

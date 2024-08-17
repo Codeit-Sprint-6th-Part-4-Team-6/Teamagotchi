@@ -7,12 +7,12 @@ import { postImageURL } from "@api/imageApi";
 
 interface UseUpdateFormProps {
   initialName: string;
-  initialImage?: string | null;
+  initialImage?: File | string | null;
   onSubmit?: (data: { name: string; image?: string }) => Promise<any>;
   onEditSubmit?: (id: number, data: Profile) => Promise<GroupInfo>;
   successMessage: string;
   redirectPath?: string;
-  queryKey?: string;
+  query?: string;
 }
 
 export function useUpdateForm({
@@ -22,7 +22,7 @@ export function useUpdateForm({
   onEditSubmit,
   successMessage,
   redirectPath,
-  queryKey,
+  query,
 }: UseUpdateFormProps) {
   const [imageFile, setImageFile] = useState<string | File | null>(initialImage);
   const [changedName, setChangedName] = useState(initialName);
@@ -50,8 +50,8 @@ export function useUpdateForm({
       throw new Error("onSubmit 또는 onEditSubmit이 정의되지 않았습니다.");
     },
     onSuccess: () => {
-      if (queryKey) {
-        queryClient.invalidateQueries({ queryKey: [queryKey] });
+      if (query) {
+        queryClient.invalidateQueries({ queryKey: [query] });
       }
       if (successMessage) {
         toast("success", successMessage);
@@ -61,8 +61,9 @@ export function useUpdateForm({
       }
     },
     onError: (error: any) => {
-      const message = error.response?.data?.message || "An error occurred";
+      const message = error.response?.data?.message;
       setErrorMessage(message);
+      toast("danger", message);
     },
   });
 

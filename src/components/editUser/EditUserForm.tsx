@@ -37,7 +37,7 @@ export default function EditUserForm() {
     initialImage: user.image,
     onSubmit: ({ name, image }) => patchUser({ nickname: name, image }),
     successMessage: "계정 설정 변경에 성공하셨습니다.",
-    queryKey: "user",
+    query: "user",
   });
 
   const handleUserSubmit = (event: React.FormEvent<HTMLFormElement>) => {
