@@ -23,7 +23,21 @@ declare module "@coworkers-types" {
     commentCount: number;
   };
 
-  export type PostTaskRequest = Omit<BaseTaskEntity, "updatedAt" | "createdAt" | "id">;
+  export type PostTaskRequest = {
+    name: string;
+    description: string;
+    startDate: ISODateString;
+    frequencyType: string;
+    monthDay?: number;
+    weekDays?: number[];
+  };
+
+  export type TaskState = {
+    name: string;
+    description: string;
+    startDate: ISODateString;
+    frequencyType: string;
+  };
 
   export type PatchTaskRequest = {
     name?: string;
@@ -42,6 +56,7 @@ declare module "@coworkers-types" {
     name: string;
     description: string;
     date: ISODateString;
+    startDate: ISODateString;
     doneAt: ISODateString;
     updatedAt: ISODateString;
     user: TaskUserInfo;

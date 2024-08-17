@@ -16,8 +16,8 @@ import { axiosInstance } from "./axios";
  * @returns 생성된 할 일 객체를 반환합니다.
  */
 export const postTask = async (
-  groupId: number,
-  taskListId: number,
+  groupId: string | string[] | undefined,
+  taskListId: string | string[] | undefined,
   data: PostTaskRequest
 ): Promise<Task> => {
   const response = await axiosInstance.post<Task>(
