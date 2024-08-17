@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { GroupTaskLists, TaskList } from "@coworkers-types";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import Spinner from "@components/commons/Spinner";
 import { getGroup } from "@api/groupApi";
@@ -22,7 +21,7 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
 
   // 탭의 정보를 받아오기 위해서 사용했는데, 추후에는 팀페이지에서 받은 그룹데이터를 getQueryClient 사용 예정
   const { data: groupData } = useQuery({
-    queryKey: ["groups", teamId],
+    queryKey: ["group", teamId],
     queryFn: () => getGroup(Number(teamId)),
     enabled: !!teamId,
   });
@@ -44,6 +43,7 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
     (index: number, taskList: GroupTaskLists) => {
       setActiveTabIndex(index);
       handleTaskListId(taskList.id.toString());
+      router.push(`/teams/${teamId}/task-lists/${taskList.id}`, undefined, { shallow: true });
     },
     [teamId]
   );
@@ -52,32 +52,27 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
 
   return (
     <section>
-      <div className="mb-16 mt-19 flex gap-12" role="tablist">
+      <div className="mb-16 mt-19 flex gap-12 overflow-auto" role="tablist">
         {groupData?.taskLists.map((taskList, index) => (
-          <Link
+          <div
             key={taskList.id}
-            href={`/teams/${teamId}/task-lists/${taskList.id}`}
-            scroll={false}
+            className="flex min-w-fit cursor-pointer flex-col gap-5"
+            onClick={() => handleActiveTab(index, taskList)}
+            role="tab"
+            aria-selected={activeTabIndex === index}
+            tabIndex={0}
           >
-            <div
-              className="flex min-w-fit cursor-pointer flex-col gap-5"
-              onClick={() => handleActiveTab(index, taskList)}
-              role="tab"
-              aria-selected={activeTabIndex === index}
-              tabIndex={0}
+            <span
+              className={classNames("text-text-default", {
+                "text-text-inverse": activeTabIndex === index,
+              })}
             >
-              <span
-                className={classNames("text-text-default", {
-                  "text-text-inverse": activeTabIndex === index,
-                })}
-              >
-                {taskList.name}
-              </span>
-              {activeTabIndex === index && (
-                <span className="w-full border-b-[1.5px] border-solid border-text-inverse" />
-              )}
-            </div>
-          </Link>
+              {taskList.name}
+            </span>
+            {activeTabIndex === index && (
+              <span className="w-full border-b-[1.5px] border-solid border-text-inverse" />
+            )}
+          </div>
         ))}
       </div>
       {isLoading && <Spinner className="mt-200" />}

@@ -1,7 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import classNames from "classnames";
 import {
   addDays,
+  addHours,
   addMonths,
   addWeeks,
   endOfMonth,
@@ -22,12 +23,8 @@ type CalendarProps = {
 };
 
 export default function Calendar({ onDateSelect, selectedDate, type = "popover" }: CalendarProps) {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(selectedDate);
   const { closePopover } = useContext(PopoverContext);
-
-  useEffect(() => {
-    setCurrentMonth(startOfMonth(selectedDate));
-  }, [selectedDate]);
 
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(monthStart);
@@ -38,8 +35,10 @@ export default function Calendar({ onDateSelect, selectedDate, type = "popover" 
     (calendarEnd.getTime() - calendarStart.getTime()) / (7 * 24 * 60 * 60 * 1000)
   );
 
-  const generateDays = (startDate: Date) =>
-    Array.from({ length: 7 }, (_, i) => addDays(startDate, i));
+  const generateDays = useCallback(
+    (startDate: Date) => Array.from({ length: 7 }, (_, i) => addDays(startDate, i)),
+    []
+  );
 
   const generateCalendar = () =>
     Array.from({ length: weeks }, (_, weekIndex) => {
@@ -50,45 +49,50 @@ export default function Calendar({ onDateSelect, selectedDate, type = "popover" 
       };
     });
 
-  const renderDay = (day: Date) => {
-    const isCurrentMonth = isSameMonth(day, monthStart);
-    const isSelected = isSameDay(day, selectedDate);
+  const renderDay = useCallback(
+    (day: Date) => {
+      const isCurrentMonth = isSameMonth(day, monthStart);
+      const isSelected = isSameDay(day, selectedDate);
 
-    return (
-      <div
-        key={format(day, "yyyy-MM-dd")}
-        className={classNames("rounded-full p-8 text-center", {
-          "cursor-pointer": isCurrentMonth,
-          "text-text-default opacity-50": !isCurrentMonth,
-          "bg-brand-primary/20 text-brand-primary": isSelected,
-          "text-brand-primary/80": !isSelected && isSameDay(day, new Date()),
-          "hover:bg-brand-primary/20 hover:text-brand-primary":
-            isCurrentMonth && (!isSelected || isSameDay(day, new Date())),
-        })}
-        onClick={() => {
-          if (isCurrentMonth) {
-            onDateSelect(day);
-            if (type === "popover") {
-              closePopover();
+      return (
+        <div
+          key={format(day, "yyyy-MM-dd")}
+          className={classNames("rounded-full text-center", {
+            "p-8": type === "popover",
+            "py-7": type === "modal",
+            "cursor-pointer": isCurrentMonth,
+            "text-text-default opacity-50": !isCurrentMonth,
+            "bg-brand-primary/20 text-brand-primary": isSelected,
+            "text-brand-primary/80": !isSelected && isSameDay(day, new Date()),
+            "hover:bg-brand-primary/20 hover:text-brand-primary":
+              isCurrentMonth && (!isSelected || isSameDay(day, new Date())),
+          })}
+          onClick={() => {
+            if (isCurrentMonth) {
+              onDateSelect(addHours(day, 9));
+              if (type === "popover") {
+                closePopover();
+              }
             }
-          }
-        }}
-      >
-        {format(day, "d")}
-      </div>
-    );
-  };
+          }}
+        >
+          {format(day, "d")}
+        </div>
+      );
+    },
+    [monthStart, selectedDate, onDateSelect, type, closePopover]
+  );
 
-  const handlePrevMonth = () => {
+  const handlePrevMonth = useCallback(() => {
     setCurrentMonth((prevMonth) => addMonths(prevMonth, -1));
-  };
+  }, []);
 
-  const handleNextMonth = () => {
+  const handleNextMonth = useCallback(() => {
     setCurrentMonth((prevMonth) => addMonths(prevMonth, 1));
-  };
+  }, []);
 
   return (
-    <div className="w-282 rounded-24 bg-background-secondary p-16 text-14">
+    <div className="w-full rounded-24 bg-background-secondary p-16 text-14">
       <div className="flex items-center justify-between py-5">
         <IconArrowWhiteLeft
           className="text-white cursor-pointer transition-colors duration-200 hover:text-brand-primary"

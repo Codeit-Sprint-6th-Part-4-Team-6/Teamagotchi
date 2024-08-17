@@ -16,6 +16,7 @@ import IconCheckDisActive from "@icons/icon_check_disactive.svg";
 import IconCheckboxActive from "@icons/icon_checkbox_active.svg";
 import IconCheckboxDefault from "@icons/icon_checkbox_default.svg";
 import IconClose from "@icons/icon_close.svg";
+import IconCloseSmall from "@icons/icon_close_small.svg";
 import IconComment from "@icons/icon_comment.svg";
 import IconCrown from "@icons/icon_crown.svg";
 import IconDefaultImage from "@icons/icon_default_image.svg";
@@ -72,6 +73,7 @@ export {
   IconCheckboxActive,
   IconCheckboxDefault,
   IconClose,
+  IconCloseSmall,
   IconComment,
   IconCrown,
   IconDefaultImage,

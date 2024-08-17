@@ -27,7 +27,7 @@ declare module "@coworkers-types" {
   export type GroupTaskLists = BaseGroupEntity & {
     groupId: number;
     displayIndex: number;
-    tasks: string[];
+    tasks: DateTask[];
   };
 
   export type Member = {
