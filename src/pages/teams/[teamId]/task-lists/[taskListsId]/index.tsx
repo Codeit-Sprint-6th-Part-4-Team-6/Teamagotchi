@@ -11,8 +11,10 @@ import {
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
+import CreateTaskModal from "@components/task-list-page/CreateTaskModal";
 import DateWithCalendar from "@components/task-list-page/DateWithCalendar";
 import TaskList from "@components/task-list-page/TaskList";
+import { useModal } from "@hooks/useModal";
 import { getTaskList } from "@api/taskListApi";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -41,6 +43,11 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default function TaskListPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
+  const { openModal } = useModal();
+  const handleOpenCreateTaskModal = () => {
+    openModal("OneInputModal", CreateTaskModal, {});
+  };
+
   const router = useRouter();
   const { teamId, taskListsId, date: urlDate } = router.query;
   const [selectedDate, setSelectedDate] = useState<Date>(
@@ -126,6 +133,7 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
         buttonType="floating"
         icon="plus"
         className="bottom-24 right-24 lg:bottom-48 lg:right-100"
+        onClick={handleOpenCreateTaskModal}
       >
         할 일 추가
       </Button>
