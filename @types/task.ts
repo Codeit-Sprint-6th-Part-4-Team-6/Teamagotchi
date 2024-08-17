@@ -73,21 +73,21 @@ declare module "@coworkers-types" {
 
   export type TaskDetails = {
     id: number;
-    name: string;
-    description: string | null;
+    updatedAt: ISODateString;
     date: ISODateString;
     doneAt: ISODateString | null;
-    updatedAt: ISODateString;
     recurringId: number;
+    name: string;
+    description: string;
+    frequency: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
     deletedAt: ISODateString | null;
     displayIndex: number;
-    writer: TaskUserInfo | null;
+    recurring: Recurring;
+    writer: TaskUserInfo;
     doneBy: {
       user: TaskUserInfo | null;
     };
     commentCount: number;
-    frequency: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
-    recurring: Recurring;
   };
 
   export type PatchTaskResponse = {
@@ -112,8 +112,6 @@ declare module "@coworkers-types" {
   };
 
   export type Recurring =  {
-    groupId: number;
-    taskListId: number;
     id: number;
     name: string;
     description: string;
@@ -123,6 +121,8 @@ declare module "@coworkers-types" {
     frequencyType: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
     weekDays: number[] | null;
     monthDay: number | null;
-    writerId: number | null;
+    taskListId: number;
+    groupId: number;
+    writerId: number;
   };
 }
