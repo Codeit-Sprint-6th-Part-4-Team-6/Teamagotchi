@@ -6,7 +6,6 @@ import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
 import { useUpdateForm } from "@hooks/useUpdateForm";
-import { useAuthStore } from "@store/useAuthStore";
 import { patchGroupProfile } from "@api/groupApi";
 
 export default function EditTeamForm() {
@@ -21,22 +20,15 @@ export default function EditTeamForm() {
   const prevGroupImage = user?.memberships[prevGroupIdx ?? 0].group.image;
   const prevGroupName = user?.memberships[prevGroupIdx ?? 0].group.name;
 
-  const {
-    imageFile,
-    changedName,
-    errorMessage,
-    handleFileChange,
-    handleNameChange,
-    handleSubmit,
-    isPending,
-  } = useUpdateForm({
-    initialImage: prevGroupImage,
-    initialName: prevGroupName ?? "",
-    onEditSubmit: (id, profile) =>
-      patchGroupProfile(id as number, { name: profile?.name, image: profile?.image }),
-    successMessage: "팀이 성공적으로 수정되었습니다.",
-    query: "user",
-  });
+  const { changedName, errorMessage, handleFileChange, handleNameChange, handleSubmit, isPending } =
+    useUpdateForm({
+      initialImage: prevGroupImage,
+      initialName: prevGroupName ?? "",
+      onEditSubmit: (id, profile) =>
+        patchGroupProfile(id as number, { name: profile?.name, image: profile?.image }),
+      successMessage: "팀이 성공적으로 수정되었습니다.",
+      query: "user",
+    });
 
   const handleGroupSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     handleSubmit(event, teamId);
