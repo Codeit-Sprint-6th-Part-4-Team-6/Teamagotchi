@@ -1,4 +1,11 @@
-import { DateTask, PatchTaskRequest, PostTaskRequest, Task, TaskDetails } from "@coworkers-types";
+import {
+  DateTask,
+  PatchTaskRequest,
+  PatchTaskResponse,
+  PostTaskRequest,
+  Task,
+  TaskDetails,
+} from "@coworkers-types";
 import { axiosInstance } from "./axios";
 
 /**
@@ -9,8 +16,8 @@ import { axiosInstance } from "./axios";
  * @returns 생성된 할 일 객체를 반환합니다.
  */
 export const postTask = async (
-  groupId: number,
-  taskListId: number,
+  groupId: string | string[] | undefined,
+  taskListId: string | string[] | undefined,
   data: PostTaskRequest
 ): Promise<Task> => {
   const response = await axiosInstance.post<Task>(
@@ -62,20 +69,20 @@ export const getTaskDetails = async (
 };
 
 /**
- * 특정 할 일의 상세 정보를 수정하는 API 함수입니다.
+ * 특정 할 일 완료 여부를 수정하는 API 함수입니다.
  * @param groupId - 할 일이 포함된 그룹의 ID입니다.
  * @param taskListId - 할 일 목록의 ID입니다.
  * @param taskId - 수정할 할 일의 ID입니다.
- * @param data - 수정할 내용의 데이터 { name, description, displayIndex, done } 입니다.
+ * @param data - 수정할 내용의 데이터 { name, description, done } 입니다.
  * @returns 수정된 할 일의 상세 정보 객체를 반환합니다.
  */
-export const patchTaskDetails = async (
-  groupId: number,
-  taskListId: number,
+export const patchTaskCompletionStatus = async (
+  groupId: string | string[] | undefined,
+  taskListId: string | string[] | undefined,
   taskId: number,
   data: PatchTaskRequest
-): Promise<TaskDetails> => {
-  const response = await axiosInstance.patch<TaskDetails>(
+): Promise<PatchTaskResponse> => {
+  const response = await axiosInstance.patch<PatchTaskResponse>(
     `groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
     data
   );

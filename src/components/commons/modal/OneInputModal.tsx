@@ -16,6 +16,7 @@ interface OneInputModalProps {
     | ((event: React.ChangeEvent<HTMLInputElement>) => void)
     | ((event: React.ChangeEvent<HTMLTextAreaElement>) => void);
   closeButton?: boolean;
+  isPending?: boolean;
 }
 
 /**
@@ -31,6 +32,7 @@ interface OneInputModalProps {
  * @param onClose - 닫기버튼을 눌렀을때 동작하는 함수입니다.
  * @param onChange - input 또는 textarea에 들어가는 onChange 함수입니다.
  * @param closeButton - 닫기버튼과 X버튼을 위한 props 입니다.
+ * @param isPending - pending 상태를 넣어주세요.
  */
 export default function OneInputModal({
   title,
@@ -43,12 +45,13 @@ export default function OneInputModal({
   onClose,
   onChange,
   closeButton = false,
+  isPending = false,
 }: OneInputModalProps) {
   return (
     <div className="modal">
       {!closeButton && <IconClose className="modal-close-icon" onClick={onClose} />}
       <p className="modal-title">{title}</p>
-      {content && <p className="modal-content">{content}</p>}
+      {content && <p className="modal-content" dangerouslySetInnerHTML={{ __html: content }} />}
       {type === "input" ? (
         <Input
           value={value}
@@ -74,7 +77,7 @@ export default function OneInputModal({
           </Button>
         </div>
       ) : (
-        <Button onClick={onConfirm} className="mt-30">
+        <Button onClick={onConfirm} className="mt-24" isPending={isPending}>
           {buttonText}
         </Button>
       )}

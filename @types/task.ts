@@ -23,13 +23,27 @@ declare module "@coworkers-types" {
     commentCount: number;
   };
 
-  export type PostTaskRequest = Omit<BaseTaskEntity, "updatedAt" | "createdAt" | "id">;
-
-  export type PatchTaskRequest = Omit<PostTaskRequest, "frequencyType" | "monthDay"> & {
-    done: boolean;
+  export type PostTaskRequest = {
+    name: string;
+    description: string;
+    startDate: ISODateString;
+    frequencyType: string;
+    monthDay?: number;
+    weekDays?: number[];
   };
 
-  export type PatchTaskResponse = BaseTaskDetails;
+  export type TaskState = {
+    name: string;
+    description: string;
+    startDate: ISODateString;
+    frequencyType: string;
+  };
+
+  export type PatchTaskRequest = {
+    name?: string;
+    description?: string;
+    done?: boolean;
+  };
 
   export type Task = BaseTaskEntity & {
     groupId: number;
@@ -37,9 +51,24 @@ declare module "@coworkers-types" {
     weekDays: number[];
   };
 
-  export type DateTask = BaseTaskDetails & {
+  export type DateTask = {
+    id: number;
+    name: string;
+    description: string;
+    date: ISODateString;
+    startDate: ISODateString;
+    doneAt: ISODateString;
+    updatedAt: ISODateString;
+    user: TaskUserInfo;
     recurringId: number;
-    userId: number;
+    deletedAt: ISODateString | null;
+    displayIndex: number;
+    writer: string | null;
+    doneBy: {
+      user: TaskUserInfo;
+    };
+    commentCount: number;
+    frequency: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
   };
 
   export type TaskDetails = BaseTaskDetails & {
@@ -47,6 +76,21 @@ declare module "@coworkers-types" {
     recurring: Recurring;
     user: TaskUserInfo;
     description: string;
+  };
+
+  export type PatchTaskResponse = {
+    displayIndex: number;
+    writerId: number;
+    userId: number;
+    deletedAt: string;
+    frequency: string;
+    description: string;
+    name: string;
+    recurringId: number;
+    doneAt: string;
+    date: string;
+    updatedAt: string;
+    id: number;
   };
 
   export type TaskUserInfo = {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TaskList as TaskListType } from "@coworkers-types";
 import {
   type DehydratedState,
@@ -11,8 +11,10 @@ import {
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
+import CreateTaskModal from "@components/task-list-page/CreateTaskModal";
 import DateWithCalendar from "@components/task-list-page/DateWithCalendar";
 import TaskList from "@components/task-list-page/TaskList";
+import { useModal } from "@hooks/useModal";
 import { getTaskList } from "@api/taskListApi";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -20,13 +22,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { query } = context;
   const { teamId, taskListsId } = query;
   const token = context.req.cookies["accessToken"];
-  const date = new Date().toISOString().slice(0, 10);
+  const date = query.date ?? new Date().toISOString().slice(0, 10);
 
-  await queryClient.prefetchQuery({
-    queryKey: ["taskLists", Number(taskListsId), date],
-    queryFn: () => getTaskList(teamId, taskListsId, token as string),
-    staleTime: Infinity,
-  });
+  try {
+    await queryClient.fetchQuery({
+      queryKey: ["taskLists", Number(taskListsId), date],
+      queryFn: () => getTaskList(teamId, taskListsId, date as string, token as string),
+      staleTime: Infinity,
+    });
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
@@ -36,10 +44,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default function TaskListPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
+  const { openModal } = useModal();
+  const handleOpenCreateTaskModal = () => {
+    openModal("OneInputModal", CreateTaskModal, {});
+  };
+
   const router = useRouter();
-  const { teamId, taskListsId } = router.query;
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const { teamId, taskListsId, date: urlDate } = router.query;
+  const [selectedDate, setSelectedDate] = useState<Date>(
+    urlDate && typeof urlDate === "string" ? new Date(urlDate) : new Date()
+  );
   const [taskListId, setTaskListId] = useState(taskListsId);
+  // const queryClient = useQueryClient();
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
@@ -50,6 +66,32 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
     setTaskListId(id);
     updateURL(selectedDate, id);
   };
+
+  useEffect(() => {
+    if (urlDate && typeof urlDate === "string") {
+      setSelectedDate(new Date(urlDate));
+    }
+  }, [urlDate]);
+
+  // 대양님 페이지 연결되면 적용 예정입니다.
+  // const groupData: Group | undefined = queryClient.getQueryData(["group", teamId]);
+
+  // useEffect(() => {
+  //   if (groupData && groupData.taskLists.length > 1) {
+  //     for (let i = 0; i <= groupData.taskLists.length; i++) {
+  //       queryClient.prefetchQuery({
+  //         queryKey: [
+  //           "taskLists",
+  //           groupData.taskLists[i].id,
+  //           selectedDate.toISOString().slice(0, 10),
+  //         ],
+  //         queryFn: () =>
+  //           getTaskList(teamId, groupData.taskLists[i].id.toString(), selectedDate.toISOString()),
+  //         staleTime: Infinity,
+  //       });
+  //     }
+  //   }
+  // });
 
   const updateURL = (date: Date, id: string | string[] | undefined) => {
     const path = `/teams/${teamId}/task-lists/${id}`;
@@ -92,6 +134,7 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
         buttonType="floating"
         icon="plus"
         className="bottom-24 right-24 lg:bottom-48 lg:right-100"
+        onClick={handleOpenCreateTaskModal}
       >
         할 일 추가
       </Button>

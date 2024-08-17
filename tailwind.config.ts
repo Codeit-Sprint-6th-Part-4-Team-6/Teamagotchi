@@ -103,7 +103,7 @@ const config: Config = {
           alignItems: 'center',
           paddingLeft: '48px',
           paddingRight: '48px',
-          paddingTop: '40px',
+          paddingTop: '48px',
           paddingBottom: '40px',
         },
         '.modal-close-icon': {
@@ -115,14 +115,14 @@ const config: Config = {
         },
         '.modal-title': {
           margin: 'auto',
-          marginBottom: '10px',
+          marginBottom: '8px',
           color: '#F8FAFC',
           fontWeight: '500',
           fontSize: '16px',
         },
         '.modal-content': {
           margin: 'auto',
-          marginBottom: '30px',
+          marginBottom: '16px',
           color: '#CBD5E1',
           fontWeight: '500',
           fontSize: '14px',
