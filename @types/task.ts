@@ -11,7 +11,7 @@ declare module "@coworkers-types" {
   };
 
   export type BaseTaskDetails = {
-    deletedAt: ISODateString;
+    deletedAt: ISODateString | null;
     userId: number;
     recurringId: number;
     frequency: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
@@ -71,11 +71,23 @@ declare module "@coworkers-types" {
     frequency: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
   };
 
-  export type TaskDetails = BaseTaskDetails & {
-    comments: TaskCommentInfo[];
+  export type TaskDetails = {
+    id: number;
+    name: string;
+    description: string | null;
+    date: ISODateString;
+    doneAt: ISODateString | null;
+    updatedAt: ISODateString;
+    recurringId: number;
+    deletedAt: ISODateString | null;
+    displayIndex: number;
+    writer: TaskUserInfo | null;
+    doneBy: {
+      user: TaskUserInfo | null;
+    };
+    commentCount: number;
+    frequency: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
     recurring: Recurring;
-    user: TaskUserInfo;
-    description: string;
   };
 
   export type PatchTaskResponse = {
@@ -94,14 +106,23 @@ declare module "@coworkers-types" {
   };
 
   export type TaskUserInfo = {
-    image: string;
+    image: string | null;
     nickname: string;
     id: number;
   };
 
-  export type Recurring = BaseTaskEntity & {
+  export type Recurring =  {
     groupId: number;
     taskListId: number;
-    weekDays: number[];
+    id: number;
+    name: string;
+    description: string;
+    createdAt: ISODateString;
+    updatedAt: ISODateString;
+    startDate: ISODateString;
+    frequencyType: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
+    weekDays: number[] | null;
+    monthDay: number | null;
+    writerId: number | null;
   };
 }
