@@ -43,7 +43,9 @@ export default function DateWithCalendar({ date, onDateChange }: Props) {
             <IconCalenderBg className="cursor-pointer" />
           </Popover.Toggle>
           <Popover.Wrapper>
-            <Calendar onDateSelect={handleDateSelect} selectedDate={date} />
+            <div className="w-282">
+              <Calendar onDateSelect={handleDateSelect} selectedDate={date} />
+            </div>
           </Popover.Wrapper>
         </Popover>
       </div>

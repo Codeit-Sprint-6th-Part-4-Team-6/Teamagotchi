@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import classNames from "classnames";
 import {
   addDays,
@@ -57,7 +57,9 @@ export default function Calendar({ onDateSelect, selectedDate, type = "popover" 
       return (
         <div
           key={format(day, "yyyy-MM-dd")}
-          className={classNames("rounded-full p-8 text-center", {
+          className={classNames("rounded-full text-center", {
+            "p-8": type === "popover",
+            "py-7": type === "modal",
             "cursor-pointer": isCurrentMonth,
             "text-text-default opacity-50": !isCurrentMonth,
             "bg-brand-primary/20 text-brand-primary": isSelected,
@@ -90,7 +92,7 @@ export default function Calendar({ onDateSelect, selectedDate, type = "popover" 
   }, []);
 
   return (
-    <div className="w-282 rounded-24 bg-background-secondary p-16 text-14">
+    <div className="w-full rounded-24 bg-background-secondary p-16 text-14">
       <div className="flex items-center justify-between py-5">
         <IconArrowWhiteLeft
           className="text-white cursor-pointer transition-colors duration-200 hover:text-brand-primary"
