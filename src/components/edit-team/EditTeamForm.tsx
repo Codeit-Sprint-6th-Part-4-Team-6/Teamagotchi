@@ -28,6 +28,7 @@ export default function EditTeamForm() {
         patchGroupProfile(id as number, { name: profile?.name, image: profile?.image }),
       successMessage: "팀이 성공적으로 수정되었습니다.",
       query: "user",
+      redirectPath: `/teams/${teamId}`,
     });
 
   const handleGroupSubmit = (event: React.FormEvent<HTMLFormElement>) => {
