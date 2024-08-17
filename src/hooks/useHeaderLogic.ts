@@ -35,10 +35,8 @@ export function useHeaderLogic() {
   }, []);
 
   useEffect(() => {
-    if (userInfo?.memberships && query.teamId) {
-      setCurTeamPage(getCurTeamPage());
-    }
-  }, [userInfo?.memberships, query.teamId]);
+    setCurTeamPage(getCurTeamPage());
+  }, [query.teamId]);
 
   useEffect(() => {
     const handleRouteChange = () => {
