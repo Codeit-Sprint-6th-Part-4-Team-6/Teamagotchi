@@ -20,8 +20,9 @@ import { getTaskList } from "@api/taskListApi";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { query } = context;
-  const { teamId, taskListsId, date } = query;
+  const { teamId, taskListsId } = query;
   const token = context.req.cookies["accessToken"];
+  const date = query.date ?? new Date().toISOString().slice(0, 10);
 
   try {
     await queryClient.fetchQuery({
