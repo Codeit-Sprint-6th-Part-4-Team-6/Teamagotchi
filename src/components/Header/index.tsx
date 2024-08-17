@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useHeaderLogic } from "@hooks/useHeaderLogic";
+import { useAuthStore } from "@store/useAuthStore";
 import { DesktopNavigation } from "./DesktopNavigation";
 import { Logo } from "./Logo";
 import { MobileMenuButton } from "./MobileMenuButton";
@@ -17,12 +18,13 @@ export default function Header() {
     setSidebarOpen,
     handleSignOut,
   } = useHeaderLogic();
+  const { isLoggedIn } = useAuthStore();
 
   return (
     <header className="relative flex h-60 items-center justify-center border-b border-border-primary border-opacity-10 bg-background-secondary">
       <nav className="flex w-full max-w-full items-center justify-between px-10 md:min-w-696 md:max-w-1200">
         <div className="flex gap-10">
-          <MobileMenuButton setSidebarOpen={setSidebarOpen} />
+          {isLoggedIn && <MobileMenuButton setSidebarOpen={setSidebarOpen} />}
           <Logo user={userInfo} />
         </div>
         {!isAuthPage && userInfo && (
