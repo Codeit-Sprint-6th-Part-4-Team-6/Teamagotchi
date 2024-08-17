@@ -52,10 +52,10 @@ export default function EditTaskModal({
         <div className="mb-8 text-center text-14 font-medium text-text-secondary">
           해야할 일의 이름과 내용을 수정할 수 있습니다.
         </div>
-        <Label type="label" content="할 일 이름" />
-        <Input value={name} onChange={handleName} />
-        <Label type="label" content="할 일 내용" />
-        <Textarea value={description} onChange={handleDescription} type="small" />
+        <Label htmlFor="name" type="label" content="할 일 이름" />
+        <Input id="name" value={name} onChange={handleName} />
+        <Label htmlFor="description" type="label" content="할 일 내용" />
+        <Textarea id="description" value={description} onChange={handleDescription} type="small" />
         <div className="mt-16 flex gap-8">
           <Button onClick={onClose} buttonStyle="outlined-secondary">
             닫기
