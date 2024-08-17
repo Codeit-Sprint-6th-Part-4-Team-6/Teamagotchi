@@ -5,7 +5,7 @@ type TextAreaProps = {
   type: "small" | "big" | "innerButton" | "transparent";
   name?: string;
   id?: string;
-  placeholder: string;
+  placeholder?: string;
   value?: string;
   defaultValue?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;

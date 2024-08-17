@@ -3,9 +3,9 @@ import { DateTask, PatchTaskRequest } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { format } from "date-fns";
-import { ko } from "date-fns/locale";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
+import { useModal } from "@hooks/useModal";
 import {
   IconArrowReload,
   IconCalender,
@@ -15,6 +15,7 @@ import {
   IconTime,
 } from "@utils/icon";
 import { patchTaskCompletionStatus } from "@api/taskApi";
+import EditTaskModal from "./EditTaskModal";
 
 type Props = {
   task: DateTask;
@@ -28,20 +29,20 @@ const frequencyMap = {
 };
 
 export default function Task({ task }: Props) {
+  const { openModal } = useModal();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
   const [isChecked, setIsChecked] = useState(task.doneAt !== null);
-  const [isEditMode, setIsEditMode] = useState(false);
   const handleCheckButton = () => {
     setIsChecked((prev) => !prev);
-    taskPatchMutation.mutate({ done: !isChecked });
+    patchTaskMutation.mutate({ done: !isChecked });
   };
 
   const getFrequencyText = (frequency: keyof typeof frequencyMap) =>
     frequencyMap[frequency] || frequency;
 
-  const taskPatchMutation = useMutation({
+  const patchTaskMutation = useMutation({
     mutationFn: (data: PatchTaskRequest) =>
       patchTaskCompletionStatus(teamId, taskListsId, task.id, data),
     onSuccess: () => {
@@ -50,6 +51,10 @@ export default function Task({ task }: Props) {
   });
 
   const handleDelete = () => {};
+
+  const handleOpenEditTaskModal = () => {
+    openModal("EditTaskModal", EditTaskModal, { defaultValue: task });
+  };
 
   return (
     <div className="mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12">
@@ -70,7 +75,7 @@ export default function Task({ task }: Props) {
         </div>
         <EditDeletePopover
           icon="kebabSmall"
-          handleModify={() => setIsEditMode(true)}
+          handleModify={handleOpenEditTaskModal}
           handleDelete={handleDelete}
         />
       </div>
