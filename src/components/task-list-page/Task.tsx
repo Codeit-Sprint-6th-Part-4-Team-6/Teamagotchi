@@ -55,10 +55,6 @@ export default function Task({ task }: Props) {
     openModal("WarnModal", DeleteModal, { taskId: task.id });
   };
 
-  const handleDelete = () => {
-    handleOpenDeleteModal();
-  };
-
   return (
     <div className="mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12">
       <div className="flex items-center justify-between gap-8">
@@ -79,7 +75,7 @@ export default function Task({ task }: Props) {
         <EditDeletePopover
           icon="kebabSmall"
           handleModify={() => setIsEditMode(true)}
-          handleDelete={handleDelete}
+          handleDelete={handleOpenDeleteModal}
         />
       </div>
 
