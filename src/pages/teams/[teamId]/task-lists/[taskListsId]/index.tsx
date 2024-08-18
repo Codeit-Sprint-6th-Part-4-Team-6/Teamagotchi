@@ -128,6 +128,8 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
           isLoading={taskListsLoading}
           isError={taskListsError}
           handleTaskListId={handleTaskListId}
+          groupId={teamId as string}
+          taskListId={taskListId as string}
         />
       </div>
       <Button

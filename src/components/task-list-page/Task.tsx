@@ -18,6 +18,7 @@ import { patchTaskCompletionStatus } from "@api/taskApi";
 
 type Props = {
   task: DateTask;
+  onClick: () => void;
 };
 
 const frequencyMap = {
@@ -27,7 +28,7 @@ const frequencyMap = {
   MONTHLY: "매월 반복",
 };
 
-export default function Task({ task }: Props) {
+export default function Task({ task, onClick }: Props) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
@@ -52,7 +53,10 @@ export default function Task({ task }: Props) {
   const handleDelete = () => {};
 
   return (
-    <div className="mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12">
+    <div
+      className="mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12"
+      onClick={onClick}
+    >
       <div className="flex items-center justify-between gap-8">
         <div className="flex grow justify-between md:justify-start md:gap-12">
           <div className="flex items-center gap-8">

@@ -111,7 +111,7 @@ declare module "@coworkers-types" {
     id: number;
   };
 
-  export type Recurring =  {
+  export type Recurring = {
     id: number;
     name: string;
     description: string;

@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { PostTaskRequest } from "@coworkers-types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, setHours, setMinutes } from "date-fns";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
@@ -25,6 +25,8 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [selectedTime, setSelectedTime] = useState("AM 9:00");
   const initialDate = setHours(setMinutes(new Date(), 0), 9);
+
+  const queryClient = useQueryClient();
 
   const [task, setTask] = useState<PostTaskRequest>({
     name: "",
@@ -93,6 +95,7 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
     onSuccess: () => {
       closeModal();
       updateURL(selectedDate, taskListsId);
+      queryClient.invalidateQueries({ queryKey: ["taskLists"] });
     },
     onError: (error: any) => {
       toast("danger", `${error.response.data.message}`);
