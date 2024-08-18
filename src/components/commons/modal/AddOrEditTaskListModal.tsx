@@ -50,10 +50,9 @@ export default function AddOrEditTaskListModal({
 
   const patchTaskListMutation = useMutation<TaskListInfo>({
     mutationFn: () => patchTaskList(teamId, taskListId, taskName),
-    onSuccess: (data: TaskListInfo) => {
+    onSuccess: () => {
       closeModal();
-      queryClient.invalidateQueries({ queryKey: ["group"] });
-      router.push(`/teams/${teamId}/task-lists/${data.id}`, undefined, { shallow: true });
+      queryClient.invalidateQueries({ queryKey: ["team", teamId] });
     },
     onError: (error: any) => {
       toast("danger", `${error.response?.data?.message || "목록 수정에 실패했습니다."}`);
