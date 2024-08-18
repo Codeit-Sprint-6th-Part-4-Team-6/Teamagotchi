@@ -14,10 +14,12 @@ export default function TaskListItem({
   task,
   index,
   role,
+  onClick,
 }: {
   task: GroupTaskLists;
   index: number;
   role: string;
+  onClick: () => void;
 }) {
   // 색상 배열 정의
   const colors = [
@@ -69,7 +71,10 @@ export default function TaskListItem({
   };
 
   return (
-    <div className="flex h-40 items-center rounded-12 bg-background-secondary text-md">
+    <div
+      onClick={onClick}
+      className="flex h-40 cursor-pointer items-center rounded-12 border bg-background-secondary text-md transition-all hover:scale-105 hover:border-solid"
+    >
       <div className={classNames("h-full w-12 rounded-l-12", colorClass)} />
       <p className="grow truncate px-12 font-medium">{task.name}</p>
       <div className="mr-5 flex items-center">
