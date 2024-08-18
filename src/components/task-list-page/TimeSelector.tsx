@@ -40,7 +40,7 @@ export default function TimeSelector({ selectedTime, onTimeChange }: TimeProps) 
           value="AM"
           className={classNames("h-40 w-78 rounded-12 px-10 py-8", {
             "bg-brand-primary text-text-inverse": period === "AM",
-            "bg-[#18212F] text-text-default": period !== "AM",
+            "bg-[#2e3135] text-text-default": period !== "AM",
           })}
           onClick={() => handlePeriodChange("AM")}
         >
@@ -51,14 +51,14 @@ export default function TimeSelector({ selectedTime, onTimeChange }: TimeProps) 
           value="PM"
           className={classNames("h-40 w-78 rounded-12 px-10 py-8", {
             "bg-brand-primary text-text-inverse": period === "PM",
-            "bg-[#18212F] text-text-default": period !== "PM",
+            "bg-[#2e3135] text-text-default": period !== "PM",
           })}
           onClick={() => handlePeriodChange("PM")}
         >
           오후
         </button>
       </div>
-      <div className="h-152 w-220 overflow-scroll rounded-12 bg-[#18212F] px-16 py-8">
+      <div className="h-152 w-220 overflow-scroll rounded-12 bg-[#2e3135] px-16 py-8">
         <div className="">
           {generateTimeOptions.map((generatedTime) => (
             <option
