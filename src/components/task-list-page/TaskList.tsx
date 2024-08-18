@@ -40,6 +40,7 @@ export default function TaskLists({
     queryKey: ["group", teamId],
     queryFn: () => getGroup(Number(teamId)),
     enabled: !!teamId,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
@@ -61,10 +62,12 @@ export default function TaskLists({
         queryClient.prefetchQuery({
           queryKey: ["taskListDetail", task.id],
           queryFn: () => getTaskDetails(Number(groupId), Number(taskListId), task.id),
+          staleTime: Infinity,
         });
         queryClient.prefetchQuery({
           queryKey: ["taskComments", task.id],
           queryFn: () => getTaskComments(task.id),
+          staleTime: Infinity,
         });
       });
     });
