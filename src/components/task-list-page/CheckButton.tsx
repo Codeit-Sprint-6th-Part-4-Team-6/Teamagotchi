@@ -9,15 +9,21 @@ interface CheckButtonProps {
 
 const tickVariants = {
   pressed: (isChecked: boolean) => ({ pathLength: isChecked ? 0.85 : 0.2 }),
-  checked: { pathLength: 1 },
-  unchecked: { pathLength: 0 },
+  checked: { pathLength: 1, opacity: 1 },
+  unchecked: { pathLength: 0, opacity: 0 },
 };
 
 const boxVariants = {
   hover: { scale: 1.05, strokeWidth: 2.5 },
   pressed: { scale: 0.95, strokeWidth: 1.5 },
-  checked: { stroke: "#A3E635", fill: "#A3E635" },
-  unchecked: { stroke: "#ddd", strokeWidth: 1.5, fill: "transparent" },
+  checked: {
+    stroke: "#A3E635",
+    fill: "rgba(163, 230, 53, 1)",
+  },
+  unchecked: {
+    stroke: "#ddd",
+    fill: "rgba(163, 230, 53, 0)",
+  },
 };
 
 export default function CheckButton({ isChecked, onChange, size = 22 }: CheckButtonProps) {
@@ -49,7 +55,8 @@ export default function CheckButton({ isChecked, onChange, size = 22 }: CheckBut
         strokeLinejoin="round"
         variants={tickVariants}
         style={{ pathLength, opacity }}
-        custom={isChecked}
+        initial={false}
+        animate={isChecked ? "checked" : "unchecked"}
       />
     </motion.svg>
   );

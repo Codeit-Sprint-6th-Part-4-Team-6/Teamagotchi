@@ -6,14 +6,7 @@ import { format } from "date-fns";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
-import {
-  IconArrowReload,
-  IconCalender,
-  IconCheckboxActive,
-  IconCheckboxDefault,
-  IconComment,
-  IconTime,
-} from "@utils/icon";
+import { IconArrowReload, IconCalender, IconComment, IconTime } from "@utils/icon";
 import { patchTaskCompletionStatus } from "@api/taskApi";
 import CheckButton from "./CheckButton";
 
@@ -51,6 +44,7 @@ export default function Task({ task }: Props) {
   });
 
   const handleDelete = () => {};
+
   const lineVariants = {
     checked: { pathLength: 1, opacity: 1 },
     unchecked: { pathLength: 0, opacity: 0 },
@@ -78,9 +72,9 @@ export default function Task({ task }: Props) {
                   x2="100%"
                   y2="50%"
                   stroke="#fff"
-                  strokeWidth="1.5"
+                  strokeWidth="1.5px"
                   variants={lineVariants}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.2 }}
                 />
               </motion.svg>
             </div>
