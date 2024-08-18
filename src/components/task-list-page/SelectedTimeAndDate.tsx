@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import useOutsideClick from "@hooks/useOutsideClick";
 import Calendar from "./Calendar";
-import TimeSelector from "./Time";
+import TimeSelector from "./TimeSelector";
 
 type Props = {
   selectedDate: Date;

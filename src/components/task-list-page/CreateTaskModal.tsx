@@ -1,11 +1,12 @@
 import { ChangeEvent, useState } from "react";
 import { PostTaskRequest } from "@coworkers-types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, setHours, setMinutes } from "date-fns";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
+import Spinner from "@components/commons/Spinner";
 import Textarea from "@components/commons/TextArea";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
@@ -19,6 +20,7 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
   const { toast } = useToast();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
+  const queryClient = useQueryClient();
 
   const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([]);
   const [selectedMonthDay, setSelectedMonthDay] = useState<number>();
@@ -93,11 +95,16 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
     onSuccess: () => {
       closeModal();
       updateURL(selectedDate, taskListsId);
+      queryClient.invalidateQueries({ queryKey: ["taskLists"] });
     },
     onError: (error: any) => {
       toast("danger", `${error.response.data.message}`);
     },
   });
+
+  if (postTaskMutation.isPending) {
+    return <Spinner />;
+  }
 
   return (
     <div className="box-border max-h-664 w-375 overflow-auto px-24 py-34 md:w-384">
@@ -146,7 +153,13 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
           placeholder="메모를 입력해주세요"
           onChange={handleTaskValues}
         />
-        <Button onClick={handleClick} className="mt-16">
+        <Button
+          onClick={handleClick}
+          className="mt-16"
+          disabled={
+            task.name.length < 1 || task.description.length < 1 || task.frequencyType.length < 1
+          }
+        >
           만들기
         </Button>
       </form>

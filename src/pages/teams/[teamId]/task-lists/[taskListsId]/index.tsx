@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function TaskListPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
   const { openModal } = useModal();
   const handleOpenCreateTaskModal = () => {
-    openModal("OneInputModal", CreateTaskModal, {});
+    openModal("CreateTaskModal", CreateTaskModal, {});
   };
 
   const router = useRouter();
