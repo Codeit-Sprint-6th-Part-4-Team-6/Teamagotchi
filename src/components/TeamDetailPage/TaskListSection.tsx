@@ -1,6 +1,8 @@
 import { GroupTaskLists } from "@coworkers-types";
 import TextButton from "@components/commons/Button/TextButton";
 import Label from "@components/commons/Label";
+import AddTaskListModal from "@components/commons/modal/AddTaskListModal";
+import { useModal } from "@hooks/useModal";
 import TaskListItem from "./TaskListItem";
 
 export default function TaskListSection({
@@ -10,6 +12,11 @@ export default function TaskListSection({
   taskLists: GroupTaskLists[];
   role: string;
 }) {
+  const { openModal } = useModal();
+  const handleOpenOneInputModal = () => {
+    openModal("OneInputModal", AddTaskListModal);
+  };
+
   return (
     <section>
       <div className="mb-20 flex justify-between">
@@ -17,7 +24,11 @@ export default function TaskListSection({
           <Label content="할 일 목록" />
           <span className="text-lg font-normal text-text-default">{`(${taskLists.length}개)`}</span>
         </div>
-        {role === "ADMIN" && <TextButton icon="plus">새로운 목록 추가하기</TextButton>}
+        {role === "ADMIN" && (
+          <TextButton icon="plus" onClick={handleOpenOneInputModal}>
+            새로운 목록 추가하기
+          </TextButton>
+        )}
       </div>
       <div className="mb-20 flex flex-col gap-16">
         {taskLists.length > 0 ? (
