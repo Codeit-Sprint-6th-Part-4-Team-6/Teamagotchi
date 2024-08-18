@@ -3,9 +3,9 @@ import { DateTask, PatchTaskRequest } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { format } from "date-fns";
-import { ko } from "date-fns/locale";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
+import { useModal } from "@hooks/useModal";
 import {
   IconArrowReload,
   IconCalender,
@@ -15,6 +15,7 @@ import {
   IconTime,
 } from "@utils/icon";
 import { patchTaskCompletionStatus } from "@api/taskApi";
+import DeleteModal from "./DeleteModal";
 
 type Props = {
   task: DateTask;
@@ -28,6 +29,7 @@ const frequencyMap = {
 };
 
 export default function Task({ task }: Props) {
+  const { openModal } = useModal();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
@@ -49,7 +51,9 @@ export default function Task({ task }: Props) {
     },
   });
 
-  const handleDelete = () => {};
+  const handleOpenDeleteModal = () => {
+    openModal("WarnModal", DeleteModal, { taskId: task.id });
+  };
 
   return (
     <div className="mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12">
@@ -71,7 +75,7 @@ export default function Task({ task }: Props) {
         <EditDeletePopover
           icon="kebabSmall"
           handleModify={() => setIsEditMode(true)}
-          handleDelete={handleDelete}
+          handleDelete={handleOpenDeleteModal}
         />
       </div>
 
