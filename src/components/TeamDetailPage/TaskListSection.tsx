@@ -1,7 +1,7 @@
 import { GroupTaskLists } from "@coworkers-types";
 import TextButton from "@components/commons/Button/TextButton";
 import Label from "@components/commons/Label";
-import AddTaskListModal from "@components/commons/modal/AddTaskListModal";
+import AddOrEditTaskListModal from "@components/commons/modal/AddOrEditTaskListModal";
 import { useModal } from "@hooks/useModal";
 import TaskListItem from "./TaskListItem";
 
@@ -14,7 +14,7 @@ export default function TaskListSection({
 }) {
   const { openModal } = useModal();
   const handleOpenOneInputModal = () => {
-    openModal("OneInputModal", AddTaskListModal);
+    openModal("AddTaskListModal", AddOrEditTaskListModal);
   };
 
   return (

@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
+import AddOrEditTaskListModal from "@components/commons/modal/AddOrEditTaskListModal";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { deleteTaskList } from "@api/taskListApi";
@@ -20,15 +21,15 @@ export default function TaskListItem({
 }) {
   // 색상 배열 정의
   const colors = [
-    "bg-point-purple", // 보라색
-    "bg-point-blue", // 파란색
-    "bg-point-cyan", // 하늘색
-    "bg-point-pink", // 핑크색
-    "bg-point-rose", // 장미색
-    "bg-point-red", // 빨간색
-    "bg-point-orange", // 주황색
-    "bg-point-yellow", // 노란색
-    "bg-point-green", // 초록색
+    "bg-point-purple",
+    "bg-point-blue",
+    "bg-point-cyan",
+    "bg-point-pink",
+    "bg-point-rose",
+    "bg-point-red",
+    "bg-point-orange",
+    "bg-point-yellow",
+    "bg-point-green",
   ];
 
   // index에 따라 색상 선택
@@ -41,8 +42,11 @@ export default function TaskListItem({
   const deleteTaskListMutation = useMutation({
     mutationFn: () => deleteTaskList(teamId, task.id.toString()),
     onSuccess: () => {
-      toast("success", "해당 팀이 삭제되었습니다.");
+      toast("success", "해당 목록이 삭제되었습니다.");
       queryClient.invalidateQueries({ queryKey: ["team", teamId] });
+    },
+    onError: (error: any) => {
+      toast("danger", error.response?.data?.message || "삭제에 실패했습니다.");
     },
   });
 
@@ -57,6 +61,13 @@ export default function TaskListItem({
     openModal("DeleteTaskListModal", DeleteTaskListModal, { onConfirm: deleteOnConfirm });
   };
 
+  const handleModifyTaskListOpenModal = () => {
+    openModal("EditTaskListModal", AddOrEditTaskListModal, {
+      taskListId: task.id.toString(),
+      initialTaskName: task.name,
+    });
+  };
+
   return (
     <div className="flex h-40 items-center rounded-12 bg-background-secondary text-md">
       <div className={classNames("h-full w-12 rounded-l-12", colorClass)} />
@@ -67,8 +78,7 @@ export default function TaskListItem({
           <EditDeletePopover
             icon="kebabSmall"
             handleDelete={handleDeleteTaskListOpenModal}
-            // TODO : 할 일 목록 수정하기 모달 연결
-            handleModify={() => {}}
+            handleModify={handleModifyTaskListOpenModal}
           />
         ) : null}
       </div>
