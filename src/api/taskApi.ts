@@ -97,9 +97,9 @@ export const patchTaskCompletionStatus = async (
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
 export const deleteTask = async (
-  groupId: number,
-  taskListId: number,
-  taskId: number
+  groupId: string | string[] | undefined,
+  taskListId: string | string[] | undefined,
+  taskId: string | string[] | undefined
 ): Promise<void> => {
   await axiosInstance.delete(`groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`);
 };

@@ -6,9 +6,12 @@ import { format } from "date-fns";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
+import { useModal } from "@hooks/useModal";
 import { IconArrowReload, IconCalender, IconComment, IconTime } from "@utils/icon";
 import { patchTaskCompletionStatus } from "@api/taskApi";
 import CheckButton from "./CheckButton";
+import DeleteModal from "./DeleteModal";
+import EditTaskModal from "./EditTaskModal";
 
 type Props = {
   task: DateTask;
@@ -22,20 +25,20 @@ const frequencyMap = {
 };
 
 export default function Task({ task }: Props) {
+  const { openModal } = useModal();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
   const [isChecked, setIsChecked] = useState(task.doneAt !== null);
-  const [isEditMode, setIsEditMode] = useState(false);
   const handleCheckButton = () => {
     setIsChecked((prev) => !prev);
-    taskPatchMutation.mutate({ done: !isChecked });
+    patchTaskMutation.mutate({ done: !isChecked });
   };
 
   const getFrequencyText = (frequency: keyof typeof frequencyMap) =>
     frequencyMap[frequency] || frequency;
 
-  const taskPatchMutation = useMutation({
+  const patchTaskMutation = useMutation({
     mutationFn: (data: PatchTaskRequest) =>
       patchTaskCompletionStatus(teamId, taskListsId, task.id, data),
     onSuccess: () => {
@@ -43,7 +46,13 @@ export default function Task({ task }: Props) {
     },
   });
 
-  const handleDelete = () => {};
+  const handleOpenDeleteModal = () => {
+    openModal("WarnModal", DeleteModal, { taskId: task.id });
+  };
+
+  const handleOpenEditTaskModal = () => {
+    openModal("EditTaskModal", EditTaskModal, { defaultValue: task });
+  };
 
   const lineVariants = {
     checked: { pathLength: 1, opacity: 1 },
@@ -86,8 +95,8 @@ export default function Task({ task }: Props) {
         </div>
         <EditDeletePopover
           icon="kebabSmall"
-          handleModify={() => setIsEditMode(true)}
-          handleDelete={handleDelete}
+          handleModify={handleOpenEditTaskModal}
+          handleDelete={handleOpenDeleteModal}
         />
       </div>
 
