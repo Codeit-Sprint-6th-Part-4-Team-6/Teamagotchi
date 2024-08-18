@@ -119,3 +119,9 @@ span::-webkit-scrollbar {
     @apply fixed left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 rounded-12 bg-[#1E293B];
   }
 }
+
+.box-shadow {
+  box-shadow: 2px 3px 9px 0px rgba(65, 83, 115, 0.75);
+  -webkit-box-shadow: 2px 3px 9px 0px rgba(65, 83, 115, 0.75);
+  -moz-box-shadow: 2px 3px 9px 0px rgba(65, 83, 115, 0.75);
+}
