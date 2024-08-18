@@ -16,6 +16,7 @@ import {
 } from "@utils/icon";
 import { patchTaskCompletionStatus } from "@api/taskApi";
 import EditTaskModal from "./EditTaskModal";
+import DeleteModal from "./DeleteModal";
 
 type Props = {
   task: DateTask;
@@ -50,7 +51,9 @@ export default function Task({ task }: Props) {
     },
   });
 
-  const handleDelete = () => {};
+  const handleOpenDeleteModal = () => {
+    openModal("WarnModal", DeleteModal, { taskId: task.id });
+  };
 
   const handleOpenEditTaskModal = () => {
     openModal("EditTaskModal", EditTaskModal, { defaultValue: task });
@@ -76,7 +79,7 @@ export default function Task({ task }: Props) {
         <EditDeletePopover
           icon="kebabSmall"
           handleModify={handleOpenEditTaskModal}
-          handleDelete={handleDelete}
+          handleDelete={handleOpenDeleteModal}
         />
       </div>
 
