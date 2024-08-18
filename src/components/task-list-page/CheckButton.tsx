@@ -17,8 +17,8 @@ const boxVariants = {
   hover: { scale: 1.05, strokeWidth: 2.5 },
   pressed: { scale: 0.95, strokeWidth: 1.5 },
   checked: {
-    stroke: "#A3E635",
-    fill: "rgba(163, 230, 53, 1)",
+    stroke: "#ff922b",
+    fill: "rgba(255, 146, 43, 1)",
   },
   unchecked: {
     stroke: "#ddd",

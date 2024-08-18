@@ -32,12 +32,13 @@ function CircleProgressBar({
   // isGradient가 true일 경우, 기본 그라데이션 색상 배열 설정
   const appliedGradient = isGradientCircle
     ? [
-        { stop: 0.0, color: "#10B982" }, // 그라데이션 시작 색상
-        { stop: 1, color: "#A3E635" }, // 그라데이션 끝 색상
+        { stop: 0, color: "#ffd43b" },
+        { stop: 0.6, color: "#e8590c" },
+        { stop: 1, color: "#e8590c" },
       ]
     : [
-        { stop: 0.0, color: "#10B982" }, // 기본 색상 사용
-        { stop: 1, color: "#10B982" }, // 기본 색상 사용
+        { stop: 0, color: "#FF9F0D" },
+        { stop: 1, color: "#FF9F0D" },
       ];
 
   const reduction = 2;
@@ -72,7 +73,7 @@ function CircleProgressBar({
           strokeDasharray={circumference}
           strokeDashoffset={circumference * reduction}
           fill="none"
-          stroke={isGradientCircle ? "#334155" : "#F8FAFC"}
+          stroke={isGradientCircle ? "#2e3135" : "#F8FAFC"}
           strokeLinecap="round"
         />
         {/* 진행률에 따른 원형 경로 */}

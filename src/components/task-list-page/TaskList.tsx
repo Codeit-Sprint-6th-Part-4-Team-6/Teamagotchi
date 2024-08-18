@@ -70,7 +70,7 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
                 "text-text-inverse": activeTabIndex === index,
               })}
               animate={{
-                color: activeTabIndex === index ? "#fff" : "#64748b",
+                color: activeTabIndex === index ? "#fff" : "#c3c7cc",
               }}
               whileHover={activeTabIndex !== index ? { color: "#fff" } : {}}
               transition={{ duration: 0.2 }}
