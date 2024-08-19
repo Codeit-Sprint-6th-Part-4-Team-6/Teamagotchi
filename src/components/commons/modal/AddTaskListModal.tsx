@@ -26,8 +26,9 @@ export default function AddTaskListModal({ onClose }: { onClose?: () => void }) 
     mutationFn: () => postTaskList(teamId, taskName),
     onSuccess: (data: TaskListInfo) => {
       closeModal();
-      queryClient.invalidateQueries({ queryKey: ["group"] });
       router.push(`/teams/${teamId}/task-lists/${data.id}`, undefined, { shallow: true });
+      queryClient.invalidateQueries({ queryKey: ["group"] });
+      queryClient.invalidateQueries({ queryKey: ["taskLists", data.id] });
     },
     onError: (error: any) => {
       toast("danger", `${error.response.data.message}`);
