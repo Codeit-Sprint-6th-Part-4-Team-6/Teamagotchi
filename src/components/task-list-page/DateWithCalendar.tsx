@@ -2,7 +2,7 @@ import { addDays, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import TextButton from "@components/commons/Button/TextButton";
 import Popover from "@components/commons/Popover";
-import AddTaskListModal from "@components/commons/modal/AddTaskListModal";
+import AddOrEditTaskListModal from "@components/commons/modal/AddOrEditTaskListModal";
 import { useModal } from "@hooks/useModal";
 import { IconArrowLeftBg, IconArrowRightBg, IconCalenderBg } from "@utils/icon";
 import Calendar from "./Calendar";
@@ -15,7 +15,7 @@ type Props = {
 export default function DateWithCalendar({ date, onDateChange }: Props) {
   const { openModal } = useModal();
   const handleOpenOneInputModal = () => {
-    openModal("OneInputModal", AddTaskListModal, {});
+    openModal("AddTaskListModal", AddOrEditTaskListModal);
   };
 
   const handleDateSelect = (newDate: Date) => {
