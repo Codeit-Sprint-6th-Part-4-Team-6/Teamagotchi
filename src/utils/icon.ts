@@ -28,6 +28,7 @@ import IconEditSmall from "@icons/icon_edit_small.svg";
 import IconEgg from "@icons/icon_egg.svg";
 import IconEnterActive from "@icons/icon_enter_active.svg";
 import IconEnterDefault from "@icons/icon_enter_default.svg";
+import IconFriedEgg from "@icons/icon_fried_egg.svg";
 import IconGear from "@icons/icon_gear.svg";
 import IconGnbMenu from "@icons/icon_gnb_menu.svg";
 import IconGoogle from "@icons/icon_google.svg";
@@ -122,4 +123,5 @@ export {
   IconArrowWhiteLeft,
   IconArrowWhiteRight,
   IconEgg,
+  IconFriedEgg,
 };

@@ -6,6 +6,7 @@ import OneInputModal from "@components/commons/modal/OneInputModal";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { postTaskList } from "@api/taskListApi";
+import LottieAnimation from "../LottieAnimation";
 
 export default function AddTaskListModal({ onClose }: { onClose?: () => void }) {
   const { closeModal } = useModal();
@@ -35,6 +36,15 @@ export default function AddTaskListModal({ onClose }: { onClose?: () => void }) 
     },
   });
 
+  if (postTaskListMutation.isPending) {
+    return (
+      <div className="flex size-300 flex-col items-center justify-center gap-20">
+        <LottieAnimation type="success" size={200} />
+        <span className="text-14 font-medium">새로운 할 일 목록이 생성중입니다!</span>
+      </div>
+    );
+  }
+
   return (
     <OneInputModal
       title="새로운 목록 추가"
@@ -45,7 +55,6 @@ export default function AddTaskListModal({ onClose }: { onClose?: () => void }) 
       onClose={onClose}
       value={taskName}
       onChange={handleTaskName}
-      isPending={postTaskListMutation.isPending}
     />
   );
 }
