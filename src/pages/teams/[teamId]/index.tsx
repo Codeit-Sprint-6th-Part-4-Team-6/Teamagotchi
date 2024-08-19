@@ -6,6 +6,7 @@ import {
   useQuery,
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import MembersSection from "@components/TeamDetailPage/MembersSection";
 import ReportSection from "@components/TeamDetailPage/ReportSection";
@@ -94,22 +95,32 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
     : undefined;
 
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-        <section className="mb-30">
-          <TeamTitle
-            teamName={groupData?.name ?? ""}
-            teamId={groupData?.id ?? 0}
+    <>
+      <Head>
+        <title>티마고치 | {groupData?.name}</title>
+        <meta
+          name="description"
+          content={`${groupData?.name}의 성공 비결, 티마고치. 효율적인 협업으로 팀의 잠재력을 끌어올리세요.`}
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <HydrationBoundary state={dehydratedState}>
+        <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+          <section className="mb-30">
+            <TeamTitle
+              teamName={groupData?.name ?? ""}
+              teamId={groupData?.id ?? 0}
+              role={curTeamMembership?.role ?? ""}
+            />
+          </section>
+          <TaskListSection
+            taskLists={groupData?.taskLists ?? []}
             role={curTeamMembership?.role ?? ""}
           />
-        </section>
-        <TaskListSection
-          taskLists={groupData?.taskLists ?? []}
-          role={curTeamMembership?.role ?? ""}
-        />
-        <ReportSection />
-        <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
-      </div>
-    </HydrationBoundary>
+          <ReportSection />
+          <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
+        </div>
+      </HydrationBoundary>
+    </>
   );
 }

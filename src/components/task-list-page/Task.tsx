@@ -3,18 +3,15 @@ import { DateTask, PatchTaskRequest } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { format } from "date-fns";
-import { ko } from "date-fns/locale";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
-import {
-  IconArrowReload,
-  IconCalender,
-  IconCheckboxActive,
-  IconCheckboxDefault,
-  IconComment,
-  IconTime,
-} from "@utils/icon";
+import { useModal } from "@hooks/useModal";
+import { IconArrowReload, IconCalender, IconComment, IconTime } from "@utils/icon";
 import { patchTaskCompletionStatus } from "@api/taskApi";
+import CheckButton from "./CheckButton";
+import DeleteModal from "./DeleteModal";
+import EditTaskModal from "./EditTaskModal";
 
 type Props = {
   task: DateTask;
@@ -28,20 +25,20 @@ const frequencyMap = {
 };
 
 export default function Task({ task }: Props) {
+  const { openModal } = useModal();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
   const [isChecked, setIsChecked] = useState(task.doneAt !== null);
-  const [isEditMode, setIsEditMode] = useState(false);
   const handleCheckButton = () => {
     setIsChecked((prev) => !prev);
-    taskPatchMutation.mutate({ done: !isChecked });
+    patchTaskMutation.mutate({ done: !isChecked });
   };
 
   const getFrequencyText = (frequency: keyof typeof frequencyMap) =>
     frequencyMap[frequency] || frequency;
 
-  const taskPatchMutation = useMutation({
+  const patchTaskMutation = useMutation({
     mutationFn: (data: PatchTaskRequest) =>
       patchTaskCompletionStatus(teamId, taskListsId, task.id, data),
     onSuccess: () => {
@@ -49,19 +46,47 @@ export default function Task({ task }: Props) {
     },
   });
 
-  const handleDelete = () => {};
+  const handleOpenDeleteModal = () => {
+    openModal("WarnModal", DeleteModal, { taskId: task.id });
+  };
 
+  const handleOpenEditTaskModal = () => {
+    openModal("EditTaskModal", EditTaskModal, { defaultValue: task });
+  };
+
+  const lineVariants = {
+    checked: { pathLength: 1, opacity: 1 },
+    unchecked: { pathLength: 0, opacity: 0 },
+  };
   return (
-    <div className="mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12">
+    <motion.div
+      whileHover={{ scale: 0.99 }}
+      transition={{ duration: 0.2 }}
+      className="box-shadow mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12"
+    >
       <div className="flex items-center justify-between gap-8">
         <div className="flex grow justify-between md:justify-start md:gap-12">
           <div className="flex items-center gap-8">
-            <button onClick={handleCheckButton}>
-              {isChecked ? <IconCheckboxActive /> : <IconCheckboxDefault />}
-            </button>
-            <span className={classNames("pt-2 text-14", { "line-through": isChecked })}>
-              {task.name}
-            </span>
+            <CheckButton isChecked={isChecked} onChange={handleCheckButton} size={20} />
+            <div className="relative">
+              <span className={classNames("pt-2 text-14")}>{task.name}</span>
+              <motion.svg
+                className="absolute left-0 top-1/2 h-4 w-full overflow-visible"
+                initial={false}
+                animate={isChecked ? "checked" : "unchecked"}
+              >
+                <motion.line
+                  x1="0"
+                  y1="50%"
+                  x2="100%"
+                  y2="50%"
+                  stroke="#fff"
+                  strokeWidth="1.5px"
+                  variants={lineVariants}
+                  transition={{ duration: 0.2 }}
+                />
+              </motion.svg>
+            </div>
           </div>
           <span className="flex items-center gap-2">
             <IconComment />
@@ -70,8 +95,8 @@ export default function Task({ task }: Props) {
         </div>
         <EditDeletePopover
           icon="kebabSmall"
-          handleModify={() => setIsEditMode(true)}
-          handleDelete={handleDelete}
+          handleModify={handleOpenEditTaskModal}
+          handleDelete={handleOpenDeleteModal}
         />
       </div>
 
@@ -93,6 +118,6 @@ export default function Task({ task }: Props) {
           </span>
         </span>
       </div>
-    </div>
+    </motion.div>
   );
 }

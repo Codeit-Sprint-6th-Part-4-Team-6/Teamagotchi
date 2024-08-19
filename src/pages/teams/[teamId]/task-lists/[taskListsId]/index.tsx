@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { TaskList as TaskListType } from "@coworkers-types";
+import { Group, TaskList as TaskListType } from "@coworkers-types";
 import {
   type DehydratedState,
   HydrationBoundary,
@@ -7,8 +7,10 @@ import {
   dehydrate,
   keepPreviousData,
   useQuery,
+  useQueryClient,
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import CreateTaskModal from "@components/task-list-page/CreateTaskModal";
@@ -46,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 export default function TaskListPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
   const { openModal } = useModal();
   const handleOpenCreateTaskModal = () => {
-    openModal("OneInputModal", CreateTaskModal, {});
+    openModal("CreateTaskModal", CreateTaskModal, {});
   };
 
   const router = useRouter();
@@ -55,7 +57,7 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
     urlDate && typeof urlDate === "string" ? new Date(urlDate) : new Date()
   );
   const [taskListId, setTaskListId] = useState(taskListsId);
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
@@ -73,25 +75,7 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
     }
   }, [urlDate]);
 
-  // 대양님 페이지 연결되면 적용 예정입니다.
-  // const groupData: Group | undefined = queryClient.getQueryData(["group", teamId]);
-
-  // useEffect(() => {
-  //   if (groupData && groupData.taskLists.length > 1) {
-  //     for (let i = 0; i <= groupData.taskLists.length; i++) {
-  //       queryClient.prefetchQuery({
-  //         queryKey: [
-  //           "taskLists",
-  //           groupData.taskLists[i].id,
-  //           selectedDate.toISOString().slice(0, 10),
-  //         ],
-  //         queryFn: () =>
-  //           getTaskList(teamId, groupData.taskLists[i].id.toString(), selectedDate.toISOString()),
-  //         staleTime: Infinity,
-  //       });
-  //     }
-  //   }
-  // });
+  const groupData: Group | undefined = queryClient.getQueryData(["group", teamId]);
 
   const updateURL = (date: Date, id: string | string[] | undefined) => {
     const path = `/teams/${teamId}/task-lists/${id}`;
@@ -119,25 +103,37 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
   });
 
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <div className="m-auto px-16 py-24 md:px-24 lg:w-1200">
-        <h1 className="mb-30 text-18 font-bold md:mb-27 md:text-20">할 일</h1>
-        <DateWithCalendar date={selectedDate} onDateChange={handleDateChange} />
-        <TaskList
-          taskLists={data}
-          isLoading={taskListsLoading}
-          isError={taskListsError}
-          handleTaskListId={handleTaskListId}
+    <>
+      <Head>
+        <title>
+          티마고치 | {groupData?.name} - {data?.name}
+        </title>
+        <meta
+          name="description"
+          content={`${groupData?.name} ${data?.name} - 티마고치로 할 일을 스마트하게 관리하고 팀 협업을 즐겨보세요!`}
         />
-      </div>
-      <Button
-        buttonType="floating"
-        icon="plus"
-        className="bottom-24 right-24 lg:bottom-48 lg:right-100"
-        onClick={handleOpenCreateTaskModal}
-      >
-        할 일 추가
-      </Button>
-    </HydrationBoundary>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <HydrationBoundary state={dehydratedState}>
+        <div className="m-auto px-16 py-24 md:px-24 lg:w-1200">
+          <h1 className="mb-30 text-18 font-bold md:mb-27 md:text-20">할 일</h1>
+          <DateWithCalendar date={selectedDate} onDateChange={handleDateChange} />
+          <TaskList
+            taskLists={data}
+            isLoading={taskListsLoading}
+            isError={taskListsError}
+            handleTaskListId={handleTaskListId}
+          />
+        </div>
+        <Button
+          buttonType="floating"
+          icon="plus"
+          className="bottom-24 right-24 lg:bottom-48 lg:right-100"
+          onClick={handleOpenCreateTaskModal}
+        >
+          할 일 추가
+        </Button>
+      </HydrationBoundary>
+    </>
   );
 }
