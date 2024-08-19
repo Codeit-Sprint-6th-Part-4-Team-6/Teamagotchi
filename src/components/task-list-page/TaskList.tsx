@@ -19,7 +19,6 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-
   const { data: groupData } = useQuery({
     queryKey: ["group", teamId],
     queryFn: () => getGroup(Number(teamId)),
