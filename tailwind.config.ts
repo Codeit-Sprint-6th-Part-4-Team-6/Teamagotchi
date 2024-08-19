@@ -26,11 +26,11 @@ const config: Config = {
     },
     colors: {
       brand: {
-        primary: '#10B981',
-        secondary: '#34D399',
-        tertiary: '#A3E635',
-        'gradient-start': '#108981',
-        'gradient-end': '#A3E635',
+        primary:'#FF9F0D',
+        secondary: '#fd7e14',
+        tertiary: '#ff922b',
+        'gradient-start': '#e8590c',
+        'gradient-end': '#ffd43b',
       },
       point: {
         green: '#10B981',
@@ -44,16 +44,16 @@ const config: Config = {
         yellow: '#EAB308',
       },
       background: {
-        primary: '#0F172A',
-        secondary: '#1E293B',
-        tertiary: '#334155',
+        primary: '#111111',
+        secondary: '#1A1A1A',
+        tertiary: '#2e3135',
         inverse: '#FFFFFF',
       },
       interaction: {
         inactive: '#94A3B8',
-        hover: '#059669',
-        pressed: '#047857',
-        focus: '#10B981',
+        hover: '#ff922b',
+        pressed: '#fd7e14',
+        focus: '#e8590c',
       },
       border: {
         primary: 'rgba(248, 250, 252, 0.1)',
@@ -61,9 +61,9 @@ const config: Config = {
       },
       text: {
         primary: '#F8FAFC',
-        secondary: '#CBD5E1',
-        tertiary: '#E2E8F0',
-        default: '#64748B',
+        secondary: '#6f7277',
+        tertiary: '#989ca0',
+        default: '#c3c7cc',
         inverse: '#FFFFFF',
         disabled: '#94A3B8',
         gray400: '#9ca3af',
@@ -73,7 +73,7 @@ const config: Config = {
         danger: '#DC2626',
       },
       icon: {
-        primary: '#64748B',
+        primary: '#c3c7cc',
         inverse: '#F8FAFC',
         brand: '#10B981',
       },

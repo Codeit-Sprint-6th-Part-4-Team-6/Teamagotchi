@@ -20,7 +20,7 @@ export default function WeeklyRepeatSelector({ selectedDays, onChange }: Weekday
       {WEEKDAYS.map((day, index) => {
         const buttonClassName = classNames("w-44 h-48 text-14 px-10 py-8 rounded-12 font-medium", {
           "bg-brand-primary text-text-inverse": selectedDays.includes(index),
-          "bg-[#18212F] text-text-default hover:bg-brand-primary hover:text-text-inverse":
+          "bg-[#2e3135] text-text-default hover:bg-brand-primary hover:text-text-inverse":
             !selectedDays.includes(index),
         });
 

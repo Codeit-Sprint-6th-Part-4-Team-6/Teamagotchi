@@ -105,7 +105,7 @@ function Toggle({ children }: { children: React.ReactNode }) {
 
   return (
     <button
-      className="box-border flex w-140 items-center justify-between rounded-12 bg-[#18212F] px-10 py-8"
+      className="box-border flex w-140 items-center justify-between rounded-12 bg-[#2e3135] px-10 py-8"
       type="button"
       onClick={toggleDropdown}
       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && toggleDropdown()}

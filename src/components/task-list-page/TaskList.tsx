@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { GroupTaskLists, TaskList } from "@coworkers-types";
 import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Spinner from "@components/commons/Spinner";
 import { getGroup } from "@api/groupApi";
@@ -18,8 +19,6 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-
-  // 탭의 정보를 받아오기 위해서 사용했는데, 추후에는 팀페이지에서 받은 그룹데이터를 getQueryClient 사용 예정
   const { data: groupData } = useQuery({
     queryKey: ["group", teamId],
     queryFn: () => getGroup(Number(teamId)),
@@ -54,25 +53,39 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
     <section>
       <div className="mb-16 mt-19 flex gap-12 overflow-auto" role="tablist">
         {groupData?.taskLists.map((taskList, index) => (
-          <div
+          <motion.div
             key={taskList.id}
             className="flex min-w-fit cursor-pointer flex-col gap-5"
             onClick={() => handleActiveTab(index, taskList)}
             role="tab"
             aria-selected={activeTabIndex === index}
             tabIndex={0}
+            whileHover={activeTabIndex !== index ? { scale: 0.96 } : {}}
+            transition={{ duration: 0.2 }}
           >
-            <span
-              className={classNames("text-text-default", {
+            <motion.span
+              className={classNames({
+                "text-text-default": activeTabIndex !== index,
                 "text-text-inverse": activeTabIndex === index,
               })}
+              animate={{
+                color: activeTabIndex === index ? "#fff" : "#c3c7cc",
+              }}
+              whileHover={activeTabIndex !== index ? { color: "#fff" } : {}}
+              transition={{ duration: 0.2 }}
             >
               {taskList.name}
-            </span>
-            {activeTabIndex === index && (
-              <span className="w-full border-b-[1.5px] border-solid border-text-inverse" />
-            )}
-          </div>
+            </motion.span>
+            <motion.span
+              className="w-full border-b-[1.5px] border-solid"
+              initial={{ scaleX: 0 }}
+              animate={{
+                scaleX: activeTabIndex === index ? 1 : 0,
+                borderColor: activeTabIndex === index ? "#ffffff" : "transparent",
+              }}
+              transition={{ duration: 0.3 }}
+            />
+          </motion.div>
         ))}
       </div>
       {isLoading && <Spinner className="mt-200" />}

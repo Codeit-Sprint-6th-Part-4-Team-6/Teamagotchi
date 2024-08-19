@@ -1,26 +1,29 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import { GroupInfo, Profile } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useToast } from "@hooks/useToast";
 import { postImageURL } from "@api/imageApi";
 
-interface UseUploadFormProps {
-  initialName?: string;
-  initialImage?: string | File | null;
-  onSubmit: (data: { name: string; image?: string }) => Promise<any>;
+interface UseUpdateFormProps {
+  initialName: string;
+  initialImage?: File | string | null;
+  onSubmit?: (data: { name: string; image?: string }) => Promise<any>;
+  onEditSubmit?: (id: number, data: Profile) => Promise<GroupInfo>;
   successMessage: string;
   redirectPath?: string;
-  queryKey?: string;
+  query?: string;
 }
 
-export function useUploadForm({
+export function useUpdateForm({
   initialName,
   initialImage = null,
   onSubmit,
+  onEditSubmit,
   successMessage,
   redirectPath,
-  queryKey,
-}: UseUploadFormProps) {
+  query,
+}: UseUpdateFormProps) {
   const [imageFile, setImageFile] = useState<string | File | null>(initialImage);
   const [changedName, setChangedName] = useState(initialName);
   const [errorMessage, setErrorMessage] = useState("");
@@ -37,10 +40,18 @@ export function useUploadForm({
   };
 
   const mutation = useMutation({
-    mutationFn: ({ name, image }: { name: string; image?: string }) => onSubmit({ name, image }),
+    mutationFn: ({ id, name, image }: { id?: number; name: string; image?: string }) => {
+      if (id !== undefined && onEditSubmit) {
+        return onEditSubmit(id, { name, image });
+      }
+      if (onSubmit) {
+        return onSubmit({ name, image });
+      }
+      throw new Error("onSubmit 또는 onEditSubmit이 정의되지 않았습니다.");
+    },
     onSuccess: () => {
-      if (queryKey) {
-        queryClient.invalidateQueries({ queryKey: [queryKey] });
+      if (query) {
+        queryClient.invalidateQueries({ queryKey: [query] });
       }
       if (successMessage) {
         toast("success", successMessage);
@@ -50,8 +61,9 @@ export function useUploadForm({
       }
     },
     onError: (error: any) => {
-      const message = error.response.data?.message;
+      const message = error.response?.data?.message;
       setErrorMessage(message);
+      toast("danger", message);
     },
   });
 
@@ -67,14 +79,14 @@ export function useUploadForm({
 
   const isPending = mutation.isPending || imagePostMutation.isPending;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>, id?: number) => {
     event.preventDefault();
     if (!changedName) return;
 
     if (imageFile instanceof File) {
       imagePostMutation.mutate(imageFile);
     } else {
-      mutation.mutate({ name: changedName });
+      mutation.mutate({ id, name: changedName });
     }
   };
 

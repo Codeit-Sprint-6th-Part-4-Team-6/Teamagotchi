@@ -24,7 +24,7 @@ export default function Toast() {
   return (
     <>
       {isOpen && (
-        <div className="fixed bottom-60 left-1/2 z-10 -translate-x-1/2 animate-fadeIn">
+        <div className="fixed bottom-60 left-1/2 z-50 -translate-x-1/2 animate-fadeIn">
           <div className="flex h-80 items-center rounded-lg bg-text-primary light:bg-background-primary">
             <span className={`h-full w-5 rounded-l-lg ${pointColor}`} />
             <div className="px-20">
