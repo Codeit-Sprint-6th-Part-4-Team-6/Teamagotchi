@@ -94,7 +94,7 @@ export default function Sidebar({
   const postIconClass = classNames("absolute right-0 top-13 cursor-pointer");
 
   return (
-    <div className="z-[999] h-full w-full bg-background-secondary md:fixed md:right-0 md:top-61 md:w-435 lg:w-779">
+    <div className="fixed right-0 top-61 z-[999] h-full w-full bg-background-secondary md:left-auto md:top-61 md:w-435 lg:w-779">
       <div className="flex h-full flex-col gap-16 p-24">
         <IconClose className="cursor-pointer" onClick={onClose} />
         <div className="flex justify-between">
