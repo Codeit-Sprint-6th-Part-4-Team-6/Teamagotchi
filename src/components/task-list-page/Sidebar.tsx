@@ -157,7 +157,7 @@ export default function Sidebar({
       <div className="flex h-full flex-col gap-16 p-24">
         <IconClose className="cursor-pointer" onClick={onClose} />
         <div className="flex justify-between">
-          {TaskDetailData?.name}
+          <p className="text-20 font-bold text-text-primary">{TaskDetailData?.name}</p>
           <EditDeletePopover icon="kebabLarge" handleModify={() => {}} handleDelete={() => {}} />
         </div>
         <div className="flex justify-between">
@@ -166,7 +166,7 @@ export default function Sidebar({
             image={TaskDetailData?.writer.image ?? null}
             name={TaskDetailData?.writer.nickname as string}
           />
-          {formattedCreatedDate}
+          <p className="text-14 text-text-secondary">{formattedCreatedDate}</p>
         </div>
         <div className="flex items-center gap-10">
           <IconCalender />
@@ -178,7 +178,9 @@ export default function Sidebar({
           <IconRepeat />
           <p className={formatClass}>{frequency}</p>
         </div>
-        <div className="h-200 overflow-y-scroll">{TaskDetailData?.description}</div>
+        <div className="h-200">
+          <p className="text-14 text-text-primary">{TaskDetailData?.description}</p>
+        </div>
         <div className="relative">
           <Textarea
             type="innerButton"
