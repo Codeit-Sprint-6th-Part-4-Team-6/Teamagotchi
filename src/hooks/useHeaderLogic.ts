@@ -18,7 +18,7 @@ export function useHeaderLogic() {
   const { data: userInfo, isPending } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
-    enabled: isLoggedIn && !queryClient.getQueryData(["user"]), // 데이터가 캐싱되어 있다면 새로 요청하지 않음,
+    enabled: isLoggedIn,
   });
 
   const getCurTeamPage = () =>
@@ -36,10 +36,12 @@ export function useHeaderLogic() {
   }, []);
 
   useEffect(() => {
-    if (userInfo?.memberships && query.teamId) {
-      setCurTeamPage(getCurTeamPage());
-    }
-  }, [userInfo?.memberships, query.teamId]);
+    setCurTeamPage(getCurTeamPage());
+  }, [query.teamId]);
+
+  useEffect(() => {
+    setCurTeamPage(getCurTeamPage());
+  }, [queryClient.getQueryData(["user"])]);
 
   useEffect(() => {
     const handleRouteChange = () => {
