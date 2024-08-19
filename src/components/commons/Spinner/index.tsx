@@ -17,7 +17,7 @@ export default function Spinner({ size = 20, color = "primary", className }: Pro
     <div className={`${className} flex h-full w-full items-center justify-center`}>
       <ClipLoader
         size={size}
-        color={color === "primary" ? "#10B981" : "#fff"}
+        color={color === "primary" ? "#FF9F0D" : "#fff"}
         speedMultiplier={0.8}
       />
     </div>
