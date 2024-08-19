@@ -1,5 +1,10 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { TaskComment, TaskCommentList as TaskCommentListType, TaskDetails } from "@coworkers-types";
+import {
+  PatchTaskRequest,
+  TaskComment,
+  TaskCommentList as TaskCommentListType,
+  TaskDetails,
+} from "@coworkers-types";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { format } from "date-fns";
@@ -18,7 +23,7 @@ import {
   IconRepeat,
   IconTime,
 } from "@utils/icon";
-import { getTaskDetails } from "@api/taskApi";
+import { getTaskDetails, patchTaskCompletionStatus } from "@api/taskApi";
 import { postTaskComment } from "@api/taskCommentApi";
 
 export default function Sidebar({
@@ -85,6 +90,20 @@ export default function Sidebar({
       setTextareaComment("");
     },
   });
+
+  const { mutate: taskPatchMutation } = useMutation({
+    mutationFn: (data: PatchTaskRequest) =>
+      patchTaskCompletionStatus(groupId, taskListId, taskId, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["taskLists"] });
+      queryClient.invalidateQueries({ queryKey: ["taskListDetail", taskId] });
+    },
+  });
+
+  const handleDoneClick = () => {
+    const done = TaskDetailData?.doneAt === null;
+    taskPatchMutation({ done });
+  };
 
   const formattedCreatedDate = TaskDetailData?.recurring.createdAt
     ? format(new Date(TaskDetailData.recurring.createdAt), "yyyy.MM.dd")
@@ -182,7 +201,7 @@ export default function Sidebar({
           buttonType="floating"
           icon="check"
           className="bottom-24 right-24 lg:bottom-48 lg:right-100"
-          onClick={() => console.log("asd")}
+          onClick={() => handleDoneClick()}
         >
           {TaskDetailData?.doneAt === null ? "완료하기" : "취소하기"}
         </Button>
