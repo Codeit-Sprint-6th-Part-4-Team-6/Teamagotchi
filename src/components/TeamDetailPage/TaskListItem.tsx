@@ -73,7 +73,7 @@ export default function TaskListItem({
   return (
     <div
       onClick={onClick}
-      className="flex h-40 cursor-pointer items-center rounded-12 border bg-background-secondary text-md transition-all hover:scale-105 hover:border-solid"
+      className="relative flex h-40 cursor-pointer items-center rounded-12 border bg-background-secondary text-md transition-all hover:bg-background-tertiary"
     >
       <div className={classNames("h-full w-12 rounded-l-12", colorClass)} />
       <p className="grow truncate px-12 font-medium">{task.name}</p>
