@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { TotalArticle } from "@coworkers-types";
 import {
-  type DehydratedState,
-  HydrationBoundary,
   QueryClient,
   dehydrate,
   keepPreviousData,
@@ -50,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function BoardPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
+export default function BoardPage() {
   const router = useRouter();
   const { page, orderBy, keyword } = router.query;
   const [currentPage, setCurrentPage] = useState<number>(parseInt(page as string, 10) || 1);
@@ -109,23 +107,21 @@ export default function BoardPage({ dehydratedState }: { dehydratedState: Dehydr
   const totalCount = data ? Math.ceil((data.totalCount ?? 1) / PAGE_SIZE) : 1;
 
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-        <BestArticleSection Posts={displayedBestArticles} />
-        <ArticleSection
-          Posts={articles}
-          searchValue={searchKeyword}
-          searchChange={setSearchKeyword}
-          sortValue={currentOrderBy}
-          sortChange={handleOrderByChange}
-          onEnter={handleKeywordEnter}
-        />
-        <Pagination
-          totalPages={totalCount}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
-      </div>
-    </HydrationBoundary>
+    <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+      <BestArticleSection Posts={displayedBestArticles} />
+      <ArticleSection
+        Posts={articles}
+        searchValue={searchKeyword}
+        searchChange={setSearchKeyword}
+        sortValue={currentOrderBy}
+        sortChange={handleOrderByChange}
+        onEnter={handleKeywordEnter}
+      />
+      <Pagination
+        totalPages={totalCount}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+      />
+    </div>
   );
 }

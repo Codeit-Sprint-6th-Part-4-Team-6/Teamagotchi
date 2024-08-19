@@ -6,7 +6,8 @@ type InputProps = {
   type?: "text" | "email" | "password" | "search";
   name?: string;
   id?: string;
-  placeholder: string;
+  placeholder?: string;
+  defaultValue?: string;
   value?: string;
   className?: string;
   errorMessage?: string;
@@ -35,6 +36,7 @@ export default function Input({
   name,
   id,
   placeholder,
+  defaultValue,
   value,
   className,
   errorMessage,
@@ -65,6 +67,7 @@ export default function Input({
         name={name}
         id={id}
         placeholder={placeholder}
+        defaultValue={defaultValue}
         value={value}
         disabled={disabled}
         onChange={onChange}
