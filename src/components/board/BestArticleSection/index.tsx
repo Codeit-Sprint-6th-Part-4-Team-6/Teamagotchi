@@ -9,7 +9,7 @@ export default function BestArticleSection({ Posts }: { Posts: Article[] }) {
     <div className="mx-0 my-auto flex w-full flex-col gap-12">
       <div className="flex items-center justify-between">
         <Label content="베스트 게시글" />
-        <Link href="/addBoard">
+        <Link href="/add-board">
           <Button size="small">글쓰기</Button>
         </Link>
       </div>

@@ -21,6 +21,7 @@
     "plugin:storybook/recommended"
   ],
   "rules": {
+    "no-nested-ternary": "off",
     "import/no-extraneous-dependencies": ["warn", { "devDependencies": true }],
     "@typescript-eslint/dot-notation": "off",
     "react-hooks/rules-of-hooks": "off",

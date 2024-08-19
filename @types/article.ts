@@ -1,6 +1,6 @@
 declare module "@coworkers-types" {
   export type PostArticleRequest = {
-    image: string;
+    image?: string | undefined;
     content: string;
     title: string;
   };
