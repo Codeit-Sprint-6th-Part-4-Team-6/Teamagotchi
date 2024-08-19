@@ -1,14 +1,15 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { TaskCommentList, TaskDetails } from "@coworkers-types";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { TaskComment, TaskCommentList as TaskCommentListType, TaskDetails } from "@coworkers-types";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { format } from "date-fns";
 import Button from "@components/commons/Button";
-import Comment from "@components/commons/Comment";
-import Input from "@components/commons/Input";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import Textarea from "@components/commons/TextArea";
+import TaskCommentList from "@components/task-list/TaskCommentList";
+import { useToast } from "@hooks/useToast";
+import { useAuthStore } from "@store/useAuthStore";
 import {
   IconCalender,
   IconClose,
@@ -18,7 +19,7 @@ import {
   IconTime,
 } from "@utils/icon";
 import { getTaskDetails } from "@api/taskApi";
-import { getTaskComments } from "@api/taskCommentApi";
+import { postTaskComment } from "@api/taskCommentApi";
 
 export default function Sidebar({
   groupId,
@@ -31,8 +32,10 @@ export default function Sidebar({
   taskListId: string;
   onClose: Dispatch<SetStateAction<boolean>>;
 }) {
-  // const side = useRef();
   const [textareaComment, setTextareaComment] = useState<string>("");
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const { user } = useAuthStore();
 
   const { data: TaskDetailData } = useQuery<TaskDetails>({
     queryKey: ["taskListDetail", taskId],
@@ -40,10 +43,47 @@ export default function Sidebar({
     placeholderData: keepPreviousData,
   });
 
-  const { data: TaskCommentData } = useQuery<TaskCommentList>({
-    queryKey: ["taskComments", taskId],
-    queryFn: () => getTaskComments(taskId),
-    placeholderData: keepPreviousData,
+  const { mutate: postComment } = useMutation({
+    mutationFn: (content) => postTaskComment(taskId, content),
+    onMutate: async (content: string) => {
+      await queryClient.cancelQueries({ queryKey: ["taskComments", taskId] });
+
+      const previousComments = queryClient.getQueryData(["taskComments", taskId]);
+
+      queryClient.setQueryData<TaskCommentListType>(
+        ["taskComments", taskId],
+        (oldComments: TaskCommentListType = []) => [
+          {
+            id: 1,
+            content,
+            userId: user?.id ?? 1,
+            taskId,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            user: {
+              image: null,
+              nickname: user?.nickname ?? "",
+              id: user?.id ?? 1,
+            },
+          },
+          ...oldComments,
+        ]
+      );
+
+      return { previousComments };
+    },
+    onError: (error, newComment, context) => {
+      if (context?.previousComments) {
+        queryClient.setQueryData(["taskComments", taskId], context.previousComments);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["taskComments", taskId] });
+    },
+    onSuccess: () => {
+      toast("success", "댓글을 작성하였습니다.");
+      setTextareaComment("");
+    },
   });
 
   const formattedCreatedDate = TaskDetailData?.recurring.createdAt
@@ -94,7 +134,7 @@ export default function Sidebar({
   const postIconClass = classNames("absolute right-0 top-13 cursor-pointer");
 
   return (
-    <div className="fixed right-0 top-61 z-[999] h-full w-full bg-background-secondary md:left-auto md:top-61 md:w-435 lg:w-779">
+    <div className="fixed right-0 top-61 z-[15] h-full w-full bg-background-secondary md:left-auto md:top-61 md:w-435 lg:w-779">
       <div className="flex h-full flex-col gap-16 p-24">
         <IconClose className="cursor-pointer" onClick={onClose} />
         <div className="flex justify-between">
@@ -129,19 +169,22 @@ export default function Sidebar({
             onChange={handleChangeTextarea}
           />
           {textareaComment.length > 0 ? (
-            <IconEnterActive className={postIconClass} />
+            <IconEnterActive
+              className={postIconClass}
+              onClick={() => postComment(textareaComment)}
+            />
           ) : (
             <IconEnterDefault className={postIconClass} />
           )}
         </div>
-        {TaskCommentData?.map((comment) => <Comment type="task" comment={comment} />)}
+        <TaskCommentList taskId={taskId} />
         <Button
           buttonType="floating"
           icon="check"
           className="bottom-24 right-24 lg:bottom-48 lg:right-100"
           onClick={() => console.log("asd")}
         >
-          완료하기
+          {TaskDetailData?.doneAt === null ? "완료하기" : "취소하기"}
         </Button>
       </div>
     </div>
