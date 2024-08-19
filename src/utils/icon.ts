@@ -25,6 +25,7 @@ import IconDone from "@icons/icon_done.svg";
 import IconEdit from "@icons/icon_edit.svg";
 import IconEditLarge from "@icons/icon_edit_large.svg";
 import IconEditSmall from "@icons/icon_edit_small.svg";
+import IconEgg from "@icons/icon_egg.svg";
 import IconEnterActive from "@icons/icon_enter_active.svg";
 import IconEnterDefault from "@icons/icon_enter_default.svg";
 import IconGear from "@icons/icon_gear.svg";
@@ -120,4 +121,5 @@ export {
   IconPlusSmall,
   IconArrowWhiteLeft,
   IconArrowWhiteRight,
+  IconEgg,
 };

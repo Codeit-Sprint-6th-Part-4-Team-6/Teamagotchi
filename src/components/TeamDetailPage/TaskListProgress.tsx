@@ -15,7 +15,7 @@ export default function TaskListProgress({ tasks }: { tasks: DateTask[] }) {
       ) : (
         <CircleProgressBar className="mt-1 w-12" strokeWidth={30} progress={progress} />
       )}
-      <p className="text-point-green">{`${completedTasks}/${totalTasks}`}</p>
+      <p className="text-[#ffc078]">{`${completedTasks}/${totalTasks}`}</p>
     </div>
   );
 }

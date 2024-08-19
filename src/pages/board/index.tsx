@@ -8,6 +8,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import ArticleSection from "@components/board/ArticleSection";
 import BestArticleSection from "@components/board/BestArticleSection";
@@ -107,21 +108,31 @@ export default function BoardPage() {
   const totalCount = data ? Math.ceil((data.totalCount ?? 1) / PAGE_SIZE) : 1;
 
   return (
-    <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-      <BestArticleSection Posts={displayedBestArticles} />
-      <ArticleSection
-        Posts={articles}
-        searchValue={searchKeyword}
-        searchChange={setSearchKeyword}
-        sortValue={currentOrderBy}
-        sortChange={handleOrderByChange}
-        onEnter={handleKeywordEnter}
-      />
-      <Pagination
-        totalPages={totalCount}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
-    </div>
+    <>
+      <Head>
+        <title>티마고치 | 자유게시판</title>
+        <meta
+          name="description"
+          content="창의적인 아이디어부터 일상의 잡담까지, 티마고치에서 자유롭게 나누세요!"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
+      <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+        <BestArticleSection Posts={displayedBestArticles} />
+        <ArticleSection
+          Posts={articles}
+          searchValue={searchKeyword}
+          searchChange={setSearchKeyword}
+          sortValue={currentOrderBy}
+          sortChange={handleOrderByChange}
+          onEnter={handleKeywordEnter}
+        />
+        <Pagination
+          totalPages={totalCount}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      </div>
+    </>
   );
 }

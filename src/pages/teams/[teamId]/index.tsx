@@ -15,12 +15,6 @@ import Spinner from "@components/commons/Spinner";
 import { getGroup } from "@api/groupApi";
 import { getUserMemberships } from "@api/userApi";
 
-// todos
-// 할 일 목록 생성
-// 할 일 목록 수정
-// 멤버 클릭 시 할 일 리스트 페이지로 이동
-// 타입 정리
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { teamId } = context.query;
@@ -93,6 +87,15 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
     ? membershipData.find((group) => group.groupId === groupData?.id)
     : undefined;
 
+  // ReportSection을 위한 데이터 정제
+  // taskLists 배열에서 모든 작업을 평탄화
+  const totalTask = groupData?.taskLists.flatMap((taskList) => taskList.tasks) || [];
+  // 완료된 작업을 필터링
+  const completedTasks = totalTask.filter((task) => task.doneAt !== null);
+  // 완료율 계산
+  const completionRate =
+    totalTask.length > 0 ? (completedTasks.length / totalTask.length) * 100 : 0;
+
   return (
     <HydrationBoundary state={dehydratedState}>
       <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
@@ -107,7 +110,11 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
           taskLists={groupData?.taskLists ?? []}
           role={curTeamMembership?.role ?? ""}
         />
-        <ReportSection />
+        <ReportSection
+          completionRate={completionRate}
+          totalTasks={totalTask?.length ?? 0}
+          completedTasks={completedTasks?.length ?? 0}
+        />
         <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
       </div>
     </HydrationBoundary>
