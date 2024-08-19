@@ -1,10 +1,10 @@
-import { Membership, User, UserInfo } from "@coworkers-types";
+import { User } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
-import { useUploadForm } from "@hooks/useUpdateForm";
+import { useUpdateForm } from "@hooks/useUpdateForm";
 import { useAuthStore } from "@store/useAuthStore";
 import { patchUser } from "@api/userApi";
 
@@ -32,12 +32,12 @@ export default function EditUserForm() {
     handleNameChange,
     handleSubmit,
     isPending,
-  } = useUploadForm({
+  } = useUpdateForm({
     initialName: user.nickname,
     initialImage: user.image,
     onSubmit: ({ name, image }) => patchUser({ nickname: name, image }),
     successMessage: "계정 설정 변경에 성공하셨습니다.",
-    queryKey: "user",
+    query: "user",
   });
 
   const handleUserSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -73,7 +73,7 @@ export default function EditUserForm() {
         <Input
           id="nickname"
           name="nickname"
-          value={changedName}
+          placeholder={user.nickname}
           errorMessage={errorMessage}
           onChange={handleNameChange}
         />

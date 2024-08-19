@@ -57,9 +57,12 @@ function Toggle({ children }: { children: React.ReactNode }) {
   return (
     <button
       type="button"
-      onClick={togglePopover}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
+      onClick={(event) => {
+        event.stopPropagation(); // 상위 이벤트 전파 방지
+        togglePopover();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
           togglePopover();
         }
       }}
