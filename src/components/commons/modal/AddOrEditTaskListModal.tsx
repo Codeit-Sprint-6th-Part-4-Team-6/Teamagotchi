@@ -65,7 +65,7 @@ export default function AddOrEditTaskListModal({
       content={
         taskListId
           ? "할 일 목록의 이름을 수정할 수 있습니다."
-          : "할 일에 대한 목록을 추가하고 목록별 할 일을 만들 수 있습니다."
+          : "할 일에 대한 목록을 추가하고<br> 목록별 할 일을 만들 수 있습니다."
       }
       placeholder="목록 이름을 입력해주세요."
       buttonText={taskListId ? "수정하기" : "만들기"}
