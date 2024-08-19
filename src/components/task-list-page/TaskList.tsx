@@ -1,11 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { GroupTaskLists, TaskList } from "@coworkers-types";
-import { useQuery } from "@tanstack/react-query";
+import { Group, GroupTaskLists, TaskList } from "@coworkers-types";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Spinner from "@components/commons/Spinner";
-import { getGroup } from "@api/groupApi";
 import Task from "./Task";
 
 type Props = {
@@ -13,17 +11,19 @@ type Props = {
   handleTaskListId: (id: string | string[] | undefined) => void;
   isLoading: boolean;
   isError: Error | null;
+  groupData: Group | undefined;
 };
 
-export default function TaskLists({ taskLists, handleTaskListId, isLoading, isError }: Props) {
+export default function TaskLists({
+  taskLists,
+  handleTaskListId,
+  isLoading,
+  isError,
+  groupData,
+}: Props) {
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const { data: groupData } = useQuery({
-    queryKey: ["group", teamId],
-    queryFn: () => getGroup(Number(teamId)),
-    enabled: !!teamId,
-  });
 
   useEffect(() => {
     if (groupData && groupData.taskLists) {
