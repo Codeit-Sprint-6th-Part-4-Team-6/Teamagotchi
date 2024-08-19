@@ -31,7 +31,7 @@ export default function Textarea({
   id,
   placeholder,
   value,
-  defaultValue = "",
+  defaultValue,
   onChange,
   onBlur,
   height,
