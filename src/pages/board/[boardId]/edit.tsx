@@ -27,7 +27,13 @@ export default function EditBoardPage() {
   }
 
   if (!articleData) {
-    return <div>게시글을 불러올 수 없습니다.</div>; // 데이터가 없을 때 오류 처리
+    return (
+      <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+        <div className="flex h-[75vh] items-center justify-center">
+          게시글을 불러올 수 없습니다.
+        </div>
+      </div>
+    ); // 데이터가 없을 때 오류 처리
   }
 
   return (
