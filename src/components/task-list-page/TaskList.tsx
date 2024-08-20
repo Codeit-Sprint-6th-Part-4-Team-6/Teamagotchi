@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useState } from "react";
-import { GroupTaskLists, TaskList } from "@coworkers-types";
-import { useQuery } from "@tanstack/react-query";
+import { Group, GroupTaskLists, TaskList } from "@coworkers-types";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Spinner from "@components/commons/Spinner";
 import { getGroup } from "@api/groupApi";
+import { getTaskDetails } from "@api/taskApi";
+import { getTaskComments } from "@api/taskCommentApi";
+import Sidebar from "./Sidebar";
 import Task from "./Task";
 
 type Props = {
@@ -13,16 +16,30 @@ type Props = {
   handleTaskListId: (id: string | string[] | undefined) => void;
   isLoading: boolean;
   isError: Error | null;
+  groupId: string;
+  taskListId: string;
 };
 
-export default function TaskLists({ taskLists, handleTaskListId, isLoading, isError }: Props) {
+export default function TaskLists({
+  taskLists,
+  handleTaskListId,
+  isLoading,
+  isError,
+  groupId,
+  taskListId,
+}: Props) {
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const { data: groupData } = useQuery({
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
+  const queryClient = useQueryClient();
+  const { data: groupData } = useQuery<Group>({
     queryKey: ["group", teamId],
     queryFn: () => getGroup(Number(teamId)),
     enabled: !!teamId,
+    staleTime: Infinity,
   });
 
   useEffect(() => {
@@ -38,6 +55,23 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
     }
   }, [groupData, taskListsId]);
 
+  useEffect(() => {
+    groupData?.taskLists.forEach((tasks) => {
+      tasks.tasks.forEach((task) => {
+        queryClient.prefetchQuery({
+          queryKey: ["taskListDetail", task.id],
+          queryFn: () => getTaskDetails(Number(groupId), Number(taskListId), task.id),
+          staleTime: Infinity,
+        });
+        queryClient.prefetchQuery({
+          queryKey: ["taskComments", task.id],
+          queryFn: () => getTaskComments(task.id),
+          staleTime: Infinity,
+        });
+      });
+    });
+  });
+
   const handleActiveTab = useCallback(
     (index: number, taskList: GroupTaskLists) => {
       setActiveTabIndex(index);
@@ -46,6 +80,16 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
     },
     [teamId]
   );
+
+  const handleTaskClick = useCallback((taskId: number) => {
+    setSelectedTaskId(taskId);
+    setIsSidebarVisible(true);
+  }, []);
+
+  const handleCloseSidebar = useCallback(() => {
+    setIsSidebarVisible(false);
+    setSelectedTaskId(null);
+  }, []);
 
   if (isError) return <div>데이터를 불러오지 못했습니다.</div>;
 
@@ -92,7 +136,9 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
       {!isLoading && (
         <div>
           {taskLists?.tasks && taskLists.tasks.length > 0 ? (
-            taskLists?.tasks.map((task) => <Task key={task.id} task={task} />)
+            taskLists?.tasks.map((task) => (
+              <Task key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
+            ))
           ) : (
             <div className="mt-191 flex items-center justify-center text-center text-14 font-medium leading-[17px] text-text-default md:mt-345 lg:mt-310">
               아직 할 일이 없습니다.
@@ -100,6 +146,14 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
             </div>
           )}
         </div>
+      )}
+      {isSidebarVisible && selectedTaskId && (
+        <Sidebar
+          groupId={groupId}
+          taskListId={taskListId}
+          taskId={selectedTaskId}
+          onClose={handleCloseSidebar}
+        />
       )}
     </section>
   );
