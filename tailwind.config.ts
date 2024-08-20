@@ -131,11 +131,7 @@ const config: Config = {
         }
       });
     },
-    function ({ addVariant }: PluginAPI) {
-      addVariant('light', ['.light &', 'html:not(.dark) &', '@media (prefers-color-scheme: light)']);
-    }
   ],
-  darkMode: 'selector',
 };
 
 export default config;

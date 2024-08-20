@@ -1,6 +1,5 @@
 import { HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
 import localFont from "next/font/local";
 import Head from "next/head";
@@ -27,14 +26,12 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <main className={pretendard.className}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <HydrationBoundary state={pageProps.dehydratedState}>
-              <Header />
-              <ModalWrapper />
-              <Toast />
-              <Component {...pageProps} />
-            </HydrationBoundary>
-          </ThemeProvider>
+          <HydrationBoundary state={pageProps.dehydratedState}>
+            <Header />
+            <ModalWrapper />
+            <Toast />
+            <Component {...pageProps} />
+          </HydrationBoundary>
         </main>
         <ReactQueryDevtools initialIsOpen />
       </QueryClientProvider>
