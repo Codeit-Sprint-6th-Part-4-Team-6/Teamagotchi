@@ -1,18 +1,18 @@
 import { ChangeEvent, useState } from "react";
 import { PostTaskRequest } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { format, setHours, setMinutes } from "date-fns";
+import { format } from "date-fns";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
-import Spinner from "@components/commons/Spinner";
+import Success from "@components/commons/Success";
 import Textarea from "@components/commons/TextArea";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { postTask } from "@api/taskApi";
+import DateSelector from "./DateSelector";
 import FrequencyDropdown from "./FrequencyDropdown";
-import SelectDateAndTime from "./SelectedTimeAndDate";
 import WeeklyRepeatSelector from "./WeeklyRepeatSelector";
 
 export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
@@ -25,31 +25,13 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
   const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([]);
   const [selectedMonthDay, setSelectedMonthDay] = useState<number>();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [selectedTime, setSelectedTime] = useState("AM 9:00");
-  const initialDate = setHours(setMinutes(new Date(), 0), 9);
 
   const [task, setTask] = useState<PostTaskRequest>({
     name: "",
     description: "",
-    startDate: format(initialDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
+    startDate: format(selectedDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
     frequencyType: "",
   });
-
-  const handleTaskStartTime = (date: Date, time: string) => {
-    const [period, timeString] = time.split(" ");
-    const [hours, minutes] = timeString.split(":");
-    let hour = parseInt(hours, 10);
-    if (period === "PM" && hour !== 12) hour += 12;
-    if (period === "AM" && hour === 12) hour = 0;
-
-    const localDate = new Date(date);
-    localDate.setHours(hour, parseInt(minutes, 10));
-
-    setTask((prevTask) => ({
-      ...prevTask,
-      startDate: format(localDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-    }));
-  };
 
   const handleTaskValues = (
     event:
@@ -103,7 +85,11 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
   });
 
   if (postTaskMutation.isPending) {
-    return <Spinner />;
+    return (
+      <div className="flex size-300 flex-col items-center justify-center">
+        <Success content="할 일을 생성중입니다." size={200} />
+      </div>
+    );
   }
 
   return (
@@ -122,16 +108,10 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
           onChange={handleTaskValues}
         />
         <Label htmlFor="startDate" type="label" content="시작 날짜 및 시간" />
-        <SelectDateAndTime
+        <DateSelector
           selectedDate={selectedDate}
-          selectedTime={selectedTime}
           onDateChange={(date: Date) => {
             setSelectedDate(date);
-            handleTaskStartTime(date, selectedTime);
-          }}
-          onTimeChange={(time: string) => {
-            setSelectedTime(time);
-            handleTaskStartTime(selectedDate, time);
           }}
         />
         <Label htmlFor="frequencyType" type="label" content="반복 설정" />
