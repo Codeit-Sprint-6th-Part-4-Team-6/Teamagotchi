@@ -2,7 +2,7 @@ import LottieAnimation from "../LottieAnimation";
 
 type Props = {
   content: string;
-  size: number;
+  size?: number;
 };
 
 export default function Success({ content, size = 200 }: Props) {

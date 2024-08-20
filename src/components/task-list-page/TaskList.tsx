@@ -90,7 +90,7 @@ export default function TaskLists({
 
   return (
     <section>
-      <div className="mb-16 mt-19 flex gap-12 overflow-auto" role="tablist">
+      <div className="no-scroll mb-16 mt-19 flex gap-12 overflow-auto" role="tablist">
         {groupData?.taskLists.map((taskList, index) => (
           <motion.div
             key={taskList.id}
