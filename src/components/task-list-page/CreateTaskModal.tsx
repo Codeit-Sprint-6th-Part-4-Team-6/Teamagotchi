@@ -30,7 +30,7 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
     name: "",
     description: "",
     startDate: format(selectedDate, "yyyy-MM-dd'T'HH:mm:ss'Z'"),
-    frequencyType: "",
+    frequencyType: "ONCE",
   });
 
   const handleTaskValues = (
@@ -136,9 +136,7 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
         <Button
           onClick={handleClick}
           className="mt-16"
-          disabled={
-            task.name.length < 1 || task.description.length < 1 || task.frequencyType.length < 1
-          }
+          disabled={task.name.length < 1 || task.description.length < 1}
         >
           만들기
         </Button>
