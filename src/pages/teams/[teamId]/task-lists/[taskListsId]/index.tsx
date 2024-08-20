@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Group, TaskList as TaskListType } from "@coworkers-types";
+import { TaskList as TaskListType } from "@coworkers-types";
 import {
   type DehydratedState,
   HydrationBoundary,
@@ -7,16 +7,17 @@ import {
   dehydrate,
   keepPreviousData,
   useQuery,
-  useQueryClient,
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
+import Loading from "@components/commons/Loading";
 import CreateTaskModal from "@components/task-list-page/CreateTaskModal";
 import DateWithCalendar from "@components/task-list-page/DateWithCalendar";
 import TaskList from "@components/task-list-page/TaskList";
 import { useModal } from "@hooks/useModal";
+import { getGroup } from "@api/groupApi";
 import { getTaskList } from "@api/taskListApi";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -57,7 +58,6 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
     urlDate && typeof urlDate === "string" ? new Date(urlDate) : new Date()
   );
   const [taskListId, setTaskListId] = useState(taskListsId);
-  const queryClient = useQueryClient();
 
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
@@ -74,8 +74,6 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
       setSelectedDate(new Date(urlDate));
     }
   }, [urlDate]);
-
-  const groupData: Group | undefined = queryClient.getQueryData(["group", teamId]);
 
   const updateURL = (date: Date, id: string | string[] | undefined) => {
     const path = `/teams/${teamId}/task-lists/${id}`;
@@ -102,6 +100,20 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
     enabled: !!taskListId,
   });
 
+  const {
+    data: groupData,
+    isLoading: groupDataLoading,
+    error: groupDataError,
+  } = useQuery({
+    queryKey: ["group", teamId],
+    queryFn: () => getGroup(Number(teamId)),
+    enabled: !!teamId,
+  });
+
+  if (groupDataLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Head>
@@ -125,6 +137,7 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
             handleTaskListId={handleTaskListId}
             groupId={teamId as string}
             taskListId={taskListId as string}
+            groupData={groupData}
           />
         </div>
         <Button

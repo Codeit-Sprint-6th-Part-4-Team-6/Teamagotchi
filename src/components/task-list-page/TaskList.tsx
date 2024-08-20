@@ -1,11 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { Group, GroupTaskLists, TaskList } from "@coworkers-types";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import Spinner from "@components/commons/Spinner";
-import { getGroup } from "@api/groupApi";
 import { getTaskDetails } from "@api/taskApi";
 import { getTaskComments } from "@api/taskCommentApi";
 import Sidebar from "./Sidebar";
@@ -18,6 +17,7 @@ type Props = {
   isError: Error | null;
   groupId: string;
   taskListId: string;
+  groupData: Group | undefined;
 };
 
 export default function TaskLists({
@@ -27,6 +27,7 @@ export default function TaskLists({
   isError,
   groupId,
   taskListId,
+  groupData,
 }: Props) {
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
@@ -35,12 +36,6 @@ export default function TaskLists({
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   const queryClient = useQueryClient();
-  const { data: groupData } = useQuery<Group>({
-    queryKey: ["group", teamId],
-    queryFn: () => getGroup(Number(teamId)),
-    enabled: !!teamId,
-    staleTime: Infinity,
-  });
 
   useEffect(() => {
     if (groupData && groupData.taskLists) {

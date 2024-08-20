@@ -17,5 +17,5 @@ export default function AddTeamPage() {
         </span>
       </UpdateTeam>
     </>
-      );
+  );
 }
