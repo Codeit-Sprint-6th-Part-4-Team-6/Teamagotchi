@@ -6,6 +6,7 @@ import OneInputModal from "@components/commons/modal/OneInputModal";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { patchTaskList, postTaskList } from "@api/taskListApi";
+import LottieAnimation from "../LottieAnimation";
 
 export default function AddOrEditTaskListModal({
   onClose,
@@ -41,6 +42,7 @@ export default function AddOrEditTaskListModal({
     onSuccess: (data: TaskListInfo) => {
       closeModal();
       queryClient.invalidateQueries({ queryKey: ["group"] });
+      queryClient.invalidateQueries({ queryKey: ["taskLists", data.id] });
       router.push(`/teams/${teamId}/task-lists/${data.id}`, undefined, { shallow: true });
     },
     onError: (error: any) => {
@@ -59,6 +61,15 @@ export default function AddOrEditTaskListModal({
     },
   });
 
+  if (postTaskListMutation.isPending) {
+    return (
+      <div className="flex size-300 flex-col items-center justify-center gap-20">
+        <LottieAnimation type="success" size={200} />
+        <span className="text-14 font-medium">새로운 할 일 목록이 생성중입니다!</span>
+      </div>
+    );
+  }
+
   return (
     <OneInputModal
       title={taskListId ? "목록 수정" : "새로운 목록 추가"}
@@ -73,7 +84,7 @@ export default function AddOrEditTaskListModal({
       onClose={onClose}
       value={taskName}
       onChange={handleTaskName}
-      isPending={taskListId ? patchTaskListMutation.isPending : postTaskListMutation.isPending}
+      isPending={patchTaskListMutation.isPending}
     />
   );
 }

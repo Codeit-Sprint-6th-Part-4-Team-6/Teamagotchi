@@ -35,6 +35,7 @@
     "ignoreBranchesMissingTickets": false
   },
   "dependencies": {
+    "@lottiefiles/react-lottie-player": "^3.5.4",
     "@tanstack/react-query": "^5.51.23",
     "@tanstack/react-query-devtools": "^5.51.21",
     "axios": "^1.7.2",
