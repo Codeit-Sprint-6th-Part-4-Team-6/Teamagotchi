@@ -62,7 +62,7 @@ export const getArticle = async (articleId: string, token?: string): Promise<Art
  * @returns 게시글 상세보기 객체를 반환합니다.
  */
 export const patchArticle = async (
-  articleId: number,
+  articleId: string | string[] | undefined,
   data: PostArticleRequest
 ): Promise<ArticleDetails | Message> => {
   const response = await axiosInstance.patch<ArticleDetails | Message>(
