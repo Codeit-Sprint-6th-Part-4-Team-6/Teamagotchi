@@ -95,16 +95,12 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
     error: taskListsError,
   } = useQuery<TaskListType>({
     queryKey: ["taskLists", Number(taskListsId), selectedDate.toISOString().slice(0, 10)],
-    queryFn: () => getTaskList(teamId, taskListId, selectedDate.toISOString()),
+    queryFn: () => getTaskList(teamId, taskListsId, selectedDate.toISOString()),
     placeholderData: keepPreviousData,
     enabled: !!taskListId,
   });
 
-  const {
-    data: groupData,
-    isLoading: groupDataLoading,
-    error: groupDataError,
-  } = useQuery({
+  const { data: groupData, isLoading: groupDataLoading } = useQuery({
     queryKey: ["group", teamId],
     queryFn: () => getGroup(Number(teamId)),
     enabled: !!teamId,
