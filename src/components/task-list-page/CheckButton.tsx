@@ -1,11 +1,11 @@
 import * as React from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
-interface CheckButtonProps {
+type CheckButtonProps = {
   isChecked: boolean;
-  onChange: () => void;
+  onChange: React.MouseEventHandler<SVGSVGElement>;
   size?: number;
-}
+};
 
 const tickVariants = {
   pressed: (isChecked: boolean) => ({ pathLength: isChecked ? 0.85 : 0.2 }),

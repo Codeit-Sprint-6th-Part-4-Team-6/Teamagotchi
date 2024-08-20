@@ -31,7 +31,8 @@ export default function Task({ task, onClick }: Props) {
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
   const [isChecked, setIsChecked] = useState(task.doneAt !== null);
-  const handleCheckButton = () => {
+  const handleCheckButton = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
+    event.stopPropagation();
     setIsChecked((prev) => !prev);
     patchTaskMutation.mutate({ done: !isChecked });
   };
