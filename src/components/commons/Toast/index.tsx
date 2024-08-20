@@ -24,8 +24,8 @@ export default function Toast() {
   return (
     <>
       {isOpen && (
-        <div className="fixed bottom-60 left-1/2 z-50 -translate-x-1/2 animate-fadeIn">
-          <div className="flex h-60 items-center rounded-lg bg-background-secondary light:bg-text-primary md:h-50">
+        <div className="fixed bottom-60 left-1/2 z-50 min-w-310 -translate-x-1/2 animate-fadeIn">
+          <div className="flex h-60 items-center rounded-lg bg-background-secondary">
             <span className={`h-full w-5 rounded-l-lg ${pointColor}`} />
             <div className="px-20">
               {toast?.type === "info" ? <IconToastInfo /> : ""}
@@ -33,7 +33,7 @@ export default function Toast() {
               {toast?.type === "warn" ? <IconToastWarning /> : ""}
               {toast?.type === "danger" ? <IconToastDanger /> : ""}
             </div>
-            <p className="text-black pr-25 text-center text-12 font-medium leading-5 light:text-text-primary md:text-16">
+            <p className="text-black pr-25 text-center text-12 font-medium leading-5 md:text-16">
               {toast?.content}
             </p>
           </div>
