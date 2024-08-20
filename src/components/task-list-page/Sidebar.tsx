@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import {
   PatchTaskRequest,
-  TaskComment,
   TaskCommentList as TaskCommentListType,
   TaskDetails,
 } from "@coworkers-types";

@@ -12,7 +12,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
-import Loading from "@components/commons/Loading";
+import Loading from "@components/commons/LottieAnimation/Loading";
 import CreateTaskModal from "@components/task-list-page/CreateTaskModal";
 import DateWithCalendar from "@components/task-list-page/DateWithCalendar";
 import TaskList from "@components/task-list-page/TaskList";

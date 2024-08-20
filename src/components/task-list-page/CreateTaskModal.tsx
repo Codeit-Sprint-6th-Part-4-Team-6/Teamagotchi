@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
-import Success from "@components/commons/Success";
+import Success from "@components/commons/LottieAnimation/Success";
 import Textarea from "@components/commons/TextArea";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
