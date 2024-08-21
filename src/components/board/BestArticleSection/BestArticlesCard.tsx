@@ -22,8 +22,9 @@ export default function BestArticleCard({ item }: { item: Article }) {
           <div className="flex gap-12">
             <div className="flex items-center justify-center gap-5">
               <IconComment />
-              {/* NOTE: 댓글 수 표기가 안돼서 일단 좋아요갯수로 테스트해봄 */}
-              <span className="text-14 font-[400] text-interaction-inactive">{item.likeCount}</span>
+              <span className="text-14 font-[400] text-interaction-inactive">
+                {item.commentCount}
+              </span>
             </div>
             <div className="flex items-center justify-center gap-5">
               <IconHeart />
