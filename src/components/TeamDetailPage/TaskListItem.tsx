@@ -15,11 +15,13 @@ export default function TaskListItem({
   index,
   role,
   onClick,
+  isDragging,
 }: {
   task: GroupTaskLists;
   index: number;
   role: string;
   onClick: () => void;
+  isDragging: boolean;
 }) {
   // 색상 배열 정의
   const colors = [
@@ -70,11 +72,13 @@ export default function TaskListItem({
     });
   };
 
+  const classnames = classNames(
+    "relative flex h-40 cursor-pointer items-center rounded-12 bg-background-secondary text-md transition-all hover:bg-background-tertiary",
+    isDragging && "bg-background-tertiary"
+  );
+
   return (
-    <div
-      onClick={onClick}
-      className="relative flex h-40 cursor-pointer items-center rounded-12 border bg-background-secondary text-md transition-all hover:bg-background-tertiary"
-    >
+    <div onClick={onClick} className={classnames}>
       <div className={classNames("h-full w-12 rounded-l-12", colorClass)} />
       <p className="grow truncate px-12 font-medium">{task.name}</p>
       <div className="mr-5 flex items-center">
