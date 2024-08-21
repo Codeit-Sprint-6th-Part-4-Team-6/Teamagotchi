@@ -7,7 +7,6 @@ import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
 import Loading from "@components/commons/LottieAnimation/Loading";
-import Spinner from "@components/commons/Spinner";
 import Textarea from "@components/commons/TextArea";
 import useMediaQuery from "@hooks/useMediaQuery";
 import { useToast } from "@hooks/useToast";
@@ -149,8 +148,9 @@ export default function BoardForm({
                 size="medium"
                 onClick={handleSubmit}
                 disabled={!postValidation || !hasChanges || isMutating}
+                isPending={isMutating}
               >
-                {isMutating ? <Spinner size={20} /> : boardId ? "수정" : "등록"}
+                {boardId ? "수정" : "등록"}
               </Button>
             )}
           </div>
@@ -190,8 +190,9 @@ export default function BoardForm({
               <Button
                 onClick={handleSubmit}
                 disabled={!postValidation || !hasChanges || isMutating}
+                isPending={isMutating}
               >
-                {isMutating ? <Spinner size={20} /> : boardId ? "수정" : "등록"}
+                {boardId ? "수정" : "등록"}
               </Button>
             </div>
           ) : null}

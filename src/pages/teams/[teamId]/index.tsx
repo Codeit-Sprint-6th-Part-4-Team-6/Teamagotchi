@@ -5,7 +5,7 @@ import MembersSection from "@components/TeamDetailPage/MembersSection";
 import ReportSection from "@components/TeamDetailPage/ReportSection";
 import TaskListSection from "@components/TeamDetailPage/TaskListSection";
 import TeamTitle from "@components/TeamDetailPage/TeamTitle";
-import Spinner from "@components/commons/Spinner";
+import Loading from "@components/commons/LottieAnimation/Loading";
 import { getGroup } from "@api/groupApi";
 import { getUserMemberships } from "@api/userApi";
 
@@ -69,9 +69,9 @@ export default function TeamDetailPage() {
 
   if (groupLoading || membershipLoading)
     return (
-      <div className="mx-auto mt-20 flex h-[80vh] w-full min-w-368 max-w-1200 items-center justify-center px-34 py-20">
+      <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
         <section>
-          <Spinner size={100} />
+          <Loading />
         </section>
       </div>
     );
