@@ -15,7 +15,7 @@ export default function CommentSection({ boardId }: { boardId: number }) {
     setComment(event.target.value);
   };
 
-  const postMutation = useMutation({
+  const { mutate: postMutation, isPending } = useMutation({
     mutationFn: () => postArticleComment(boardId, comment),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["articleComments"] }),
     onSettled: () => {
@@ -37,9 +37,9 @@ export default function CommentSection({ boardId }: { boardId: number }) {
       <div className="flex justify-end">
         <Button
           size="medium"
-          disabled={comment.length < 1}
-          onClick={postMutation.mutate}
-          isPending={postMutation.isPending}
+          disabled={comment.length < 1 || isPending}
+          onClick={postMutation}
+          isPending={isPending}
         >
           등록
         </Button>
