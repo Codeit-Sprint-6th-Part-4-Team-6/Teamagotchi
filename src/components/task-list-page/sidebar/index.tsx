@@ -1,9 +1,5 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import {
-  PatchTaskRequest,
-  TaskCommentList as TaskCommentListType,
-  TaskDetails,
-} from "@coworkers-types";
+import { Dispatch, SetStateAction } from "react";
+import { PatchTaskRequest, TaskDetails } from "@coworkers-types";
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { format } from "date-fns";
@@ -11,21 +7,10 @@ import { motion } from "framer-motion";
 import Button from "@components/commons/Button";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
-import Textarea from "@components/commons/TextArea";
 import TaskCommentList from "@components/task-list/TaskCommentList";
-import { useToast } from "@hooks/useToast";
-import { useAuthStore } from "@store/useAuthStore";
-import {
-  IconCalender,
-  IconCheckActive,
-  IconClose,
-  IconEnterActive,
-  IconEnterDefault,
-  IconRepeat,
-  IconTime,
-} from "@utils/icon";
+import { IconCalender, IconCheckActive, IconClose, IconRepeat, IconTime } from "@utils/icon";
 import { getTaskDetails, patchTaskCompletionStatus } from "@api/taskApi";
-import { postTaskComment } from "@api/taskCommentApi";
+import CommentInput from "./CommentInput";
 
 export default function Sidebar({
   groupId,
@@ -42,58 +27,12 @@ export default function Sidebar({
   onCheckTask: (taskId: number, isChecked: boolean) => void;
   onClose: Dispatch<SetStateAction<boolean>>;
 }) {
-  const [textareaComment, setTextareaComment] = useState<string>("");
-  const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { user } = useAuthStore();
 
   const { data: TaskDetailData } = useQuery<TaskDetails>({
     queryKey: ["taskListDetail", taskId],
     queryFn: () => getTaskDetails(Number(groupId), Number(taskListId), taskId),
     placeholderData: keepPreviousData,
-  });
-
-  const { mutate: postComment } = useMutation({
-    mutationFn: (content) => postTaskComment(taskId, content),
-    onMutate: async (content: string) => {
-      await queryClient.cancelQueries({ queryKey: ["taskComments", taskId] });
-
-      const previousComments = queryClient.getQueryData(["taskComments", taskId]);
-
-      queryClient.setQueryData<TaskCommentListType>(
-        ["taskComments", taskId],
-        (oldComments: TaskCommentListType = []) => [
-          {
-            id: 1,
-            content,
-            userId: user?.id ?? 1,
-            taskId,
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            user: {
-              image: null,
-              nickname: user?.nickname ?? "",
-              id: user?.id ?? 1,
-            },
-          },
-          ...oldComments,
-        ]
-      );
-
-      return { previousComments };
-    },
-    onError: (error, newComment, context) => {
-      if (context?.previousComments) {
-        queryClient.setQueryData(["taskComments", taskId], context.previousComments);
-      }
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["taskComments", taskId] });
-    },
-    onSuccess: () => {
-      toast("success", "댓글을 작성하였습니다.");
-      setTextareaComment("");
-    },
   });
 
   const { mutate: taskPatchMutation } = useMutation({
@@ -148,15 +87,9 @@ export default function Sidebar({
     }
   }
 
-  const handleChangeTextarea = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTextareaComment(event.target.value);
-  };
-
   const formatClass = classNames("text-text-default text-12");
 
   const lineClass = classNames("h-10 border border-l border-solid border-background-tertiary");
-
-  const postIconClass = classNames("absolute right-0 top-13 cursor-pointer");
 
   const buttonClass = classNames("bottom-24 right-24 lg:bottom-48 lg:right-100");
 
@@ -219,23 +152,7 @@ export default function Sidebar({
         <div className="h-200">
           <p className="text-14 text-text-primary">{TaskDetailData?.description}</p>
         </div>
-        <div className="relative">
-          <Textarea
-            type="innerButton"
-            placeholder="댓글을 달아주세요."
-            height={50}
-            value={textareaComment}
-            onChange={handleChangeTextarea}
-          />
-          {textareaComment.length > 0 ? (
-            <IconEnterActive
-              className={postIconClass}
-              onClick={() => postComment(textareaComment)}
-            />
-          ) : (
-            <IconEnterDefault className={postIconClass} />
-          )}
-        </div>
+        <CommentInput taskId={taskId} />
         <TaskCommentList taskId={taskId} />
         <Button
           buttonType="floating"

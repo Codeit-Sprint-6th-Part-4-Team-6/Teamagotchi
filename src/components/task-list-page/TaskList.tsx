@@ -7,8 +7,8 @@ import { useRouter } from "next/router";
 import Spinner from "@components/commons/Spinner";
 import { getTaskDetails } from "@api/taskApi";
 import { getTaskComments } from "@api/taskCommentApi";
-import Sidebar from "./Sidebar";
 import Task from "./Task";
+import Sidebar from "./sidebar";
 
 type Props = {
   taskLists: TaskList | undefined;
