@@ -8,21 +8,14 @@ import { useUpdateForm } from "@hooks/useUpdateForm";
 import { useAuthStore } from "@store/useAuthStore";
 import { patchUser } from "@api/userApi";
 
-const defaultUserInfo: User = {
-  nickname: "",
-  image: "",
-  createdAt: "",
-  updatedAt: "",
-  id: 0,
-  email: "",
-  teamId: "",
-  memberships: [],
-};
-
 export default function EditUserForm() {
   const { setUser } = useAuthStore();
   const queryClient = useQueryClient();
-  const user = queryClient.getQueryData<User>(["user"]) || defaultUserInfo;
+  const user = queryClient.getQueryData<User>(["user"]);
+
+  if (user === undefined) {
+    return null;
+  }
 
   const {
     imageFile,

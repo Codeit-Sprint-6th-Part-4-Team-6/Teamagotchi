@@ -5,7 +5,7 @@ import { useToast } from "@hooks/useToast";
 import { postImageURL } from "@api/imageApi";
 
 interface UseUpdateFormProps {
-  initialName: string;
+  initialName?: string;
   initialImage?: File | string | null;
   onSubmit?: (data: { [key: string]: any }, id?: number) => Promise<unknown>;
   successMessage: string;
