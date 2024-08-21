@@ -9,6 +9,7 @@ import Label from "@components/commons/Label";
 import Spinner from "@components/commons/Spinner";
 import Textarea from "@components/commons/TextArea";
 import useMediaQuery from "@hooks/useMediaQuery";
+import { useToast } from "@hooks/useToast";
 import { patchArticle, postArticle } from "@api/articleApi";
 import { postImageURL } from "@api/imageApi";
 
@@ -22,6 +23,7 @@ export default function BoardForm({
   const { isMobile } = useMediaQuery();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
   const [formValues, setFormValues] = useState({ title: "", content: "" });
   const [imageFile, setImageFile] = useState<string | File | null | undefined>(null);
   const [hasChanges, setHasChanges] = useState(false);
@@ -70,8 +72,8 @@ export default function BoardForm({
       queryClient.invalidateQueries({ queryKey: ["articles"] });
       router.push(`/board/${data.id}`);
     },
-    onError: (error) => {
-      console.error("게시글 등록 중 오류가 발생했습니다:", error);
+    onError: () => {
+      toast("warn", "게시글 등록 중 오류가 발생했습니다:");
     },
   });
 
@@ -82,8 +84,8 @@ export default function BoardForm({
       queryClient.invalidateQueries({ queryKey: ["articles"] });
       router.push(`/board/${boardId}`);
     },
-    onError: (error) => {
-      console.error("게시글 수정 중 오류가 발생했습니다:", error);
+    onError: () => {
+      toast("warn", "게시글 수정 중 오류가 발생했습니다:");
     },
   });
 
@@ -112,7 +114,7 @@ export default function BoardForm({
         postArticleMutation.mutate(articleData);
       }
     } catch (error) {
-      console.error("오류 발생:", error);
+      toast("warn", "게시글 등록 중 오류가 발생했습니다:");
     }
   };
 

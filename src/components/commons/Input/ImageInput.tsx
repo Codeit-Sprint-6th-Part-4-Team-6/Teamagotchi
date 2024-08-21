@@ -93,7 +93,7 @@ export default function ImageInput({
 type PreviewImageProps = {
   src: string;
   type?: "team-profile" | "my-profile" | "article";
-  handleImageDelete?: () => void;
+  handleImageDelete: () => void;
 };
 
 function PreviewImage({ src, type, handleImageDelete }: PreviewImageProps) {
@@ -120,8 +120,11 @@ function PreviewImage({ src, type, handleImageDelete }: PreviewImageProps) {
             alt="이미지 미리보기"
           />
           <IconClose
-            className="absolute right-6 top-6 stroke-text-secondary p-3 md:right-12 md:top-12"
-            onClick={handleImageDelete}
+            className="absolute right-6 top-6 rounded-5 transition-all hover:bg-background-tertiary md:right-12 md:top-12"
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              handleImageDelete();
+            }}
           />
         </div>
       )}

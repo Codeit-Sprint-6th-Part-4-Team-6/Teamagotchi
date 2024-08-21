@@ -33,15 +33,16 @@ const config: Config = {
         'gradient-end': '#ffd43b',
       },
       point: {
-        green: '#10B981',
-        purple: '#A855F7',
-        blue: '#3B82F6',
-        cyan: '#06B6D4',
-        pink: '#EC4899',
-        rose: '#F43F5E',
-        red: '#DC2626',
-        orange: '#F97316',
-        yellow: '#EAB308',
+        green: '#20c997',
+        lime: '#c0eb75',
+        purple: '#9775fa',
+        indigo: '#748ffc',
+        blue: '#4dabf7',
+        cyan: '#66d9e8',
+        pink: '#f06595',
+        red: '#ff6b6b',
+        orange: '#ffc078',
+        yellow: '#ffe066',
       },
       background: {
         primary: '#111111',
@@ -131,11 +132,7 @@ const config: Config = {
         }
       });
     },
-    function ({ addVariant }: PluginAPI) {
-      addVariant('light', ['.light &', 'html:not(.dark) &', '@media (prefers-color-scheme: light)']);
-    }
   ],
-  darkMode: 'selector',
 };
 
 export default config;
