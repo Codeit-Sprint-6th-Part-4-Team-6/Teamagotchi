@@ -25,7 +25,6 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
   const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([]);
   const [selectedMonthDay, setSelectedMonthDay] = useState<number>();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-
   const [task, setTask] = useState<PostTaskRequest>({
     name: "",
     description: "",

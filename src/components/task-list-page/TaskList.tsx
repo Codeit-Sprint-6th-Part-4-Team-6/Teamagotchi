@@ -4,7 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import Spinner from "@components/commons/Spinner";
 import { getTaskDetails } from "@api/taskApi";
 import { getTaskComments } from "@api/taskCommentApi";
 import Sidebar from "./Sidebar";
@@ -127,7 +126,6 @@ export default function TaskLists({
           </motion.div>
         ))}
       </div>
-      {isLoading && <Spinner className="mt-200" />}
       {!isLoading && (
         <div>
           {taskLists?.tasks && taskLists.tasks.length > 0 ? (
