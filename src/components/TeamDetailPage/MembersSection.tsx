@@ -22,7 +22,7 @@ export default function MembersSection({
   };
 
   return (
-    <section>
+    <section className="pb-60">
       <div className="mb-20 flex justify-between">
         <div className="flex items-center gap-5">
           <Label content="멤버" />
