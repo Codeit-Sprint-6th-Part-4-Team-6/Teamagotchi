@@ -9,10 +9,12 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import ArticleSection from "@components/board/ArticleSection";
 import BestArticleSection from "@components/board/BestArticleSection";
 import Pagination from "@components/board/pagination";
+import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import useMediaQuery from "@hooks/useMediaQuery";
@@ -148,6 +150,16 @@ export default function BoardPage() {
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
+        <Link href="/add-board">
+          <Button
+            icon="plus"
+            buttonType="floating"
+            size="small"
+            className="bottom-24 right-24 lg:bottom-48 lg:right-100"
+          >
+            글쓰기
+          </Button>
+        </Link>
       </div>
     </>
   );
