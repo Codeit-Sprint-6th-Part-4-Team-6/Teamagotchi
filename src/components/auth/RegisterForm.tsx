@@ -18,7 +18,7 @@ export default function RegisterForm() {
     initialRegisterState,
     RegisterSchema
   );
-  const { handleSubmit } = useAuthHandler(values, true);
+  const { handleSubmit, isPending } = useAuthHandler(values, true);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -75,7 +75,13 @@ export default function RegisterForm() {
         />
       </div>
 
-      <Button buttonType="button" disabled={!isValid} type="submit" className="mt-40">
+      <Button
+        buttonType="button"
+        disabled={!isValid}
+        type="submit"
+        className="mt-40"
+        isPending={isPending}
+      >
         회원가입
       </Button>
     </form>

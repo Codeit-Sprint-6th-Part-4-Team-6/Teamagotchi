@@ -68,7 +68,6 @@ export function useUpdateForm({
   const imagePostMutation = useMutation({
     mutationFn: (file: File) => postImageURL(file),
     onSuccess: (data: { url: string }) => {
-      console.log(data.url);
       const mutationData: { [key: string]: any } = {};
 
       if (changedName !== initialName) {
@@ -76,8 +75,6 @@ export function useUpdateForm({
       }
 
       mutationData["image"] = data.url;
-
-      console.log(mutationData);
 
       if (requestId) {
         mutation.mutate({ data: mutationData, id: requestId });
