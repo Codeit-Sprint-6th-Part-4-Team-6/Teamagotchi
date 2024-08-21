@@ -11,7 +11,7 @@ export default function BestArticleCard({ item }: { item: Article }) {
       <div className="flex h-169 flex-col justify-between rounded-8 bg-background-secondary p-14 pb-10">
         <IconBestBadge />
         <div className="flex justify-between">
-          <span className="text-18 font-[500] text-text-secondary">{item.title}</span>
+          <span className="text-18 font-[500] text-text-primary">{item.title}</span>
           {item.image && <Image width={72} height={72} alt="image" src={item.image} />}
         </div>
         <span className="text-14 font-[500] text-interaction-inactive">
