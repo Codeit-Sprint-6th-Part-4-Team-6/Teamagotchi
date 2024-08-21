@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import { useModal } from "@hooks/useModal";
-import { IconArrowReload, IconCalender, IconComment, IconTime } from "@utils/icon";
+import { IconArrowReload, IconCalender, IconComment } from "@utils/icon";
 import { patchTaskCompletionStatus } from "@api/taskApi";
 import CheckButton from "./CheckButton";
 import DeleteModal from "./DeleteModal";
@@ -108,11 +108,6 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
         <span className="flex items-center gap-6">
           <IconCalender />
           <time className="text-12 text-text-default">{format(task.date, "yyyy년 MM월 dd일")}</time>
-        </span>
-        <span className="h-10 border border-l border-solid border-background-tertiary" />
-        <span className="flex items-center gap-6">
-          <IconTime />
-          <time className="text-12 text-text-default">{format(task.date, "a h:mm")}</time>
         </span>
         <span className="h-10 border border-l border-solid border-background-tertiary" />
         <span className="flex items-center gap-6">

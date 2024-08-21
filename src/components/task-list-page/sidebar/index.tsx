@@ -143,9 +143,6 @@ export default function Sidebar({
           <IconCalender />
           <p className={formatClass}>{formattedStartedDate}</p>
           <span className={lineClass} />
-          <IconTime />
-          <p className={formatClass}>{formattedStatedTime}</p>
-          <span className={lineClass} />
           <IconRepeat />
           <p className={formatClass}>{frequency}</p>
         </div>
