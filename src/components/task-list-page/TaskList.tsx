@@ -30,11 +30,11 @@ export default function TaskLists({
 }: Props) {
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
+  const queryClient = useQueryClient();
+
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-
-  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (groupData && groupData.taskLists) {

@@ -60,6 +60,7 @@ export default function Task({ task, onClick }: Props) {
     checked: { pathLength: 1, opacity: 1 },
     unchecked: { pathLength: 0, opacity: 0 },
   };
+
   return (
     <motion.div
       whileHover={{ scale: 0.99 }}
