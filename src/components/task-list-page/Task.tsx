@@ -16,6 +16,8 @@ import EditTaskModal from "./EditTaskModal";
 type Props = {
   task: DateTask;
   onClick: () => void;
+  isChecked: boolean;
+  onCheckTask: (taskId: number, isChecked: boolean) => void;
 };
 
 const frequencyMap = {
@@ -25,15 +27,14 @@ const frequencyMap = {
   MONTHLY: "매월 반복",
 };
 
-export default function Task({ task, onClick }: Props) {
+export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
   const { openModal } = useModal();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
-  const [isChecked, setIsChecked] = useState(task.doneAt !== null);
   const handleCheckButton = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
     event.stopPropagation();
-    setIsChecked((prev) => !prev);
+    onCheckTask(task.id, !isChecked);
     patchTaskMutation.mutate({ done: !isChecked });
   };
 
@@ -45,6 +46,7 @@ export default function Task({ task, onClick }: Props) {
       patchTaskCompletionStatus(teamId, taskListsId, task.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["taskLists"] });
+      queryClient.invalidateQueries({ queryKey: ["taskListDetail", task.id] });
     },
   });
 

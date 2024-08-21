@@ -34,6 +34,7 @@ export default function TaskLists({
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+  const [checkedTaskIds, setCheckedTaskIds] = useState<{ [key: number]: boolean }>({});
 
   const queryClient = useQueryClient();
 
@@ -86,6 +87,13 @@ export default function TaskLists({
     setSelectedTaskId(null);
   }, []);
 
+  const handleCheckTask = (taskId: number, isChecked: boolean) => {
+    setCheckedTaskIds((prev) => ({
+      ...prev,
+      [taskId]: isChecked,
+    }));
+  };
+
   if (isError) return <div>데이터를 불러오지 못했습니다.</div>;
 
   return (
@@ -132,7 +140,13 @@ export default function TaskLists({
         <div>
           {taskLists?.tasks && taskLists.tasks.length > 0 ? (
             taskLists?.tasks.map((task) => (
-              <Task key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
+              <Task
+                key={task.id}
+                task={task}
+                isChecked={checkedTaskIds[task.id] ?? false}
+                onCheckTask={handleCheckTask}
+                onClick={() => handleTaskClick(task.id)}
+              />
             ))
           ) : (
             <div className="mt-191 flex items-center justify-center text-center text-14 font-medium leading-[17px] text-text-default md:mt-345 lg:mt-310">
@@ -147,6 +161,8 @@ export default function TaskLists({
           groupId={groupId}
           taskListId={taskListId}
           taskId={selectedTaskId}
+          isChecked={checkedTaskIds[selectedTaskId] ?? false}
+          onCheckTask={handleCheckTask}
           onClose={handleCloseSidebar}
         />
       )}

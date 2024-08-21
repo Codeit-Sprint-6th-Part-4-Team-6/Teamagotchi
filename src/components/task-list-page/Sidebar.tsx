@@ -31,11 +31,15 @@ export default function Sidebar({
   groupId,
   taskId,
   taskListId,
+  isChecked,
+  onCheckTask,
   onClose,
 }: {
   groupId: string;
   taskId: number;
   taskListId: string;
+  isChecked: boolean;
+  onCheckTask: (taskId: number, isChecked: boolean) => void;
   onClose: Dispatch<SetStateAction<boolean>>;
 }) {
   const [textareaComment, setTextareaComment] = useState<string>("");
@@ -48,8 +52,6 @@ export default function Sidebar({
     queryFn: () => getTaskDetails(Number(groupId), Number(taskListId), taskId),
     placeholderData: keepPreviousData,
   });
-
-  const [isChecked, setIsChecked] = useState(TaskDetailData?.doneAt !== null);
 
   const { mutate: postComment } = useMutation({
     mutationFn: (content) => postTaskComment(taskId, content),
@@ -104,7 +106,7 @@ export default function Sidebar({
   });
 
   const handleDoneClick = () => {
-    setIsChecked((prev) => !prev);
+    onCheckTask(taskId, !isChecked);
     const done = TaskDetailData?.doneAt === null;
     taskPatchMutation({ done });
   };
