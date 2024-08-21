@@ -1,4 +1,4 @@
-import LottieAnimation from "../LottieAnimation";
+import LottieAnimation from ".";
 
 export default function Loading() {
   return (

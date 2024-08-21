@@ -27,3 +27,9 @@ span::-webkit-scrollbar {
   -webkit-box-shadow: 2px 2px 6px 0px rgba(195, 199, 204, 0.75);
   -moz-box-shadow: 2px 2px 6px 0px rgba(195, 199, 204, 0.75);
 }
+
+.no-scroll::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+  background-color: black;
+}

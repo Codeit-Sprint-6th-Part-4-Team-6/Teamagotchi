@@ -15,6 +15,7 @@ import EditTaskModal from "./EditTaskModal";
 
 type Props = {
   task: DateTask;
+  onClick: () => void;
 };
 
 const frequencyMap = {
@@ -24,13 +25,14 @@ const frequencyMap = {
   MONTHLY: "매월 반복",
 };
 
-export default function Task({ task }: Props) {
+export default function Task({ task, onClick }: Props) {
   const { openModal } = useModal();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
   const [isChecked, setIsChecked] = useState(task.doneAt !== null);
-  const handleCheckButton = () => {
+  const handleCheckButton = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
+    event.stopPropagation();
     setIsChecked((prev) => !prev);
     patchTaskMutation.mutate({ done: !isChecked });
   };
@@ -63,6 +65,7 @@ export default function Task({ task }: Props) {
       whileHover={{ scale: 0.99 }}
       transition={{ duration: 0.2 }}
       className="box-shadow mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12"
+      onClick={onClick}
     >
       <div className="flex items-center justify-between gap-8">
         <div className="flex grow justify-between md:justify-start md:gap-12">

@@ -5,7 +5,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
-import Loading from "@components/commons/Loading";
+import Loading from "@components/commons/LottieAnimation/Loading";
 import CreateTaskModal from "@components/task-list-page/CreateTaskModal";
 import DateWithCalendar from "@components/task-list-page/DateWithCalendar";
 import TaskList from "@components/task-list-page/TaskList";
@@ -88,16 +88,12 @@ export default function TaskListPage() {
     error: taskListsError,
   } = useQuery<TaskListType>({
     queryKey: ["taskLists", Number(taskListsId), selectedDate.toISOString().slice(0, 10)],
-    queryFn: () => getTaskList(teamId, taskListId, selectedDate.toISOString()),
+    queryFn: () => getTaskList(teamId, taskListsId, selectedDate.toISOString()),
     placeholderData: keepPreviousData,
     enabled: !!taskListId,
   });
 
-  const {
-    data: groupData,
-    isLoading: groupDataLoading,
-    error: groupDataError,
-  } = useQuery({
+  const { data: groupData, isLoading: groupDataLoading } = useQuery({
     queryKey: ["group", teamId],
     queryFn: () => getGroup(Number(teamId)),
     enabled: !!teamId,
@@ -119,7 +115,6 @@ export default function TaskListPage() {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-
       <div className="m-auto px-16 py-24 md:px-24 lg:w-1200">
         <h1 className="mb-30 text-18 font-bold md:mb-27 md:text-20">할 일</h1>
         <DateWithCalendar date={selectedDate} onDateChange={handleDateChange} />
@@ -128,6 +123,8 @@ export default function TaskListPage() {
           isLoading={taskListsLoading}
           isError={taskListsError}
           handleTaskListId={handleTaskListId}
+          groupId={teamId as string}
+          taskListId={taskListId as string}
           groupData={groupData}
         />
       </div>
