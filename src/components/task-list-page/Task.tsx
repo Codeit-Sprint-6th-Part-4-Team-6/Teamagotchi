@@ -49,7 +49,7 @@ export default function Task({ task, onClick }: Props) {
   });
 
   const handleOpenDeleteModal = () => {
-    openModal("WarnModal", DeleteModal, { taskId: task.id });
+    openModal("WarnModal", DeleteModal, { taskId: task.recurringId });
   };
 
   const handleOpenEditTaskModal = () => {
