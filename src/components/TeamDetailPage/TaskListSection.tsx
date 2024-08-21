@@ -35,11 +35,11 @@ export default function TaskListSection({
           <Label content="할 일 목록" />
           <span className="text-lg font-normal text-text-default">{`(${taskLists.length}개)`}</span>
         </div>
-        {role === "ADMIN" && (
+        {role === "ADMIN" || role === "MEMBER" ? (
           <TextButton icon="plus" onClick={handleOpenOneInputModal}>
             새로운 목록 추가하기
           </TextButton>
-        )}
+        ) : null}
       </div>
       <div className="mb-20 flex flex-col gap-16">
         {taskLists.length > 0 ? (

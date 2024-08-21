@@ -80,7 +80,7 @@ export default function TaskListItem({
       <p className="grow truncate px-12 font-medium">{task.name}</p>
       <div className="mr-5 flex items-center">
         <TaskListProgress tasks={task.tasks} />
-        {role === "ADMIN" ? (
+        {role === "ADMIN" || role === "MEMBER" ? (
           <EditDeletePopover
             icon="kebabSmall"
             handleDelete={handleDeleteTaskListOpenModal}
