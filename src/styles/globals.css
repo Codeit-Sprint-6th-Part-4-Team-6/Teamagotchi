@@ -3,7 +3,6 @@
 @tailwind utilities;
 
 body {
-  /*테스트용 배경이에요*/
   background-color: #111111;
   color: #fff;
 }

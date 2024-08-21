@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import { TaskList as TaskListType } from "@coworkers-types";
-import {
-  type DehydratedState,
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-  keepPreviousData,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, dehydrate, keepPreviousData, useQuery } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -46,7 +39,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function TaskListPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
+export default function TaskListPage() {
   const { openModal } = useModal();
   const handleOpenCreateTaskModal = () => {
     openModal("CreateTaskModal", CreateTaskModal, {});
@@ -122,29 +115,27 @@ export default function TaskListPage({ dehydratedState }: { dehydratedState: Deh
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <HydrationBoundary state={dehydratedState}>
-        <div className="m-auto px-16 py-24 md:px-24 lg:w-1200">
-          <h1 className="mb-30 text-18 font-bold md:mb-27 md:text-20">할 일</h1>
-          <DateWithCalendar date={selectedDate} onDateChange={handleDateChange} />
-          <TaskList
-            taskLists={data}
-            isLoading={taskListsLoading}
-            isError={taskListsError}
-            handleTaskListId={handleTaskListId}
-            groupId={teamId as string}
-            taskListId={taskListId as string}
-            groupData={groupData}
-          />
-        </div>
-        <Button
-          buttonType="floating"
-          icon="plus"
-          className="bottom-24 right-24 lg:bottom-48 lg:right-100"
-          onClick={handleOpenCreateTaskModal}
-        >
-          할 일 추가
-        </Button>
-      </HydrationBoundary>
+      <div className="m-auto px-16 py-24 md:px-24 lg:w-1200">
+        <h1 className="mb-30 text-18 font-bold md:mb-27 md:text-20">할 일</h1>
+        <DateWithCalendar date={selectedDate} onDateChange={handleDateChange} />
+        <TaskList
+          taskLists={data}
+          isLoading={taskListsLoading}
+          isError={taskListsError}
+          handleTaskListId={handleTaskListId}
+          groupId={teamId as string}
+          taskListId={taskListId as string}
+          groupData={groupData}
+        />
+      </div>
+      <Button
+        buttonType="floating"
+        icon="plus"
+        className="bottom-24 right-24 lg:bottom-48 lg:right-100"
+        onClick={handleOpenCreateTaskModal}
+      >
+        할 일 추가
+      </Button>
     </>
   );
 }
