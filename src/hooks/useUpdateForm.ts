@@ -12,7 +12,6 @@ interface UseUpdateFormProps {
   redirectPath?: string;
   query?: string;
   nameKey?: string;
-  imageKey?: string;
   requestId?: number;
 }
 
@@ -24,7 +23,6 @@ export function useUpdateForm({
   redirectPath,
   query,
   nameKey = "name",
-  imageKey = "image",
   requestId,
 }: UseUpdateFormProps) {
   const [imageFile, setImageFile] = useState<string | File | null>(initialImage);
@@ -58,6 +56,7 @@ export function useUpdateForm({
       if (redirectPath) {
         router.push(redirectPath);
       }
+      setErrorMessage("");
     },
     onError: (error: any) => {
       const message = error.response?.data?.message;
@@ -69,10 +68,17 @@ export function useUpdateForm({
   const imagePostMutation = useMutation({
     mutationFn: (file: File) => postImageURL(file),
     onSuccess: (data: { url: string }) => {
-      const mutationData: { [key: string]: any } = {
-        [nameKey]: changedName,
-        [imageKey]: data.url,
-      };
+      console.log(data.url);
+      const mutationData: { [key: string]: any } = {};
+
+      if (changedName !== initialName) {
+        mutationData[nameKey] = changedName;
+      }
+
+      mutationData["image"] = data.url;
+
+      console.log(mutationData);
+
       if (requestId) {
         mutation.mutate({ data: mutationData, id: requestId });
       } else {
@@ -86,7 +92,7 @@ export function useUpdateForm({
 
   const isPending = mutation.isPending || imagePostMutation.isPending;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (imageFile instanceof File) {
@@ -94,14 +100,14 @@ export function useUpdateForm({
     } else {
       const mutationData: { [key: string]: any } = {};
 
-      if (changedName) {
+      if (changedName !== initialName) {
         mutationData[nameKey] = changedName;
       }
 
       if (imageFile === "") {
-        mutationData[imageKey] = null; // 이미지를 지우는 경우
+        mutationData["image"] = null;
       } else if (typeof imageFile === "string") {
-        mutationData[imageKey] = imageFile;
+        mutationData["image"] = imageFile;
       }
 
       if (requestId) {

@@ -7,7 +7,7 @@ type ImageInputProps = {
   id: string;
   type: "my-profile" | "team-profile" | "article";
   onChange: (value: string | File | null) => void;
-  defaultValue?: string;
+  defaultValue?: string | File;
   className?: string;
 };
 
@@ -49,7 +49,11 @@ export default function ImageInput({
             {type === "my-profile" ? <IconMemberLarge /> : <IconImage />}
             <span className="absolute">
               {previewImage && (
-                <PreviewImage type={type} src={previewImage} handleImageDelete={handleClearClick} />
+                <PreviewImage
+                  type={type}
+                  src={previewImage instanceof File ? "" : previewImage}
+                  handleImageDelete={handleClearClick}
+                />
               )}
             </span>
             <IconEdit className="absolute bottom-0 right-0" />
@@ -71,7 +75,11 @@ export default function ImageInput({
             </div>
             <span className="absolute">
               {previewImage && (
-                <PreviewImage type={type} src={previewImage} handleImageDelete={handleClearClick} />
+                <PreviewImage
+                  type={type}
+                  src={previewImage instanceof File ? "" : previewImage}
+                  handleImageDelete={handleClearClick}
+                />
               )}
             </span>
           </div>

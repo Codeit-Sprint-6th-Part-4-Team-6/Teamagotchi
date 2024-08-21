@@ -38,7 +38,7 @@ export default function EditUserForm() {
     onSubmit: ({ nickname, image }) => patchUser({ nickname, image }),
     successMessage: "계정 설정 변경에 성공하셨습니다.",
     query: "user",
-    nameKey: "nickname", // 사용자 닉네임 필드명 설정
+    nameKey: "nickname",
   });
 
   const handleUserSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -47,7 +47,7 @@ export default function EditUserForm() {
     const updatedData: User = {
       ...user,
       nickname: changedName ?? "",
-      image: imageFile instanceof File ? user.image : imageFile,
+      image: typeof imageFile === "string" ? imageFile : user.image,
     };
     setUser(updatedData);
   };
@@ -63,7 +63,7 @@ export default function EditUserForm() {
         id="profile-image"
         type="my-profile"
         onChange={handleFileChange}
-        defaultValue={imageFile as string}
+        defaultValue={user.image}
       />
       <div>
         <Label content="이메일" marginBottom={12} />
