@@ -1,5 +1,4 @@
 import { ChangeEvent, FormEvent, useState } from "react";
-import { GroupInfo, Profile } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useToast } from "@hooks/useToast";
@@ -8,21 +7,25 @@ import { postImageURL } from "@api/imageApi";
 interface UseUpdateFormProps {
   initialName: string;
   initialImage?: File | string | null;
-  onSubmit?: (data: { name: string; image?: string }) => Promise<any>;
-  onEditSubmit?: (id: number, data: Profile) => Promise<GroupInfo>;
+  onSubmit?: (data: { [key: string]: any }, id?: number) => Promise<unknown>;
   successMessage: string;
   redirectPath?: string;
   query?: string;
+  nameKey?: string;
+  imageKey?: string;
+  requestId?: number;
 }
 
 export function useUpdateForm({
   initialName,
-  initialImage = null,
+  initialImage = "",
   onSubmit,
-  onEditSubmit,
   successMessage,
   redirectPath,
   query,
+  nameKey = "name",
+  imageKey = "image",
+  requestId,
 }: UseUpdateFormProps) {
   const [imageFile, setImageFile] = useState<string | File | null>(initialImage);
   const [changedName, setChangedName] = useState(initialName);
@@ -40,14 +43,10 @@ export function useUpdateForm({
   };
 
   const mutation = useMutation({
-    mutationFn: ({ id, name, image }: { id?: number; name: string; image?: string }) => {
-      if (id !== undefined && onEditSubmit) {
-        return onEditSubmit(id, { name, image });
-      }
+    mutationFn: async (variables: { data: { [key: string]: any }; id?: number }) => {
       if (onSubmit) {
-        return onSubmit({ name, image });
+        await onSubmit(variables.data, variables.id);
       }
-      throw new Error("onSubmit 또는 onEditSubmit이 정의되지 않았습니다.");
     },
     onSuccess: () => {
       if (query) {
@@ -70,7 +69,15 @@ export function useUpdateForm({
   const imagePostMutation = useMutation({
     mutationFn: (file: File) => postImageURL(file),
     onSuccess: (data: { url: string }) => {
-      mutation.mutate({ name: changedName ?? "", image: data.url });
+      const mutationData: { [key: string]: any } = {
+        [nameKey]: changedName,
+        [imageKey]: data.url,
+      };
+      if (requestId) {
+        mutation.mutate({ data: mutationData, id: requestId });
+      } else {
+        mutation.mutate({ data: mutationData });
+      }
     },
     onError: (error: any) => {
       toast("warn", `Error uploading image: ${error}`);
@@ -79,14 +86,29 @@ export function useUpdateForm({
 
   const isPending = mutation.isPending || imagePostMutation.isPending;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>, id?: number) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!changedName) return;
 
     if (imageFile instanceof File) {
       imagePostMutation.mutate(imageFile);
     } else {
-      mutation.mutate({ id, name: changedName });
+      const mutationData: { [key: string]: any } = {};
+
+      if (changedName) {
+        mutationData[nameKey] = changedName;
+      }
+
+      if (imageFile === "") {
+        mutationData[imageKey] = null; // 이미지를 지우는 경우
+      } else if (typeof imageFile === "string") {
+        mutationData[imageKey] = imageFile;
+      }
+
+      if (requestId) {
+        mutation.mutate({ data: mutationData, id: requestId });
+      } else {
+        mutation.mutate({ data: mutationData });
+      }
     }
   };
 

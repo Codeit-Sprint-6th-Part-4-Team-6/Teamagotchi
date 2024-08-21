@@ -35,9 +35,10 @@ export default function EditUserForm() {
   } = useUpdateForm({
     initialName: user.nickname,
     initialImage: user.image,
-    onSubmit: ({ name, image }) => patchUser({ nickname: name, image }),
+    onSubmit: ({ nickname, image }) => patchUser({ nickname, image }),
     successMessage: "계정 설정 변경에 성공하셨습니다.",
     query: "user",
+    nameKey: "nickname", // 사용자 닉네임 필드명 설정
   });
 
   const handleUserSubmit = (event: React.FormEvent<HTMLFormElement>) => {
