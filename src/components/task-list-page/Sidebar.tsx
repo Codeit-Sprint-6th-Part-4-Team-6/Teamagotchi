@@ -7,6 +7,7 @@ import {
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { format } from "date-fns";
+import { motion } from "framer-motion";
 import Button from "@components/commons/Button";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
@@ -16,6 +17,7 @@ import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
 import {
   IconCalender,
+  IconCheckActive,
   IconClose,
   IconEnterActive,
   IconEnterDefault,
@@ -46,6 +48,8 @@ export default function Sidebar({
     queryFn: () => getTaskDetails(Number(groupId), Number(taskListId), taskId),
     placeholderData: keepPreviousData,
   });
+
+  const [isChecked, setIsChecked] = useState(TaskDetailData?.doneAt !== null);
 
   const { mutate: postComment } = useMutation({
     mutationFn: (content) => postTaskComment(taskId, content),
@@ -100,6 +104,7 @@ export default function Sidebar({
   });
 
   const handleDoneClick = () => {
+    setIsChecked((prev) => !prev);
     const done = TaskDetailData?.doneAt === null;
     taskPatchMutation({ done });
   };
@@ -151,12 +156,44 @@ export default function Sidebar({
 
   const postIconClass = classNames("absolute right-0 top-13 cursor-pointer");
 
+  const buttonClass = classNames("bottom-24 right-24 lg:bottom-48 lg:right-100");
+
+  const lineVariants = {
+    checked: { pathLength: 1, opacity: 1 },
+    unchecked: { pathLength: 0, opacity: 0 },
+  };
+
   return (
     <div className="fixed right-0 top-61 z-[15] h-full w-full bg-background-secondary md:left-auto md:top-61 md:w-435 lg:w-779">
       <div className="flex h-full flex-col gap-16 p-24">
         <IconClose className="cursor-pointer" onClick={onClose} />
+        {isChecked && (
+          <div className="flex items-center gap-6">
+            <IconCheckActive />
+            <p className="text-brand-primary">완료</p>
+          </div>
+        )}
         <div className="flex justify-between">
-          <p className="text-20 font-bold text-text-primary">{TaskDetailData?.name}</p>
+          <div className="relative">
+            <p className="text-20 font-bold text-text-primary">{TaskDetailData?.name}</p>
+            <motion.svg
+              className="absolute left-0 top-1/2 h-4 w-full overflow-visible"
+              initial={false}
+              animate={isChecked ? "checked" : "unchecked"}
+            >
+              <motion.line
+                x1="0"
+                y1="50%"
+                x2="100%"
+                y2="50%"
+                stroke="#fff"
+                strokeWidth="1.5px"
+                variants={lineVariants}
+                transition={{ duration: 0.2 }}
+              />
+            </motion.svg>
+          </div>
+
           <EditDeletePopover icon="kebabLarge" handleModify={() => {}} handleDelete={() => {}} />
         </div>
         <div className="flex justify-between">
@@ -201,10 +238,11 @@ export default function Sidebar({
         <Button
           buttonType="floating"
           icon="check"
-          className="bottom-24 right-24 lg:bottom-48 lg:right-100"
+          className={buttonClass}
+          buttonStyle={isChecked ? "outlined" : "default"}
           onClick={() => handleDoneClick()}
         >
-          {TaskDetailData?.doneAt === null ? "완료하기" : "취소하기"}
+          {isChecked ? "완료 취소하기" : "완료하기"}
         </Button>
       </div>
     </div>
