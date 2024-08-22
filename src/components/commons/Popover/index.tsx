@@ -3,6 +3,7 @@ import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import { IconCrown, IconMember } from "@utils/icon";
 import Spinner from "../Spinner";
@@ -173,6 +174,9 @@ function TeamItem({
   isPending: boolean;
 }) {
   const { closePopover } = useContext(PopoverContext);
+  const router = useRouter();
+  const path = router.asPath;
+  const isSelected = path === `/teams/${id}`;
 
   const handleClick = () => {
     closePopover();
@@ -186,7 +190,12 @@ function TeamItem({
     <Link href={`/teams/${id}`}>
       <button
         type="button"
-        className="my-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
+        className={classNames(
+          "my-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary",
+          {
+            "bg-background-tertiary": isSelected,
+          }
+        )}
         onClick={handleClick}
       >
         <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
