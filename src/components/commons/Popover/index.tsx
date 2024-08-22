@@ -191,7 +191,7 @@ function TeamItem({
       <button
         type="button"
         className={classNames(
-          "my-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary",
+          "mb-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary",
           {
             "bg-background-tertiary": isSelected,
           }
@@ -205,8 +205,8 @@ function TeamItem({
             <IconMember />
           )}
         </div>
-        <span className="flex-grow truncate text-left text-lg">{title}</span>
-        {role === "ADMIN" ? <IconCrown /> : ""}
+        <span className="flex-1 truncate text-left text-lg">{title}</span>
+        {role === "ADMIN" ? <IconCrown className="w-18" /> : ""}
       </button>
     </Link>
   );
