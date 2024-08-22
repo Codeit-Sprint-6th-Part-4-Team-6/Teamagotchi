@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/router";
 import Spinner from "@components/commons/Spinner";
 import WarnModal from "@components/commons/modal/WarnModal";
 import { useToast } from "@hooks/useToast";
@@ -12,13 +11,11 @@ export default function DeleteModal({
   onClose?: () => void;
   taskId?: string;
 }) {
-  const router = useRouter();
-  const { teamId, taskListsId } = router.query;
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const taskDeleteMutation = useMutation({
-    mutationFn: () => deleteTask(teamId, taskListsId, taskId),
+    mutationFn: () => deleteTask(taskId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["taskLists"] });
       onClose?.();

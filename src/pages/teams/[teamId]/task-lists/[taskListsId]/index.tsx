@@ -10,6 +10,7 @@ import CreateTaskModal from "@components/task-list-page/CreateTaskModal";
 import DateWithCalendar from "@components/task-list-page/DateWithCalendar";
 import TaskList from "@components/task-list-page/TaskList";
 import { useModal } from "@hooks/useModal";
+import { updateURL } from "@utils/updateUrl";
 import { getGroup } from "@api/groupApi";
 import { getTaskList } from "@api/taskListApi";
 
@@ -40,26 +41,27 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 export default function TaskListPage() {
+  const router = useRouter();
+  const { teamId, taskListsId, date: urlDate } = router.query;
   const { openModal } = useModal();
+
+  const [taskListId, setTaskListId] = useState(taskListsId);
+  const [selectedDate, setSelectedDate] = useState<Date>(
+    urlDate && typeof urlDate === "string" ? new Date(urlDate) : new Date()
+  );
+
   const handleOpenCreateTaskModal = () => {
     openModal("CreateTaskModal", CreateTaskModal, {});
   };
 
-  const router = useRouter();
-  const { teamId, taskListsId, date: urlDate } = router.query;
-  const [selectedDate, setSelectedDate] = useState<Date>(
-    urlDate && typeof urlDate === "string" ? new Date(urlDate) : new Date()
-  );
-  const [taskListId, setTaskListId] = useState(taskListsId);
-
   const handleDateChange = (date: Date) => {
     setSelectedDate(date);
-    updateURL(date, taskListId);
+    updateURL(date, taskListId, teamId, router);
   };
 
   const handleTaskListId = (id: string | string[] | undefined) => {
     setTaskListId(id);
-    updateURL(selectedDate, id);
+    updateURL(selectedDate, id, teamId, router);
   };
 
   useEffect(() => {
@@ -67,20 +69,6 @@ export default function TaskListPage() {
       setSelectedDate(new Date(urlDate));
     }
   }, [urlDate]);
-
-  const updateURL = (date: Date, id: string | string[] | undefined) => {
-    const path = `/teams/${teamId}/task-lists/${id}`;
-    const query = { date: date.toISOString().slice(0, 10) };
-
-    router.push(
-      {
-        pathname: path,
-        query,
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
 
   const {
     data,

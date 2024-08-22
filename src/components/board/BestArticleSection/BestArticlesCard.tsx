@@ -1,9 +1,9 @@
 import { Article } from "@coworkers-types";
 import { motion } from "framer-motion";
+import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import NameTag from "@components/commons/NameTag";
-import { formatDate } from "@utils/formatDate";
 import { IconBestBadge, IconComment, IconHeart } from "@utils/icon";
 
 export default function BestArticleCard({ item }: { item: Article }) {
@@ -20,7 +20,7 @@ export default function BestArticleCard({ item }: { item: Article }) {
           {item.image && <Image width={72} height={72} alt="image" src={item.image} />}
         </div>
         <span className="text-14 font-[500] text-interaction-inactive">
-          {formatDate(item.createdAt)}
+          {format(item.createdAt, "yyyy.MM.dd")}
         </span>
         <div className="flex items-center justify-between">
           <NameTag type="default-12" image={null} name={item.writer.nickname} />

@@ -40,6 +40,7 @@ export default function CheckButton({ isChecked, onChange, size = 22 }: CheckBut
       height={size}
       onClick={onChange}
       viewBox="0 0 22 22"
+      className="outline-none"
     >
       <motion.path
         d="M 3 6.33333 C 3 4.49238 4.49238 3 6.33333 3 L 15.6667 3 C 17.5076 3 19 4.49238 19 6.33333 L 19 15.6667 C 19 17.5076 17.5076 19 15.6667 19 L 6.33333 19 C 4.49238 19 3 17.5076 3 15.6667 Z"

@@ -1,6 +1,6 @@
 import { TaskDone } from "@coworkers-types";
+import { format } from "date-fns";
 import Label from "@components/commons/Label";
-import { formatDate } from "@utils/formatDate";
 import { IconCheckboxActive } from "@utils/icon";
 
 type TaskHistoryProps = {
@@ -15,7 +15,7 @@ type TaskHistoryProps = {
 export default function TaskHistory({ completedTaskList }: TaskHistoryProps) {
   return (
     <div className="mb-40 flex flex-col gap-16">
-      <Label content={formatDate(completedTaskList[0].doneAt, "kor")} />
+      <Label content={format(completedTaskList[0].doneAt, "yyyy년 MM월 dd일")} />
       {completedTaskList.map((task) => (
         <CompletedTask task={task} key={task.id} />
       ))}

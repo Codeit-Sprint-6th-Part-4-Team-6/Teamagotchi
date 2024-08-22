@@ -53,7 +53,7 @@ export default function Input({
   };
 
   const inputClassnames = classNames(
-    `w-full h-48 md:h-48 text-md font-normal md:text-lg rounded-[12px] border border-solid text-text-primary placeholder-text-default focus:border-interaction-focus`,
+    `w-full h-48 md:h-48 text-md font-normal md:text-lg rounded-[12px] border border-solid text-text-primary placeholder-text-default focus:border-brand-primary`,
     errorMessage ? "!border-status-danger" : "border-border-primary",
     disabled ? "bg-background-tertiary" : "bg-background-secondary",
     type === "password" ? "pl-16 pr-40" : "px-16",

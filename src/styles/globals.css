@@ -42,3 +42,8 @@ span::-webkit-scrollbar {
   height: 0px;
   background-color: black;
 }
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
