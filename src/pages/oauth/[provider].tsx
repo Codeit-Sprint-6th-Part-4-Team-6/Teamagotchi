@@ -21,7 +21,7 @@ function OAuthRedirect() {
 
   const handleRedirectGoogle = async (type: string) => {
     if (code) {
-      const redirectUri = `${process.env.NEXT_PUBLIC_URL}/oauth/${type}`;
+      const redirectUri = `${process.env.NEXT_PUBLIC_SITE_URL}/oauth/${type}`;
       const googleTokenResponse = await axios.post("https://oauth2.googleapis.com/token", {
         code,
         client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
@@ -43,7 +43,7 @@ function OAuthRedirect() {
 
   const handleRedirectKakao = async (type: string) => {
     if (code) {
-      const redirectUri = `${process.env.NEXT_PUBLIC_URL}/oauth/${type}`;
+      const redirectUri = `${process.env.NEXT_PUBLIC_SITE_URL}/oauth/${type}`;
 
       const config = {
         redirectUri,
