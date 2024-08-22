@@ -4,7 +4,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import Spinner from "@components/commons/Spinner";
 import { getTaskDetails } from "@api/taskApi";
 import { getTaskComments } from "@api/taskCommentApi";
 import Sidebar from "./Sidebar";
@@ -31,11 +30,11 @@ export default function TaskLists({
 }: Props) {
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
+  const queryClient = useQueryClient();
+
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-
-  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (groupData && groupData.taskLists) {
@@ -127,7 +126,6 @@ export default function TaskLists({
           </motion.div>
         ))}
       </div>
-      {isLoading && <Spinner className="mt-200" />}
       {!isLoading && (
         <div>
           {taskLists?.tasks && taskLists.tasks.length > 0 ? (

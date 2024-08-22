@@ -1,8 +1,8 @@
 import { Article } from "@coworkers-types";
+import { format } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import NameTag from "@components/commons/NameTag";
-import { formatDate } from "@utils/formatDate";
 import { IconComment, IconHeart } from "@utils/icon";
 
 export default function ArticleCard({ Post }: { Post: Article }) {
@@ -18,7 +18,9 @@ export default function ArticleCard({ Post }: { Post: Article }) {
           <div className="flex items-center justify-center gap-12">
             <NameTag type="default-12" image={writer.image} name={writer.nickname} />
             <div className="border-l border-solid border-background-tertiary pl-12">
-              <span className="text-14 font-[500] text-text-disabled">{formatDate(createdAt)}</span>
+              <span className="text-14 font-[500] text-text-disabled">
+                {format(createdAt, "yyyy.MM.dd")}
+              </span>
             </div>
           </div>
           <div className="flex gap-12">
