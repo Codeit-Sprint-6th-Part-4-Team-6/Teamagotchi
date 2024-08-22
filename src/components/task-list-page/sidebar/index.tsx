@@ -8,7 +8,7 @@ import Button from "@components/commons/Button";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import TaskCommentList from "@components/task-list/TaskCommentList";
-import { IconCalender, IconCheckActive, IconClose, IconRepeat, IconTime } from "@utils/icon";
+import { IconCalender, IconCheckActive, IconClose, IconRepeat } from "@utils/icon";
 import { getTaskDetails, patchTaskCompletionStatus } from "@api/taskApi";
 import CommentInput from "./CommentInput";
 
