@@ -2,7 +2,6 @@ import { AuthResponse } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, hasCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
 import { getUser } from "@api/userApi";
 
@@ -10,7 +9,6 @@ export const useAuth = () => {
   const { setUser, setIsLoggedIn } = useAuthStore();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   /**
    * 로그인 시 필요한 처리를 모아놓은 함수
