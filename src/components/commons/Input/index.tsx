@@ -91,7 +91,7 @@ export default function Input({
           {value && (
             <button
               type="button"
-              className="absolute right-16 top-6 cursor-pointer"
+              className="absolute right-16 top-11 cursor-pointer"
               onClick={onDelete}
               aria-label="Clear search"
             >
