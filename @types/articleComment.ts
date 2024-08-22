@@ -5,7 +5,7 @@ declare module "@coworkers-types" {
   };
 
   export type Writer = {
-    image: string | File | null;
+    image: string | null;
     nickname: string;
     id: number;
   };
