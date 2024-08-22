@@ -35,14 +35,14 @@ export const useAuth = () => {
    * 로그아웃 시 처리할 로직을 모아놓은 함수
    */
   const logout = () => {
-    deleteCookie("accessToken");
     deleteCookie("refreshToken");
+    router.push("/");
+    deleteCookie("accessToken");
     deleteCookie("loginType");
     queryClient.removeQueries();
     setUser(null);
     useAuthStore.persist.clearStorage();
     setIsLoggedIn(false);
-    router.push("/");
   };
 
   const setUserData = (data: User) => {
