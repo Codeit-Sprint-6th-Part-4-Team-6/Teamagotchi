@@ -32,7 +32,7 @@ declare module "@coworkers-types" {
 
   export type History = {
     tasksDone: TaskDone[];
-  }[];
+  };
 
   export type TaskDone = BaseTaskDetails & {
     displayIndex: number;
