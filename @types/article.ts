@@ -1,6 +1,6 @@
 declare module "@coworkers-types" {
   export type PostArticleRequest = {
-    image: string;
+    image?: string | undefined | null;
     content: string;
     title: string;
   };
@@ -9,6 +9,7 @@ declare module "@coworkers-types" {
     updatedAt: string;
     createdAt: string;
     likeCount: number;
+    commentCount: number;
     writer: Writer;
     image: string;
     title: string;

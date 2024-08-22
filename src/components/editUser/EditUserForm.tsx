@@ -1,27 +1,21 @@
-import { UserInfo } from "@coworkers-types";
+import { User } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
-import { useUploadForm } from "@hooks/useUpdateForm";
+import { useUpdateForm } from "@hooks/useUpdateForm";
 import { useAuthStore } from "@store/useAuthStore";
 import { patchUser } from "@api/userApi";
-
-const defaultUserInfo: UserInfo = {
-  nickname: "",
-  image: "",
-  createdAt: "",
-  updatedAt: "",
-  id: 0,
-  email: "",
-  teamId: "",
-};
 
 export default function EditUserForm() {
   const { setUser } = useAuthStore();
   const queryClient = useQueryClient();
-  const user = queryClient.getQueryData<UserInfo>(["user"]) || defaultUserInfo;
+  const user = queryClient.getQueryData<User>(["user"]);
+
+  if (user === undefined) {
+    return null;
+  }
 
   const {
     imageFile,
@@ -31,21 +25,22 @@ export default function EditUserForm() {
     handleNameChange,
     handleSubmit,
     isPending,
-  } = useUploadForm({
+  } = useUpdateForm({
     initialName: user.nickname,
     initialImage: user.image,
-    onSubmit: ({ name, image }) => patchUser({ nickname: name, image }),
+    onSubmit: ({ nickname, image }) => patchUser({ nickname, image }),
     successMessage: "계정 설정 변경에 성공하셨습니다.",
-    queryKey: "user",
+    query: "user",
+    nameKey: "nickname",
   });
 
   const handleUserSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     handleSubmit(event);
 
-    const updatedData = {
+    const updatedData: User = {
       ...user,
-      nickname: changedName,
-      image: imageFile instanceof File ? user.image : imageFile,
+      nickname: changedName ?? "",
+      image: typeof imageFile === "string" ? imageFile : user.image,
     };
     setUser(updatedData);
   };
@@ -61,7 +56,7 @@ export default function EditUserForm() {
         id="profile-image"
         type="my-profile"
         onChange={handleFileChange}
-        defaultValue={imageFile as string}
+        defaultValue={user.image}
       />
       <div>
         <Label content="이메일" marginBottom={12} />
@@ -72,7 +67,7 @@ export default function EditUserForm() {
         <Input
           id="nickname"
           name="nickname"
-          value={changedName}
+          placeholder={user.nickname}
           errorMessage={errorMessage}
           onChange={handleNameChange}
         />

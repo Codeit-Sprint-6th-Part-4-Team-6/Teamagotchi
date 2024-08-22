@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import ImageInput from "./index";
+import ImageInput from "./ImageInput";
 
 const meta: Meta<typeof ImageInput> = {
   title: "Components/ImageInput",

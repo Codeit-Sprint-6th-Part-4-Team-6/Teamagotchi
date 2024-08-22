@@ -5,7 +5,7 @@ type TextAreaProps = {
   type: "small" | "big" | "innerButton" | "transparent";
   name?: string;
   id?: string;
-  placeholder: string;
+  placeholder?: string;
   value?: string;
   defaultValue?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
@@ -44,7 +44,7 @@ export default function Textarea({
       "pr-32 text-md border-y bg-[rgba(0,0,0,0)]": type === "innerButton",
       "py-12 px-16 text-lg": type === "small",
       "px-24 py-16 text-14 leading-26 md:text-16": type === "big",
-      "border focus:border-interaction-focus rounded-[12px] bg-background-secondary":
+      "border focus:border-brand-primary rounded-[12px] bg-background-secondary":
         type === "big" || type === "small",
     }
   );

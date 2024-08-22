@@ -2,23 +2,17 @@ import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
-import { useUploadForm } from "@hooks/useUpdateForm";
-import { postGroup } from "@api/groupApi";
+import { useAddTeamForm } from "@hooks/useAddTeamForm";
 
 export default function AddTeamForm() {
   const {
-    changedName,
-    errorMessage,
+    teamName,
+    nameErrorMessage,
     handleFileChange,
-    handleNameChange: handleTeamNameChange,
+    handleTeamNameChange,
     handleSubmit,
     isPending,
-  } = useUploadForm({
-    initialName: "",
-    onSubmit: ({ name, image }) => postGroup({ name, image }),
-    successMessage: "팀이 성공적으로 생성되었습니다.",
-    redirectPath: "/teams",
-  });
+  } = useAddTeamForm();
 
   return (
     <form onSubmit={handleSubmit} className="w-full">
@@ -31,19 +25,14 @@ export default function AddTeamForm() {
       />
       <Label type="label" content="팀 이름" htmlFor="team-name" marginBottom={12} />
       <Input
-        value={changedName}
+        value={teamName}
         id="team-name"
         type="text"
         placeholder="팀 이름을 입력해주세요"
-        errorMessage={errorMessage}
+        errorMessage={nameErrorMessage}
         onChange={handleTeamNameChange}
       />
-      <Button
-        className="mt-40"
-        disabled={changedName.length < 1}
-        type="submit"
-        isPending={isPending}
-      >
+      <Button className="mt-40" disabled={teamName.length < 1} type="submit" isPending={isPending}>
         생성하기
       </Button>
     </form>

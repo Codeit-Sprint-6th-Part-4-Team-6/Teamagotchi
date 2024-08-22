@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Membership } from "@coworkers-types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useAuth } from "@hooks/auth/useAuth";
 import { useAuthStore } from "@store/useAuthStore";
@@ -8,16 +8,17 @@ import { getUser } from "@api/userApi";
 import { useToast } from "./useToast";
 
 export function useHeaderLogic() {
-  const { isLoggedIn, logout } = useAuth();
-  const { user } = useAuthStore();
+  const { logout, setUserData } = useAuth();
+  const { isLoggedIn } = useAuthStore();
   const router = useRouter();
   const { pathname, query } = router;
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const { data: userInfo, isPending } = useQuery({
     queryKey: ["user"],
     queryFn: getUser,
-    enabled: !!user,
+    enabled: isLoggedIn,
   });
 
   const getCurTeamPage = () =>
@@ -31,12 +32,16 @@ export function useHeaderLogic() {
   const isLandingPage = pathname === "/";
 
   useEffect(() => {
-    isLoggedIn();
+    setUserData();
   }, []);
 
   useEffect(() => {
     setCurTeamPage(getCurTeamPage());
-  }, [userInfo?.memberships, query.teamId]);
+  }, [query.teamId]);
+
+  useEffect(() => {
+    setCurTeamPage(getCurTeamPage());
+  }, [queryClient.getQueryData(["user"])]);
 
   useEffect(() => {
     const handleRouteChange = () => {

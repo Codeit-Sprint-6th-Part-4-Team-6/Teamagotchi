@@ -1,24 +1,23 @@
-import {
-  DehydratedState,
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import CircleProgressBar from "@components/TeamDetailPage/CircleProgressBar";
+import MembersSection from "@components/TeamDetailPage/MembersSection";
+import ReportSection from "@components/TeamDetailPage/ReportSection";
+import TaskListSection from "@components/TeamDetailPage/TaskListSection";
+import TeamTitle from "@components/TeamDetailPage/TeamTitle";
+import Spinner from "@components/commons/Spinner";
 import { getGroup } from "@api/groupApi";
+import { getUserMemberships } from "@api/userApi";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { teamId } = context.query;
   const token = context.req.cookies["accessToken"];
-  // teamId가 유효한 숫자인지 확인
+
   if (typeof teamId === "string") {
     try {
       await queryClient.fetchQuery({
-        queryKey: ["groups", teamId],
+        queryKey: ["team", teamId],
         queryFn: () => getGroup(Number(teamId), token),
         staleTime: Infinity,
       });
@@ -36,36 +35,80 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function TeamDetailPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
+export default function TeamDetailPage() {
   const router = useRouter();
   const { teamId } = router.query;
-
   const {
     data: groupData,
-    isLoading,
-    isError,
+    isLoading: groupLoading,
+    isError: groupError,
   } = useQuery({
-    queryKey: ["groups", teamId],
+    queryKey: ["team", teamId],
     queryFn: () => getGroup(Number(teamId)),
     staleTime: Infinity,
   });
 
-  if (isError) return <div>Error!</div>;
+  // 내가 속한 팀들의 내 역할을 확인하기 위한 API
+  // 굳이 SSR로 안받아도 될 것 같아서 클라이언트에서 응답 받음
+  const {
+    data: membershipData,
+    isLoading: membershipLoading,
+    isError: membershipError,
+  } = useQuery({
+    queryKey: ["userMemberships"],
+    queryFn: getUserMemberships,
+    staleTime: Infinity,
+  });
 
-  if (isLoading) return <div>Loading!</div>;
+  if (groupError || membershipError)
+    return (
+      <div className="m-auto flex justify-center px-16 py-24 md:px-24 lg:w-1200">
+        <h1 className="text-xl font-bold text-text-default">정보를 불러오는 데 실패했습니다.</h1>
+      </div>
+    );
+
+  if (groupLoading || membershipLoading)
+    return (
+      <div className="mx-auto mt-20 flex h-[80vh] w-full min-w-368 max-w-1200 items-center justify-center px-34 py-20">
+        <section>
+          <Spinner size={100} />
+        </section>
+      </div>
+    );
+
+  // 현재 페이지의 내 역할 정보를 정제
+  const curTeamMembership = Array.isArray(membershipData)
+    ? membershipData.find((group) => group.groupId === groupData?.id)
+    : undefined;
+
+  // ReportSection을 위한 데이터 정제
+  // taskLists 배열에서 모든 작업을 평탄화
+  const totalTask = groupData?.taskLists.flatMap((taskList) => taskList.tasks) || [];
+  // 완료된 작업을 필터링
+  const completedTasks = totalTask.filter((task) => task.doneAt !== null);
+  // 완료율 계산
+  const completionRate =
+    totalTask.length > 0 ? (completedTasks.length / totalTask.length) * 100 : 0;
 
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <div>태스크와 리포트, 팀원이 보이는 페이지
-      <CircleProgressBar className="w-20" strokeWidth={30} progress={80} />
-      <CircleProgressBar
-        className="w-200"
-        strokeWidth={35}
-        progress={30}
-        transitionDuration={1.25}
-        isGradientCircle
+    <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+      <section className="mb-30">
+        <TeamTitle
+          teamName={groupData?.name ?? ""}
+          teamId={groupData?.id ?? 0}
+          role={curTeamMembership?.role ?? ""}
+        />
+      </section>
+      <TaskListSection
+        taskLists={groupData?.taskLists ?? []}
+        role={curTeamMembership?.role ?? ""}
       />
-      </div>
-    </HydrationBoundary>
+      <ReportSection
+        completionRate={completionRate}
+        totalTasks={totalTask?.length ?? 0}
+        completedTasks={completedTasks?.length ?? 0}
+      />
+      <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
+    </div>
   );
 }

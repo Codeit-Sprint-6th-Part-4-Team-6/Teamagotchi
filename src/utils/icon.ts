@@ -16,6 +16,7 @@ import IconCheckDisActive from "@icons/icon_check_disactive.svg";
 import IconCheckboxActive from "@icons/icon_checkbox_active.svg";
 import IconCheckboxDefault from "@icons/icon_checkbox_default.svg";
 import IconClose from "@icons/icon_close.svg";
+import IconCloseSmall from "@icons/icon_close_small.svg";
 import IconComment from "@icons/icon_comment.svg";
 import IconCrown from "@icons/icon_crown.svg";
 import IconDefaultImage from "@icons/icon_default_image.svg";
@@ -24,8 +25,10 @@ import IconDone from "@icons/icon_done.svg";
 import IconEdit from "@icons/icon_edit.svg";
 import IconEditLarge from "@icons/icon_edit_large.svg";
 import IconEditSmall from "@icons/icon_edit_small.svg";
+import IconEgg from "@icons/icon_egg.svg";
 import IconEnterActive from "@icons/icon_enter_active.svg";
 import IconEnterDefault from "@icons/icon_enter_default.svg";
+import IconFriedEgg from "@icons/icon_fried_egg.svg";
 import IconGear from "@icons/icon_gear.svg";
 import IconGnbMenu from "@icons/icon_gnb_menu.svg";
 import IconGoogle from "@icons/icon_google.svg";
@@ -72,6 +75,7 @@ export {
   IconCheckboxActive,
   IconCheckboxDefault,
   IconClose,
+  IconCloseSmall,
   IconComment,
   IconCrown,
   IconDefaultImage,
@@ -118,4 +122,6 @@ export {
   IconPlusSmall,
   IconArrowWhiteLeft,
   IconArrowWhiteRight,
+  IconEgg,
+  IconFriedEgg,
 };

@@ -1,7 +1,8 @@
 import classNames from "classnames";
 import { motion } from "framer-motion";
+import { Url } from "next/dist/shared/lib/router/router";
+import Link from "next/link";
 import { IconPlusSmall } from "@utils/icon";
-import LinkButton from "../LinkButton";
 
 export type ButtonProps = {
   buttonType?: "button" | "link";
@@ -9,7 +10,7 @@ export type ButtonProps = {
   textStyle?: "default" | "underline";
   className?: string;
   onClick?: () => void;
-  href?: string;
+  href?: Url;
   children: React.ReactNode;
 };
 
@@ -39,11 +40,13 @@ export default function TextButton({
     "underline underline-offset-4": textStyle === "underline",
   });
 
-  if (buttonType === "link") {
+  if (buttonType === "link" && href) {
     return (
-      <LinkButton href={href} className={styleClassName}>
-        {children}
-      </LinkButton>
+      <motion.button whileTap={{ scale: 0.97 }} type="button" className={styleClassName}>
+        <Link href={href} passHref>
+          {children}
+        </Link>
+      </motion.button>
     );
   }
 

@@ -1,6 +1,4 @@
-<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="ic/x">
-<path id="Vector" d="M27 9L9 27" stroke="#CBD5E1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_2" d="M9 9L27 27" stroke="#CBD5E1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M18 6L6 18" stroke="#c3c7cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6 6L18 18" stroke="#c3c7cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

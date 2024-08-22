@@ -4,23 +4,27 @@ import { useRouter } from "next/router";
 import { useToast } from "@hooks/useToast";
 import { postImageURL } from "@api/imageApi";
 
-interface UseUploadFormProps {
-  initialName: string;
-  initialImage?: string | null;
-  onSubmit: (data: { name: string; image?: string }) => Promise<any>;
+interface UseUpdateFormProps {
+  initialName?: string;
+  initialImage?: File | string | null;
+  onSubmit?: (data: { [key: string]: any }, id?: number) => Promise<unknown>;
   successMessage: string;
   redirectPath?: string;
-  queryKey?: string;
+  query?: string;
+  nameKey?: string;
+  requestId?: number;
 }
 
-export function useUploadForm({
+export function useUpdateForm({
   initialName,
-  initialImage = null,
+  initialImage = "",
   onSubmit,
   successMessage,
   redirectPath,
-  queryKey,
-}: UseUploadFormProps) {
+  query,
+  nameKey = "name",
+  requestId,
+}: UseUpdateFormProps) {
   const [imageFile, setImageFile] = useState<string | File | null>(initialImage);
   const [changedName, setChangedName] = useState(initialName);
   const [errorMessage, setErrorMessage] = useState("");
@@ -37,10 +41,14 @@ export function useUploadForm({
   };
 
   const mutation = useMutation({
-    mutationFn: ({ name, image }: { name: string; image?: string }) => onSubmit({ name, image }),
+    mutationFn: async (variables: { data: { [key: string]: any }; id?: number }) => {
+      if (onSubmit) {
+        await onSubmit(variables.data, variables.id);
+      }
+    },
     onSuccess: () => {
-      if (queryKey) {
-        queryClient.invalidateQueries({ queryKey: [queryKey] });
+      if (query) {
+        queryClient.invalidateQueries({ queryKey: [query] });
       }
       if (successMessage) {
         toast("success", successMessage);
@@ -48,17 +56,31 @@ export function useUploadForm({
       if (redirectPath) {
         router.push(redirectPath);
       }
+      setErrorMessage("");
     },
     onError: (error: any) => {
-      const message = error.response.data?.message;
+      const message = error.response?.data?.message;
       setErrorMessage(message);
+      toast("danger", message);
     },
   });
 
   const imagePostMutation = useMutation({
     mutationFn: (file: File) => postImageURL(file),
     onSuccess: (data: { url: string }) => {
-      mutation.mutate({ name: changedName, image: data.url });
+      const mutationData: { [key: string]: any } = {};
+
+      if (changedName !== initialName) {
+        mutationData[nameKey] = changedName;
+      }
+
+      mutationData["image"] = data.url;
+
+      if (requestId) {
+        mutation.mutate({ data: mutationData, id: requestId });
+      } else {
+        mutation.mutate({ data: mutationData });
+      }
     },
     onError: (error: any) => {
       toast("warn", `Error uploading image: ${error}`);
@@ -67,14 +89,29 @@ export function useUploadForm({
 
   const isPending = mutation.isPending || imagePostMutation.isPending;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!changedName) return;
 
     if (imageFile instanceof File) {
       imagePostMutation.mutate(imageFile);
     } else {
-      mutation.mutate({ name: changedName });
+      const mutationData: { [key: string]: any } = {};
+
+      if (changedName !== initialName) {
+        mutationData[nameKey] = changedName;
+      }
+
+      if (imageFile === "") {
+        mutationData["image"] = null;
+      } else if (typeof imageFile === "string") {
+        mutationData["image"] = imageFile;
+      }
+
+      if (requestId) {
+        mutation.mutate({ data: mutationData, id: requestId });
+      } else {
+        mutation.mutate({ data: mutationData });
+      }
     }
   };
 

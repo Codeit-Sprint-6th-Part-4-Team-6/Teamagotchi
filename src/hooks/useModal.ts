@@ -13,6 +13,7 @@ interface ModalProps {
   secondOnChange?:
     | ((event: React.ChangeEvent<HTMLInputElement>) => void)
     | ((event: React.ChangeEvent<HTMLTextAreaElement>) => void);
+  [key: string]: unknown;
 }
 
 interface UseModal {

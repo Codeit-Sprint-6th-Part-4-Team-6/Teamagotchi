@@ -2,6 +2,8 @@ import { Password } from "@coworkers-types";
 import { useMutation } from "@tanstack/react-query";
 import TwoInputModal from "@components/commons/modal/TwoInputModal";
 import { useAuthForm } from "@hooks/auth/useAuthForm";
+import { useModal } from "@hooks/useModal";
+import { useToast } from "@hooks/useToast";
 import { ResetPasswordSchema } from "@utils/schemas/auth";
 import { patchResetPassword } from "@api/userApi";
 
@@ -11,24 +13,26 @@ const initialPasswordState: Password = {
 };
 
 export default function ChangePasswordModal({ onClose }: { onClose?: () => void }) {
-  const { values, errors, isValid, handleBlur, handleChange } = useAuthForm<Password>(
+  const { values, errors, isValid, handleChange } = useAuthForm<Password>(
     initialPasswordState,
     ResetPasswordSchema
   );
+  const { toast } = useToast();
+  const { closeModal } = useModal();
 
   const patchPasswordMutation = useMutation({
     mutationFn: (value: Password) => patchResetPassword(value),
     onSuccess: () => {
-      // TODO: 토스트
-      alert("비밀번호 변경에 성공했습니다.");
+      toast("success", "비밀번호 변경에 성공했습니다.");
     },
     onError: () => {
-      alert("비밀번호 변경에 실패했습니다.");
+      toast("danger", "비밀번호 변경에 실패했습니다.");
     },
   });
 
   const changeOnConfirm = () => {
     patchPasswordMutation.mutate(values);
+    closeModal();
   };
 
   return (
@@ -41,8 +45,6 @@ export default function ChangePasswordModal({ onClose }: { onClose?: () => void 
       buttonText="변경하기"
       onConfirm={changeOnConfirm}
       onClose={onClose}
-      firstOnBlur={handleBlur}
-      secondOnBlur={handleBlur}
       firstOnChange={handleChange}
       secondOnChange={handleChange}
       closeButton

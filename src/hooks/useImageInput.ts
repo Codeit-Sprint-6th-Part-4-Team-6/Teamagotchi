@@ -1,12 +1,12 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 type UseImageInputProps = {
-  defaultValue?: string;
+  defaultValue?: string | File;
 };
 
 export function useImageInput({ defaultValue }: UseImageInputProps) {
-  const [value, setValue] = useState<File | string | null>(null);
-  const [previewImage, setPreviewImage] = useState<string | null>(defaultValue ?? null);
+  const [value, setValue] = useState<File | string | null>(defaultValue ?? null);
+  const [previewImage, setPreviewImage] = useState<string | File | null>(defaultValue ?? null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleClick = () => {
@@ -21,10 +21,9 @@ export function useImageInput({ defaultValue }: UseImageInputProps) {
   };
 
   const handleClearClick = () => {
-    const inputNode = inputRef.current;
-    if (!inputNode) return;
-
-    inputNode.value = "";
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
     setValue(null);
     setPreviewImage(null);
   };
@@ -32,13 +31,13 @@ export function useImageInput({ defaultValue }: UseImageInputProps) {
   useEffect(() => {
     let objectUrl: string | null = null;
 
-    if (!value) {
-      setPreviewImage(null);
+    if (value instanceof File) {
+      objectUrl = URL.createObjectURL(value);
+      setPreviewImage(objectUrl);
     } else if (typeof value === "string") {
       setPreviewImage(value);
     } else {
-      objectUrl = URL.createObjectURL(value);
-      setPreviewImage(objectUrl);
+      setPreviewImage(null);
     }
 
     return () => {
@@ -47,6 +46,13 @@ export function useImageInput({ defaultValue }: UseImageInputProps) {
       }
     };
   }, [value]);
+
+  useEffect(() => {
+    if (defaultValue) {
+      setValue(defaultValue);
+      setPreviewImage(defaultValue);
+    }
+  }, [defaultValue]);
 
   return {
     value,

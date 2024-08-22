@@ -2,6 +2,8 @@ import { addDays, format } from "date-fns";
 import { ko } from "date-fns/locale";
 import TextButton from "@components/commons/Button/TextButton";
 import Popover from "@components/commons/Popover";
+import AddOrEditTaskListModal from "@components/commons/modal/AddOrEditTaskListModal";
+import { useModal } from "@hooks/useModal";
 import { IconArrowLeftBg, IconArrowRightBg, IconCalenderBg } from "@utils/icon";
 import Calendar from "./Calendar";
 
@@ -11,6 +13,11 @@ type Props = {
 };
 
 export default function DateWithCalendar({ date, onDateChange }: Props) {
+  const { openModal } = useModal();
+  const handleOpenOneInputModal = () => {
+    openModal("AddTaskListModal", AddOrEditTaskListModal);
+  };
+
   const handleDateSelect = (newDate: Date) => {
     onDateChange(newDate);
   };
@@ -36,11 +43,15 @@ export default function DateWithCalendar({ date, onDateChange }: Props) {
             <IconCalenderBg className="cursor-pointer" />
           </Popover.Toggle>
           <Popover.Wrapper>
-            <Calendar onDateSelect={handleDateSelect} selectedDate={date} />
+            <div className="w-282">
+              <Calendar onDateSelect={handleDateSelect} selectedDate={date} />
+            </div>
           </Popover.Wrapper>
         </Popover>
       </div>
-      <TextButton icon="plus">새로운 목록 추가하기</TextButton>
+      <TextButton icon="plus" onClick={handleOpenOneInputModal}>
+        새로운 목록 추가하기
+      </TextButton>
     </div>
   );
 }

@@ -57,9 +57,12 @@ function Toggle({ children }: { children: React.ReactNode }) {
   return (
     <button
       type="button"
-      onClick={togglePopover}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
+      onClick={(event) => {
+        event.stopPropagation(); // 상위 이벤트 전파 방지
+        togglePopover();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
           togglePopover();
         }
       }}
@@ -81,7 +84,7 @@ function Wrapper({
   const { isOpen } = useContext(PopoverContext);
 
   const wrapperClassName = classNames(
-    `${popDirection === "left" ? "right-0" : ""} z-50 absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8 text-center box-border max-w-218 min-w-120 md:min-w-135`
+    `${popDirection === "left" ? "right-0" : ""} z-50 absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-8 py-8 text-center box-border `
   );
 
   return (
@@ -102,10 +105,16 @@ function Wrapper({
 }
 
 function Item({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+  const { closePopover } = useContext(PopoverContext);
+
   return (
     <div
-      className="cursor-pointer text-nowrap rounded-8 py-7 text-md text-text-primary transition-all hover:bg-background-tertiary md:text-lg"
-      onClick={onClick}
+      className="cursor-pointer text-nowrap rounded-8 px-7 py-7 text-md text-text-primary transition-all hover:bg-background-tertiary md:text-lg"
+      onClick={(event) => {
+        event.stopPropagation();
+        onClick();
+        closePopover();
+      }}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           onClick();

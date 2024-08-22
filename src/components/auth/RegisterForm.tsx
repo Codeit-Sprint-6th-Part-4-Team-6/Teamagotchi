@@ -14,11 +14,11 @@ const initialRegisterState: SignUpRequest = {
 };
 
 export default function RegisterForm() {
-  const { values, errors, isValid, handleBlur, handleChange } = useAuthForm<SignUpRequest>(
+  const { values, errors, isValid, handleChange } = useAuthForm<SignUpRequest>(
     initialRegisterState,
     RegisterSchema
   );
-  const { handleSubmit } = useAuthHandler(values, true);
+  const { handleSubmit, isPending } = useAuthHandler(values, true);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -28,7 +28,6 @@ export default function RegisterForm() {
         name="nickname"
         value={values.nickname}
         onChange={handleChange}
-        onBlur={handleBlur}
         placeholder="이름을 입력해주세요."
         errorMessage={errors.nickname}
       />
@@ -40,7 +39,6 @@ export default function RegisterForm() {
           name="email"
           value={values.email}
           onChange={handleChange}
-          onBlur={handleBlur}
           placeholder="이메일을 입력해주세요."
           errorMessage={errors.email}
         />
@@ -54,7 +52,6 @@ export default function RegisterForm() {
           type="password"
           value={values.password}
           onChange={handleChange}
-          onBlur={handleBlur}
           placeholder="비밀번호를 입력해주세요."
           errorMessage={errors.password}
         />
@@ -73,13 +70,18 @@ export default function RegisterForm() {
           type="password"
           value={values.passwordConfirmation}
           onChange={handleChange}
-          onBlur={handleBlur}
           placeholder="비밀번호를 다시 한 번 입력해주세요."
           errorMessage={errors.passwordConfirmation}
         />
       </div>
 
-      <Button buttonType="button" disabled={!isValid} type="submit" className="mt-40">
+      <Button
+        buttonType="button"
+        disabled={!isValid}
+        type="submit"
+        className="mt-40"
+        isPending={isPending}
+      >
         회원가입
       </Button>
     </form>

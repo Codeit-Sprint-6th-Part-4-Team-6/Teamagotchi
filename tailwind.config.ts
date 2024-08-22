@@ -26,34 +26,35 @@ const config: Config = {
     },
     colors: {
       brand: {
-        primary: '#10B981',
-        secondary: '#34D399',
-        tertiary: '#A3E635',
-        'gradient-start': '#108981',
-        'gradient-end': '#A3E635',
+        primary:'#FF9F0D',
+        secondary: '#fd7e14',
+        tertiary: '#ff922b',
+        'gradient-start': '#e8590c',
+        'gradient-end': '#ffd43b',
       },
       point: {
-        green: '#10B981',
-        purple: '#A855F7',
-        blue: '#3B82F6',
-        cyan: '#06B6D4',
-        pink: '#EC4899',
-        rose: '#F43F5E',
-        red: '#DC2626',
-        orange: '#F97316',
-        yellow: '#EAB308',
+        green: '#20c997',
+        lime: '#c0eb75',
+        purple: '#9775fa',
+        indigo: '#748ffc',
+        blue: '#4dabf7',
+        cyan: '#66d9e8',
+        pink: '#f06595',
+        red: '#ff6b6b',
+        orange: '#ffc078',
+        yellow: '#ffe066',
       },
       background: {
-        primary: '#0F172A',
-        secondary: '#1E293B',
-        tertiary: '#334155',
+        primary: '#111111',
+        secondary: '#1A1A1A',
+        tertiary: '#2e3135',
         inverse: '#FFFFFF',
       },
       interaction: {
         inactive: '#94A3B8',
-        hover: '#059669',
-        pressed: '#047857',
-        focus: '#10B981',
+        hover: '#ff922b',
+        pressed: '#fd7e14',
+        focus: '#e8590c',
       },
       border: {
         primary: 'rgba(248, 250, 252, 0.1)',
@@ -61,18 +62,19 @@ const config: Config = {
       },
       text: {
         primary: '#F8FAFC',
-        secondary: '#CBD5E1',
-        tertiary: '#E2E8F0',
-        default: '#64748B',
+        secondary: '#6f7277',
+        tertiary: '#989ca0',
+        default: '#c3c7cc',
         inverse: '#FFFFFF',
         disabled: '#94A3B8',
         gray400: '#9ca3af',
+        transparent: 'transparent'
       },
       status: {
         danger: '#DC2626',
       },
       icon: {
-        primary: '#64748B',
+        primary: '#c3c7cc',
         inverse: '#F8FAFC',
         brand: '#10B981',
       },
@@ -103,7 +105,7 @@ const config: Config = {
           alignItems: 'center',
           paddingLeft: '48px',
           paddingRight: '48px',
-          paddingTop: '40px',
+          paddingTop: '48px',
           paddingBottom: '40px',
         },
         '.modal-close-icon': {
@@ -115,14 +117,14 @@ const config: Config = {
         },
         '.modal-title': {
           margin: 'auto',
-          marginBottom: '10px',
+          marginBottom: '8px',
           color: '#F8FAFC',
           fontWeight: '500',
           fontSize: '16px',
         },
         '.modal-content': {
           margin: 'auto',
-          marginBottom: '30px',
+          marginBottom: '16px',
           color: '#CBD5E1',
           fontWeight: '500',
           fontSize: '14px',
@@ -130,11 +132,7 @@ const config: Config = {
         }
       });
     },
-    function ({ addVariant }: PluginAPI) {
-      addVariant('light', ['.light &', 'html:not(.dark) &', '@media (prefers-color-scheme: light)']);
-    }
   ],
-  darkMode: 'selector',
 };
 
 export default config;

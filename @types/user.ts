@@ -7,7 +7,7 @@ declare module "@coworkers-types" {
 
   type BaseUserInfo = BaseUserEntity & {
     teamId: string;
-    image: string;
+    image?: string | File;
     nickname: string;
     email: string;
   };

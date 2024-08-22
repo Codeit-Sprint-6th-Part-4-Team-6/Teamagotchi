@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { GroupTaskLists, TaskList } from "@coworkers-types";
-import { useQuery } from "@tanstack/react-query";
+import { Group, GroupTaskLists, TaskList } from "@coworkers-types";
+import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
-import Link from "next/link";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import Spinner from "@components/commons/Spinner";
-import { getGroup } from "@api/groupApi";
+import { getTaskDetails } from "@api/taskApi";
+import { getTaskComments } from "@api/taskCommentApi";
+import Sidebar from "./Sidebar";
 import Task from "./Task";
 
 type Props = {
@@ -13,19 +14,27 @@ type Props = {
   handleTaskListId: (id: string | string[] | undefined) => void;
   isLoading: boolean;
   isError: Error | null;
+  groupId: string;
+  taskListId: string;
+  groupData: Group | undefined;
 };
 
-export default function TaskLists({ taskLists, handleTaskListId, isLoading, isError }: Props) {
+export default function TaskLists({
+  taskLists,
+  handleTaskListId,
+  isLoading,
+  isError,
+  groupId,
+  taskListId,
+  groupData,
+}: Props) {
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const queryClient = useQueryClient();
 
-  // 탭의 정보를 받아오기 위해서 사용했는데, 추후에는 팀페이지에서 받은 그룹데이터를 getQueryClient 사용 예정
-  const { data: groupData } = useQuery({
-    queryKey: ["groups", teamId],
-    queryFn: () => getGroup(Number(teamId)),
-    enabled: !!teamId,
-  });
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   useEffect(() => {
     if (groupData && groupData.taskLists) {
@@ -40,51 +49,89 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
     }
   }, [groupData, taskListsId]);
 
+  useEffect(() => {
+    groupData?.taskLists.forEach((tasks) => {
+      tasks.tasks.forEach((task) => {
+        queryClient.prefetchQuery({
+          queryKey: ["taskListDetail", task.id],
+          queryFn: () => getTaskDetails(Number(groupId), Number(taskListId), task.id),
+          staleTime: Infinity,
+        });
+        queryClient.prefetchQuery({
+          queryKey: ["taskComments", task.id],
+          queryFn: () => getTaskComments(task.id),
+          staleTime: Infinity,
+        });
+      });
+    });
+  });
+
   const handleActiveTab = useCallback(
     (index: number, taskList: GroupTaskLists) => {
       setActiveTabIndex(index);
       handleTaskListId(taskList.id.toString());
+      router.push(`/teams/${teamId}/task-lists/${taskList.id}`, undefined, { shallow: true });
     },
     [teamId]
   );
+
+  const handleTaskClick = useCallback((taskId: number) => {
+    setSelectedTaskId(taskId);
+    setIsSidebarVisible(true);
+  }, []);
+
+  const handleCloseSidebar = useCallback(() => {
+    setIsSidebarVisible(false);
+    setSelectedTaskId(null);
+  }, []);
 
   if (isError) return <div>데이터를 불러오지 못했습니다.</div>;
 
   return (
     <section>
-      <div className="mb-16 mt-19 flex gap-12" role="tablist">
+      <div className="no-scroll mb-16 mt-19 flex gap-12 overflow-auto" role="tablist">
         {groupData?.taskLists.map((taskList, index) => (
-          <Link
+          <motion.div
             key={taskList.id}
-            href={`/teams/${teamId}/task-lists/${taskList.id}`}
-            scroll={false}
+            className="flex min-w-fit cursor-pointer flex-col gap-5"
+            onClick={() => handleActiveTab(index, taskList)}
+            role="tab"
+            aria-selected={activeTabIndex === index}
+            tabIndex={0}
+            whileHover={activeTabIndex !== index ? { scale: 0.96 } : {}}
+            transition={{ duration: 0.2 }}
           >
-            <div
-              className="flex min-w-fit cursor-pointer flex-col gap-5"
-              onClick={() => handleActiveTab(index, taskList)}
-              role="tab"
-              aria-selected={activeTabIndex === index}
-              tabIndex={0}
+            <motion.span
+              className={classNames({
+                "text-text-default": activeTabIndex !== index,
+                "text-text-inverse": activeTabIndex === index,
+              })}
+              animate={{
+                color: activeTabIndex === index ? "#fff" : "#c3c7cc",
+              }}
+              whileHover={activeTabIndex !== index ? { color: "#fff" } : {}}
+              transition={{ duration: 0.2 }}
             >
-              <span
-                className={classNames("text-text-default", {
-                  "text-text-inverse": activeTabIndex === index,
-                })}
-              >
-                {taskList.name}
-              </span>
-              {activeTabIndex === index && (
-                <span className="w-full border-b-[1.5px] border-solid border-text-inverse" />
-              )}
-            </div>
-          </Link>
+              {taskList.name}
+            </motion.span>
+            <motion.span
+              className="w-full border-b-[1.5px] border-solid"
+              initial={{ scaleX: 0 }}
+              animate={{
+                scaleX: activeTabIndex === index ? 1 : 0,
+                borderColor: activeTabIndex === index ? "#ffffff" : "transparent",
+              }}
+              transition={{ duration: 0.3 }}
+            />
+          </motion.div>
         ))}
       </div>
-      {isLoading && <Spinner className="mt-200" />}
       {!isLoading && (
         <div>
           {taskLists?.tasks && taskLists.tasks.length > 0 ? (
-            taskLists?.tasks.map((task) => <Task key={task.id} task={task} />)
+            taskLists?.tasks.map((task) => (
+              <Task key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
+            ))
           ) : (
             <div className="mt-191 flex items-center justify-center text-center text-14 font-medium leading-[17px] text-text-default md:mt-345 lg:mt-310">
               아직 할 일이 없습니다.
@@ -92,6 +139,14 @@ export default function TaskLists({ taskLists, handleTaskListId, isLoading, isEr
             </div>
           )}
         </div>
+      )}
+      {isSidebarVisible && selectedTaskId && (
+        <Sidebar
+          groupId={groupId}
+          taskListId={taskListId}
+          taskId={selectedTaskId}
+          onClose={handleCloseSidebar}
+        />
       )}
     </section>
   );

@@ -74,7 +74,7 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
   return (
     <div className="flex flex-col gap-20">
       <div className="flex justify-between">
-        <h1 className="text-18 font-[500] text-text-secondary">{title}</h1>
+        <h1 className="text-18 font-[500] text-text-primary">{title}</h1>
         {user?.id === writer.id && (
           <EditDeletePopover
             icon="kebabLarge"
@@ -112,10 +112,8 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
         </div>
       </div>
       <div className="flex flex-col gap-24">
-        {image && (
-          <Image layout="responsive" width={512} height={512} src={image} alt="Article image" />
-        )}
-        <p className="mt-4 text-lg font-normal text-text-secondary">{content}</p>
+        {image && <Image width={600} height={600} src={image} alt="Article image" />}
+        <p className="mt-4 text-lg font-normal text-text-primary">{content}</p>
       </div>
     </div>
   );
