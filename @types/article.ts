@@ -9,6 +9,7 @@ declare module "@coworkers-types" {
     updatedAt: string;
     createdAt: string;
     likeCount: number;
+    commentCount: number;
     writer: Writer;
     image: string;
     title: string;

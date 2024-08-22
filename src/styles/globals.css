@@ -17,9 +17,18 @@ span::-webkit-scrollbar {
     @apply fixed left-0 top-0 z-20 h-full w-full bg-[#00000050];
   }
 
-  .modal-container {
-    @apply fixed left-1/2 top-1/2 z-30 -translate-x-1/2 -translate-y-1/2 rounded-12 bg-[#1A1A1A];
+  .modal-container-base {
+    @apply fixed z-30 rounded-12 bg-[#1A1A1A];
   }
+
+  .modal-container {
+    @apply left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .modal-container-mobile {
+    @apply left-1/2 bottom-0 -translate-x-1/2 w-full; 
+  }
+
 }
 
 .box-shadow {
@@ -32,4 +41,9 @@ span::-webkit-scrollbar {
   width: 0px;
   height: 0px;
   background-color: black;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
 }

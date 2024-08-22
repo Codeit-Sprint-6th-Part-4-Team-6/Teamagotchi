@@ -4,11 +4,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import Spinner from "@components/commons/Spinner";
 import { getTaskDetails } from "@api/taskApi";
 import { getTaskComments } from "@api/taskCommentApi";
-import Sidebar from "./Sidebar";
 import Task from "./Task";
+import Sidebar from "./sidebar";
 
 type Props = {
   taskLists: TaskList | undefined;
@@ -31,11 +30,12 @@ export default function TaskLists({
 }: Props) {
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
+  const queryClient = useQueryClient();
+
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
   const [isSidebarVisible, setIsSidebarVisible] = useState(false);
-
-  const queryClient = useQueryClient();
+  const [checkedTaskIds, setCheckedTaskIds] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
     if (groupData && groupData.taskLists) {
@@ -86,6 +86,13 @@ export default function TaskLists({
     setSelectedTaskId(null);
   }, []);
 
+  const handleCheckTask = (taskId: number, isChecked: boolean) => {
+    setCheckedTaskIds((prev) => ({
+      ...prev,
+      [taskId]: isChecked,
+    }));
+  };
+
   if (isError) return <div>데이터를 불러오지 못했습니다.</div>;
 
   return (
@@ -127,12 +134,17 @@ export default function TaskLists({
           </motion.div>
         ))}
       </div>
-      {isLoading && <Spinner className="mt-200" />}
       {!isLoading && (
         <div>
           {taskLists?.tasks && taskLists.tasks.length > 0 ? (
             taskLists?.tasks.map((task) => (
-              <Task key={task.id} task={task} onClick={() => handleTaskClick(task.id)} />
+              <Task
+                key={task.id}
+                task={task}
+                isChecked={checkedTaskIds[task.id] ?? false}
+                onCheckTask={handleCheckTask}
+                onClick={() => handleTaskClick(task.id)}
+              />
             ))
           ) : (
             <div className="mt-191 flex items-center justify-center text-center text-14 font-medium leading-[17px] text-text-default md:mt-345 lg:mt-310">
@@ -147,6 +159,8 @@ export default function TaskLists({
           groupId={groupId}
           taskListId={taskListId}
           taskId={selectedTaskId}
+          isChecked={checkedTaskIds[selectedTaskId] ?? false}
+          onCheckTask={handleCheckTask}
           onClose={handleCloseSidebar}
         />
       )}

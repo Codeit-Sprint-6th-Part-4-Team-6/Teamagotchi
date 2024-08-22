@@ -10,6 +10,7 @@ import Success from "@components/commons/LottieAnimation/Success";
 import Textarea from "@components/commons/TextArea";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
+import { updateURL } from "@utils/updateUrl";
 import { postTask } from "@api/taskApi";
 import DateSelector from "./DateSelector";
 import FrequencyDropdown from "./FrequencyDropdown";
@@ -25,7 +26,6 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
   const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([]);
   const [selectedMonthDay, setSelectedMonthDay] = useState<number>();
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-
   const [task, setTask] = useState<PostTaskRequest>({
     name: "",
     description: "",
@@ -48,20 +48,6 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
     }
   };
 
-  const updateURL = (date: Date, id: string | string[] | undefined) => {
-    const path = `/teams/${teamId}/task-lists/${id}`;
-    const query = { date: date.toISOString().slice(0, 10) };
-
-    router.push(
-      {
-        pathname: path,
-        query,
-      },
-      undefined,
-      { shallow: true }
-    );
-  };
-
   const handleClick = () => {
     const submissionData = { ...task };
     if (task.frequencyType === "WEEKLY") {
@@ -76,7 +62,7 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
     mutationFn: (data: PostTaskRequest) => postTask(teamId, taskListsId, data),
     onSuccess: () => {
       closeModal();
-      updateURL(selectedDate, taskListsId);
+      updateURL(selectedDate, taskListsId, teamId, router);
       queryClient.invalidateQueries({ queryKey: ["taskLists"] });
     },
     onError: (error: any) => {

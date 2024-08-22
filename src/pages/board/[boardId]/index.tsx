@@ -4,6 +4,8 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import ArticleDetail from "@components/board/ArticleDetail";
+import ArticleCommentList from "@components/board/ArticleDetail/CommentList";
+import CommentSection from "@components/board/ArticleDetail/CommentSection";
 import { getArticle } from "@api/articleApi";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -34,12 +36,13 @@ export default function BoardDetailPage() {
   const router = useRouter();
   const { boardId } = router.query;
 
-  const { data: ArticleData, refetch } = useQuery<ArticleDetails>({
+  const { data: ArticleData } = useQuery<ArticleDetails>({
     queryKey: ["article", boardId],
     queryFn: () => getArticle(boardId as string),
     placeholderData: keepPreviousData,
     staleTime: Infinity,
   });
+
   return (
     <>
       <Head>
@@ -51,7 +54,9 @@ export default function BoardDetailPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-        <ArticleDetail article={ArticleData} refetch={refetch} />
+        <ArticleDetail article={ArticleData} />
+        <CommentSection boardId={Number(boardId)} />
+        <ArticleCommentList articleId={Number(boardId)} />
       </div>
     </>
   );

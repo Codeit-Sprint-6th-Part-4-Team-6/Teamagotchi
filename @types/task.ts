@@ -27,7 +27,7 @@ declare module "@coworkers-types" {
     name: string;
     description: string;
     startDate: ISODateString;
-    frequencyType: string;
+    frequencyType: "ONCE" | "DAILY" | "WEEKLY" | "MONTHLY";
     monthDay?: number;
     weekDays?: number[];
   };

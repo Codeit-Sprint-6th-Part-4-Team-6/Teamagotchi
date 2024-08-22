@@ -9,10 +9,14 @@ import {
 } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import ArticleSection from "@components/board/ArticleSection";
 import BestArticleSection from "@components/board/BestArticleSection";
 import Pagination from "@components/board/pagination";
+import Button from "@components/commons/Button";
+import Input from "@components/commons/Input";
+import Label from "@components/commons/Label";
 import useMediaQuery from "@hooks/useMediaQuery";
 import usePagination from "@hooks/usePagination";
 import { getArticleList } from "@api/articleApi";
@@ -66,6 +70,10 @@ export default function BoardPage() {
     currentKeyword
   );
 
+  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
+  };
+
   const { isMobile, isTablet, isDesktop } = useMediaQuery();
 
   const { data: bestArticles } = useQuery<TotalArticle>({
@@ -118,20 +126,40 @@ export default function BoardPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+        <div className="mx-0 my-auto flex w-full flex-col gap-20">
+          <Label content="자유 게시판" />
+          <Input
+            value={searchKeyword}
+            onChange={handleKeywordChange}
+            onKeyDown={handleKeywordEnter}
+            onDelete={() => setSearchKeyword("")}
+            type="search"
+            name="search"
+            placeholder="검색할 게시글을 입력해주세요."
+            className="flex w-600 items-center justify-center"
+          />
+        </div>
         <BestArticleSection Posts={displayedBestArticles} />
         <ArticleSection
           Posts={articles}
-          searchValue={searchKeyword}
-          searchChange={setSearchKeyword}
           sortValue={currentOrderBy}
           sortChange={handleOrderByChange}
-          onEnter={handleKeywordEnter}
         />
         <Pagination
           totalPages={totalCount}
           currentPage={currentPage}
           onPageChange={handlePageChange}
         />
+        <Link href="/add-board">
+          <Button
+            icon="plus"
+            buttonType="floating"
+            size="small"
+            className="bottom-24 right-24 lg:bottom-48 lg:right-100"
+          >
+            글쓰기
+          </Button>
+        </Link>
       </div>
     </>
   );
