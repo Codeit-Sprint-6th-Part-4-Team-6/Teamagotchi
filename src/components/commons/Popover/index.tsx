@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "@components/commons/Button";
 import { IconCrown, IconMember } from "@utils/icon";
+import { validateImage } from "@utils/validateImage";
 import Spinner from "../Spinner";
 
 export const PopoverContext = createContext({

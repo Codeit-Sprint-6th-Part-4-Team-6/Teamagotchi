@@ -75,6 +75,15 @@ export function useUpdateForm({
         mutationData[nameKey] = changedName;
       }
 
+      if (imageFile === "" || imageFile === null) {
+        if (requestId) {
+          // TODO: 서버 응답 확인 후 수정
+          mutationData["image"] = "https://example.com/...";
+        } else {
+          mutationData["image"] = "null";
+        }
+      }
+
       mutationData["image"] = validateImage(data.url);
 
       if (requestId) {
@@ -102,8 +111,13 @@ export function useUpdateForm({
         mutationData[nameKey] = changedName;
       }
 
-      if (imageFile === "") {
-        mutationData["image"] = null;
+      if (imageFile === "" || imageFile === null) {
+        if (requestId) {
+          // TODO: 서버 응답 확인 후 수정
+          mutationData["image"] = "https://example.com/...";
+        } else {
+          mutationData["image"] = "null";
+        }
       } else if (typeof imageFile === "string") {
         mutationData["image"] = validateImage(imageFile);
       }
