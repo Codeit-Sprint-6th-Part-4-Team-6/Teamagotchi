@@ -67,14 +67,7 @@ export default function TeamDetailPage() {
       </div>
     );
 
-  if (groupLoading || membershipLoading)
-    return (
-      <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-        <section>
-          <Loading />
-        </section>
-      </div>
-    );
+  if (groupLoading || membershipLoading) return <Loading />;
 
   // 현재 페이지의 내 역할 정보를 정제
   const curTeamMembership = Array.isArray(membershipData)

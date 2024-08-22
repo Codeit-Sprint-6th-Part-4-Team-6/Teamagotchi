@@ -128,6 +128,15 @@ function Item({ children, onClick }: { children: React.ReactNode; onClick: () =>
   );
 }
 
+function NameInfoItem({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="block lg:hidden">
+      <span className="text-nowrap text-md font-bold text-text-primary">{children}</span>
+      <hr className="my-5 h-1 border-0 bg-background-tertiary" />
+    </div>
+  );
+}
+
 function InnerButton({ onClick }: { onClick: () => void }) {
   const { closePopover } = useContext(PopoverContext);
 
@@ -198,3 +207,4 @@ Popover.Wrapper = Wrapper;
 Popover.Item = Item;
 Popover.InnerButton = InnerButton;
 Popover.TeamItem = TeamItem;
+Popover.NameInfoItem = NameInfoItem;
