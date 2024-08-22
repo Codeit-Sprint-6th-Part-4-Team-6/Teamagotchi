@@ -45,7 +45,7 @@ export default function CommentSection({ boardId }: { boardId: number }) {
                       createdAt: new Date().toISOString(),
                       updatedAt: new Date().toISOString(),
                       writer: {
-                        image: user?.image ?? null,
+                        image: (user?.image as string | null) ?? "",
                         nickname: user?.nickname ?? "",
                         id: user?.id ?? 1,
                       },
@@ -68,7 +68,7 @@ export default function CommentSection({ boardId }: { boardId: number }) {
                     createdAt: new Date().toISOString(),
                     updatedAt: new Date().toISOString(),
                     writer: {
-                      image: user?.image ?? null,
+                      image: (user?.image as string | null) ?? "",
                       nickname: user?.nickname ?? "",
                       id: user?.id ?? 1,
                     },
