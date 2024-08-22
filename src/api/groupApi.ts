@@ -20,7 +20,7 @@ export const getGroup = async (groupId: number, token?: string): Promise<Group> 
  * @param data - {image, name} 을 전송합니다.
  * @returns 수정된 Group 객체를 반환합니다.
  */
-export const patchGroupProfile = async (groupId: number, data: Profile): Promise<GroupInfo> => {
+export const patchGroupProfile = async (data: Profile, groupId: number): Promise<GroupInfo> => {
   const response = await axiosInstance.patch<GroupInfo>(`groups/${groupId}`, data);
   return response.data;
 };

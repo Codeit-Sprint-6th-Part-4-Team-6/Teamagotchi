@@ -27,18 +27,28 @@ export const useAuthHandler = <T extends AuthRequest>(values: T, isRegister: boo
     },
   });
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const signUpMutation = useMutation({
+    mutationFn: (value: SignUpRequest) => signUpUser(value),
+    onSuccess: () => {
+      toast("success", "회원가입에 성공하셨습니다.");
+    },
+    onError: (error: any) => {
+      toast("danger", error.response.data.message);
+    },
+  });
+
+  const isPending = loginMutation.isPending || signUpMutation.isPending;
+
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     if (isRegister) {
       try {
-        await signUpUser(values as SignUpRequest);
-        toast("success", "회원가입에 성공하셨습니다.");
+        signUpMutation.mutate(values as SignUpRequest);
         const loginData = {
           email: values.email,
           password: values.password,
         };
-
         loginMutation.mutate(loginData);
       } catch (error: any) {
         toast("danger", error.response.data.message);
@@ -50,5 +60,6 @@ export const useAuthHandler = <T extends AuthRequest>(values: T, isRegister: boo
 
   return {
     handleSubmit,
+    isPending,
   };
 };

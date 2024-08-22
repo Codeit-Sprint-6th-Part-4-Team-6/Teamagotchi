@@ -8,21 +8,14 @@ import { useUpdateForm } from "@hooks/useUpdateForm";
 import { useAuthStore } from "@store/useAuthStore";
 import { patchUser } from "@api/userApi";
 
-const defaultUserInfo: User = {
-  nickname: "",
-  image: "",
-  createdAt: "",
-  updatedAt: "",
-  id: 0,
-  email: "",
-  teamId: "",
-  memberships: [],
-};
-
 export default function EditUserForm() {
   const { setUser } = useAuthStore();
   const queryClient = useQueryClient();
-  const user = queryClient.getQueryData<User>(["user"]) || defaultUserInfo;
+  const user = queryClient.getQueryData<User>(["user"]);
+
+  if (user === undefined) {
+    return null;
+  }
 
   const {
     imageFile,
@@ -35,9 +28,10 @@ export default function EditUserForm() {
   } = useUpdateForm({
     initialName: user.nickname,
     initialImage: user.image,
-    onSubmit: ({ name, image }) => patchUser({ nickname: name, image }),
+    onSubmit: ({ nickname, image }) => patchUser({ nickname, image }),
     successMessage: "계정 설정 변경에 성공하셨습니다.",
     query: "user",
+    nameKey: "nickname",
   });
 
   const handleUserSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +40,7 @@ export default function EditUserForm() {
     const updatedData: User = {
       ...user,
       nickname: changedName ?? "",
-      image: imageFile instanceof File ? user.image : imageFile,
+      image: typeof imageFile === "string" ? imageFile : user.image,
     };
     setUser(updatedData);
   };
@@ -62,7 +56,7 @@ export default function EditUserForm() {
         id="profile-image"
         type="my-profile"
         onChange={handleFileChange}
-        defaultValue={imageFile as string}
+        defaultValue={user.image}
       />
       <div>
         <Label content="이메일" marginBottom={12} />

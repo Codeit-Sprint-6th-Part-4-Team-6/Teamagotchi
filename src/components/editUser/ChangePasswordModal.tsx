@@ -2,6 +2,7 @@ import { Password } from "@coworkers-types";
 import { useMutation } from "@tanstack/react-query";
 import TwoInputModal from "@components/commons/modal/TwoInputModal";
 import { useAuthForm } from "@hooks/auth/useAuthForm";
+import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { ResetPasswordSchema } from "@utils/schemas/auth";
 import { patchResetPassword } from "@api/userApi";
@@ -17,6 +18,7 @@ export default function ChangePasswordModal({ onClose }: { onClose?: () => void 
     ResetPasswordSchema
   );
   const { toast } = useToast();
+  const { closeModal } = useModal();
 
   const patchPasswordMutation = useMutation({
     mutationFn: (value: Password) => patchResetPassword(value),
@@ -30,6 +32,7 @@ export default function ChangePasswordModal({ onClose }: { onClose?: () => void 
 
   const changeOnConfirm = () => {
     patchPasswordMutation.mutate(values);
+    closeModal();
   };
 
   return (
