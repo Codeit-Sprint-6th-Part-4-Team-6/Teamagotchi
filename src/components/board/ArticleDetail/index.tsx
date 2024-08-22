@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ArticleDetails } from "@coworkers-types";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -13,19 +13,14 @@ import { IconComment, IconHeart, IconHeartFill } from "@utils/icon";
 import { deleteArticle, deleteArticleLike, postArticleLike } from "@api/articleApi";
 import DeleteArticleModal from "./DeleteArticleModal";
 
-export default function ArticleDetail({
-  article,
-  refetch,
-}: {
-  article?: ArticleDetails;
-  refetch: () => void;
-}) {
+export default function ArticleDetail({ article }: { article?: ArticleDetails }) {
   const [isLiked, setIsLiked] = useState(article?.isLiked);
   const [likeCount, setLikeCount] = useState(article?.likeCount || 0);
   const { openModal, closeModal } = useModal();
   const router = useRouter();
   const { user } = useAuthStore();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   if (!article) {
     router.replace("/404");
@@ -52,7 +47,7 @@ export default function ArticleDetail({
       setIsLiked(true);
       setLikeCount((prev) => prev + 1);
     },
-    onSuccess: () => refetch(),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["article"] }),
   });
 
   const unlikeMutation = useMutation({
@@ -61,7 +56,7 @@ export default function ArticleDetail({
       setIsLiked(false);
       setLikeCount((prev) => prev - 1);
     },
-    onSuccess: () => refetch(),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["article"] }),
   });
 
   const handleLikeClick = () => {
