@@ -7,7 +7,7 @@ declare module "@coworkers-types" {
 
   type BaseUserInfo = BaseUserEntity & {
     teamId: string;
-    image: string | File | null;
+    image?: string | File;
     nickname: string;
     email: string;
   };
@@ -32,7 +32,7 @@ declare module "@coworkers-types" {
 
   export type History = {
     tasksDone: TaskDone[];
-  }[];
+  };
 
   export type TaskDone = BaseTaskDetails & {
     displayIndex: number;

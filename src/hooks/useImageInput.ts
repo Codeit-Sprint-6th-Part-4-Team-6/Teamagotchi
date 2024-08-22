@@ -1,12 +1,12 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 
 type UseImageInputProps = {
-  defaultValue?: string;
+  defaultValue?: string | File;
 };
 
 export function useImageInput({ defaultValue }: UseImageInputProps) {
   const [value, setValue] = useState<File | string | null>(defaultValue ?? null);
-  const [previewImage, setPreviewImage] = useState<string | null>(defaultValue ?? null);
+  const [previewImage, setPreviewImage] = useState<string | File | null>(defaultValue ?? null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handleClick = () => {

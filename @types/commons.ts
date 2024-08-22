@@ -8,7 +8,7 @@ declare module "@coworkers-types" {
   };
 
   export type Profile = {
-    image?: string;
+    image?: string | null;
     name?: string;
   };
 

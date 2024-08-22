@@ -64,12 +64,12 @@ export const getUserMemberships = async (): Promise<Membership[]> => {
 export const getUserHistory = async (): Promise<TaskDone[][]> => {
   const response = await axiosInstance.get<History>("user/history");
 
-  if (response.data[0].tasksDone.length === 0) return [];
+  if (response.data.tasksDone.length === 0) return [];
 
   const groupHistory = (history: History) => {
     const groupedTasks: Record<string, TaskDone[]> = {};
 
-    history[0].tasksDone.forEach((doneTask) => {
+    history.tasksDone.forEach((doneTask) => {
       const date = new Date(doneTask.doneAt).toLocaleDateString(); // 날짜만 추출
 
       if (!groupedTasks[date]) {

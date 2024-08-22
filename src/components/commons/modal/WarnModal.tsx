@@ -38,7 +38,7 @@ export default function WarnModal({
       <p className="modal-title">{description}</p>
       {content && <p className="modal-content">{content}</p>}
       <div className="mt-30 flex gap-10">
-        <Button buttonStyle="outlined" onClick={onClose} size="medium">
+        <Button buttonStyle="outlined-secondary" onClick={onClose} size="medium">
           닫기
         </Button>
         <Button buttonStyle="danger" onClick={onConfirm} size="medium">

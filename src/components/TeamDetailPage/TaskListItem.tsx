@@ -26,13 +26,14 @@ export default function TaskListItem({
   // 색상 배열 정의
   const colors = [
     "bg-point-purple",
+    "bg-point-indigo",
     "bg-point-blue",
     "bg-point-cyan",
     "bg-point-pink",
-    "bg-point-rose",
     "bg-point-red",
     "bg-point-orange",
     "bg-point-yellow",
+    "bg-point-lime",
     "bg-point-green",
   ];
 

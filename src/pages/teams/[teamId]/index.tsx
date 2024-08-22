@@ -1,10 +1,4 @@
-import {
-  DehydratedState,
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-  useQuery,
-} from "@tanstack/react-query";
+import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import MembersSection from "@components/TeamDetailPage/MembersSection";
@@ -41,7 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function TeamDetailPage({ dehydratedState }: { dehydratedState: DehydratedState }) {
+export default function TeamDetailPage() {
   const router = useRouter();
   const { teamId } = router.query;
   const {
@@ -97,26 +91,24 @@ export default function TeamDetailPage({ dehydratedState }: { dehydratedState: D
     totalTask.length > 0 ? (completedTasks.length / totalTask.length) * 100 : 0;
 
   return (
-    <HydrationBoundary state={dehydratedState}>
-      <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-        <section className="mb-30">
-          <TeamTitle
-            teamName={groupData?.name ?? ""}
-            teamId={groupData?.id ?? 0}
-            role={curTeamMembership?.role ?? ""}
-          />
-        </section>
-        <TaskListSection
-          taskLists={groupData?.taskLists ?? []}
+    <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+      <section className="mb-30">
+        <TeamTitle
+          teamName={groupData?.name ?? ""}
+          teamId={groupData?.id ?? 0}
           role={curTeamMembership?.role ?? ""}
         />
-        <ReportSection
-          completionRate={completionRate}
-          totalTasks={totalTask?.length ?? 0}
-          completedTasks={completedTasks?.length ?? 0}
-        />
-        <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
-      </div>
-    </HydrationBoundary>
+      </section>
+      <TaskListSection
+        taskLists={groupData?.taskLists ?? []}
+        role={curTeamMembership?.role ?? ""}
+      />
+      <ReportSection
+        completionRate={completionRate}
+        totalTasks={totalTask?.length ?? 0}
+        completedTasks={completedTasks?.length ?? 0}
+      />
+      <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
+    </div>
   );
 }
