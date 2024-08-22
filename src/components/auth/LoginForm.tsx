@@ -20,7 +20,7 @@ export default function LoginForm() {
     initialLoginState,
     LoginSchema
   );
-  const { handleSubmit } = useAuthHandler(values);
+  const { handleSubmit, isPending } = useAuthHandler(values);
   const { openModal } = useModal();
 
   const handleOpenModal = () => {
@@ -57,7 +57,13 @@ export default function LoginForm() {
         </TextButton>
       </div>
 
-      <Button buttonType="button" disabled={!isValid} type="submit" className="mt-40">
+      <Button
+        buttonType="button"
+        disabled={!isValid}
+        type="submit"
+        className="mt-40"
+        isPending={isPending}
+      >
         로그인
       </Button>
     </form>
