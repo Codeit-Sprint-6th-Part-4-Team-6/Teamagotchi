@@ -29,8 +29,9 @@ export default function TeamItem({ data }: TeamItemProps) {
   const deleteGroupMutation = useMutation({
     mutationFn: (groupId: number) => deleteGroup(groupId),
     onSuccess: () => {
-      toast("success", "팀 삭제에 성공했습니다.");
       queryClient.invalidateQueries({ queryKey: ["groups"] });
+      queryClient.invalidateQueries({ queryKey: ["user"] });
+      toast("success", "팀 삭제에 성공했습니다.");
     },
   });
 
