@@ -1,6 +1,6 @@
 import { Article } from "@coworkers-types";
-import { motion } from "framer-motion";
 import { format } from "date-fns";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import NameTag from "@components/commons/NameTag";
@@ -17,7 +17,9 @@ export default function BestArticleCard({ item }: { item: Article }) {
         <IconBestBadge />
         <div className="flex justify-between">
           <span className="text-18 font-[500] text-text-primary">{item.title}</span>
-          {item.image && <Image width={72} height={72} alt="image" src={item.image} />}
+          {item.image && (
+            <Image width={72} height={72} alt="image" src={item.image} className="max-h-50" />
+          )}
         </div>
         <span className="text-14 font-[500] text-interaction-inactive">
           {format(item.createdAt, "yyyy.MM.dd")}
