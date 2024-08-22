@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { DateTask, PatchTaskRequest } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
@@ -7,7 +6,7 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import { useModal } from "@hooks/useModal";
-import { IconArrowReload, IconCalender, IconComment, IconTime } from "@utils/icon";
+import { IconArrowReload, IconCalender, IconComment } from "@utils/icon";
 import { patchTaskCompletionStatus } from "@api/taskApi";
 import CheckButton from "./CheckButton";
 import DeleteModal from "./DeleteModal";
@@ -16,6 +15,8 @@ import EditTaskModal from "./EditTaskModal";
 type Props = {
   task: DateTask;
   onClick: () => void;
+  isChecked: boolean;
+  onCheckTask: (taskId: number, isChecked: boolean) => void;
 };
 
 const frequencyMap = {
@@ -25,15 +26,14 @@ const frequencyMap = {
   MONTHLY: "매월 반복",
 };
 
-export default function Task({ task, onClick }: Props) {
+export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
   const { openModal } = useModal();
   const queryClient = useQueryClient();
   const router = useRouter();
   const { teamId, taskListsId } = router.query;
-  const [isChecked, setIsChecked] = useState(task.doneAt !== null);
   const handleCheckButton = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
     event.stopPropagation();
-    setIsChecked((prev) => !prev);
+    onCheckTask(task.id, !isChecked);
     patchTaskMutation.mutate({ done: !isChecked });
   };
 
@@ -45,6 +45,7 @@ export default function Task({ task, onClick }: Props) {
       patchTaskCompletionStatus(teamId, taskListsId, task.id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["taskLists"] });
+      queryClient.invalidateQueries({ queryKey: ["taskListDetail", task.id] });
     },
   });
 
@@ -108,11 +109,6 @@ export default function Task({ task, onClick }: Props) {
         <span className="flex items-center gap-6">
           <IconCalender />
           <time className="text-12 text-text-default">{format(task.date, "yyyy년 MM월 dd일")}</time>
-        </span>
-        <span className="h-10 border border-l border-solid border-background-tertiary" />
-        <span className="flex items-center gap-6">
-          <IconTime />
-          <time className="text-12 text-text-default">{format(task.date, "a h:mm")}</time>
         </span>
         <span className="h-10 border border-l border-solid border-background-tertiary" />
         <span className="flex items-center gap-6">
