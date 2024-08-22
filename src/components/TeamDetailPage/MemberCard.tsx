@@ -35,7 +35,7 @@ export default function MemberCard({
     mutationFn: () => deleteGroupMember(Number(teamId), Number(memberId)),
     onSuccess: () => {
       toast("success", "해당 멤버가 추방되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["team", teamId] });
+      queryClient.invalidateQueries({ queryKey: ["group", teamId] });
     },
   });
 

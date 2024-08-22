@@ -46,7 +46,7 @@ export default function TaskListItem({
     mutationFn: () => deleteTaskList(teamId, task.id.toString()),
     onSuccess: () => {
       toast("success", "해당 목록이 삭제되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["team", teamId] });
+      queryClient.invalidateQueries({ queryKey: ["group", teamId] });
     },
     onError: (error: any) => {
       toast("danger", error.response?.data?.message || "삭제에 실패했습니다.");
