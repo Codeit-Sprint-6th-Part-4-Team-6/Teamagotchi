@@ -1,6 +1,6 @@
 import { Article } from "@coworkers-types";
-import { motion } from "framer-motion";
 import { format } from "date-fns";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import NameTag from "@components/commons/NameTag";
@@ -16,7 +16,7 @@ export default function ArticleCard({ Post }: { Post: Article }) {
         className="mb-24 flex h-176 w-full flex-col justify-between rounded-8 bg-background-secondary p-24"
       >
         <div className="flex justify-between">
-          <span className="text-18 font-[500] text-text-primary">{title}</span>
+          <span className="truncate text-18 font-[500] text-text-primary">{title}</span>
           {image && <Image width={72} height={72} alt="image" src={image} />}
         </div>
         <div className="flex justify-between">

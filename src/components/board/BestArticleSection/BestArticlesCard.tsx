@@ -8,7 +8,7 @@ import { IconBestBadge, IconComment, IconHeart } from "@utils/icon";
 
 export default function BestArticleCard({ item }: { item: Article }) {
   return (
-    <Link key={item.id} href={`/board/${item.id}`} className="w-full">
+    <Link key={item.id} href={`/board/${item.id}`} className="w-full max-w-365">
       <motion.div
         whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.2 }}
@@ -16,7 +16,7 @@ export default function BestArticleCard({ item }: { item: Article }) {
       >
         <IconBestBadge />
         <div className="flex justify-between">
-          <span className="text-18 font-[500] text-text-primary">{item.title}</span>
+          <span className="truncate text-18 font-[500] text-text-primary">{item.title}</span>
           {item.image && (
             <Image width={72} height={72} alt="image" src={item.image} className="max-h-50" />
           )}
