@@ -2,6 +2,7 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useToast } from "@hooks/useToast";
+import { validateImage } from "@utils/validateImage";
 import { postImageURL } from "@api/imageApi";
 
 interface UseUpdateFormProps {
@@ -74,7 +75,7 @@ export function useUpdateForm({
         mutationData[nameKey] = changedName;
       }
 
-      mutationData["image"] = data.url;
+      mutationData["image"] = validateImage(data.url);
 
       if (requestId) {
         mutation.mutate({ data: mutationData, id: requestId });
@@ -104,7 +105,7 @@ export function useUpdateForm({
       if (imageFile === "") {
         mutationData["image"] = null;
       } else if (typeof imageFile === "string") {
-        mutationData["image"] = imageFile;
+        mutationData["image"] = validateImage(imageFile);
       }
 
       if (requestId) {

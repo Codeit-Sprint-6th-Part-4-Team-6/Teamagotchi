@@ -6,7 +6,9 @@ import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import Spinner from "@components/commons/Spinner";
 import { useModal } from "@hooks/useModal";
+import { useToast } from "@hooks/useToast";
 import { IconMember } from "@utils/icon";
+import { validateImage } from "@utils/validateImage";
 import { deleteGroup } from "@api/groupApi";
 import DeleteTeamModal from "./DeleteTeamModal";
 
@@ -18,6 +20,7 @@ export default function TeamItem({ data }: TeamItemProps) {
   const { openModal, closeModal } = useModal();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const handleModify = () => {
     router.push(`/teams/${data.groupId}/edit`);
@@ -26,7 +29,7 @@ export default function TeamItem({ data }: TeamItemProps) {
   const deleteGroupMutation = useMutation({
     mutationFn: (groupId: number) => deleteGroup(groupId),
     onSuccess: () => {
-      // TODO: 토스트
+      toast("success", "팀 삭제에 성공했습니다.");
       queryClient.invalidateQueries({ queryKey: ["groups"] });
     },
   });
@@ -51,7 +54,7 @@ export default function TeamItem({ data }: TeamItemProps) {
     >
       <Link href={`/teams/${data.groupId}`} className="flex w-full items-center justify-around">
         <div className="relative h-50 w-50 flex-shrink-0 overflow-hidden rounded-6">
-          {data.group.image ? (
+          {validateImage(data.group.image) ? (
             <Image
               src={data.group.image}
               alt={`${data.group.name} 이미지`}
