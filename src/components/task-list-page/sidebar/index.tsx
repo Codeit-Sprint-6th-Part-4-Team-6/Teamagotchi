@@ -146,8 +146,8 @@ export default function Sidebar({
           <IconRepeat />
           <p className={formatClass}>{frequency}</p>
         </div>
-        <div className="h-200">
-          <p className="text-14 text-text-primary">{TaskDetailData?.description}</p>
+        <div className="min-h-200">
+          <article className="text-14 text-text-primary">{TaskDetailData?.description}</article>
         </div>
         <CommentInput taskId={taskId} />
         <TaskCommentList taskId={taskId} />
