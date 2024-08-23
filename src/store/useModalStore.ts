@@ -1,5 +1,5 @@
 import { ComponentType } from "react";
-import create from "zustand";
+import { create } from "zustand";
 
 interface ModalProps {
   onClose?: () => void;

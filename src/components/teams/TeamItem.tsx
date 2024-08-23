@@ -68,14 +68,12 @@ export default function TeamItem({ data }: TeamItemProps) {
         </div>
         <p className="flex-grow pl-20 text-left text-lg">{data.group.name}</p>
       </Link>
-      {data.role === "ADMIN" ? (
+      {data.role === "ADMIN" && (
         <EditDeletePopover
           icon="kebabLarge"
           handleModify={handleModify}
           handleDelete={handleOpenModal}
         />
-      ) : (
-        <></>
       )}
     </li>
   );

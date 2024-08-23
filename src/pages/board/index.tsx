@@ -155,7 +155,7 @@ export default function BoardPage() {
             icon="plus"
             buttonType="floating"
             size="small"
-            className="bottom-24 right-24 lg:bottom-48 lg:right-100"
+            className="bottom-60 right-24 lg:right-100"
           >
             글쓰기
           </Button>

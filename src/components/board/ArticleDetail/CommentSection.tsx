@@ -18,7 +18,7 @@ export default function CommentSection({ boardId }: { boardId: number }) {
     setComment(event.target.value);
   };
 
-  const { mutate: postMutation, isPending } = useMutation({
+  const { mutate: postMutation } = useMutation({
     mutationFn: (content: string) => postArticleComment(boardId, content),
     onMutate: async (content) => {
       await queryClient.cancelQueries({ queryKey: ["articleComments", boardId] });
