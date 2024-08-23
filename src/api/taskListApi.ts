@@ -90,7 +90,7 @@ export const patchTaskListOrder = async (
   taskListId: string | string[] | undefined,
   displayIndex: number
 ): Promise<void> => {
-  await axiosInstance.patch(`groups/${groupId}/task-lists/${taskListId}`, {
+  await axiosInstance.patch(`groups/${groupId}/task-lists/${taskListId}/order`, {
     displayIndex,
   });
 };

@@ -108,6 +108,25 @@ export const deleteTask = async (
 };
 
 /**
+ * 할 일의 순서를 변경하는 API 함수입니다.
+ * @param groupId - 순서를 변경할 할 일 목록이 포함된 그룹의 ID입니다.
+ * @param taskListId - 순서를 변경할 할 일 목록의 ID입니다.
+ * @param taskId - 순서를 변경할 할 일의 ID입니다.
+ * @param displayIndex - 새로 설정할 순서의 인덱스입니다.
+ * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
+ */
+export const patchTaskOrder = async (
+  groupId: string | string[] | undefined,
+  taskListId: string | string[] | undefined,
+  taskId: string | string[] | undefined,
+  displayIndex: number
+): Promise<void> => {
+  await axiosInstance.patch(`groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}/order`, {
+    displayIndex,
+  });
+};
+
+/**
  * 반복되는 할 일을 삭제하는 API 함수입니다.
  * @param groupId - 할 일 목록을 받아올 group의 ID입니다.
  * @param taskListId - 할 일 목록의 ID입니다.

@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
-import { Group, GroupTaskLists, TaskList } from "@coworkers-types";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { Group, GroupTaskLists, TaskList as TaskListType } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import classNames from "classnames";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
+import useTaskListPageDnd from "@hooks/useTaskListPageDnd";
 import { getTaskDetails } from "@api/taskApi";
 import { getTaskComments } from "@api/taskCommentApi";
 import Task from "./Task";
 import Sidebar from "./sidebar";
 
 type Props = {
-  taskLists: TaskList | undefined;
+  taskList: TaskListType | undefined;
   handleTaskListId: (id: string | string[] | undefined) => void;
   isLoading: boolean;
   isError: Error | null;
@@ -19,8 +21,8 @@ type Props = {
   groupData: Group | undefined;
 };
 
-export default function TaskLists({
-  taskLists,
+export default function TaskList({
+  taskList,
   handleTaskListId,
   isLoading,
   isError,
@@ -29,8 +31,9 @@ export default function TaskLists({
   groupData,
 }: Props) {
   const router = useRouter();
-  const { teamId, taskListsId } = router.query;
+  const { teamId, taskListsId, date: urlDate } = router.query;
   const queryClient = useQueryClient();
+  const { handleDragEnd } = useTaskListPageDnd(teamId, taskListsId, urlDate);
 
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
@@ -42,7 +45,7 @@ export default function TaskLists({
       if (taskListsId) {
         const id = taskListsId;
         handleTaskListId(id);
-        const index = groupData.taskLists.findIndex((taskList) => taskList.id.toString() === id);
+        const index = groupData.taskLists.findIndex((tasks) => tasks.id.toString() === id);
         if (index !== -1) {
           setActiveTabIndex(index);
         }
@@ -68,10 +71,10 @@ export default function TaskLists({
   });
 
   const handleActiveTab = useCallback(
-    (index: number, taskList: GroupTaskLists) => {
+    (index: number, tasks: GroupTaskLists) => {
       setActiveTabIndex(index);
-      handleTaskListId(taskList.id.toString());
-      router.push(`/teams/${teamId}/task-lists/${taskList.id}`, undefined, { shallow: true });
+      handleTaskListId(tasks.id.toString());
+      router.push(`/teams/${teamId}/task-lists/${tasks.id}`, undefined, { shallow: true });
     },
     [teamId]
   );
@@ -98,11 +101,11 @@ export default function TaskLists({
   return (
     <section>
       <div className="no-scroll mb-16 mt-19 flex gap-12 overflow-auto" role="tablist">
-        {groupData?.taskLists.map((taskList, index) => (
+        {groupData?.taskLists.map((tasks, index) => (
           <motion.div
-            key={taskList.id}
+            key={tasks.id}
             className="flex min-w-fit cursor-pointer flex-col gap-5"
-            onClick={() => handleActiveTab(index, taskList)}
+            onClick={() => handleActiveTab(index, tasks)}
             role="tab"
             aria-selected={activeTabIndex === index}
             tabIndex={0}
@@ -120,7 +123,7 @@ export default function TaskLists({
               whileHover={activeTabIndex !== index ? { color: "#fff" } : {}}
               transition={{ duration: 0.2 }}
             >
-              {taskList.name}
+              {tasks.name}
             </motion.span>
             <motion.span
               className="w-full border-b-[1.5px] border-solid"
@@ -135,24 +138,42 @@ export default function TaskLists({
         ))}
       </div>
       {!isLoading && (
-        <div>
-          {taskLists?.tasks && taskLists.tasks.length > 0 ? (
-            taskLists?.tasks.map((task) => (
-              <Task
-                key={task.id}
-                task={task}
-                isChecked={checkedTaskIds[task.id] ?? false}
-                onCheckTask={handleCheckTask}
-                onClick={() => handleTaskClick(task.id)}
-              />
-            ))
-          ) : (
-            <div className="mt-191 flex items-center justify-center text-center text-14 font-medium leading-[17px] text-text-default md:mt-345 lg:mt-310">
-              아직 할 일이 없습니다.
-              <br /> 할 일을 추가해보세요.
-            </div>
-          )}
-        </div>
+        <DragDropContext onDragEnd={handleDragEnd}>
+          <Droppable droppableId="taskList">
+            {(droppableProvided) => (
+              <div ref={droppableProvided.innerRef} {...droppableProvided.droppableProps}>
+                {taskList?.tasks && taskList.tasks.length > 0 ? (
+                  taskList?.tasks.map((task, index) => (
+                    <Draggable key={task.id} draggableId={String(task.id)} index={index}>
+                      {(draggableProvided, snapshot) => (
+                        <div
+                          ref={draggableProvided.innerRef}
+                          {...draggableProvided.draggableProps}
+                          {...draggableProvided.dragHandleProps}
+                          className="mb-16"
+                        >
+                          <Task
+                            key={task.id}
+                            task={task}
+                            isChecked={checkedTaskIds[task.id] ?? false}
+                            onCheckTask={handleCheckTask}
+                            onClick={() => handleTaskClick(task.id)}
+                          />
+                        </div>
+                      )}
+                    </Draggable>
+                  ))
+                ) : (
+                  <div className="mt-191 flex items-center justify-center text-center text-14 font-medium leading-[17px] text-text-default md:mt-345 lg:mt-310">
+                    아직 할 일이 없습니다.
+                    <br /> 할 일을 추가해보세요.
+                  </div>
+                )}
+                {droppableProvided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       )}
       {isSidebarVisible && selectedTaskId && (
         <Sidebar

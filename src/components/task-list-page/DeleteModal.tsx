@@ -17,7 +17,7 @@ export default function DeleteModal({
   const taskDeleteMutation = useMutation({
     mutationFn: () => deleteTask(taskId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["taskLists"] });
+      queryClient.invalidateQueries({ queryKey: ["taskList"] });
       onClose?.();
     },
     onError: () => {

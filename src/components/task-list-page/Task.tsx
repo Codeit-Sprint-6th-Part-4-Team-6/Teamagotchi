@@ -44,7 +44,7 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
     mutationFn: (data: PatchTaskRequest) =>
       patchTaskCompletionStatus(teamId, taskListsId, task.id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["taskLists"] });
+      queryClient.invalidateQueries({ queryKey: ["taskList"] });
       queryClient.invalidateQueries({ queryKey: ["taskListDetail", task.id] });
     },
   });
@@ -66,7 +66,7 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
     <motion.div
       whileHover={{ scale: 0.99 }}
       transition={{ duration: 0.2 }}
-      className="box-shadow mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12"
+      className="box-shadow flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12"
       onClick={onClick}
     >
       <div className="flex items-center justify-between gap-8">

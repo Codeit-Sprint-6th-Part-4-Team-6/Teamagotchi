@@ -42,7 +42,7 @@ export default function AddOrEditTaskListModal({
     onSuccess: (data: TaskListInfo) => {
       closeModal();
       queryClient.invalidateQueries({ queryKey: ["group"] });
-      queryClient.invalidateQueries({ queryKey: ["taskLists", data.id] });
+      queryClient.invalidateQueries({ queryKey: ["taskList", data.id] });
       router.push(`/teams/${teamId}/task-lists/${data.id}`, undefined, { shallow: true });
     },
     onError: (error: any) => {

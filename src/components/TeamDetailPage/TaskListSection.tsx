@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import { useEffect } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { GroupTaskLists } from "@coworkers-types";
 import { format } from "date-fns";
 import { useRouter } from "next/router";
@@ -7,6 +7,7 @@ import TextButton from "@components/commons/Button/TextButton";
 import Label from "@components/commons/Label";
 import AddOrEditTaskListModal from "@components/commons/modal/AddOrEditTaskListModal";
 import { useModal } from "@hooks/useModal";
+import useTeamPageDnd from "@hooks/useTeamPageDnd";
 import TaskListItem from "./TaskListItem";
 
 export default function TaskListSection({
@@ -19,7 +20,7 @@ export default function TaskListSection({
   const { openModal } = useModal();
   const router = useRouter();
   const { teamId } = router.query;
-  const [taskListState, setTaskListState] = useState(taskLists);
+  const { handleDragEnd } = useTeamPageDnd(teamId);
 
   // TaskListItem이 클릭되었을 때 실행할 함수
   const handleTaskListClick = (taskListId: number) => {
@@ -29,18 +30,6 @@ export default function TaskListSection({
 
   const handleOpenOneInputModal = () => {
     openModal("AddTaskListModal", AddOrEditTaskListModal);
-  };
-
-  const handleDragEnd = ({ source, destination }: DropResult) => {
-    console.log(source); // 드래그 후  결과값을 볼 수 있다.
-    console.log(destination);
-
-    if (!destination) return; // destination는 드래그 후 결과값, result.source는 드래그 전 이전값이 담겨있다.
-    const originData = [...taskListState];
-    const [reorderedData] = originData.splice(source.index, 1); // 기존 데이터에서 바뀐 부분 제거 후 그 부분 저장
-    originData.splice(destination.index, 0, reorderedData); // 기존 데이터의 바뀐 부분에 저장된 것 끼워넣기
-
-    setTaskListState(originData);
   };
 
   return (
@@ -57,7 +46,7 @@ export default function TaskListSection({
             </TextButton>
           )}
         </div>
-        <Droppable droppableId="taskList">
+        <Droppable droppableId="taskLists">
           {(droppableProvided) => (
             <div
               className="mb-4 flex flex-col"
@@ -65,7 +54,7 @@ export default function TaskListSection({
               {...droppableProvided.droppableProps}
             >
               {taskLists.length > 0 ? (
-                taskListState.map((taskList, index) => (
+                taskLists.map((taskList, index) => (
                   <Draggable key={taskList.id} draggableId={String(taskList.id)} index={index}>
                     {(draggableProvided, snapshot) => (
                       <div

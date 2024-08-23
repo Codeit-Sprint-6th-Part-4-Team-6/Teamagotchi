@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   try {
     await queryClient.fetchQuery({
-      queryKey: ["taskLists", Number(taskListsId), date],
+      queryKey: ["taskList", Number(taskListsId), date],
       queryFn: () => getTaskList(teamId, taskListsId, date as string, token as string),
       staleTime: Infinity,
     });
@@ -75,7 +75,7 @@ export default function TaskListPage() {
     isLoading: taskListsLoading,
     error: taskListsError,
   } = useQuery<TaskListType>({
-    queryKey: ["taskLists", Number(taskListsId), selectedDate.toISOString().slice(0, 10)],
+    queryKey: ["taskList", Number(taskListsId), selectedDate.toISOString().slice(0, 10)],
     queryFn: () => getTaskList(teamId, taskListsId, selectedDate.toISOString()),
     placeholderData: keepPreviousData,
     enabled: !!taskListId,
@@ -107,7 +107,7 @@ export default function TaskListPage() {
         <h1 className="mb-30 text-18 font-bold md:mb-27 md:text-20">할 일</h1>
         <DateWithCalendar date={selectedDate} onDateChange={handleDateChange} />
         <TaskList
-          taskLists={data}
+          taskList={data}
           isLoading={taskListsLoading}
           isError={taskListsError}
           handleTaskListId={handleTaskListId}
