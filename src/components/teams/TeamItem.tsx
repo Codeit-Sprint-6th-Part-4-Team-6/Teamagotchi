@@ -8,7 +8,6 @@ import Spinner from "@components/commons/Spinner";
 import TeamDefault from "@components/commons/TeamDefault";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
-import { IconMember } from "@utils/icon";
 import { validateImage } from "@utils/validateImage";
 import { deleteGroup } from "@api/groupApi";
 import DeleteTeamModal from "./DeleteTeamModal";
@@ -64,7 +63,7 @@ export default function TeamItem({ data }: TeamItemProps) {
               className="object-cover"
             />
           ) : (
-            <TeamDefault />
+            <TeamDefault type="list" />
           )}
         </div>
         <p className="flex-grow pl-20 text-left text-14">{data.group.name}</p>

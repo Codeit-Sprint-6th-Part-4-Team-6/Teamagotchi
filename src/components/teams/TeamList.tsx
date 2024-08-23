@@ -1,7 +1,6 @@
 import React from "react";
 import { Membership } from "@coworkers-types";
 import { useQuery } from "@tanstack/react-query";
-import Image from "next/image";
 import LottieAnimation from "@components/commons/LottieAnimation";
 import Spinner from "@components/commons/Spinner";
 import { getUserMemberships } from "@api/userApi";

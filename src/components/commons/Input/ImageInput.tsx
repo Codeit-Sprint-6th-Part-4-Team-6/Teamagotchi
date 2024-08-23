@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import { useImageInput } from "@hooks/useImageInput";
-import { IconClose, IconEdit, IconImage, IconMemberLarge } from "@utils/icon";
+import { IconClose, IconEdit, IconMemberLarge } from "@utils/icon";
+import TeamDefault from "../TeamDefault";
 
 type ImageInputProps = {
   id: string;
@@ -46,7 +47,7 @@ export default function ImageInput({
         />
         {type !== "article" && (
           <span className="relative flex">
-            {type === "my-profile" ? <IconMemberLarge /> : <IconImage />}
+            {type === "my-profile" ? <IconMemberLarge /> : <TeamDefault type="edit" />}
             <span className="absolute">
               {previewImage && (
                 <PreviewImage
