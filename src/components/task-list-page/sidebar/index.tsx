@@ -4,13 +4,17 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tansta
 import classNames from "classnames";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
+import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import useComment from "@components/commons/Comment/useComment";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import TaskCommentList from "@components/task-list/TaskCommentList";
+import { useModal } from "@hooks/useModal";
 import { IconCalender, IconCheckActive, IconClose, IconRepeat } from "@utils/icon";
 import { getTaskDetails, patchTaskCompletionStatus } from "@api/taskApi";
+import DeleteModal from "../DeleteModal";
+import EditTaskModal from "../EditTaskModal";
 import CommentInput from "./CommentInput";
 
 export default function Sidebar({
@@ -29,12 +33,24 @@ export default function Sidebar({
   onClose: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
+  const { openModal } = useModal();
 
   const { data: TaskDetailData } = useQuery<TaskDetails>({
     queryKey: ["taskListDetail", taskId],
     queryFn: () => getTaskDetails(Number(groupId), Number(taskListId), taskId),
     placeholderData: keepPreviousData,
   });
+
+  const handleOpenDeleteModal = () => {
+    openModal("WarnModal", DeleteModal, {
+      taskId: TaskDetailData?.recurringId,
+      type: "sidebar",
+    });
+  };
+
+  const handleOpenEditTaskModal = () => {
+    openModal("EditTaskModal", EditTaskModal, { defaultValue: TaskDetailData });
+  };
 
   const { mutate: taskPatchMutation } = useMutation({
     mutationFn: (data: PatchTaskRequest) =>
@@ -129,7 +145,11 @@ export default function Sidebar({
               </div>
             )}
           </div>
-          <EditDeletePopover icon="kebabLarge" handleModify={() => {}} handleDelete={() => {}} />
+          <EditDeletePopover
+            icon="kebabLarge"
+            handleModify={handleOpenEditTaskModal}
+            handleDelete={handleOpenDeleteModal}
+          />
         </div>
         <div className="flex justify-between">
           <NameTag
