@@ -12,6 +12,7 @@ import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { updateURL } from "@utils/updateUrl";
 import { postTask } from "@api/taskApi";
+import { KOREA_DATE } from "@constants/globalConstants";
 import DateSelector from "./DateSelector";
 import FrequencyDropdown from "./FrequencyDropdown";
 import WeeklyRepeatSelector from "./WeeklyRepeatSelector";
@@ -25,7 +26,7 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
 
   const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([]);
   const [selectedMonthDay, setSelectedMonthDay] = useState<number>();
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(KOREA_DATE);
   const [task, setTask] = useState<PostTaskRequest>({
     name: "",
     description: "",
@@ -72,14 +73,14 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
 
   if (postTaskMutation.isPending) {
     return (
-      <div className="flex size-300 flex-col items-center justify-center">
+      <div className="mb-40">
         <Success content="할 일을 생성중입니다." size={200} />
       </div>
     );
   }
 
   return (
-    <div className="box-border max-h-664 w-375 overflow-auto px-24 py-34 md:w-384">
+    <div className="box-border max-h-664 w-full overflow-auto px-24 py-34 md:w-384">
       <form className="flex flex-col gap-16" action="submit">
         <Label className="text-center" content="할 일 만들기" />
         <div className="leading- mb-24 text-center text-14 font-medium text-text-default">
