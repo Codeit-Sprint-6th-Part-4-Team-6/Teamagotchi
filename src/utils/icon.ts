@@ -8,6 +8,7 @@ import IconArrowRightBg from "@icons/icon_arrow_right_bg.svg";
 import IconArrowRightGray from "@icons/icon_arrow_right_gray.svg";
 import IconArrowWhiteLeft from "@icons/icon_arrow_white_left.svg";
 import IconArrowWhiteRight from "@icons/icon_arrow_white_right.svg";
+import IconBack from "@icons/icon_back.svg";
 import IconBestBadge from "@icons/icon_best_badge.svg";
 import IconBoard from "@icons/icon_boards.svg";
 import IconCalender from "@icons/icon_calendar.svg";
@@ -62,8 +63,10 @@ import IconToggle from "@icons/icon_toggle.svg";
 import IconUser from "@icons/icon_user.svg";
 import IconVisibilityOff from "@icons/icon_visibility_off.svg";
 import IconVisibilityOn from "@icons/icon_visibility_on.svg";
+import IconWhiteEgg from "@icons/icon_white_egg.svg";
 
 export {
+  IconWhiteEgg,
   IconAlert,
   IconArrowLeft,
   IconArrowLeftBg,
@@ -126,6 +129,7 @@ export {
   IconArrowWhiteRight,
   IconEgg,
   IconFriedEgg,
+  IconBack,
   IconGroups,
   IconBoard,
 };

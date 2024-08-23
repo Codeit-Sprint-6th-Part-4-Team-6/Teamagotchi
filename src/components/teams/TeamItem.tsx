@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import Spinner from "@components/commons/Spinner";
+import TeamDefault from "@components/commons/TeamDefault";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { IconMember } from "@utils/icon";
@@ -51,7 +52,7 @@ export default function TeamItem({ data }: TeamItemProps) {
   return (
     <li
       key={data.groupId}
-      className="mb-15 flex h-80 items-center rounded-8 px-15 hover:bg-background-tertiary"
+      className="flex h-60 items-center rounded-8 bg-text-tertiary/10 p-8 after:hover:bg-background-tertiary md:h-80 md:p-15"
     >
       <Link href={`/teams/${data.groupId}`} className="flex w-full items-center justify-around">
         <div className="relative h-50 w-50 flex-shrink-0 overflow-hidden rounded-6">
@@ -63,10 +64,10 @@ export default function TeamItem({ data }: TeamItemProps) {
               className="object-cover"
             />
           ) : (
-            <IconMember />
+            <TeamDefault />
           )}
         </div>
-        <p className="flex-grow pl-20 text-left text-lg">{data.group.name}</p>
+        <p className="flex-grow pl-20 text-left text-14">{data.group.name}</p>
       </Link>
       {data.role === "ADMIN" && (
         <EditDeletePopover

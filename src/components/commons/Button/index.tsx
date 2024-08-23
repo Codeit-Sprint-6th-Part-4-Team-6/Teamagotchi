@@ -48,7 +48,8 @@ export default function Button({
   disabled = false,
   isPending = false,
 }: ButtonProps) {
-  const baseButtonClassName = "rounded-[12px] font-semibold flex justify-center items-center";
+  const baseButtonClassName =
+    "transition-all duration-100 rounded-[12px] font-semibold flex justify-center items-center";
 
   const styleClassName = classNames(className, "group", {
     "text-text-inverse bg-brand-primary hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive":
