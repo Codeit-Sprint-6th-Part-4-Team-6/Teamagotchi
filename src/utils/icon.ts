@@ -8,6 +8,7 @@ import IconArrowRightBg from "@icons/icon_arrow_right_bg.svg";
 import IconArrowRightGray from "@icons/icon_arrow_right_gray.svg";
 import IconArrowWhiteLeft from "@icons/icon_arrow_white_left.svg";
 import IconArrowWhiteRight from "@icons/icon_arrow_white_right.svg";
+import IconBack from "@icons/icon_back.svg";
 import IconBestBadge from "@icons/icon_best_badge.svg";
 import IconCalender from "@icons/icon_calendar.svg";
 import IconCalenderBg from "@icons/icon_calendar_bg.svg";
@@ -124,4 +125,5 @@ export {
   IconArrowWhiteRight,
   IconEgg,
   IconFriedEgg,
+  IconBack,
 };

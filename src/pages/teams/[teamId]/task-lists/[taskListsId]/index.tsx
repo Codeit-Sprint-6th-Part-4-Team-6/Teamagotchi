@@ -5,11 +5,13 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
+import TextButton from "@components/commons/Button/TextButton";
 import Loading from "@components/commons/LottieAnimation/Loading";
 import CreateTaskModal from "@components/task-list-page/CreateTaskModal";
 import DateWithCalendar from "@components/task-list-page/DateWithCalendar";
 import TaskList from "@components/task-list-page/TaskList";
 import { useModal } from "@hooks/useModal";
+import { IconBack } from "@utils/icon";
 import { updateURL } from "@utils/updateUrl";
 import { getGroup } from "@api/groupApi";
 import { getTaskList } from "@api/taskListApi";
@@ -116,6 +118,15 @@ export default function TaskListPage() {
           groupData={groupData}
         />
       </div>
+
+      <TextButton
+        icon="back"
+        buttonType="link"
+        href={`/teams/${teamId}`}
+        className="fixed bottom-40 left-24 lg:bottom-48 lg:left-90"
+      >
+        팀 페이지로
+      </TextButton>
       <Button
         buttonType="floating"
         icon="plus"
