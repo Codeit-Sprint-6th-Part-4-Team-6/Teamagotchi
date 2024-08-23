@@ -24,9 +24,9 @@ export default function Toast() {
   return (
     <>
       {isOpen && (
-        <div className="fixed bottom-60 left-1/2 z-50 min-w-310 -translate-x-1/2 animate-fadeIn">
-          <div className="flex h-60 items-center rounded-lg bg-background-secondary">
-            <span className={`h-full w-5 rounded-l-lg ${pointColor}`} />
+        <div className="fixed bottom-60 left-1/2 z-50 min-w-fit -translate-x-1/2 animate-fadeIn">
+          <div className="flex min-h-40 items-center rounded-lg bg-background-secondary md:min-h-50">
+            <span className={`min-h-40 w-5 rounded-l-lg md:min-h-50 ${pointColor}`} />
             <div className="px-20">
               {toast?.type === "info" ? <IconToastInfo /> : ""}
               {toast?.type === "success" ? <IconToastSuccess /> : ""}

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { GroupTaskLists } from "@coworkers-types";
 import { format } from "date-fns";

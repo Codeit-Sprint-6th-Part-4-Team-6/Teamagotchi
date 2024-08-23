@@ -22,6 +22,7 @@ export default function DeleteModal({
     mutationFn: () => deleteTask(taskId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["taskList"] });
+      toast("success", "할 일을 삭제했습니다.");
       onClose?.();
     },
     onError: () => {
@@ -33,6 +34,7 @@ export default function DeleteModal({
     mutationFn: () => deleteRecurringTask(recurringId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["taskList"] });
+      toast("success", "반복 할 일을 삭제했습니다.");
       onClose?.();
     },
     onError: () => {
