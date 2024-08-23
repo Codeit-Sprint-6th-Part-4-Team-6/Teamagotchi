@@ -44,7 +44,7 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
     mutationFn: (data: PatchTaskRequest) =>
       patchTaskCompletionStatus(teamId, taskListsId, task.id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["taskLists"] });
+      queryClient.invalidateQueries({ queryKey: ["taskList"] });
       queryClient.invalidateQueries({ queryKey: ["taskListDetail", task.id] });
     },
   });
@@ -64,7 +64,7 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
 
   return (
     <div
-      className="mb-16 flex w-full cursor-pointer flex-col gap-10 rounded-8 border border-solid border-text-secondary/90 bg-background-secondary px-14 py-12 transition-all duration-200 hover:bg-background-tertiary"
+      className="flex w-full cursor-pointer flex-col gap-10 rounded-8 border border-solid border-text-secondary/90 bg-background-secondary px-14 py-12 transition-all duration-200 hover:bg-background-tertiary"
       onClick={onClick}
     >
       <div className="flex items-center justify-between gap-8">
