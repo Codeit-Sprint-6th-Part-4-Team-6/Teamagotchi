@@ -101,7 +101,7 @@ export default function CommentSection({ boardId }: { boardId: number }) {
   });
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="my-30 flex flex-col gap-12">
       <Label type="label" htmlFor="commentTextarea" content="댓글 달기" />
       <Textarea
         id="commentTextarea"
