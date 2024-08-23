@@ -11,6 +11,7 @@ const getAdvice = async () => {
   const response = await axios.get("https://korean-advice-open-api.vercel.app/api/advice");
   return response.data;
 };
+
 export default function TeamsPage() {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["advice"],
