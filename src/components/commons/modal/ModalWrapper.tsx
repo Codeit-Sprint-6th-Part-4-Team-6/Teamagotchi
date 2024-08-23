@@ -26,7 +26,7 @@ export default function ModalWrapper() {
   const modalClass = classNames(
     "modal-container-base transition-transform",
     isMobile
-      ? `modal-container-mobile duration-500 ${isVisible ? `-translate-y-0` : `translate-y-300`}`
+      ? `modal-container-mobile duration-500 flex justify-center ${isVisible ? `-translate-y-0` : `translate-y-300`}`
       : `modal-container duration-500 ease-in-out ${isVisible ? `scale-1` : `scale-0`}`
   );
 
