@@ -9,10 +9,10 @@ import { useToast } from "./useToast";
 
 export function useHeaderLogic() {
   const { logout, setUserData } = useAuth();
-  const { isLoggedIn } = useAuthStore();
   const router = useRouter();
   const { pathname, query } = router;
   const { toast } = useToast();
+  const { isLoggedIn } = useAuthStore();
   const queryClient = useQueryClient();
 
   const { data: userInfo, isPending } = useQuery({
