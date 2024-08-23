@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArticleCommentList, ArticleCommentsWithParams } from "@coworkers-types";
+import { ArticleCommentsWithParams } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Label from "@components/commons/Label";

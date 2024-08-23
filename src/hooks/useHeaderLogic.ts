@@ -32,7 +32,7 @@ export function useHeaderLogic() {
   const isLandingPage = pathname === "/";
 
   useEffect(() => {
-    setUserData();
+    if (userInfo) setUserData(userInfo);
   }, []);
 
   useEffect(() => {

@@ -108,6 +108,13 @@ function PreviewImage({ src, type, handleImageDelete }: PreviewImageProps) {
             onClick={handleImageDelete}
             alt="이미지 미리보기"
           />
+          <IconClose
+            className="absolute -right-10 -top-6 rounded-5 transition-all hover:bg-background-tertiary"
+            onClick={(event: React.MouseEvent) => {
+              event.stopPropagation();
+              handleImageDelete();
+            }}
+          />
         </div>
       )}
       {type === "article" && (

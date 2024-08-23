@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Popover from "@components/commons/Popover";
 import { IconToggle } from "@utils/icon";
+import { validateImage } from "@utils/validateImage";
 
 export function DesktopNavigation({
   curTeamPage,
@@ -31,7 +32,7 @@ export function DesktopNavigation({
               key={`group-${group.groupId}`}
               title={group.group.name}
               id={group.groupId}
-              imgSrc={group.group.image}
+              imgSrc={validateImage(group.group.image)}
               role={group.role}
               isPending={isPending}
             />
