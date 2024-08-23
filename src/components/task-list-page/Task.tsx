@@ -4,9 +4,9 @@ import classNames from "classnames";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
-import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
+import Popover from "@components/commons/Popover";
 import { useModal } from "@hooks/useModal";
-import { IconArrowReload, IconCalender, IconComment } from "@utils/icon";
+import { IconArrowReload, IconCalender, IconComment, IconKebabSmall } from "@utils/icon";
 import { patchTaskCompletionStatus } from "@api/taskApi";
 import CheckButton from "./CheckButton";
 import DeleteModal from "./DeleteModal";
@@ -49,8 +49,12 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
     },
   });
 
-  const handleOpenDeleteModal = () => {
-    openModal("WarnModal", DeleteModal, { taskId: task.recurringId });
+  const handleOpenRecurringDeleteModal = () => {
+    openModal("WarnModal", DeleteModal, { recurringId: task.recurringId, type: "RECURRING" });
+  };
+
+  const handleOpenOnceDeleteModal = () => {
+    openModal("WarnModal", DeleteModal, { taskId: task.id, type: "ONCE" });
   };
 
   const handleOpenEditTaskModal = () => {
@@ -96,11 +100,18 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
             <span className="text-12 text-text-default">{task.commentCount}</span>
           </span>
         </div>
-        <EditDeletePopover
-          icon="kebabSmall"
-          handleModify={handleOpenEditTaskModal}
-          handleDelete={handleOpenDeleteModal}
-        />
+        <Popover>
+          <Popover.Toggle>
+            <IconKebabSmall />
+          </Popover.Toggle>
+          <Popover.Wrapper popDirection="left">
+            <Popover.Item onClick={handleOpenEditTaskModal}>수정하기</Popover.Item>
+            <Popover.Item onClick={handleOpenOnceDeleteModal}>이번 일정만 삭제하기</Popover.Item>
+            <Popover.Item onClick={handleOpenRecurringDeleteModal}>
+              반복 할 일 삭제하기
+            </Popover.Item>
+          </Popover.Wrapper>
+        </Popover>
       </div>
 
       <div className="flex items-center gap-10">

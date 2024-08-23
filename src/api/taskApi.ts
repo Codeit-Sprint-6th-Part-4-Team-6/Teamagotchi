@@ -90,13 +90,28 @@ export const patchTaskCompletionStatus = async (
 };
 
 /**
- * 특정 할 일을 삭제하는 API 함수입니다.
+ * 특정 할 일을 한 번 삭제하는 API 함수입니다.
  * @param groupId - 할 일 목록을 받아올 group의 ID입니다.
  * @param taskListId - 할 일 목록의 ID입니다.
  * @param taskId - 삭제할 할 일의 ID입니다.
  * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
  */
 export const deleteTask = async (
+  taskId: string | string[] | undefined,
+  groupId?: string | string[] | undefined,
+  taskListId?: string | string[] | undefined
+): Promise<void> => {
+  await axiosInstance.delete(`groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`);
+};
+
+/**
+ * 반복 할 일을 모두 삭제하는 API 함수입니다.
+ * @param groupId - 할 일 목록을 받아올 group의 ID입니다.
+ * @param taskListId - 할 일 목록의 ID입니다.
+ * @param taskId - 삭제할 할 일의 ID입니다.
+ * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
+ */
+export const deleteRecurringTask = async (
   recurringId: string | string[] | undefined,
   groupId?: string | string[] | undefined,
   taskListId?: string | string[] | undefined,
@@ -124,23 +139,4 @@ export const patchTaskOrder = async (
   await axiosInstance.patch(`groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}/order`, {
     displayIndex,
   });
-};
-
-/**
- * 반복되는 할 일을 삭제하는 API 함수입니다.
- * @param groupId - 할 일 목록을 받아올 group의 ID입니다.
- * @param taskListId - 할 일 목록의 ID입니다.
- * @param taskId - 반복되는 할 일이 포함된 할 일의 ID입니다.
- * @param recurringId - 삭제할 반복 작업의 ID입니다.
- * @returns 완료 시 204 코드를 받고, 응답 본문은 없습니다.
- */
-export const deleteRecurringTask = async (
-  groupId: number,
-  taskListId: number,
-  taskId: number,
-  recurringId: number
-): Promise<void> => {
-  await axiosInstance.delete(
-    `groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}/recurring/${recurringId}`
-  );
 };
