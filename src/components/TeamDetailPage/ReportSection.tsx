@@ -41,7 +41,7 @@ export default function ReportSection({
           <div className="flex w-142 min-w-120 flex-col gap-15 md:w-280 lg:w-400">
             <div className="flex justify-between rounded-12 bg-background-tertiary p-16">
               <div className="flex flex-col justify-between">
-                <span className="text-xs text-text-secondary">오늘의 할 일</span>
+                <span className="text-xs text-text-primary">오늘의 할 일</span>
                 <span className="text-2xl font-bold leading-none text-brand-tertiary">
                   {totalTasks}개
                 </span>
@@ -52,7 +52,7 @@ export default function ReportSection({
             </div>
             <div className="flex justify-between rounded-12 bg-background-tertiary p-16">
               <div className="flex flex-col justify-between">
-                <span className="text-xs text-text-secondary">한 일</span>
+                <span className="text-xs text-text-primary">한 일</span>
                 <span className="text-2xl font-bold leading-none text-brand-tertiary">
                   {completedTasks}개
                 </span>

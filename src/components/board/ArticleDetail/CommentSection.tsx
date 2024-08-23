@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArticleCommentList, ArticleCommentsWithParams } from "@coworkers-types";
+import { ArticleCommentsWithParams } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Label from "@components/commons/Label";
@@ -18,7 +18,7 @@ export default function CommentSection({ boardId }: { boardId: number }) {
     setComment(event.target.value);
   };
 
-  const { mutate: postMutation, isPending } = useMutation({
+  const { mutate: postMutation } = useMutation({
     mutationFn: (content: string) => postArticleComment(boardId, content),
     onMutate: async (content) => {
       await queryClient.cancelQueries({ queryKey: ["articleComments", boardId] });

@@ -56,7 +56,7 @@ export default function EditUserForm() {
         id="profile-image"
         type="my-profile"
         onChange={handleFileChange}
-        defaultValue={user.image}
+        defaultValue={user.image === "null" ? "" : user.image}
       />
       <div>
         <Label content="이메일" marginBottom={12} />

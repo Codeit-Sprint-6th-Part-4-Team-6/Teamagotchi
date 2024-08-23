@@ -3,8 +3,10 @@ import classNames from "classnames";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import { IconCrown, IconMember } from "@utils/icon";
+import { validateImage } from "@utils/validateImage";
 import Spinner from "../Spinner";
 
 export const PopoverContext = createContext({
@@ -128,6 +130,15 @@ function Item({ children, onClick }: { children: React.ReactNode; onClick: () =>
   );
 }
 
+function NameInfoItem({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="block lg:hidden">
+      <span className="text-nowrap text-md font-bold text-text-primary">{children}</span>
+      <hr className="my-5 h-1 border-0 bg-background-tertiary" />
+    </div>
+  );
+}
+
 function InnerButton({ onClick }: { onClick: () => void }) {
   const { closePopover } = useContext(PopoverContext);
 
@@ -137,6 +148,7 @@ function InnerButton({ onClick }: { onClick: () => void }) {
 
   return (
     <Button
+      className="min-w-130"
       buttonStyle="transparent-white"
       icon="plus"
       onClick={() => {
@@ -163,6 +175,9 @@ function TeamItem({
   isPending: boolean;
 }) {
   const { closePopover } = useContext(PopoverContext);
+  const router = useRouter();
+  const path = router.asPath;
+  const isSelected = path === `/teams/${id}`;
 
   const handleClick = () => {
     closePopover();
@@ -176,7 +191,12 @@ function TeamItem({
     <Link href={`/teams/${id}`}>
       <button
         type="button"
-        className="my-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary"
+        className={classNames(
+          "mb-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary",
+          {
+            "bg-background-tertiary": isSelected,
+          }
+        )}
         onClick={handleClick}
       >
         <div className="relative h-32 w-32 flex-shrink-0 overflow-hidden rounded-6">
@@ -186,8 +206,8 @@ function TeamItem({
             <IconMember />
           )}
         </div>
-        <span className="flex-grow truncate text-left text-lg">{title}</span>
-        {role === "ADMIN" ? <IconCrown /> : ""}
+        <span className="flex-1 truncate text-left text-lg">{title}</span>
+        {role === "ADMIN" ? <IconCrown className="w-18" /> : ""}
       </button>
     </Link>
   );
@@ -198,3 +218,4 @@ Popover.Wrapper = Wrapper;
 Popover.Item = Item;
 Popover.InnerButton = InnerButton;
 Popover.TeamItem = TeamItem;
+Popover.NameInfoItem = NameInfoItem;

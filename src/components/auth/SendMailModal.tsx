@@ -15,7 +15,7 @@ export default function SendMailModal({ onClose }: { onClose?: () => void }) {
 
   const userData: SendResetPasswordRequest = {
     email,
-    redirectUrl: String(process.env.NEXT_PUBLIC_URL),
+    redirectUrl: String(process.env.NEXT_PUBLIC_SITE_URL),
   };
 
   const { mutate } = useMutation({

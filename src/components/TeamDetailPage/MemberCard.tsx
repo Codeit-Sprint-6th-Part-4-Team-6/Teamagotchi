@@ -5,7 +5,7 @@ import Popover from "@components/commons/Popover";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
-import { IconKebabLarge } from "@utils/icon";
+import { IconCrown, IconKebabLarge } from "@utils/icon";
 import { deleteGroupMember } from "@api/groupApi";
 import { DeleteGroupMemberModal } from "./TeamPageModal";
 
@@ -35,7 +35,7 @@ export default function MemberCard({
     mutationFn: () => deleteGroupMember(Number(teamId), Number(memberId)),
     onSuccess: () => {
       toast("success", "해당 멤버가 추방되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["team", teamId] });
+      queryClient.invalidateQueries({ queryKey: ["group", teamId] });
     },
   });
 
@@ -51,7 +51,12 @@ export default function MemberCard({
   return (
     <div className="flex h-73 items-center rounded-16 bg-background-secondary px-24 py-2 transition-all">
       <div className="flex w-full items-center justify-between">
-        <NameTag type="email" name={name} email={email} image={image} />
+        <div className="relative">
+          {role === "ADMIN" && user?.email === email ? (
+            <IconCrown className="absolute bottom-39 left-4 z-10 md:bottom-29 md:left-8" />
+          ) : null}
+          <NameTag type="email" name={name} email={email} image={image} />
+        </div>
         <Popover>
           <Popover.Toggle>
             <IconKebabLarge className="rounded-5 transition-all hover:bg-background-tertiary" />

@@ -5,7 +5,7 @@ import MembersSection from "@components/TeamDetailPage/MembersSection";
 import ReportSection from "@components/TeamDetailPage/ReportSection";
 import TaskListSection from "@components/TeamDetailPage/TaskListSection";
 import TeamTitle from "@components/TeamDetailPage/TeamTitle";
-import Spinner from "@components/commons/Spinner";
+import Loading from "@components/commons/LottieAnimation/Loading";
 import { getGroup } from "@api/groupApi";
 import { getUserMemberships } from "@api/userApi";
 
@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   if (typeof teamId === "string") {
     try {
       await queryClient.fetchQuery({
-        queryKey: ["team", teamId],
+        queryKey: ["group", teamId],
         queryFn: () => getGroup(Number(teamId), token),
         staleTime: Infinity,
       });
@@ -43,7 +43,7 @@ export default function TeamDetailPage() {
     isLoading: groupLoading,
     isError: groupError,
   } = useQuery({
-    queryKey: ["team", teamId],
+    queryKey: ["group", teamId],
     queryFn: () => getGroup(Number(teamId)),
     staleTime: Infinity,
   });
@@ -67,14 +67,7 @@ export default function TeamDetailPage() {
       </div>
     );
 
-  if (groupLoading || membershipLoading)
-    return (
-      <div className="mx-auto mt-20 flex h-[80vh] w-full min-w-368 max-w-1200 items-center justify-center px-34 py-20">
-        <section>
-          <Spinner size={100} />
-        </section>
-      </div>
-    );
+  if (groupLoading || membershipLoading) return <Loading />;
 
   // 현재 페이지의 내 역할 정보를 정제
   const curTeamMembership = Array.isArray(membershipData)

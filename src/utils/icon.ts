@@ -10,6 +10,7 @@ import IconArrowWhiteLeft from "@icons/icon_arrow_white_left.svg";
 import IconArrowWhiteRight from "@icons/icon_arrow_white_right.svg";
 import IconBack from "@icons/icon_back.svg";
 import IconBestBadge from "@icons/icon_best_badge.svg";
+import IconBoard from "@icons/icon_boards.svg";
 import IconCalender from "@icons/icon_calendar.svg";
 import IconCalenderBg from "@icons/icon_calendar_bg.svg";
 import IconCheckActive from "@icons/icon_check_active.svg";
@@ -33,6 +34,7 @@ import IconFriedEgg from "@icons/icon_fried_egg.svg";
 import IconGear from "@icons/icon_gear.svg";
 import IconGnbMenu from "@icons/icon_gnb_menu.svg";
 import IconGoogle from "@icons/icon_google.svg";
+import IconGroups from "@icons/icon_groups.svg";
 import IconHeart from "@icons/icon_heart.svg";
 import IconHeartFill from "@icons/icon_heart_fill.svg";
 import IconImage from "@icons/icon_image.svg";
@@ -128,4 +130,6 @@ export {
   IconEgg,
   IconFriedEgg,
   IconBack,
+  IconGroups,
+  IconBoard,
 };
