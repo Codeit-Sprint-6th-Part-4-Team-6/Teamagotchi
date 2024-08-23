@@ -11,7 +11,6 @@ import CreateTaskModal from "@components/task-list-page/CreateTaskModal";
 import DateWithCalendar from "@components/task-list-page/DateWithCalendar";
 import TaskList from "@components/task-list-page/TaskList";
 import { useModal } from "@hooks/useModal";
-import { IconBack } from "@utils/icon";
 import { updateURL } from "@utils/updateUrl";
 import { getGroup } from "@api/groupApi";
 import { getTaskList } from "@api/taskListApi";

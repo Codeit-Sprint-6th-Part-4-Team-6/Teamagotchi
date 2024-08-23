@@ -61,8 +61,10 @@ import IconToggle from "@icons/icon_toggle.svg";
 import IconUser from "@icons/icon_user.svg";
 import IconVisibilityOff from "@icons/icon_visibility_off.svg";
 import IconVisibilityOn from "@icons/icon_visibility_on.svg";
+import IconWhiteEgg from "@icons/icon_white_egg.svg";
 
 export {
+  IconWhiteEgg,
   IconAlert,
   IconArrowLeft,
   IconArrowLeftBg,
