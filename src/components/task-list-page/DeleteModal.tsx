@@ -35,8 +35,8 @@ export default function DeleteModal({
       queryClient.invalidateQueries({ queryKey: ["taskList"] });
       onClose?.();
     },
-    onError: (error) => {
-      toast("danger", `할 일 삭제에 실패했습니다. 다시 시도해 주세요. ${error}}`);
+    onError: () => {
+      toast("danger", `할 일 삭제에 실패했습니다. 다시 시도해 주세요.}`);
     },
   });
 
@@ -56,7 +56,7 @@ export default function DeleteModal({
     <WarnModal
       onConfirm={type === "ONCE" ? handleOnceDelete : handleRecurringDelete}
       buttonText="삭제"
-      title="할 일을 삭제 하시겠습니까?"
+      title={type === "ONCE" ? "할 일을 삭제 하시겠습니까?" : "반복 할 일을 삭제 하시겠습니까?"}
       warnIcon
       onClose={onClose}
     />

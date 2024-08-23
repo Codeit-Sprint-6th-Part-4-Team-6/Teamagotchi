@@ -51,7 +51,7 @@ export default function TeamItem({ data }: TeamItemProps) {
   return (
     <li
       key={data.groupId}
-      className="flex h-60 items-center rounded-8 bg-text-tertiary/10 p-8 after:hover:bg-background-tertiary md:h-80 md:p-15"
+      className="flex h-60 items-center rounded-8 bg-text-tertiary/10 p-8 hover:bg-background-tertiary md:h-80 md:p-15"
     >
       <Link href={`/teams/${data.groupId}`} className="flex w-full items-center justify-around">
         <div className="relative h-50 w-50 flex-shrink-0 overflow-hidden rounded-6">
