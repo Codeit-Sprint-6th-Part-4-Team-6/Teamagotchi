@@ -2,7 +2,7 @@ import { ArticleDetails } from "@coworkers-types";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import BoardForm from "@components/board/BoardForm/BoardForm";
-import Spinner from "@components/commons/Spinner";
+import Loading from "@components/commons/LottieAnimation/Loading";
 import { getArticle } from "@api/articleApi";
 
 export default function EditBoardPage() {
@@ -19,9 +19,7 @@ export default function EditBoardPage() {
   if (isLoading) {
     return (
       <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-        <div className="flex h-[75vh] items-center justify-center">
-          <Spinner size={100} />
-        </div>
+        <Loading />
       </div>
     ); // 로딩 상태 표시
   }

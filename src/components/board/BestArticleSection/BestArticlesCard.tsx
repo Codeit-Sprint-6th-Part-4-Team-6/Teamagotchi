@@ -1,6 +1,6 @@
 import { Article } from "@coworkers-types";
-import { motion } from "framer-motion";
 import { format } from "date-fns";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import NameTag from "@components/commons/NameTag";
