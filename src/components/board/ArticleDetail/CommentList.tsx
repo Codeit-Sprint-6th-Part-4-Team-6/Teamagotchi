@@ -16,6 +16,8 @@ export default function ArticleCommentList({ articleId }: { articleId: number })
     fetchNextPage,
     hasNextPage,
     isFetching,
+    isLoading,
+    isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: ["articleComments", articleId],
     queryFn: ({ pageParam }) => getArticleComments(articleId, ARTICLE_COMMENT_LIMIT, pageParam),
@@ -27,9 +29,7 @@ export default function ArticleCommentList({ articleId }: { articleId: number })
 
   return (
     <div className="relative flex flex-col gap-16 pb-16">
-      {isFetching && <Spinner size={36} color="primary" className="!h-300" />}
-
-      {!isFetching && commentList && commentList.pages[0].list.length > 0 && (
+      {commentList && commentList.pages[0].list.length > 0 && (
         <>
           {commentList.pages.map((threeComments) =>
             threeComments.list?.map((comment) => (
@@ -46,6 +46,9 @@ export default function ArticleCommentList({ articleId }: { articleId: number })
       )}
 
       {!isFetching && hasNextPage && <div ref={targetRef} className="absolute bottom-400" />}
+      {(isLoading || isFetchingNextPage) && (
+        <Spinner size={36} color="primary" className="!h-300" />
+      )}
     </div>
   );
 }

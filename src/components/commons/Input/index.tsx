@@ -74,6 +74,7 @@ export default function Input({
         onKeyDown={onKeyDown}
         onBlur={onBlur}
         className={inputClassnames}
+        autoComplete="on"
       />
       {type === "password" && (
         <button
@@ -81,6 +82,7 @@ export default function Input({
           className="absolute right-16 top-12"
           onClick={handlePasswordViewClick}
           aria-label="Toggle password visibility"
+          tabIndex={-1}
         >
           {inputType === "password" ? <IconVisibilityOff /> : <IconVisibilityOn />}
         </button>
@@ -91,9 +93,10 @@ export default function Input({
           {value && (
             <button
               type="button"
-              className="absolute right-16 top-6 cursor-pointer"
+              className="absolute right-16 top-11 cursor-pointer"
               onClick={onDelete}
               aria-label="Clear search"
+              tabIndex={-1}
             >
               <IconClose />
             </button>

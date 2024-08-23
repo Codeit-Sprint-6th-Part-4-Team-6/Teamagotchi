@@ -1,7 +1,9 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { Group, User } from "@coworkers-types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Group } from "@coworkers-types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useRouter } from "next/router";
+import { useAuthStore } from "@store/useAuthStore";
 import { getParams } from "@utils/getParams";
 import { getGroup, postAcceptInvitation } from "@api/groupApi";
 import ERROR_MESSAGES from "@constants/errorMessage";
@@ -15,16 +17,22 @@ export const useJoinTeam = () => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const [groupInfo, setGroupInfo] = useState<Group>();
-  const queryClient = useQueryClient();
+  const { user } = useAuthStore();
   const router = useRouter();
   const { toast } = useToast();
   const timer = useRef<number | null>(null);
 
-  const { data: groupData, isFetching } = useQuery({
+  const {
+    data: groupData,
+    isFetching,
+    isError,
+    error,
+  } = useQuery<Group, AxiosError>({
     queryKey: ["group", groupId],
     queryFn: () => getGroup(groupId),
     enabled,
     staleTime: 300000,
+    retry: (failureCount, axiosError) => axiosError.response?.status === 404 && false,
   });
 
   const acceptInvitationMutation = useMutation({
@@ -70,7 +78,7 @@ export const useJoinTeam = () => {
       }
 
       return 0;
-    } catch (error) {
+    } catch {
       return 0;
     }
   };
@@ -93,8 +101,6 @@ export const useJoinTeam = () => {
       return;
     }
 
-    const user: User | undefined = queryClient.getQueryData(["user"]);
-
     if (user?.memberships?.every((membership) => membership.groupId !== idQuery)) {
       setGroupId(idQuery);
       setEnabled(true);
@@ -108,8 +114,6 @@ export const useJoinTeam = () => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const user: User | undefined = queryClient.getQueryData(["user"]);
 
     const token = getParams(value).get("token");
 
@@ -131,12 +135,12 @@ export const useJoinTeam = () => {
   };
 
   useEffect(() => {
-    if (router.isReady && router.query.token && router.query.groupId) {
+    if (router.isReady && router.query.token && router.query.groupId && user && !isError) {
       const initialUrl = process.env.NEXT_PUBLIC_SITE_URL + router.asPath;
       setValue(initialUrl);
       updatePreview(initialUrl);
     }
-  }, [router.isReady]);
+  }, [router.isReady, user, isError]);
 
   useEffect(() => {
     if (groupData && !isFetching && enabled) {
@@ -144,6 +148,12 @@ export const useJoinTeam = () => {
       setIsDisabled(false);
     }
   }, [groupData, isFetching, enabled]);
+
+  useEffect(() => {
+    if (isError && error.response?.status === 404) {
+      setErrorMessage(ERROR_MESSAGES.NON_EXISTENT_GROUP);
+    }
+  }, [isError]);
 
   return {
     groupInfo,
