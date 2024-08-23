@@ -4,7 +4,6 @@ import { ko } from "date-fns/locale";
 import Label from "@components/commons/Label";
 import CustomModal from "@components/commons/modal/CustomModal";
 import { useModal } from "@hooks/useModal";
-import { formatDate } from "@utils/formatDate";
 import { IconCheckboxActive } from "@utils/icon";
 
 type TaskHistoryProps = {
