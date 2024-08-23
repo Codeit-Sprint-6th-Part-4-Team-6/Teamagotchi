@@ -5,6 +5,7 @@ import classNames from "classnames";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import Button from "@components/commons/Button";
+import useComment from "@components/commons/Comment/useComment";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import TaskCommentList from "@components/task-list/TaskCommentList";
@@ -58,10 +59,6 @@ export default function Sidebar({
     ? format(new Date(TaskDetailData.recurring.startDate), "yyyy년 M월 dd일")
     : "";
 
-  const formattedStatedTime = TaskDetailData?.recurring.startDate
-    ? format(new Date(TaskDetailData.recurring.startDate), "a h:mm")
-    : "";
-
   let frequency = "";
 
   if (TaskDetailData?.recurring.frequencyType) {
@@ -99,36 +96,39 @@ export default function Sidebar({
   };
 
   return (
-    <div className="fixed right-0 top-61 z-[15] h-full w-full bg-background-secondary md:left-auto md:top-61 md:w-435 lg:w-779">
-      <div className="flex h-full flex-col gap-16 p-24">
+    <div className="fixed right-0 top-61 z-[15] h-full w-full overflow-y-scroll bg-background-secondary md:left-auto md:top-61 md:w-435 lg:w-779">
+      <div className="sticky top-0 z-[16] w-full bg-background-secondary py-10 pl-20">
         <IconClose className="cursor-pointer" onClick={onClose} />
-        {isChecked && (
-          <div className="flex items-center gap-6">
-            <IconCheckActive />
-            <p className="text-brand-primary">완료</p>
-          </div>
-        )}
+      </div>
+      <div className="flex h-full flex-col gap-16 p-24 pt-5">
         <div className="flex justify-between">
-          <div className="relative">
-            <p className="text-20 font-bold text-text-primary">{TaskDetailData?.name}</p>
-            <motion.svg
-              className="absolute left-0 top-1/2 h-4 w-full overflow-visible"
-              initial={false}
-              animate={isChecked ? "checked" : "unchecked"}
-            >
-              <motion.line
-                x1="0"
-                y1="50%"
-                x2="100%"
-                y2="50%"
-                stroke="#fff"
-                strokeWidth="1.5px"
-                variants={lineVariants}
-                transition={{ duration: 0.2 }}
-              />
-            </motion.svg>
+          <div className="flex gap-10">
+            <div className="relative">
+              <p className="text-20 font-bold text-text-primary">{TaskDetailData?.name}</p>
+              <motion.svg
+                className="absolute left-0 top-1/2 h-4 w-full overflow-visible"
+                initial={false}
+                animate={isChecked ? "checked" : "unchecked"}
+              >
+                <motion.line
+                  x1="0"
+                  y1="50%"
+                  x2="100%"
+                  y2="50%"
+                  stroke="#fff"
+                  strokeWidth="1.5px"
+                  variants={lineVariants}
+                  transition={{ duration: 0.2 }}
+                />
+              </motion.svg>
+            </div>
+            {isChecked && (
+              <div className="flex items-center gap-6">
+                <IconCheckActive />
+                <p className="text-brand-primary">완료</p>
+              </div>
+            )}
           </div>
-
           <EditDeletePopover icon="kebabLarge" handleModify={() => {}} handleDelete={() => {}} />
         </div>
         <div className="flex justify-between">
