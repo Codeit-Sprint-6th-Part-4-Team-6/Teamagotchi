@@ -4,9 +4,7 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tansta
 import classNames from "classnames";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
-import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
-import useComment from "@components/commons/Comment/useComment";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import TaskCommentList from "@components/task-list/TaskCommentList";
