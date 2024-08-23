@@ -1,16 +1,13 @@
-import { AuthResponse } from "@coworkers-types";
+import { AuthResponse, User } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, hasCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
-import { getUser } from "@api/userApi";
 
 export const useAuth = () => {
   const { setUser, setIsLoggedIn } = useAuthStore();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { toast } = useToast();
 
   /**
    * 로그인 시 필요한 처리를 모아놓은 함수
@@ -27,8 +24,6 @@ export const useAuth = () => {
       loginType = "GOOGLE";
     }
     setCookie("loginType", loginType, { maxAge: 3600 * 12 * 7 });
-    const userInfo = await getUser();
-    setUser(userInfo);
     setIsLoggedIn(true);
     router.push("/teams");
   };
@@ -37,24 +32,22 @@ export const useAuth = () => {
    * 로그아웃 시 처리할 로직을 모아놓은 함수
    */
   const logout = () => {
-    deleteCookie("accessToken");
     deleteCookie("refreshToken");
+    router.push("/");
+    deleteCookie("accessToken");
     deleteCookie("loginType");
     queryClient.removeQueries();
     setUser(null);
     useAuthStore.persist.clearStorage();
     setIsLoggedIn(false);
-    router.push("/");
   };
 
-  const setUserData = async () => {
+  const setUserData = (data: User) => {
     const hasToken = hasCookie("refreshToken");
 
     if (hasToken) {
-      const data = await getUser();
       setUser(data);
       setIsLoggedIn(true);
-      queryClient.setQueryData(["user"], data);
     }
   };
 

@@ -7,6 +7,7 @@ import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
 import { useUpdateForm } from "@hooks/useUpdateForm";
+import { validateImage } from "@utils/validateImage";
 import { patchGroupProfile } from "@api/groupApi";
 
 export default function EditTeamForm() {
@@ -58,7 +59,7 @@ export default function EditTeamForm() {
         .findIndex((item) => item.id === teamId);
 
       if (prevGroupIdx !== -1 && prevGroupIdx !== undefined) {
-        setPrevGroupImage(user.memberships[prevGroupIdx]?.group.image);
+        setPrevGroupImage(validateImage(user.memberships[prevGroupIdx]?.group.image));
         setPrevGroupName(user.memberships[prevGroupIdx]?.group.name);
       }
     }

@@ -54,7 +54,7 @@ export default function AddOrEditTaskListModal({
     mutationFn: () => patchTaskList(teamId, taskListId, taskName),
     onSuccess: () => {
       closeModal();
-      queryClient.invalidateQueries({ queryKey: ["team", teamId] });
+      queryClient.invalidateQueries({ queryKey: ["group"] });
     },
     onError: (error: any) => {
       toast("danger", `${error.response?.data?.message || "목록 수정에 실패했습니다."}`);

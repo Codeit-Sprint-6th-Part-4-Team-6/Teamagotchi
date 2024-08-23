@@ -25,7 +25,7 @@ export default function SocialLoginBox({ type, onGoogleClick, onKakaoClick }: So
         <div className="flex gap-16">
           <button
             type="button"
-            // onClick={onGoogleClick}
+            onClick={onGoogleClick}
             aria-label={`Google ${type === "login" ? "login" : "register"}`}
           >
             <IconGoogle />

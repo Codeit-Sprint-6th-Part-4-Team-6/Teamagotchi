@@ -63,10 +63,8 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
   };
 
   return (
-    <motion.div
-      whileHover={{ scale: 0.99 }}
-      transition={{ duration: 0.2 }}
-      className="box-shadow flex w-full cursor-pointer flex-col gap-10 rounded-8 bg-background-secondary px-14 py-12"
+    <div
+      className="flex w-full cursor-pointer flex-col gap-10 rounded-8 border border-solid border-text-secondary/90 bg-background-secondary px-14 py-12 transition-all duration-200 hover:bg-background-tertiary"
       onClick={onClick}
     >
       <div className="flex items-center justify-between gap-8">
@@ -118,6 +116,6 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
           </span>
         </span>
       </div>
-    </motion.div>
+    </div>
   );
 }

@@ -70,6 +70,16 @@ export default function TaskList({
     });
   });
 
+  useEffect(() => {
+    if (taskList?.tasks) {
+      const initialCheckedState: { [key: number]: boolean } = {};
+      taskList.tasks.forEach((task) => {
+        initialCheckedState[task.id] = task.doneAt !== null;
+      });
+      setCheckedTaskIds(initialCheckedState);
+    }
+  }, [taskList]);
+
   const handleActiveTab = useCallback(
     (index: number, tasks: GroupTaskLists) => {
       setActiveTabIndex(index);

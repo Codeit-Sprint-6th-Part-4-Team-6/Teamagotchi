@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import Image from "next/image";
 import { IconMember, IconUser } from "@utils/icon";
+import { validateImage } from "@utils/validateImage";
 
 type NameTagProps = {
   type: "default-6" | "default-12" | "email" | "profile";
@@ -51,9 +52,9 @@ export default function NameTag({ type, image, name, email, onClick }: NameTagPr
   return (
     <div className={layoutStyles} onClick={onClick}>
       {/* eslint-disable-next-line no-nested-ternary */}
-      {image ? (
+      {validateImage(image) ? (
         <div className={profileStyles}>
-          <Image src={image} alt="profile" className="rounded-full" fill />
+          <Image src={image ?? ""} alt="profile" className="rounded-full" fill />
         </div>
       ) : type === "profile" ? (
         <IconUser className="h-24 w-24 shrink-0 md:h-16 md:w-16" />
