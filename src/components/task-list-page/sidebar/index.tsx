@@ -39,7 +39,7 @@ export default function Sidebar({
     mutationFn: (data: PatchTaskRequest) =>
       patchTaskCompletionStatus(groupId, taskListId, taskId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["taskLists"] });
+      queryClient.invalidateQueries({ queryKey: ["taskList"] });
       queryClient.invalidateQueries({ queryKey: ["taskListDetail", taskId] });
     },
   });

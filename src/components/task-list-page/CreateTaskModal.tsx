@@ -63,7 +63,7 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
     onSuccess: () => {
       closeModal();
       updateURL(selectedDate, taskListsId, teamId, router);
-      queryClient.invalidateQueries({ queryKey: ["taskLists"] });
+      queryClient.invalidateQueries({ queryKey: ["taskList"] });
     },
     onError: (error: any) => {
       toast("danger", `${error.response.data.message}`);

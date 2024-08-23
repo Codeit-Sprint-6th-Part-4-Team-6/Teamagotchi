@@ -37,7 +37,7 @@ export default function EditTaskModal({
       patchTaskCompletionStatus(teamId, taskListsId, Number(defaultValue?.id), data),
     onSuccess: () => {
       toast("success", "할 일을 수정했습니다.");
-      queryClient.invalidateQueries({ queryKey: ["taskLists"] });
+      queryClient.invalidateQueries({ queryKey: ["taskList"] });
       closeModal();
     },
     onError: (error: any) => {
