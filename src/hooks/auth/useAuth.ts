@@ -33,13 +33,12 @@ export const useAuth = () => {
    */
   const logout = () => {
     deleteCookie("refreshToken");
+    setIsLoggedIn(false);
     router.push("/");
     deleteCookie("accessToken");
     deleteCookie("loginType");
     queryClient.removeQueries();
     setUser(null);
-    useAuthStore.persist.clearStorage();
-    setIsLoggedIn(false);
   };
 
   const setUserData = (data: User) => {

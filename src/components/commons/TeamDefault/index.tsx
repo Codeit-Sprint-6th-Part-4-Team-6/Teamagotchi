@@ -1,8 +1,11 @@
 import { IconWhiteEgg } from "@utils/icon";
 
-export default function TeamDefault() {
+export default function TeamDefault({ type }: { type: "list" | "edit" }) {
+  const circleSize = type === "list" ? "size-45 md:size-50" : "size-66";
   return (
-    <div className="flex size-45 items-center justify-center rounded-full border-2 border-solid border-background-tertiary bg-background-secondary md:size-50">
+    <div
+      className={`flex items-center justify-center rounded-full border-2 border-solid border-background-tertiary bg-background-secondary ${circleSize}`}
+    >
       <IconWhiteEgg />
     </div>
   );
