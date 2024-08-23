@@ -6,7 +6,7 @@ import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
 import Label from "@components/commons/Label";
-import Spinner from "@components/commons/Spinner";
+import Loading from "@components/commons/LottieAnimation/Loading";
 import Textarea from "@components/commons/TextArea";
 import useMediaQuery from "@hooks/useMediaQuery";
 import { useToast } from "@hooks/useToast";
@@ -102,6 +102,11 @@ export default function BoardForm({
         imageURL = null; // 이미지가 삭제된 경우
       }
 
+      // 게시글 생성인데 imageFile이 Null인 경우
+      if (!boardId && imageFile === null) {
+        imageURL = undefined;
+      }
+
       const articleData: PostArticleRequest = {
         title: formValues.title,
         content: formValues.content,
@@ -120,16 +125,14 @@ export default function BoardForm({
 
   const postValidation = !!(formValues.content.length && formValues.title.length);
 
+  const isMutating = postArticleMutation.isPending || updateArticleMutation.isPending;
+
   return (
     <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
-      {postArticleMutation.isPending || updateArticleMutation.isPending ? (
-        <div className="flex h-[75vh] items-center justify-center">
-          <Spinner size={100} />
-        </div>
+      {isMutating ? (
+        <Loading />
       ) : postArticleMutation.isSuccess || updateArticleMutation.isSuccess ? (
-        <div className="flex h-[75vh] items-center justify-center">
-          <Spinner size={100} />
-        </div>
+        <Loading />
       ) : (
         <form
           className="flex flex-col gap-30"
@@ -144,7 +147,8 @@ export default function BoardForm({
               <Button
                 size="medium"
                 onClick={handleSubmit}
-                disabled={!postValidation || !hasChanges}
+                disabled={!postValidation || !hasChanges || isMutating}
+                isPending={isMutating}
               >
                 {boardId ? "수정" : "등록"}
               </Button>
@@ -183,7 +187,11 @@ export default function BoardForm({
           </div>
           {isMobile ? (
             <div className="pt-10">
-              <Button onClick={handleSubmit} disabled={!postValidation || !hasChanges}>
+              <Button
+                onClick={handleSubmit}
+                disabled={!postValidation || !hasChanges || isMutating}
+                isPending={isMutating}
+              >
                 {boardId ? "수정" : "등록"}
               </Button>
             </div>

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Loading from "@components/commons/LottieAnimation/Loading";
 import { useAuth } from "@hooks/auth/useAuth";
 import { socialLogin } from "@api/authApi";
 
@@ -55,7 +56,7 @@ function OAuthRedirect() {
     }
   };
 
-  return <div>Logging in...</div>;
+  return <Loading />;
 }
 
 export default OAuthRedirect;
