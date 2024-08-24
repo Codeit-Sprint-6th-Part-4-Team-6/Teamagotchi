@@ -18,7 +18,6 @@ import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import useMediaQuery from "@hooks/useMediaQuery";
-import usePagination from "@hooks/usePagination";
 import { getArticleList } from "@api/articleApi";
 
 const PAGE_SIZE = 3;
@@ -65,17 +64,11 @@ export default function BoardPage() {
   const queryClient = useQueryClient();
   const { isMobile, isTablet, isDesktop } = useMediaQuery();
 
-  const { handlePageChange, handleOrderByChange, handleKeywordEnter, updateURL } = usePagination(
-    currentPage,
-    currentOrderBy,
-    currentKeyword
-  );
-
   useEffect(() => {
     setCurrentPage(parseInt(page as string, 10) || 1);
     setCurrentOrderBy((orderBy as string) || INITIAL_ORDER);
     setCurrentKeyword((keyword as string) || "");
-  }, [page, orderBy, keyword]);
+  }, [page, orderBy, keyword, router]);
 
   const { data } = useQuery<TotalArticle>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
@@ -90,6 +83,22 @@ export default function BoardPage() {
     queryKey: ["bestArticles"],
     queryFn: () => getArticleList(1, PAGE_SIZE, "like", ""),
   });
+
+  const updateURL = (newPage?: number, newOrderBy?: string, newKeyword?: string) => {
+    const query: any = {};
+    if (newPage !== undefined) query.page = newPage;
+    if (newOrderBy !== undefined) query.orderBy = newOrderBy;
+    if (newKeyword !== undefined) query.keyword = newKeyword;
+
+    router.push(
+      {
+        pathname: "/board",
+        query,
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
 
   useEffect(() => {
     if (page) {
@@ -119,17 +128,44 @@ export default function BoardPage() {
   const articles = data?.list ?? [];
 
   useEffect(() => {
-    for (let i = 1; i <= totalCount; i++) {
-      queryClient.prefetchQuery({
-        queryKey: ["articles", i, currentOrderBy, currentKeyword],
-        queryFn: () => getArticleList(i, PAGE_SIZE, currentOrderBy, currentKeyword),
-        staleTime: Infinity,
-      });
+    if (totalCount > 1) {
+      for (let i = 1; i <= totalCount; i++) {
+        queryClient.prefetchQuery({
+          queryKey: ["articles", i, currentOrderBy, currentKeyword],
+          queryFn: () => getArticleList(i, PAGE_SIZE, currentOrderBy, currentKeyword),
+          staleTime: Infinity,
+        });
+      }
     }
-  });
+  }, []);
 
   const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(event.target.value);
+  };
+
+  const handleKeywordDelete = () => {
+    setSearchKeyword("");
+    setCurrentPage(1);
+    setCurrentOrderBy(INITIAL_ORDER);
+    setCurrentKeyword("");
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    updateURL(newPage, currentOrderBy, currentKeyword);
+  };
+
+  const handleOrderByChange = (newOrderBy: string) => {
+    setCurrentOrderBy(newOrderBy);
+    updateURL(currentPage, newOrderBy, currentKeyword);
+  };
+
+  const handleKeywordEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      const target = event.target as HTMLInputElement;
+      setCurrentKeyword(target.value);
+      updateURL(1, currentOrderBy, target.value);
+    }
   };
 
   return (
@@ -149,7 +185,7 @@ export default function BoardPage() {
             value={searchKeyword}
             onChange={handleKeywordChange}
             onKeyDown={handleKeywordEnter}
-            onDelete={() => setSearchKeyword("")}
+            onDelete={handleKeywordDelete}
             type="search"
             name="search"
             placeholder="검색할 게시글을 입력해주세요."

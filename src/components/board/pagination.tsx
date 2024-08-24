@@ -151,6 +151,14 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
     }
   }
 
+  if (totalPages === 0) {
+    return null;
+  }
+
+  if (totalPages === 1) {
+    return <div className="mb-4 mt-4 flex items-center justify-center gap-1.5">{pageNumbers}</div>;
+  }
+
   return (
     <div className="mb-4 mt-4 flex items-center justify-center gap-1.5">
       {currentPage === 1 ? (
