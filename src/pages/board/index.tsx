@@ -117,6 +117,23 @@ export default function BoardPage() {
     }
   }, [page]);
 
+  useEffect(() => {
+    if (orderBy) {
+      if (orderBy !== "recent") {
+        if (orderBy !== "like") {
+          setCurrentOrderBy(INITIAL_ORDER);
+          updateURL(totalCount, INITIAL_ORDER, currentKeyword);
+        }
+      }
+      if (orderBy !== "like") {
+        if (orderBy !== "recent") {
+          setCurrentOrderBy(INITIAL_ORDER);
+          updateURL(totalCount, INITIAL_ORDER, currentKeyword);
+        }
+      }
+    }
+  }, [orderBy]);
+
   const displayedBestArticles = useMemo(() => {
     const bestArticlesList = bestArticles?.list || [];
     if (isMobile) return bestArticlesList.slice(0, MOBILE_SIZE);
