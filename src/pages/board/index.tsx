@@ -119,15 +119,15 @@ export default function BoardPage() {
     if (page) {
       if (Number(page) > totalCount) {
         if (totalCount === 1) {
-          setCurrentPage(totalCount);
-          updateURL(currentPage, currentOrderBy, currentKeyword);
+          setCurrentPage(1);
+          updateURL(1, currentOrderBy, currentKeyword);
         } else {
-          setCurrentPage(totalCount - 1);
-          updateURL(currentPage, currentOrderBy, currentKeyword);
+          setCurrentPage(totalCount);
+          updateURL(totalCount, currentOrderBy, currentKeyword);
         }
-      } else if (Number(page) < totalCount) {
+      } else if (Number(page) < 1) {
         setCurrentPage(1);
-        updateURL(currentPage, currentOrderBy, currentKeyword);
+        updateURL(1, currentOrderBy, currentKeyword);
       }
     }
   }, [page]);
