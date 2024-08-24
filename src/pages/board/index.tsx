@@ -64,7 +64,7 @@ export default function BoardPage() {
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const queryClient = useQueryClient();
 
-  const { handlePageChange, handleOrderByChange, handleKeywordEnter } = usePagination(
+  const { handlePageChange, handleOrderByChange, handleKeywordEnter, updateURL } = usePagination(
     currentPage,
     currentOrderBy,
     currentKeyword
@@ -114,6 +114,23 @@ export default function BoardPage() {
 
   const articles = data?.list ?? [];
   const totalCount = data ? Math.ceil((data.totalCount ?? 1) / PAGE_SIZE) : 1;
+
+  useEffect(() => {
+    if (page) {
+      if (Number(page) > totalCount) {
+        if (totalCount === 1) {
+          setCurrentPage(totalCount);
+          updateURL(currentPage, currentOrderBy, currentKeyword);
+        } else {
+          setCurrentPage(totalCount - 1);
+          updateURL(currentPage, currentOrderBy, currentKeyword);
+        }
+      } else if (Number(page) < totalCount) {
+        setCurrentPage(1);
+        updateURL(currentPage, currentOrderBy, currentKeyword);
+      }
+    }
+  }, [page]);
 
   return (
     <>

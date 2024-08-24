@@ -48,6 +48,7 @@ const usePagination = (initialPage: number, initialOrderBy: string, initialKeywo
     handlePageChange,
     handleOrderByChange,
     handleKeywordEnter,
+    updateURL,
   };
 };
 
