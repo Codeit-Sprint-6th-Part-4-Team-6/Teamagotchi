@@ -63,6 +63,7 @@ export default function BoardPage() {
   const [currentKeyword, setCurrentKeyword] = useState<string>((keyword as string) || "");
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const queryClient = useQueryClient();
+  const { isMobile, isTablet, isDesktop } = useMediaQuery();
 
   const { handlePageChange, handleOrderByChange, handleKeywordEnter, updateURL } = usePagination(
     currentPage,
@@ -70,32 +71,11 @@ export default function BoardPage() {
     currentKeyword
   );
 
-  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value);
-  };
-
-  const { isMobile, isTablet, isDesktop } = useMediaQuery();
-
-  const { data: bestArticles } = useQuery<TotalArticle>({
-    queryKey: ["bestArticles"],
-    queryFn: () => getArticleList(1, PAGE_SIZE, "like", ""),
-  });
-
   useEffect(() => {
     setCurrentPage(parseInt(page as string, 10) || 1);
     setCurrentOrderBy((orderBy as string) || INITIAL_ORDER);
     setCurrentKeyword((keyword as string) || "");
   }, [page, orderBy, keyword]);
-
-  useEffect(() => {
-    for (let i = 1; i <= totalCount; i++) {
-      queryClient.prefetchQuery({
-        queryKey: ["articles", i, currentOrderBy, currentKeyword],
-        queryFn: () => getArticleList(i, PAGE_SIZE, currentOrderBy, currentKeyword),
-        staleTime: Infinity,
-      });
-    }
-  });
 
   const { data } = useQuery<TotalArticle>({
     queryKey: ["articles", currentPage, currentOrderBy, currentKeyword],
@@ -104,16 +84,12 @@ export default function BoardPage() {
     staleTime: Infinity,
   });
 
-  const displayedBestArticles = useMemo(() => {
-    const bestArticlesList = bestArticles?.list || [];
-    if (isMobile) return bestArticlesList.slice(0, MOBILE_SIZE);
-    if (isTablet) return bestArticlesList.slice(0, TABLET_SIZE);
-    if (isDesktop) return bestArticlesList.slice(0, DESKTOP_SIZE);
-    return bestArticlesList.slice(0, DESKTOP_SIZE);
-  }, [bestArticles, isMobile, isTablet, isDesktop]);
-
-  const articles = data?.list ?? [];
   const totalCount = data ? Math.ceil((data.totalCount ?? 1) / PAGE_SIZE) : 1;
+
+  const { data: bestArticles } = useQuery<TotalArticle>({
+    queryKey: ["bestArticles"],
+    queryFn: () => getArticleList(1, PAGE_SIZE, "like", ""),
+  });
 
   useEffect(() => {
     if (page) {
@@ -131,6 +107,30 @@ export default function BoardPage() {
       }
     }
   }, [page]);
+
+  const displayedBestArticles = useMemo(() => {
+    const bestArticlesList = bestArticles?.list || [];
+    if (isMobile) return bestArticlesList.slice(0, MOBILE_SIZE);
+    if (isTablet) return bestArticlesList.slice(0, TABLET_SIZE);
+    if (isDesktop) return bestArticlesList.slice(0, DESKTOP_SIZE);
+    return bestArticlesList.slice(0, DESKTOP_SIZE);
+  }, [bestArticles, isMobile, isTablet, isDesktop]);
+
+  const articles = data?.list ?? [];
+
+  useEffect(() => {
+    for (let i = 1; i <= totalCount; i++) {
+      queryClient.prefetchQuery({
+        queryKey: ["articles", i, currentOrderBy, currentKeyword],
+        queryFn: () => getArticleList(i, PAGE_SIZE, currentOrderBy, currentKeyword),
+        staleTime: Infinity,
+      });
+    }
+  });
+
+  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
+  };
 
   return (
     <>
