@@ -1,4 +1,3 @@
-import classNames from "classnames";
 import { IconGoogle, IconKakaotalk } from "@utils/icon";
 
 type SocialLoginBoxProps = {
@@ -14,10 +13,8 @@ type SocialLoginBoxProps = {
  */
 
 export default function SocialLoginBox({ type, onGoogleClick, onKakaoClick }: SocialLoginBoxProps) {
-  const classnames = classNames("w-full md:w-460", type === "register" && "mt-24 md:mt-48");
-
   return (
-    <div className={classnames}>
+    <div className="w-full md:w-460">
       <div className="mb-16 flex items-center gap-24">
         <div className="h-1 flex-1 border border-solid border-border-primary" />
         <span className="text-lg font-normal text-text-inverse">OR</span>
