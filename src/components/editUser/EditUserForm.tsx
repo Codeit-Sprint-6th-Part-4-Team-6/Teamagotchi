@@ -1,5 +1,6 @@
 import { User } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
 import Input from "@components/commons/Input";
 import ImageInput from "@components/commons/Input/ImageInput";
@@ -10,6 +11,7 @@ import { patchUser } from "@api/userApi";
 
 export default function EditUserForm() {
   const { setUser } = useAuthStore();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const user = queryClient.getQueryData<User>(["user"]);
 
@@ -43,6 +45,7 @@ export default function EditUserForm() {
       image: typeof imageFile === "string" ? imageFile : user.image,
     };
     setUser(updatedData);
+    router.push("/teams");
   };
 
   return (
