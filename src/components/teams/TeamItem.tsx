@@ -54,7 +54,7 @@ export default function TeamItem({ data }: TeamItemProps) {
       className="flex h-60 items-center rounded-8 bg-text-tertiary/10 p-8 hover:bg-background-tertiary md:h-80 md:p-15"
     >
       <Link href={`/teams/${data.groupId}`} className="flex w-full items-center justify-around">
-        <div className="relative h-50 w-50 flex-shrink-0 overflow-hidden rounded-6">
+        <div className="relative flex h-48 w-48 flex-shrink-0 items-center justify-center overflow-hidden rounded-6">
           {validateImage(data.group.image) ? (
             <Image
               src={data.group.image}

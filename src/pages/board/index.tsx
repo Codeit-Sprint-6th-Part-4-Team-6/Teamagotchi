@@ -151,12 +151,7 @@ export default function BoardPage() {
           onPageChange={handlePageChange}
         />
         <Link href="/add-board">
-          <Button
-            icon="plus"
-            buttonType="floating"
-            size="small"
-            className="bottom-60 right-24 lg:right-100"
-          >
+          <Button icon="plus" buttonType="floating" className="bottom-60 right-24 lg:right-100">
             글쓰기
           </Button>
         </Link>

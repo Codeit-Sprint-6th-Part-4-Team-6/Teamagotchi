@@ -10,6 +10,7 @@ import Success from "@components/commons/LottieAnimation/Success";
 import Textarea from "@components/commons/TextArea";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
+import { IconCloseSmall } from "@utils/icon";
 import { updateURL } from "@utils/updateUrl";
 import { postTask } from "@api/taskApi";
 import { KOREA_DATE } from "@constants/globalConstants";
@@ -80,7 +81,8 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <div className="box-border max-h-664 w-full overflow-auto px-24 py-34 md:w-384">
+    <div className="relative box-border max-h-664 w-full overflow-auto px-24 py-34 md:w-384">
+      <IconCloseSmall onClick={onClose} className="absolute right-16 top-16 cursor-pointer" />
       <form className="flex flex-col gap-16" action="submit">
         <Label className="text-center" content="할 일 만들기" />
         <div className="leading- mb-24 text-center text-14 font-medium text-text-default">
