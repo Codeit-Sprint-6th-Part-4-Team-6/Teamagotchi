@@ -50,6 +50,7 @@ export default function EditTeamForm() {
 
   const handleGroupSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     handleSubmit(event);
+    router.push(`/teams/${teamId}`);
   };
 
   useEffect(() => {
