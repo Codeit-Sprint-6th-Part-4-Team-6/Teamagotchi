@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Button from "@components/commons/Button";
 import Label from "@components/commons/Label";
 import Textarea from "@components/commons/TextArea";
+import useMediaQuery from "@hooks/useMediaQuery";
 import { useToast } from "@hooks/useToast";
 import { useAuthStore } from "@store/useAuthStore";
 import { postArticleComment } from "@api/articleCommentApi";
@@ -13,6 +14,7 @@ export default function CommentSection({ boardId }: { boardId: number }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { user } = useAuthStore();
+  const { isMobile } = useMediaQuery();
 
   const handleTextareaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(event.target.value);
@@ -101,7 +103,7 @@ export default function CommentSection({ boardId }: { boardId: number }) {
   });
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="my-30 flex flex-col gap-12">
       <Label type="label" htmlFor="commentTextarea" content="댓글 달기" />
       <Textarea
         id="commentTextarea"
@@ -111,7 +113,11 @@ export default function CommentSection({ boardId }: { boardId: number }) {
         onChange={handleTextareaChange}
       />
       <div className="flex justify-end">
-        <Button size="medium" disabled={comment.length < 1} onClick={() => postMutation(comment)}>
+        <Button
+          size={isMobile ? "small" : "medium"}
+          disabled={comment.length < 1}
+          onClick={() => postMutation(comment)}
+        >
           등록
         </Button>
       </div>

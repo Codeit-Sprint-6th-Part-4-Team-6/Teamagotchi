@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, hasCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
+import { getUser } from "@api/userApi";
 
 export const useAuth = () => {
   const { setUser, setIsLoggedIn, isLoggedIn } = useAuthStore();
