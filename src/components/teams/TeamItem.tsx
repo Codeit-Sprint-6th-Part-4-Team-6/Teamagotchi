@@ -63,7 +63,7 @@ export default function TeamItem({ data }: TeamItemProps) {
               className="object-cover"
             />
           ) : (
-            <TeamDefault type="list" />
+            <TeamDefault className="size-45 md:size-50" />
           )}
         </div>
         <p className="flex-grow pl-20 text-left text-14">{data.group.name}</p>

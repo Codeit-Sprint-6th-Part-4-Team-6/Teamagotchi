@@ -47,7 +47,7 @@ export default function ImageInput({
         />
         {type !== "article" && (
           <span className="relative flex">
-            {type === "my-profile" ? <IconMemberLarge /> : <TeamDefault type="edit" />}
+            {type === "my-profile" ? <IconMemberLarge /> : <TeamDefault className="size-66" />}
             <span className="absolute">
               {previewImage && (
                 <PreviewImage
