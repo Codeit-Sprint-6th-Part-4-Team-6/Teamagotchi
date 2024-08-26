@@ -66,7 +66,7 @@ export default function Comment({ type, comment, articleId }: CommentProps) {
         </>
       ) : (
         <>
-          <div className="flex justify-between">
+          <div className="flex justify-between px-6">
             <div className="text-md font-normal text-text-primary">
               {comment.content.split("\n").map((line) => (
                 <p
@@ -83,7 +83,7 @@ export default function Comment({ type, comment, articleId }: CommentProps) {
               />
             )}
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between px-6">
             <NameTag
               type={type === "task" ? "default-12" : "default-6"}
               image={isTaskCommentType(comment) ? comment.user.image : comment.writer.image}
