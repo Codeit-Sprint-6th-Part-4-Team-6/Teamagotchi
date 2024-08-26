@@ -63,7 +63,7 @@ export default function AddOrEditTaskListModal({
 
   if (postTaskListMutation.isPending) {
     return (
-      <div className="mb-40">
+      <div className="mb-40 md:mb-0 md:size-300">
         <Success content="새로운 할 일 목록이 생성중입니다!" size={200} />
       </div>
     );
@@ -84,6 +84,7 @@ export default function AddOrEditTaskListModal({
       value={taskName}
       onChange={handleTaskName}
       isPending={patchTaskListMutation.isPending}
+      disabled={taskName.length < 1}
     />
   );
 }
