@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
-import { IconCrownSmall, IconMember } from "@utils/icon";
+import { IconCrownSmall } from "@utils/icon";
 import Spinner from "../Spinner";
 import TeamDefault from "../TeamDefault";
 
@@ -111,7 +111,7 @@ function Item({ children, onClick }: { children: React.ReactNode; onClick: () =>
 
   return (
     <div
-      className="cursor-pointer text-nowrap rounded-8 px-7 py-7 text-md text-text-primary transition-all hover:bg-background-tertiary md:text-lg"
+      className="cursor-pointer text-nowrap rounded-8 px-7 py-7 text-12 text-text-primary transition-all hover:bg-background-tertiary md:text-14"
       onClick={(event) => {
         event.stopPropagation();
         onClick();
