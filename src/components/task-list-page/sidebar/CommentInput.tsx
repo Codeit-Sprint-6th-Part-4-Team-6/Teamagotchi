@@ -60,7 +60,7 @@ export default function CommentInput({ taskId }: { taskId: number }) {
     },
   });
 
-  const postIconClass = classNames("absolute right-0 top-13 cursor-pointer");
+  const postIconClass = classNames("absolute right-6 top-13 cursor-pointer");
 
   return (
     <div className="relative">
