@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { TaskList as TaskListType } from "@coworkers-types";
 import { QueryClient, dehydrate, keepPreviousData, useQuery } from "@tanstack/react-query";
-import { addHours } from "date-fns";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -15,14 +14,13 @@ import { useModal } from "@hooks/useModal";
 import { updateURL } from "@utils/updateUrl";
 import { getGroup } from "@api/groupApi";
 import { getTaskList } from "@api/taskListApi";
-import { KOREA_DATE } from "@constants/globalConstants";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
   const { query } = context;
   const { teamId, taskListsId } = query;
   const token = context.req.cookies["accessToken"];
-  const date = query.date ?? KOREA_DATE.toISOString().slice(0, 10);
+  const date = query.date ?? new Date().toISOString().slice(0, 10);
 
   try {
     await queryClient.fetchQuery({
@@ -50,7 +48,7 @@ export default function TaskListPage() {
 
   const [taskListId, setTaskListId] = useState(taskListsId);
   const [selectedDate, setSelectedDate] = useState<Date>(
-    urlDate && typeof urlDate === "string" ? addHours(new Date(urlDate), 9) : KOREA_DATE
+    urlDate && typeof urlDate === "string" ? new Date(urlDate) : new Date()
   );
 
   const handleOpenCreateTaskModal = () => {
