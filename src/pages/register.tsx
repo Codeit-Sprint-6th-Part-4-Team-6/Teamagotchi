@@ -16,7 +16,7 @@ export default function RegisterPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <section className="mx-16 pb-80 pt-24 md:mx-auto md:w-460 md:pt-80">
-        <h2 className="mb-24 text-center text-2xl md:mb-80 md:text-4xl">회원가입</h2>
+        <h1 className="mb-24 text-center text-2xl md:mb-80 md:text-32">회원가입</h1>
         <RegisterForm />
         <div className="mb-24 mt-24 text-center md:mb-48">
           <span className="mr-12">이미 회원이신가요?</span>

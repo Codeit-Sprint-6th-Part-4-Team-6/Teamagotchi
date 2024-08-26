@@ -21,7 +21,7 @@ export default function JoinTeamPage() {
   } = useJoinTeam();
 
   const classnames = classNames(
-    "text-18 font-semibold text-text-primary md:text-24 font-medium",
+    "text-2xl text-text-primary md:text-32 font-medium",
     groupInfo || isFetching ? "mb-40" : "mb-24 md:mb-80"
   );
 
@@ -32,7 +32,7 @@ export default function JoinTeamPage() {
         <meta name="description" content="어떤 팀에 참여하실건가요?" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className="flex w-full flex-col items-center px-16 pt-72 text-text-primary md:mx-auto md:w-460 md:px-0 md:pt-100 lg:pt-140">
+      <div className="flex w-full flex-col items-center px-16 pt-40 text-text-primary md:mx-auto md:w-460 md:px-0 md:pt-100 lg:pt-140">
         <h1 className={classnames}>팀 참여하기</h1>
         {isFetching ? (
           <Spinner size={32} color="primary" className="mb-40" />
