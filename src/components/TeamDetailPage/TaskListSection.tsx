@@ -7,7 +7,6 @@ import Label from "@components/commons/Label";
 import AddOrEditTaskListModal from "@components/commons/modal/AddOrEditTaskListModal";
 import { useModal } from "@hooks/useModal";
 import useTeamPageDnd from "@hooks/useTeamPageDnd";
-import { KOREA_DATE } from "@constants/globalConstants";
 import TaskListItem from "./TaskListItem";
 
 export default function TaskListSection({
@@ -24,7 +23,7 @@ export default function TaskListSection({
 
   // TaskListItem이 클릭되었을 때 실행할 함수
   const handleTaskListClick = (taskListId: number) => {
-    const todayDate = format(KOREA_DATE, "yyyy-MM-dd"); // 오늘 날짜 형식
+    const todayDate = format(new Date(), "yyyy-MM-dd"); // 오늘 날짜 형식
     router.push(`/teams/${teamId}/task-lists/${taskListId}?date=${todayDate}`);
   };
 
