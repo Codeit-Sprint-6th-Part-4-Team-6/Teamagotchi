@@ -53,7 +53,7 @@ export default function MemberCard({
       <div className="flex w-full items-center justify-between">
         <div className="relative">
           {role === "ADMIN" && user?.email === email ? (
-            <IconCrown className="absolute bottom-39 left-4 z-10 md:bottom-29 md:left-8" />
+            <IconCrown className="absolute bottom-32 left-3 z-10 md:bottom-29 md:left-8" />
           ) : null}
           <NameTag type="email" name={name} email={email} image={image} />
         </div>

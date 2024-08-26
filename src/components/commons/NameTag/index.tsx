@@ -27,7 +27,7 @@ type NameTagProps = {
 export default function NameTag({ type, image, name, email, onClick }: NameTagProps) {
   const layoutStyles = classNames(
     type === "email"
-      ? "grid grid-cols-[auto_1fr] grid-rows-[auto_auto] items-center gap-x-8 md:gap-x-12 gap-y-6 md:gap-y-2"
+      ? "grid grid-cols-[auto_1fr] grid-rows-[auto_auto] items-center gap-x-8 md:gap-x-12 gap-y-4 md:gap-y-2"
       : "flex items-center",
     {
       "max-w-200 md:max-w-none": type === "default-6" || type === "default-12",
