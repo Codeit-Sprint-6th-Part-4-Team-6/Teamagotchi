@@ -8,6 +8,7 @@ import Button from "@components/commons/Button";
 import { IconCrown, IconMember } from "@utils/icon";
 import { validateImage } from "@utils/validateImage";
 import Spinner from "../Spinner";
+import TeamDefault from "../TeamDefault";
 
 export const PopoverContext = createContext({
   isOpen: false,
@@ -203,7 +204,7 @@ function TeamItem({
           {imgSrc ? (
             <Image src={imgSrc} alt={`${title} 이미지`} fill className="object-cover" />
           ) : (
-            <IconMember />
+            <TeamDefault className="size-32" />
           )}
         </div>
         <span className="flex-1 truncate text-left text-lg">{title}</span>

@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { postGroup } from "@api/groupApi";
 import { postImageURL } from "@api/imageApi";
@@ -11,6 +11,7 @@ export function useAddTeamForm() {
   const [nameErrorMessage, setNameErrorMessage] = useState("");
   const router = useRouter();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const handleFileChange = (value: string | File | null) => {
     setImageFile(value);
@@ -23,6 +24,7 @@ export function useAddTeamForm() {
   const postGroupMutation = useMutation({
     mutationFn: ({ name, image }: { name: string; image?: string }) => postGroup({ name, image }),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       router.push("/teams");
       toast("success", "팀 생성에 성공했습니다.");
     },
