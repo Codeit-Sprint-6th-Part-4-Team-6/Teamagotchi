@@ -148,7 +148,7 @@ function InnerButton({ onClick }: { onClick: () => void }) {
 
   return (
     <Button
-      className="!h-44 min-w-130 !text-14"
+      className="!h-40 min-w-130 !text-14"
       buttonStyle="transparent-white"
       icon="plus"
       onClick={() => {
