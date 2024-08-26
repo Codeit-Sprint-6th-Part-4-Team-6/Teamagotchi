@@ -34,10 +34,10 @@ export default function LoginPage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <section className="mx-16 pt-24 md:mx-auto md:w-460 md:pt-100">
-        <h2 className="mb-24 text-center text-4xl md:mb-80">로그인</h2>
+        <h1 className="mb-24 text-center text-18 font-medium md:mb-80 md:text-24">로그인</h1>
         <LoginForm />
         <div className="mb-48 mt-24 text-center">
-          <span className="mr-12">아직 계정이 없으신가요?</span>
+          <span className="mr-12 text-14 md:text-16">아직 계정이 없으신가요?</span>
           <TextButton buttonType="link" textStyle="underline" href="/register">
             가입하기
           </TextButton>
