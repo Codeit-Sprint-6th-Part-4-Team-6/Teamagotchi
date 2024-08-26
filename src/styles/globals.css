@@ -26,9 +26,8 @@ span::-webkit-scrollbar {
   }
 
   .modal-container-mobile {
-    @apply left-1/2 bottom-0 -translate-x-1/2 w-full; 
+    @apply bottom-0 left-1/2 w-full -translate-x-1/2;
   }
-
 }
 
 .box-shadow {
@@ -46,4 +45,36 @@ span::-webkit-scrollbar {
 input:focus,
 textarea:focus {
   outline: none;
+}
+
+html {
+  scrollbar-width: thin; /* 파이어폭스 */
+  scrollbar-color: rgba(255, 192, 120, 0) transparent; /* 파이어폭스 */
+}
+
+html::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 192, 120, 0);
+  border-radius: 14px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+html:hover::-webkit-scrollbar-thumb,
+html:active::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 192, 120, 0.6);
+}
+
+/* 파이어폭스를 위한 추가 스타일 */
+html:hover,
+html:active {
+  scrollbar-color: rgba(255, 192, 120, 0.6) transparent;
 }
