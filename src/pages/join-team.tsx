@@ -21,7 +21,7 @@ export default function JoinTeamPage() {
   } = useJoinTeam();
 
   const classnames = classNames(
-    "text-2xl font-medium lg:text-4xl",
+    "text-18 font-semibold text-text-primary md:text-24 font-medium",
     groupInfo || isFetching ? "mb-40" : "mb-24 md:mb-80"
   );
 

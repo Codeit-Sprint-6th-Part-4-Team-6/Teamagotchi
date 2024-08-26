@@ -17,6 +17,7 @@ interface OneInputModalProps {
     | ((event: React.ChangeEvent<HTMLTextAreaElement>) => void);
   closeButton?: boolean;
   isPending?: boolean;
+  disabled?: boolean;
 }
 
 /**
@@ -46,6 +47,7 @@ export default function OneInputModal({
   onChange,
   closeButton = false,
   isPending = false,
+  disabled,
 }: OneInputModalProps) {
   return (
     <div className="modal">
@@ -72,12 +74,12 @@ export default function OneInputModal({
           <Button buttonStyle="outlined" onClick={onClose} className="mt-30" size="medium">
             닫기
           </Button>
-          <Button onClick={onConfirm} className="mt-30" size="medium">
+          <Button onClick={onConfirm} className="mt-30" size="medium" disabled={disabled}>
             {buttonText}
           </Button>
         </div>
       ) : (
-        <Button onClick={onConfirm} className="mt-24" isPending={isPending}>
+        <Button onClick={onConfirm} className="mt-24" isPending={isPending} disabled={disabled}>
           {buttonText}
         </Button>
       )}
