@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { DateTask, PatchTaskRequest } from "@coworkers-types";
+import { DateTask, PatchTaskRequest, TaskDetails } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
@@ -15,7 +15,7 @@ export default function EditTaskModal({
   defaultValue,
 }: {
   onClose?: () => void;
-  defaultValue?: DateTask;
+  defaultValue?: DateTask | TaskDetails;
 }) {
   const { toast } = useToast();
   const { closeModal } = useModal();
@@ -38,6 +38,7 @@ export default function EditTaskModal({
     onSuccess: () => {
       toast("success", "할 일을 수정했습니다.");
       queryClient.invalidateQueries({ queryKey: ["taskList"] });
+      queryClient.invalidateQueries({ queryKey: ["taskListDetail", defaultValue?.id] });
       closeModal();
     },
     onError: (error: any) => {

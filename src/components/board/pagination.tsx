@@ -13,7 +13,7 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
   const pageNumbers = [];
 
   const commonPageClassName =
-    "flex h-40 w-40 cursor-pointer select-none items-center justify-center text-20 font-normal hover:bg-background-secondary";
+    "flex h-40 w-40 cursor-pointer select-none items-center justify-center text-20 font-normal hover:bg-background-secondary rounded-99";
   const ellipsisClassName =
     "flex h-40 w-40 cursor-default select-none items-center justify-center text-20 font-normal text-[#818181]";
   const commonIconClassName =
@@ -149,6 +149,14 @@ export default function Pagination({ totalPages, currentPage, onPageChange }: Pa
         </div>
       );
     }
+  }
+
+  if (totalPages === 0) {
+    return null;
+  }
+
+  if (totalPages === 1) {
+    return <div className="mb-4 mt-4 flex items-center justify-center gap-1.5">{pageNumbers}</div>;
   }
 
   return (

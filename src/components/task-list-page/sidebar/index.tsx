@@ -8,8 +8,11 @@ import Button from "@components/commons/Button";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import TaskCommentList from "@components/task-list/TaskCommentList";
+import { useModal } from "@hooks/useModal";
 import { IconCalender, IconCheckActive, IconClose, IconRepeat } from "@utils/icon";
 import { getTaskDetails, patchTaskCompletionStatus } from "@api/taskApi";
+import DeleteModal from "../DeleteModal";
+import EditTaskModal from "../EditTaskModal";
 import CommentInput from "./CommentInput";
 
 export default function Sidebar({
@@ -28,12 +31,24 @@ export default function Sidebar({
   onClose: Dispatch<SetStateAction<boolean>>;
 }) {
   const queryClient = useQueryClient();
+  const { openModal } = useModal();
 
   const { data: TaskDetailData } = useQuery<TaskDetails>({
     queryKey: ["taskListDetail", taskId],
     queryFn: () => getTaskDetails(Number(groupId), Number(taskListId), taskId),
     placeholderData: keepPreviousData,
   });
+
+  const handleOpenDeleteModal = () => {
+    openModal("WarnModal", DeleteModal, {
+      taskId: TaskDetailData?.recurringId,
+      type: "sidebar",
+    });
+  };
+
+  const handleOpenEditTaskModal = () => {
+    openModal("EditTaskModal", EditTaskModal, { defaultValue: TaskDetailData });
+  };
 
   const { mutate: taskPatchMutation } = useMutation({
     mutationFn: (data: PatchTaskRequest) =>
@@ -56,10 +71,6 @@ export default function Sidebar({
 
   const formattedStartedDate = TaskDetailData?.recurring.startDate
     ? format(new Date(TaskDetailData.recurring.startDate), "yyyy년 M월 dd일")
-    : "";
-
-  const formattedStatedTime = TaskDetailData?.recurring.startDate
-    ? format(new Date(TaskDetailData.recurring.startDate), "a h:mm")
     : "";
 
   let frequency = "";
@@ -91,7 +102,7 @@ export default function Sidebar({
 
   const lineClass = classNames("h-10 border border-l border-solid border-background-tertiary");
 
-  const buttonClass = classNames("bottom-24 right-24 lg:bottom-48 lg:right-100");
+  const buttonClass = classNames("bottom-24 right-48 lg:bottom-48 lg:right-100");
 
   const lineVariants = {
     checked: { pathLength: 1, opacity: 1 },
@@ -99,37 +110,44 @@ export default function Sidebar({
   };
 
   return (
-    <div className="fixed right-0 top-61 z-[15] h-full w-full bg-background-secondary md:left-auto md:top-61 md:w-435 lg:w-779">
-      <div className="flex h-full flex-col gap-16 p-24">
+    <div className="fixed right-0 top-61 z-[15] h-full w-full overflow-y-scroll bg-background-secondary md:left-auto md:top-61 md:w-435 lg:w-779">
+      <div className="sticky top-0 z-[16] w-full bg-background-secondary py-10 pl-20">
         <IconClose className="cursor-pointer" onClick={onClose} />
-        {isChecked && (
-          <div className="flex items-center gap-6">
-            <IconCheckActive />
-            <p className="text-brand-primary">완료</p>
-          </div>
-        )}
+      </div>
+      <div className="flex h-full flex-col gap-16 p-24 pt-5">
         <div className="flex justify-between">
-          <div className="relative">
-            <p className="text-20 font-bold text-text-primary">{TaskDetailData?.name}</p>
-            <motion.svg
-              className="absolute left-0 top-1/2 h-4 w-full overflow-visible"
-              initial={false}
-              animate={isChecked ? "checked" : "unchecked"}
-            >
-              <motion.line
-                x1="0"
-                y1="50%"
-                x2="100%"
-                y2="50%"
-                stroke="#fff"
-                strokeWidth="1.5px"
-                variants={lineVariants}
-                transition={{ duration: 0.2 }}
-              />
-            </motion.svg>
+          <div className="flex gap-10">
+            <div className="relative">
+              <p className="text-20 font-bold text-text-primary">{TaskDetailData?.name}</p>
+              <motion.svg
+                className="absolute left-0 top-1/2 h-4 w-full overflow-visible"
+                initial={false}
+                animate={isChecked ? "checked" : "unchecked"}
+              >
+                <motion.line
+                  x1="0"
+                  y1="50%"
+                  x2="100%"
+                  y2="50%"
+                  stroke="#fff"
+                  strokeWidth="1.5px"
+                  variants={lineVariants}
+                  transition={{ duration: 0.2 }}
+                />
+              </motion.svg>
+            </div>
+            {isChecked && (
+              <div className="flex items-center gap-6">
+                <IconCheckActive />
+                <p className="text-brand-primary">완료</p>
+              </div>
+            )}
           </div>
-
-          <EditDeletePopover icon="kebabLarge" handleModify={() => {}} handleDelete={() => {}} />
+          <EditDeletePopover
+            icon="kebabLarge"
+            handleModify={handleOpenEditTaskModal}
+            handleDelete={handleOpenDeleteModal}
+          />
         </div>
         <div className="flex justify-between">
           <NameTag
@@ -146,8 +164,8 @@ export default function Sidebar({
           <IconRepeat />
           <p className={formatClass}>{frequency}</p>
         </div>
-        <div className="h-200">
-          <p className="text-14 text-text-primary">{TaskDetailData?.description}</p>
+        <div className="min-h-200">
+          <article className="text-14 text-text-primary">{TaskDetailData?.description}</article>
         </div>
         <CommentInput taskId={taskId} />
         <TaskCommentList taskId={taskId} />

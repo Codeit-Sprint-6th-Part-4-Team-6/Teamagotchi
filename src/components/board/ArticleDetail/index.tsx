@@ -90,7 +90,7 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
             {format(createdAt, "yyyy. MM. dd")}
           </span>
         </div>
-        <div className="flex gap-12">
+        <div className="mt-12 flex gap-12">
           <div className="flex items-center justify-center gap-5">
             <IconComment />
             <span className="text-14 font-[400] text-text-disabled">{commentCount}</span>
