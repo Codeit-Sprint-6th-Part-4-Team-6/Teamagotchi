@@ -90,7 +90,7 @@ export function Sidebar({
           </Link>
           <hr className="h-1 border-0 bg-background-tertiary" />
           {groups?.length ? <span className="mb-5 mt-10 text-xs font-bold">내 팀 목록</span> : null}
-          <div className="flex flex-col gap-5 overflow-y-scroll">
+          <div className="no-scroll flex flex-col gap-5 overflow-y-scroll">
             {groups?.map((group) => (
               <Link
                 className={classNames(
