@@ -44,11 +44,11 @@ export default function JoinTeamPage() {
                   src={
                     groupInfo.image && validateImage(groupInfo.image)
                       ? groupInfo.image
-                      : "icons/icon_member_large.svg"
+                      : "icons/icon_white_egg.svg"
                   }
                   alt="profile"
                   fill
-                  className="rounded-full"
+                  className="rounded-full border-2 border-solid border-background-tertiary"
                   priority
                 />
               </div>
