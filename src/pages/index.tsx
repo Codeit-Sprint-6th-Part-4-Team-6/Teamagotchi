@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +10,6 @@ import TEAM_PAGE_IMG from "@images/team_page_image.png";
 
 export default function Home() {
   const { isMobile, isTablet, isDesktop } = useMediaQuery();
-  const [shouldAnimate, setShouldAnimate] = useState(!isMobile);
 
   const controls1 = useAnimation();
   const controls2 = useAnimation();
@@ -24,75 +23,33 @@ export default function Home() {
   const isInView2 = useInView(ref2);
   const isInView3 = useInView(ref3);
 
-  const triggerAnimation = () => {
-    if (!shouldAnimate) return;
+  useEffect(() => {
+    let endPoint1 = 0;
+    let endPoint2 = 0;
+    let endPoint3 = 0;
 
-    let endPoint1;
-    let endPoint2;
-    let endPoint3;
-
-    if (isTablet) {
-      endPoint1 = 62;
-      endPoint2 = -62;
-      endPoint3 = -62;
-    } else if (isDesktop) {
+    if (isDesktop) {
       endPoint1 = 45;
       endPoint2 = -45;
       endPoint3 = -45;
     }
 
+    if (isTablet) {
+      endPoint1 = 62;
+      endPoint2 = -62;
+      endPoint3 = -62;
+    }
+
+    if (isMobile) {
+      endPoint1 = 0;
+      endPoint2 = 0;
+      endPoint3 = 0;
+    }
+
     if (isInView1) controls1.start({ y: endPoint1, opacity: 1 });
     if (isInView2) controls2.start({ y: endPoint2, opacity: 1 });
     if (isInView3) controls3.start({ y: endPoint3, opacity: 1 });
-  };
-
-  function debounce<T extends (...args: any[]) => any>(
-    func: T,
-    wait: number
-  ): (...args: Parameters<T>) => void {
-    let timeout: NodeJS.Timeout | null = null;
-
-    return function executedFunction(this: ThisParameterType<T>, ...args: Parameters<T>): void {
-      const later = () => {
-        timeout = null;
-        func.apply(this, args);
-      };
-
-      if (timeout !== null) {
-        clearTimeout(timeout);
-      }
-      timeout = setTimeout(later, wait);
-    };
-  }
-
-  useEffect(() => {
-    setShouldAnimate(!isMobile);
-    if (!isMobile) {
-      controls1.set({ y: 320, opacity: 0 });
-      controls2.set({ y: -320, opacity: 0 });
-      controls3.set({ y: -320, opacity: 0 });
-      triggerAnimation();
-    }
-  }, [isMobile, isTablet, isDesktop]);
-
-  useEffect(() => {
-    if (shouldAnimate) {
-      triggerAnimation();
-    }
-  }, [isInView1, isInView2, isInView3, shouldAnimate]);
-
-  useEffect(() => {
-    const debounceResize = () => {
-      triggerAnimation();
-    };
-
-    const debouncedHandler = debounce(debounceResize, 200);
-    window.addEventListener("resize", debouncedHandler);
-
-    return () => {
-      window.removeEventListener("resize", debouncedHandler);
-    };
-  }, [shouldAnimate]);
+  }, [isInView1, isInView2, isInView3]);
 
   return (
     <main className="flex flex-col items-center">
@@ -129,24 +86,16 @@ export default function Home() {
       </div>
 
       <div className="mt-150 flex w-full min-w-340 flex-col gap-50 px-40 md:w-696 lg:w-996">
-        <div className="flex h-467 items-center justify-center rounded-40 bg-gradient-to-r from-brand-gradient-start to-brand-gradient-end shadow-[0px_0px_12px_2px_#FFFFFF40] md:h-354 lg:h-419">
+        <div
+          ref={ref1}
+          className="flex h-467 items-center justify-center rounded-40 bg-gradient-to-r from-brand-gradient-start to-brand-gradient-end shadow-[0px_0px_12px_2px_#FFFFFF40] md:h-354 lg:h-419"
+        >
           <div className="flex h-[99%] w-[99.5%] flex-col-reverse items-center overflow-hidden rounded-40 bg-[#242424] md:flex-row md:justify-evenly">
-            {shouldAnimate ? (
-              <motion.div
-                ref={ref1}
-                initial={{ y: 320, opacity: 0 }}
-                animate={controls1}
-                transition={{ duration: 1.5 }}
-              >
-                <Image
-                  src={TEAM_PAGE_IMG}
-                  width={235}
-                  height={273}
-                  alt=""
-                  className="md:self-end lg:h-338 lg:w-291"
-                />
-              </motion.div>
-            ) : (
+            <motion.div
+              initial={{ y: 320, opacity: 0 }}
+              animate={controls1}
+              transition={{ duration: 1.5 }}
+            >
               <Image
                 src={TEAM_PAGE_IMG}
                 width={235}
@@ -154,8 +103,7 @@ export default function Home() {
                 alt=""
                 className="md:self-end lg:h-338 lg:w-291"
               />
-            )}
-
+            </motion.div>
             <div className="flex h-full w-235 flex-col justify-center pl-15 md:pl-0">
               <div className="mb-10 flex h-48 w-48 items-center justify-center rounded-10 border border-border-primary border-opacity-10 bg-background-secondary">
                 <Image src="icons/icon_folder.svg" alt="" width={18} height={14} />
@@ -168,8 +116,15 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex h-467 flex-col items-center justify-center overflow-hidden rounded-40 border border-border-primary border-opacity-10 bg-background-secondary md:h-354 md:flex-row-reverse md:justify-evenly lg:h-419">
-          {shouldAnimate ? (
+        <div
+          ref={ref2}
+          className="flex h-467 flex-col items-center justify-center overflow-hidden rounded-40 border border-border-primary border-opacity-10 bg-background-secondary md:h-354 md:flex-row-reverse md:justify-evenly lg:h-419"
+        >
+          <motion.div
+            initial={{ y: -320, opacity: 0 }}
+            animate={controls2}
+            transition={{ duration: 1.5 }}
+          >
             <Image
               src={INVITE_PAGE_IMG}
               width={235}
@@ -177,22 +132,7 @@ export default function Home() {
               alt=""
               className="md:self-start lg:h-338 lg:w-291"
             />
-          ) : (
-            <motion.div
-              ref={ref2}
-              initial={{ y: -320, opacity: 0 }}
-              animate={controls2}
-              transition={{ duration: 1.5 }}
-            >
-              <Image
-                src={INVITE_PAGE_IMG}
-                width={235}
-                height={273}
-                alt=""
-                className="md:self-start lg:h-338 lg:w-291"
-              />
-            </motion.div>
-          )}
+          </motion.div>
 
           <div className="flex h-full w-235 flex-col justify-center pl-15 md:items-end md:pl-0">
             <div className="mb-10 flex h-48 w-48 items-center justify-center rounded-10 border border-border-primary border-opacity-10 bg-background-secondary">
@@ -205,8 +145,15 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="flex h-467 flex-col items-center justify-center overflow-hidden rounded-40 border border-brand-primary bg-[#111111] md:h-354 md:flex-row md:justify-evenly lg:h-419">
-          {shouldAnimate ? (
+        <div
+          ref={ref3}
+          className="flex h-467 flex-col items-center justify-center overflow-hidden rounded-40 border border-brand-primary bg-[#111111] md:h-354 md:flex-row md:justify-evenly lg:h-419"
+        >
+          <motion.div
+            initial={{ y: -320, opacity: 0 }}
+            animate={controls3}
+            transition={{ duration: 1.5 }}
+          >
             <Image
               src={COMMENTS_PAGE_IMG}
               width={235}
@@ -214,23 +161,7 @@ export default function Home() {
               alt=""
               className="md:self-start lg:h-338 lg:w-291"
             />
-          ) : (
-            <motion.div
-              ref={ref3}
-              initial={{ y: -320, opacity: 0 }}
-              animate={controls3}
-              transition={{ duration: 1.5 }}
-            >
-              <Image
-                src={COMMENTS_PAGE_IMG}
-                width={235}
-                height={273}
-                alt=""
-                className="md:self-start lg:h-338 lg:w-291"
-              />
-            </motion.div>
-          )}
-
+          </motion.div>
           <div className="flex h-full w-235 flex-col justify-center pl-15 md:pl-0">
             <div className="mb-10 flex h-48 w-48 items-center justify-center rounded-10 border border-border-primary border-opacity-10 bg-background-secondary">
               <Image src="icons/icon_done_gradient.svg" alt="" width={24} height={24} />
