@@ -55,6 +55,7 @@ import IconRepairMedium from "@icons/icon_repair_medium.svg";
 import IconRepairSmall from "@icons/icon_repair_small.svg";
 import IconRepeat from "@icons/icon_repeat.svg";
 import IconSearch from "@icons/icon_search.svg";
+import IconTamagotchi from "@icons/icon_tamagotchi.svg";
 import IconTime from "@icons/icon_time.svg";
 import IconToastDanger from "@icons/icon_toast_danger.svg";
 import IconToastInfo from "@icons/icon_toast_info.svg";
@@ -134,4 +135,5 @@ export {
   IconGroups,
   IconBoard,
   IconCrownSmall,
+  IconTamagotchi,
 };
