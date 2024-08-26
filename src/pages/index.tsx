@@ -94,7 +94,7 @@ export default function Home() {
             <motion.div
               initial={{ y: 320, opacity: 0 }}
               animate={controls1}
-              transition={{ duration: 1.5 }}
+              transition={{ duration: 2.0 }}
             >
               <Image
                 src={TEAM_PAGE_IMG}
