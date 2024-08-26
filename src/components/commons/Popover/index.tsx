@@ -203,7 +203,7 @@ function TeamItem({
           {imgSrc ? (
             <Image src={imgSrc} alt={`${title} 이미지`} fill className="object-cover" />
           ) : (
-            <TeamDefault className="size-32" />
+            <TeamDefault className="popover" />
           )}
         </div>
         <span className="flex-1 truncate text-left text-14">{title}</span>
