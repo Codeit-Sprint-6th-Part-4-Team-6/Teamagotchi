@@ -75,7 +75,7 @@ export default function Button({
 
   const floatingClassName = classNames(
     className,
-    "fixed m-auto rounded-full md:rounded-[40px] text-12 md:text-14",
+    "fixed m-auto rounded-full md:rounded-[40px] text-12 md:text-16",
     {
       "size-45 md:px-21 md:h-48 md:w-130": size === "large", // 높이가 더 뚱뚱한걸 large로 적용했습니다.
       "size-36 md:px-21 md:h-40 md:min-w-138": size === "medium",
