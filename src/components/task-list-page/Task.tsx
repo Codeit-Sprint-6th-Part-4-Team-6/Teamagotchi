@@ -58,7 +58,7 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
   };
 
   const handleOpenEditTaskModal = () => {
-    openModal("EditTaskModal", EditTaskModal, { defaultValue: task });
+    openModal("EditTaskModal", EditTaskModal, { defaultValue: task, isChecked });
   };
 
   const lineVariants = {
