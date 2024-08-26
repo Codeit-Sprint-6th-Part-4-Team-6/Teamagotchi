@@ -20,7 +20,7 @@ export default function SocialLoginBox({ type, onGoogleClick, onKakaoClick }: So
         <span className="text-lg font-normal text-text-inverse">OR</span>
         <div className="h-1 flex-1 border border-solid border-border-primary" />
       </div>
-      <div className="flex justify-between">
+      <div className="flex items-center justify-between">
         <span className="text-lg font-medium text-text-inverse">{`간편 ${type === "login" ? "로그인" : "회원가입"}하기`}</span>
         <div className="flex gap-16">
           <button

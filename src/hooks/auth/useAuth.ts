@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { AuthResponse, User } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import { deleteCookie, hasCookie, setCookie } from "cookies-next";
@@ -6,9 +7,10 @@ import { useAuthStore } from "@store/useAuthStore";
 import { getUser } from "@api/userApi";
 
 export const useAuth = () => {
-  const { setUser, setIsLoggedIn } = useAuthStore();
+  const { setUser, setIsLoggedIn, isLoggedIn } = useAuthStore();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const [routerTrigger, setRouterTrigger] = useState(false);
 
   /**
    * 로그인 시 필요한 처리를 모아놓은 함수
@@ -28,7 +30,7 @@ export const useAuth = () => {
     setIsLoggedIn(true);
     const userInfo = await getUser();
     setUser(userInfo);
-    router.push("/teams");
+    setRouterTrigger(true);
   };
 
   /**
@@ -37,7 +39,8 @@ export const useAuth = () => {
   const logout = () => {
     deleteCookie("refreshToken");
     setIsLoggedIn(false);
-    router.push("/");
+    setRouterTrigger(true);
+
     deleteCookie("accessToken");
     deleteCookie("loginType");
     queryClient.removeQueries();
@@ -52,6 +55,16 @@ export const useAuth = () => {
       setIsLoggedIn(true);
     }
   };
+
+  useEffect(() => {
+    if (routerTrigger) {
+      if (isLoggedIn) {
+        router.push("/teams");
+      } else {
+        router.push("/");
+      }
+    }
+  }, [isLoggedIn, routerTrigger]);
 
   return { login, logout, setUserData };
 };
