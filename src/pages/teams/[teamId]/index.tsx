@@ -84,7 +84,7 @@ export default function TeamDetailPage() {
     totalTask.length > 0 ? (completedTasks.length / totalTask.length) * 100 : 0;
 
   return (
-    <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+    <div className="mx-auto mt-20 w-full px-34 py-20">
       <section className="mb-30">
         <TeamTitle
           teamName={groupData?.name ?? ""}
@@ -92,15 +92,16 @@ export default function TeamDetailPage() {
           role={curTeamMembership?.role ?? ""}
         />
       </section>
-      <TaskListSection
-        taskLists={groupData?.taskLists ?? []}
-        role={curTeamMembership?.role ?? ""}
-      />
       <ReportSection
         completionRate={completionRate}
         totalTasks={totalTask?.length ?? 0}
         completedTasks={completedTasks?.length ?? 0}
       />
+      <TaskListSection
+        taskLists={groupData?.taskLists ?? []}
+        role={curTeamMembership?.role ?? ""}
+      />
+
       <MembersSection members={groupData?.members ?? []} role={curTeamMembership?.role ?? ""} />
     </div>
   );
