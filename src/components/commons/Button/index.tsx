@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { motion } from "framer-motion";
+import useMediaQuery from "@hooks/useMediaQuery";
 import { IconCheckDisActive, IconPlus } from "@utils/icon";
 import Spinner from "../Spinner";
 
@@ -48,6 +49,7 @@ export default function Button({
   disabled = false,
   isPending = false,
 }: ButtonProps) {
+  const { isMobile } = useMediaQuery();
   const baseButtonClassName =
     "transition-all duration-100 rounded-[12px] font-semibold flex justify-center items-center";
 
@@ -66,18 +68,22 @@ export default function Button({
   });
 
   const sizeClassName = classNames({
-    "w-full h-48": size === "large",
-    "w-184 h-48": size === "medium",
-    "w-74 h-32 text-14": size === "small",
+    "w-full h-44 md:h-48 text-14 md:text-16": size === "large",
+    "w-154 h-40 md:w-184 md:h-44 text-14 md:text-16": size === "medium",
+    "w-74 h-32 text-14 text-12 md:text-14": size === "small",
   });
 
-  const floatingClassName = classNames(className, "fixed rounded-[40px]", {
-    "h-48 px-21 min-w-125": size === "large", // 높이가 더 뚱뚱한걸 large로 적용했습니다.
-    "h-40 px-21 min-w-138": size === "medium",
-    "h-40 px-21 min-w-111": size === "small",
-  });
+  const floatingClassName = classNames(
+    className,
+    "fixed m-auto rounded-full md:rounded-[40px] text-12 md:text-14",
+    {
+      "size-45 md:px-21 md:h-48 md:w-130": size === "large", // 높이가 더 뚱뚱한걸 large로 적용했습니다.
+      "size-36 md:px-21 md:h-40 md:min-w-138": size === "medium",
+      "size-36 md:px-21 min-w-96 md:h-40 md:min-w-111": size === "small",
+    }
+  );
 
-  const iconClassName = classNames("mr-6", {
+  const iconClassName = classNames("md:mr-6", {
     "stroke-brand-primary group-hover:stroke-interaction-hover group-active:stroke-interaction-pressed group-disabled:stroke-interaction-inactive":
       buttonStyle === "outlined",
     "stroke-text-inverse": buttonStyle === "default",
@@ -114,7 +120,7 @@ export default function Button({
             ) : (
               <IconPlus className={iconClassName} />
             ))}
-          {children}
+          {isMobile && buttonType === "floating" ? "" : children}
         </>
       )}
     </motion.button>

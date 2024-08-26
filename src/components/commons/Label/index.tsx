@@ -35,7 +35,7 @@ export default function Label({
 
   const classnames = classNames(
     `font-medium text-text-primary block ${className}`,
-    type === "essential" ? "text-md md:text-lg" : "text-lg",
+    type === "essential" ? "text-md md:text-lg" : "text-md md:text-lg",
     marginBottom ? marginClasses[marginBottom] : "",
     {
       "text-center": center,

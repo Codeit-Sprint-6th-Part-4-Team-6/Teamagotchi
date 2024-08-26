@@ -21,7 +21,7 @@ export default function JoinTeamPage() {
   } = useJoinTeam();
 
   const classnames = classNames(
-    "text-2xl font-medium lg:text-4xl",
+    "text-18 font-semibold text-text-primary md:text-24 font-medium",
     groupInfo || isFetching ? "mb-40" : "mb-24 md:mb-80"
   );
 
@@ -44,11 +44,11 @@ export default function JoinTeamPage() {
                   src={
                     groupInfo.image && validateImage(groupInfo.image)
                       ? groupInfo.image
-                      : "icons/icon_member_large.svg"
+                      : "icons/icon_white_egg.svg"
                   }
                   alt="profile"
                   fill
-                  className="rounded-full"
+                  className="rounded-full border-2 border-solid border-background-tertiary"
                   priority
                 />
               </div>

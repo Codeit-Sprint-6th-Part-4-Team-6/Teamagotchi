@@ -87,7 +87,7 @@ const config: Config = {
     },
     keyframes: {
       fadeIn: {
-        from: {opacity: "0", transform: "translate3d(-50%, 60px, 0)"},
+        from: {opacity: "0", transform: "translate3d(-50%, -60px, 0)"},
         to: {opacity: "1", transform: "translate3d(-50%, 0, 0)"}
       }
     },

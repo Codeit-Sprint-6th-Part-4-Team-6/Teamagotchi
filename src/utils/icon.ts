@@ -21,6 +21,7 @@ import IconClose from "@icons/icon_close.svg";
 import IconCloseSmall from "@icons/icon_close_small.svg";
 import IconComment from "@icons/icon_comment.svg";
 import IconCrown from "@icons/icon_crown.svg";
+import IconCrownSmall from "@icons/icon_crown_small.svg";
 import IconDefaultImage from "@icons/icon_default_image.svg";
 import IconDeleteAccount from "@icons/icon_delete_account.svg";
 import IconDone from "@icons/icon_done.svg";
@@ -132,4 +133,5 @@ export {
   IconBack,
   IconGroups,
   IconBoard,
+  IconCrownSmall,
 };
