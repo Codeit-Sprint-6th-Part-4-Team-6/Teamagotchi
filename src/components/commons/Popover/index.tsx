@@ -79,14 +79,16 @@ function Toggle({ children }: { children: React.ReactNode }) {
 function Wrapper({
   children,
   popDirection = "right",
+  className,
 }: {
   children: React.ReactNode;
   popDirection?: "left" | "right";
+  className?: string;
 }) {
   const { isOpen } = useContext(PopoverContext);
 
   const wrapperClassName = classNames(
-    `${popDirection === "left" ? "right-0" : ""} z-50 absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-8 py-8 text-center box-border `
+    `${popDirection === "left" ? "right-0" : ""} z-50 absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-8 py-8 text-center box-border ${className}`
   );
 
   return (
@@ -132,8 +134,8 @@ function Item({ children, onClick }: { children: React.ReactNode; onClick: () =>
 
 function NameInfoItem({ children }: { children: React.ReactNode }) {
   return (
-    <div className="block lg:hidden">
-      <span className="text-nowrap text-md font-bold text-text-primary">{children}</span>
+    <div className="block overflow-hidden truncate lg:hidden">
+      <span className="px-10 text-md font-bold text-text-primary">{children}</span>
       <hr className="my-5 h-1 border-0 bg-background-tertiary" />
     </div>
   );
