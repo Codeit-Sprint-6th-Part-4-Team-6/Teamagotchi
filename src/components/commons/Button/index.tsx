@@ -51,7 +51,7 @@ export default function Button({
 }: ButtonProps) {
   const { isMobile } = useMediaQuery();
   const baseButtonClassName =
-    "text-14 md:text-16 transition-all duration-100 rounded-[12px] font-semibold flex justify-center items-center";
+    "transition-all duration-100 rounded-[12px] font-semibold flex justify-center items-center";
 
   const styleClassName = classNames(className, "group", {
     "text-text-inverse bg-brand-primary hover:bg-interaction-hover active:bg-interaction-pressed disabled:bg-interaction-inactive":
@@ -68,9 +68,9 @@ export default function Button({
   });
 
   const sizeClassName = classNames({
-    "w-full h-44 md:h-48": size === "large",
-    "w-154 h-44 md:w-184 md:h-48": size === "medium",
-    "w-74 h-32 text-14": size === "small",
+    "w-full h-44 md:h-48 text-14 md:text-16": size === "large",
+    "w-154 h-40 md:w-184 md:h-44 text-14 md:text-16": size === "medium",
+    "w-74 h-32 text-14 text-12 md:text-14": size === "small",
   });
 
   const floatingClassName = classNames(

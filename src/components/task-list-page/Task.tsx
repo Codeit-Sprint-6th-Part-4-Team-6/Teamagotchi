@@ -50,11 +50,14 @@ export default function Task({ task, onClick, isChecked, onCheckTask }: Props) {
   });
 
   const handleOpenRecurringDeleteModal = () => {
-    openModal("WarnModal", DeleteModal, { recurringId: task.recurringId, type: "RECURRING" });
+    openModal("WarnModal", DeleteModal, {
+      recurringId: task.recurringId,
+      recurringType: "RECURRING",
+    });
   };
 
   const handleOpenOnceDeleteModal = () => {
-    openModal("WarnModal", DeleteModal, { taskId: task.id, type: "ONCE" });
+    openModal("WarnModal", DeleteModal, { taskId: task.id, recurringType: "ONCE" });
   };
 
   const handleOpenEditTaskModal = () => {

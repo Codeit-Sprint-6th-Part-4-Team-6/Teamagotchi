@@ -5,9 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Button from "@components/commons/Button";
-import { IconCrown, IconMember } from "@utils/icon";
-import { validateImage } from "@utils/validateImage";
+import { IconCrownSmall, IconMember } from "@utils/icon";
 import Spinner from "../Spinner";
+import TeamDefault from "../TeamDefault";
 
 export const PopoverContext = createContext({
   isOpen: false,
@@ -148,7 +148,7 @@ function InnerButton({ onClick }: { onClick: () => void }) {
 
   return (
     <Button
-      className="min-w-130"
+      className="!h-44 min-w-130 !text-14"
       buttonStyle="transparent-white"
       icon="plus"
       onClick={() => {
@@ -192,7 +192,7 @@ function TeamItem({
       <button
         type="button"
         className={classNames(
-          "mb-10 box-border flex h-[48px] w-[186px] items-center justify-between gap-20 rounded-8 px-8 py-7 hover:bg-background-tertiary",
+          "mb-10 box-border flex w-140 items-center justify-between gap-12 rounded-8 px-8 py-7 hover:bg-background-tertiary",
           {
             "bg-background-tertiary": isSelected,
           }
@@ -203,11 +203,11 @@ function TeamItem({
           {imgSrc ? (
             <Image src={imgSrc} alt={`${title} 이미지`} fill className="object-cover" />
           ) : (
-            <IconMember />
+            <TeamDefault className="size-32" />
           )}
         </div>
-        <span className="flex-1 truncate text-left text-lg">{title}</span>
-        {role === "ADMIN" ? <IconCrown className="w-18" /> : ""}
+        <span className="flex-1 truncate text-left text-14">{title}</span>
+        {role === "ADMIN" ? <IconCrownSmall className="w-18" /> : ""}
       </button>
     </Link>
   );
