@@ -135,10 +135,8 @@ export const useJoinTeam = () => {
   };
 
   useEffect(() => {
-    console.log(user);
     if (router.isReady && router.query.token && router.query.groupId && user && !isError) {
       const initialUrl = process.env.NEXT_PUBLIC_SITE_URL + router.asPath;
-      console.log(initialUrl);
       setValue(initialUrl);
       updatePreview(initialUrl);
     }
