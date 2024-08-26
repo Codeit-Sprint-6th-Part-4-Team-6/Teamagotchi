@@ -28,6 +28,8 @@ export const useAuth = () => {
     }
     setCookie("loginType", loginType, { maxAge: 3600 * 12 * 7 });
     setIsLoggedIn(true);
+    const userInfo = await getUser();
+    setUser(userInfo);
     setRouterTrigger(true);
   };
 
