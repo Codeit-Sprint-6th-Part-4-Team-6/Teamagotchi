@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import { z } from "zod";
 import { useToast } from "@hooks/useToast";
 import { validateImage } from "@utils/validateImage";
 import { postImageURL } from "@api/imageApi";
@@ -28,10 +29,14 @@ export function useUpdateForm({
 }: UseUpdateFormProps) {
   const [imageFile, setImageFile] = useState<string | File | null>(initialImage);
   const [changedName, setChangedName] = useState(initialName);
-  const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const schema = z
+    .string()
+    .max(10, "닉네임은 최대 10자까지 가능합니다.")
+    .regex(/\S+/g, "닉네임에 공백 문자는 포함될 수 없습니다.")
+    .trim();
 
   const handleFileChange = (value: string | File | null) => {
     setImageFile(value);
@@ -40,6 +45,15 @@ export function useUpdateForm({
   const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setChangedName(event.target.value);
   };
+
+  let errorMessage: string = "";
+
+  if (nameKey === "nickname") {
+    const result = schema.safeParse(changedName);
+    if (!result.success) {
+      errorMessage = result.error.issues[0].message;
+    }
+  }
 
   const mutation = useMutation({
     mutationFn: async (variables: { data: { [key: string]: any }; id?: number }) => {
@@ -57,12 +71,9 @@ export function useUpdateForm({
       if (redirectPath) {
         router.push(redirectPath);
       }
-      setErrorMessage("");
     },
-    onError: (error: any) => {
-      const message = error.response?.data?.message;
-      setErrorMessage(message);
-      toast("danger", message);
+    onError: () => {
+      toast("danger", "계정 설정에 실패했습니다.");
     },
   });
 
@@ -75,22 +86,13 @@ export function useUpdateForm({
         mutationData[nameKey] = changedName;
       }
 
-      if (imageFile === "" || imageFile === null) {
-        if (requestId) {
-          // TODO: 서버 응답 확인 후 수정
-          mutationData["image"] = "https://example.com/...";
-        } else {
-          mutationData["image"] = "null";
-        }
-      }
-
-      mutationData["image"] = validateImage(data.url);
-
-      if (requestId) {
-        mutation.mutate({ data: mutationData, id: requestId });
+      if (!imageFile) {
+        mutationData["image"] = null;
       } else {
-        mutation.mutate({ data: mutationData });
+        mutationData["image"] = validateImage(data.url);
       }
+
+      mutation.mutate({ data: mutationData, id: requestId });
     },
     onError: (error: any) => {
       toast("warn", `Error uploading image: ${error}`);
@@ -102,6 +104,10 @@ export function useUpdateForm({
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (nameKey === "nickname" && errorMessage) {
+      return; // 유효성 검사를 통과하지 못하면 제출하지 않음
+    }
+
     if (imageFile instanceof File) {
       imagePostMutation.mutate(imageFile);
     } else {
@@ -111,22 +117,13 @@ export function useUpdateForm({
         mutationData[nameKey] = changedName;
       }
 
-      if (imageFile === "" || imageFile === null) {
-        if (requestId) {
-          // TODO: 서버 응답 확인 후 수정
-          mutationData["image"] = "https://example.com/...";
-        } else {
-          mutationData["image"] = "null";
-        }
+      if (!imageFile) {
+        mutationData["image"] = "null";
       } else if (typeof imageFile === "string") {
         mutationData["image"] = validateImage(imageFile);
       }
 
-      if (requestId) {
-        mutation.mutate({ data: mutationData, id: requestId });
-      } else {
-        mutation.mutate({ data: mutationData });
-      }
+      mutation.mutate({ data: mutationData, id: requestId });
     }
   };
 
