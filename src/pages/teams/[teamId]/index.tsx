@@ -84,7 +84,7 @@ export default function TeamDetailPage() {
     totalTask.length > 0 ? (completedTasks.length / totalTask.length) * 100 : 0;
 
   return (
-    <div className="mx-auto mt-20 w-full px-34 py-20">
+    <div className="mx-auto mt-20 w-full max-w-1200 px-34 py-20 lg:px-0">
       <section className="mb-30">
         <TeamTitle
           teamName={groupData?.name ?? ""}
