@@ -1,3 +1,4 @@
+import React from "react";
 import Input from "@components/commons/Input";
 import Label from "@components/commons/Label";
 import Textarea from "@components/commons/TextArea";
@@ -82,8 +83,31 @@ export default function TwoInputModal({
   secondInputErrorMessage,
   disabled,
 }: TwoInputModalProps) {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (firstValue) {
+      if (firstValue.length < 1) {
+        return;
+      }
+    } else if (!firstValue) {
+      return;
+    }
+
+    if (secondValue) {
+      if (secondValue.length < 1) {
+        return;
+      }
+    } else if (!secondValue) {
+      return;
+    }
+
+    if (onConfirm) {
+      onConfirm();
+    }
+  };
+
   return (
-    <div className="modal">
+    <form className="modal" onSubmit={handleSubmit}>
       {!closeButton && <IconClose className="modal-close-icon" onClick={onClose} />}
       <p className="modal-title">{title}</p>
       {content && <p className="modal-content">{content}</p>}
@@ -151,6 +175,6 @@ export default function TwoInputModal({
           {buttonText}
         </Button>
       )}
-    </div>
+    </form>
   );
 }
