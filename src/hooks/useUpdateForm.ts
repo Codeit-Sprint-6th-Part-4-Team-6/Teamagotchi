@@ -89,7 +89,7 @@ export function useUpdateForm({
       if (!imageFile) {
         mutationData["image"] = null;
       } else {
-        mutationData["image"] = validateImage(data.url);
+        mutationData["image"] = validateImage(data.url) ? data.url : "";
       }
 
       mutation.mutate({ data: mutationData, id: requestId });
@@ -107,7 +107,6 @@ export function useUpdateForm({
     if (nameKey === "nickname" && errorMessage) {
       return; // 유효성 검사를 통과하지 못하면 제출하지 않음
     }
-
     if (imageFile instanceof File) {
       imagePostMutation.mutate(imageFile);
     } else {
@@ -117,10 +116,10 @@ export function useUpdateForm({
         mutationData[nameKey] = changedName;
       }
 
-      if (!imageFile) {
-        mutationData["image"] = "null";
-      } else if (typeof imageFile === "string") {
-        mutationData["image"] = validateImage(imageFile);
+      if (!imageFile && initialImage) {
+        mutationData["image"] = "";
+      } else if (typeof imageFile === "string" && imageFile !== initialImage) {
+        mutationData["image"] = validateImage(imageFile) ? imageFile : "";
       }
 
       mutation.mutate({ data: mutationData, id: requestId });
