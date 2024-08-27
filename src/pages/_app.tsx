@@ -14,7 +14,13 @@ const pretendard = localFont({
   weight: "45 920",
 });
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      throwOnError: true, // 전역 설정
+    },
+  },
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

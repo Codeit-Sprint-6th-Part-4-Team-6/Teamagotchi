@@ -3,6 +3,7 @@ import axios from "axios";
 import Head from "next/head";
 import Link from "next/link";
 import Button from "@components/commons/Button";
+import ErrorBoundary from "@components/commons/ErrorBoundary";
 import Label from "@components/commons/Label";
 import Spinner from "@components/commons/Spinner";
 import TeamList from "@components/teams/TeamList";
@@ -13,7 +14,7 @@ const getAdvice = async () => {
 };
 
 export default function TeamsPage() {
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ["advice"],
     queryFn: getAdvice,
     staleTime: Infinity,
@@ -34,16 +35,16 @@ export default function TeamsPage() {
         <div className="flex w-full flex-col justify-center gap-20 rounded-8 bg-text-tertiary/10 p-10 backdrop-blur-sm md:h-150 md:p-20">
           {isLoading ? (
             <Spinner />
-          ) : isError ? (
-            <span className="text-12 md:text-14">명언을 불러오는데 실패했습니다.</span>
           ) : (
-            <>
-              <span className="flex flex-col gap-10">
-                <span className="text-14 md:text-16">{data?.author}</span>
-                <span className="text-italic text-12 md:text-14">{data?.authorProfile}</span>
-              </span>
-              <span className="text-12 italic md:text-14">{data?.message}</span>
-            </>
+            <ErrorBoundary queryKey={{ queryKey: ["advice"] }}>
+              <>
+                <span className="flex flex-col gap-10">
+                  <span className="text-14 md:text-16">{data?.author}</span>
+                  <span className="text-italic text-12 md:text-14">{data?.authorProfile}</span>
+                </span>
+                <span className="text-12 italic md:text-14">{data?.message}</span>
+              </>
+            </ErrorBoundary>
           )}
         </div>
       </section>
