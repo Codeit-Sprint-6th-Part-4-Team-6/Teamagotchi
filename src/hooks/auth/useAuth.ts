@@ -10,7 +10,7 @@ export const useAuth = () => {
   const { setUser, setIsLoggedIn, isLoggedIn } = useAuthStore();
   const router = useRouter();
   const queryClient = useQueryClient();
-  const [routerTrigger, setRouterTrigger] = useState(false);
+  // const [routerTrigger, setRouterTrigger] = useState(false);
 
   /**
    * 로그인 시 필요한 처리를 모아놓은 함수
@@ -30,7 +30,8 @@ export const useAuth = () => {
     setIsLoggedIn(true);
     const userInfo = await getUser();
     setUser(userInfo);
-    setRouterTrigger(true);
+    router.push("/teams");
+    // setRouterTrigger(true);
   };
 
   /**
@@ -39,7 +40,8 @@ export const useAuth = () => {
   const logout = () => {
     deleteCookie("refreshToken");
     setIsLoggedIn(false);
-    setRouterTrigger(true);
+    router.push("/");
+    // setRouterTrigger(true);
 
     deleteCookie("accessToken");
     deleteCookie("loginType");
@@ -56,15 +58,15 @@ export const useAuth = () => {
     }
   };
 
-  useEffect(() => {
-    if (routerTrigger) {
-      if (isLoggedIn) {
-        router.push("/teams");
-      } else {
-        router.push("/");
-      }
-    }
-  }, [isLoggedIn, routerTrigger]);
+  // useEffect(() => {
+  //   if (routerTrigger) {
+  //     if (isLoggedIn) {
+  //       router.push("/teams");
+  //     } else {
+  //       router.push("/");
+  //     }
+  //   }
+  // }, [isLoggedIn, routerTrigger]);
 
   return { login, logout, setUserData };
 };
