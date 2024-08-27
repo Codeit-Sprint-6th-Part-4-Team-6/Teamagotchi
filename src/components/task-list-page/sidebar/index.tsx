@@ -4,7 +4,6 @@ import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tansta
 import classNames from "classnames";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
-import Button from "@components/commons/Button";
 import NameTag from "@components/commons/NameTag";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
 import TaskCommentList from "@components/task-list/TaskCommentList";
@@ -102,8 +101,6 @@ export default function Sidebar({
   const formatClass = classNames("text-text-default text-12");
 
   const lineClass = classNames("h-10 border border-l border-solid border-background-tertiary");
-
-  const buttonClass = classNames("bottom-24 right-48 lg:bottom-48 lg:right-100");
 
   const lineVariants = {
     checked: { pathLength: 1, opacity: 1 },
