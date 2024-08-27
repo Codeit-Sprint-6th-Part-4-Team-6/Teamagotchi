@@ -34,6 +34,7 @@ export default function ImageInput({
   useEffect(() => {
     onChange(value);
   }, [value, onChange]);
+
   return (
     <div className={className}>
       <button type="button" className="relative flex flex-col" onClick={handleClick}>
@@ -101,7 +102,7 @@ function PreviewImage({ src, type, handleImageDelete }: PreviewImageProps) {
   return (
     <>
       {type !== "article" && (
-        <div className="relative size-64">
+        <div className="group relative size-64">
           <Image
             src={src}
             fill
@@ -110,7 +111,7 @@ function PreviewImage({ src, type, handleImageDelete }: PreviewImageProps) {
             alt="이미지 미리보기"
           />
           <IconClose
-            className="absolute -right-10 -top-6 rounded-5 transition-all hover:bg-background-tertiary"
+            className="absolute -right-10 -top-6 hidden rounded-5 transition-all group-hover:block"
             onClick={(event: React.MouseEvent) => {
               event.stopPropagation();
               handleImageDelete();
