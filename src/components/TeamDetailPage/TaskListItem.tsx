@@ -11,14 +11,12 @@ import TaskListProgress from "./TaskListProgress";
 import { DeleteTaskListModal } from "./TeamPageModal";
 
 export default function TaskListItem({
-  task,
-  index,
+  taskList,
   role,
   onClick,
   isDragging,
 }: {
-  task: GroupTaskLists;
-  index: number;
+  taskList: GroupTaskLists;
   role: string;
   onClick: () => void;
   isDragging: boolean;
@@ -37,15 +35,14 @@ export default function TaskListItem({
     "bg-point-green",
   ];
 
-  // index에 따라 색상 선택
-  const colorClass = colors[index % colors.length];
+  const colorClass = colors[taskList.id % colors.length];
   const router = useRouter();
   const { teamId } = router.query;
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const deleteTaskListMutation = useMutation({
-    mutationFn: () => deleteTaskList(teamId, task.id.toString()),
+    mutationFn: () => deleteTaskList(teamId, taskList.id.toString()),
     onSuccess: () => {
       toast("success", "해당 목록이 삭제되었습니다.");
       queryClient.invalidateQueries({ queryKey: ["group", teamId] });
@@ -68,8 +65,8 @@ export default function TaskListItem({
 
   const handleModifyTaskListOpenModal = () => {
     openModal("EditTaskListModal", AddOrEditTaskListModal, {
-      taskListId: task.id.toString(),
-      initialTaskName: task.name,
+      taskListId: taskList.id.toString(),
+      initialTaskName: taskList.name,
     });
   };
 
@@ -81,9 +78,9 @@ export default function TaskListItem({
   return (
     <div onClick={onClick} className={classnames}>
       <div className={classNames("h-full w-12 rounded-l-12", colorClass)} />
-      <p className="grow truncate px-12 font-medium">{task.name}</p>
+      <p className="grow truncate px-12 font-medium">{taskList.name}</p>
       <div className="mr-5 flex items-center">
-        <TaskListProgress tasks={task.tasks} />
+        <TaskListProgress tasks={taskList.tasks} />
         {role === "ADMIN" || role === "MEMBER" ? (
           <EditDeletePopover
             icon="kebabSmall"
