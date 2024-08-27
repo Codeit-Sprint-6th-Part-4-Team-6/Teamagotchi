@@ -24,7 +24,7 @@ export default function Toast() {
   return (
     <>
       {isOpen && (
-        <div className="fixed left-1/2 top-60 z-50 min-w-fit -translate-x-1/2 animate-fadeIn rounded-8 border border-solid border-border-primary">
+        <div className="fixed left-1/2 top-45 z-50 w-max min-w-fit -translate-x-1/2 animate-fadeIn rounded-8 border border-solid border-border-primary">
           <div className="flex min-h-40 items-center rounded-8 border-solid bg-background-secondary md:min-h-50">
             <span className={`min-h-40 w-5 shrink-0 rounded-l-lg md:min-h-50 ${pointColor}`} />
             <div className="px-10 md:px-20">

@@ -19,7 +19,7 @@ export default function EditDeletePopover({
   return (
     <Popover>
       <Popover.Toggle>
-        {icon === "gear" && <IconGear />}
+        {icon === "gear" && <IconGear className="gear-icon" />}
         {icon === "kebabLarge" && <IconKebabLarge />}
         {icon === "kebabSmall" && <IconKebabSmall />}
       </Popover.Toggle>

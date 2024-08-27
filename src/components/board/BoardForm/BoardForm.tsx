@@ -35,6 +35,10 @@ export default function BoardForm({
     }
   }, [initialData]);
 
+  useEffect(() => {
+    console.log(imageFile);
+  }, [imageFile]);
+
   // 데이터 변경 감지 로직
   useEffect(() => {
     const isFormChanged = () => {

@@ -84,6 +84,13 @@ export const useJoinTeam = () => {
   };
 
   const updatePreview = (url: string) => {
+    if (!user || !user.memberships) {
+      setErrorMessage("Invalid User Info");
+      setEnabled(false);
+      setGroupInfo(undefined);
+      return;
+    }
+
     if (!urlPattern.test(url)) {
       setErrorMessage(ERROR_MESSAGES.INVALID_FORMAT);
       setEnabled(false);
@@ -101,15 +108,15 @@ export const useJoinTeam = () => {
       return;
     }
 
-    if (user?.memberships?.every((membership) => membership.groupId !== idQuery)) {
-      setGroupId(idQuery);
-      setEnabled(true);
+    if (user.memberships.some((membership) => membership.groupId === idQuery)) {
+      setErrorMessage(ERROR_MESSAGES.ALREADY_MEMBER);
+      setEnabled(false);
+      setGroupInfo(undefined);
       return;
     }
 
-    setErrorMessage(ERROR_MESSAGES.ALREADY_MEMBER);
-    setEnabled(false);
-    setGroupInfo(undefined);
+    setGroupId(idQuery);
+    setEnabled(true);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

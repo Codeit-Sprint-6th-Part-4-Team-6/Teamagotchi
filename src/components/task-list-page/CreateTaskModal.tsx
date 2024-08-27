@@ -13,7 +13,6 @@ import { useToast } from "@hooks/useToast";
 import { IconCloseSmall } from "@utils/icon";
 import { updateURL } from "@utils/updateUrl";
 import { postTask } from "@api/taskApi";
-import { KOREA_DATE } from "@constants/globalConstants";
 import DateSelector from "./DateSelector";
 import FrequencyDropdown from "./FrequencyDropdown";
 import WeeklyRepeatSelector from "./WeeklyRepeatSelector";
@@ -27,7 +26,7 @@ export default function CreateTaskModal({ onClose }: { onClose?: () => void }) {
 
   const [selectedWeekDays, setSelectedWeekDays] = useState<number[]>([]);
   const [selectedMonthDay, setSelectedMonthDay] = useState<number>();
-  const [selectedDate, setSelectedDate] = useState<Date>(KOREA_DATE);
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [task, setTask] = useState<PostTaskRequest>({
     name: "",
     description: "",

@@ -13,9 +13,11 @@ import { patchTaskCompletionStatus } from "@api/taskApi";
 export default function EditTaskModal({
   onClose,
   defaultValue,
+  isChecked,
 }: {
   onClose?: () => void;
   defaultValue?: DateTask | TaskDetails;
+  isChecked?: boolean;
 }) {
   const { toast } = useToast();
   const { closeModal } = useModal();
@@ -24,6 +26,7 @@ export default function EditTaskModal({
   const { teamId, taskListsId } = router.query;
   const [name, setName] = useState(defaultValue?.name as string);
   const [description, setDescription] = useState(defaultValue?.description as string);
+  const [done, setDone] = useState(isChecked);
 
   const handleName = (event: ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -63,7 +66,7 @@ export default function EditTaskModal({
           </Button>
           <Button
             onClick={() => {
-              patchTaskMutation.mutate({ name, description });
+              patchTaskMutation.mutate({ name, description, done });
             }}
           >
             수정하기
