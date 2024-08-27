@@ -11,6 +11,7 @@ import TaskCommentList from "@components/task-list/TaskCommentList";
 import { useModal } from "@hooks/useModal";
 import { IconCalender, IconCheckActive, IconClose, IconRepeat } from "@utils/icon";
 import { getTaskDetails, patchTaskCompletionStatus } from "@api/taskApi";
+import CheckButton from "../CheckButton";
 import DeleteModal from "../DeleteModal";
 import EditTaskModal from "../EditTaskModal";
 import CommentInput from "./CommentInput";
@@ -116,7 +117,8 @@ export default function Sidebar({
       </div>
       <div className="flex h-full flex-col gap-16 p-24 pt-5">
         <div className="flex justify-between">
-          <div className="flex gap-10">
+          <div className="flex items-center gap-10">
+            <CheckButton isChecked={isChecked} size={20} onChange={handleDoneClick} />
             <div className="relative">
               <p className="text-20 font-bold text-text-primary">{TaskDetailData?.name}</p>
               <motion.svg
@@ -169,15 +171,6 @@ export default function Sidebar({
         </div>
         <CommentInput taskId={taskId} />
         <TaskCommentList taskId={taskId} />
-        <Button
-          buttonType="floating"
-          icon="check"
-          className={buttonClass}
-          buttonStyle={isChecked ? "outlined" : "default"}
-          onClick={() => handleDoneClick()}
-        >
-          {isChecked ? "완료 취소하기" : "완료하기"}
-        </Button>
       </div>
     </div>
   );
