@@ -44,7 +44,7 @@ export default function NameTag({ type, image, name, email, onClick }: NameTagPr
     "md:row-[1/3] w-24 h-24 md:w-32 md:h-32": type === "email",
   });
   const nameStyles = classNames(
-    "font-medium text-text-primary text-nowrap",
+    "font-medium text-text-primary text-nowrap truncate",
     type === "default-6" || type === "default-12" ? "text-xs md:text-md" : "text-md",
     type === "profile" ? "hidden lg:inline" : ""
   );
@@ -63,7 +63,7 @@ export default function NameTag({ type, image, name, email, onClick }: NameTagPr
       )}
       <span className={nameStyles}>{name}</span>
       {type === "email" && email && (
-        <span className="col-[1/3] grid overflow-x-scroll text-nowrap text-xs font-normal text-text-secondary md:col-auto">
+        <span className="col-[1/3] grid overflow-x-scroll text-xs font-normal text-text-secondary md:col-auto">
           {email}
         </span>
       )}

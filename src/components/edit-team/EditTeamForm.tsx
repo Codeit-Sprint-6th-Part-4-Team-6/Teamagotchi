@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { User } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -21,8 +20,19 @@ export default function EditTeamForm() {
     return null;
   }
 
-  const [prevGroupImage, setPrevGroupImage] = useState<string | undefined | null>(null);
-  const [prevGroupName, setPrevGroupName] = useState<string | undefined>("");
+  let prevGroupImage;
+  let prevGroupName;
+
+  if (user && teamId) {
+    const prevGroupIdx = user.memberships
+      .map(({ group }) => group)
+      .findIndex((item) => item.id === teamId);
+
+    if (prevGroupIdx !== -1 && prevGroupIdx !== undefined) {
+      prevGroupImage = validateImage(user.memberships[prevGroupIdx]?.group.image);
+      prevGroupName = user.memberships[prevGroupIdx]?.group.name;
+    }
+  }
 
   const { errorMessage, handleFileChange, handleNameChange, handleSubmit, isPending } =
     useUpdateForm({
@@ -53,19 +63,6 @@ export default function EditTeamForm() {
     router.push(`/teams/${teamId}`);
   };
 
-  useEffect(() => {
-    if (user && teamId) {
-      const prevGroupIdx = user.memberships
-        .map(({ group }) => group)
-        .findIndex((item) => item.id === teamId);
-
-      if (prevGroupIdx !== -1 && prevGroupIdx !== undefined) {
-        setPrevGroupImage(validateImage(user.memberships[prevGroupIdx]?.group.image));
-        setPrevGroupName(user.memberships[prevGroupIdx]?.group.name);
-      }
-    }
-  }, [teamId, user?.memberships]);
-
   return (
     <form onSubmit={handleGroupSubmit} className="w-full">
       <Label type="label" content="팀 프로필" htmlFor="team-profile" marginBottom={12} />
@@ -81,7 +78,7 @@ export default function EditTeamForm() {
         id="team-name"
         name="name"
         type="text"
-        placeholder={prevGroupName ?? ""}
+        defaultValue={prevGroupName ?? ""}
         errorMessage={errorMessage}
         onChange={handleNameChange}
       />
