@@ -63,8 +63,7 @@ export default function TaskListSection({
                         className="mb-16"
                       >
                         <TaskListItem
-                          task={taskList}
-                          index={index}
+                          taskList={taskList}
                           role={role}
                           onClick={() => handleTaskListClick(taskList.id)} // onClick 함수 전달
                           isDragging={snapshot.isDragging}

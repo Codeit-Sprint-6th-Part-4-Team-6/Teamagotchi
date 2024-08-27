@@ -70,7 +70,7 @@ export default function EditUserForm() {
         <Input
           id="nickname"
           name="nickname"
-          placeholder={user.nickname}
+          defaultValue={user.nickname}
           errorMessage={errorMessage}
           onChange={handleNameChange}
         />
