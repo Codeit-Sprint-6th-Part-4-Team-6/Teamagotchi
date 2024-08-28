@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 // useRouter 추가
 import useMediaQuery from "@hooks/useMediaQuery";
-import { IconBoard, IconGroups } from "@utils/icon";
+import { IconBoard, IconGroups, IconTamagotchi } from "@utils/icon";
 
 export function Sidebar({
   sidebarOpen,
@@ -58,7 +58,11 @@ export function Sidebar({
           }
         )}
       >
-        <div className="mb-24 flex w-full justify-end">
+        <div className="mb-24 flex w-full items-center justify-between">
+          <div className="flex items-center gap-4">
+            <IconTamagotchi className="mt-2" />
+            <div className="mt-5 font-[SBAggroB] text-18 text-brand-primary">티마고치</div>
+          </div>
           <button onClick={() => setSidebarOpen(false)}>
             <Image src="/icons/icon_close.svg" alt="사이드바 닫기 버튼" width={24} height={24} />
           </button>
@@ -86,7 +90,7 @@ export function Sidebar({
           </Link>
           <hr className="h-1 border-0 bg-background-tertiary" />
           {groups?.length ? <span className="mb-5 mt-10 text-xs font-bold">내 팀 목록</span> : null}
-          <div className="flex flex-col gap-5 overflow-y-scroll">
+          <div className="no-scroll flex flex-col gap-5 overflow-y-scroll">
             {groups?.map((group) => (
               <Link
                 className={classNames(

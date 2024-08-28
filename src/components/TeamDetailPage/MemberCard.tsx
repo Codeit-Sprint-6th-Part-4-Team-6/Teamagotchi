@@ -49,7 +49,7 @@ export default function MemberCard({
   };
 
   return (
-    <div className="flex h-73 items-center rounded-16 bg-background-secondary px-24 py-2 transition-all">
+    <div className="flex h-73 items-center rounded-16 bg-background-secondary px-24 py-2 transition-all xs:px-12">
       <div className="flex w-full items-center justify-between">
         <div className="relative">
           {role === "ADMIN" && user?.email === email ? (

@@ -132,7 +132,7 @@ export default function BoardForm({
   const isMutating = postArticleMutation.isPending || updateArticleMutation.isPending;
 
   return (
-    <div className="mx-auto mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+    <div className="mx-auto mt-20 w-full max-w-1200 px-34 py-20">
       {isMutating ? (
         <Loading />
       ) : postArticleMutation.isSuccess || updateArticleMutation.isSuccess ? (
