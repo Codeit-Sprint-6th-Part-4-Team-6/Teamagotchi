@@ -1,6 +1,6 @@
 import { AuthResponse, User } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
-import { deleteCookie, hasCookie, setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
 import { getUser } from "@api/userApi";
@@ -37,7 +37,7 @@ export const useAuth = () => {
   const logout = () => {
     deleteCookie("refreshToken");
     setIsLoggedIn(false);
-    router.push("/");
+    router.push("/login");
 
     deleteCookie("accessToken");
     deleteCookie("loginType");
