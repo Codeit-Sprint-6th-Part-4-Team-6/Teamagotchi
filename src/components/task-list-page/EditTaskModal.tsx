@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { DateTask, PatchTaskRequest, TaskDetails } from "@coworkers-types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -49,9 +49,14 @@ export default function EditTaskModal({
     },
   });
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    patchTaskMutation.mutate({ name, description, done });
+  };
+
   return (
     <div className="box-border w-375 overflow-auto px-24 py-34 md:w-384">
-      <form className="flex flex-col gap-16" action="submit">
+      <form className="flex flex-col gap-16" onSubmit={handleSubmit}>
         <Label content="할 일 수정하기" className="text-center" />
         <div className="mb-8 text-center text-14 font-medium text-text-secondary">
           해야할 일의 이름과 내용을 수정할 수 있습니다.

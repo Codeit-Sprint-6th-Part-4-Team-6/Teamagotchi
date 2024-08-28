@@ -195,7 +195,7 @@ export default function BoardPage() {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+      <div className="mx-auto my-0 mt-20 w-full max-w-1200 px-34 py-20">
         <div className="mx-0 my-auto flex w-full flex-col gap-20">
           <Label content="자유 게시판" />
           <Input
