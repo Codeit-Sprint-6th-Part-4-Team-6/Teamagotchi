@@ -101,7 +101,7 @@ export function useUpdateForm({
 
   const isPending = mutation.isPending || imagePostMutation.isPending;
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (nameKey === "nickname" && errorMessage) {
