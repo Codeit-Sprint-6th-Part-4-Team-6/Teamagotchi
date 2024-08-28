@@ -1,30 +1,14 @@
 import React from "react";
-import { Membership } from "@coworkers-types";
-import { useQuery } from "@tanstack/react-query";
+import { Membership, User } from "@coworkers-types";
+import { useQueryClient } from "@tanstack/react-query";
 import ErrorBoundary from "@components/commons/ErrorBoundary";
 import LottieAnimation from "@components/commons/LottieAnimation";
-import Spinner from "@components/commons/Spinner";
-import { getUserMemberships } from "@api/userApi";
 import TeamItem from "./TeamItem";
 
 export default function TeamList() {
-  const {
-    data: teamList,
-    isPending,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["groups"],
-    queryFn: getUserMemberships,
-  });
-
-  if (isPending) {
-    return <Spinner className="pb-80 pt-180" />;
-  }
-
-  if (isError) {
-    return <p className="text-red-500">{error.message}</p>;
-  }
+  const queryClient = useQueryClient();
+  const userData = queryClient.getQueryData<User>(["user"]);
+  const teamList = userData?.memberships;
 
   return (
     <>
