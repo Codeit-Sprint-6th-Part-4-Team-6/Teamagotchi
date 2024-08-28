@@ -46,9 +46,7 @@ export const useAuth = () => {
   };
 
   const setUserData = (data: User) => {
-    const hasToken = hasCookie("refreshToken");
-
-    if (hasToken) {
+    if (isLoggedIn) {
       setUser(data);
       setIsLoggedIn(true);
     }
