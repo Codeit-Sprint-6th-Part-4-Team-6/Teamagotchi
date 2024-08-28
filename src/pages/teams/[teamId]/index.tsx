@@ -90,6 +90,7 @@ export default function TeamDetailPage() {
           teamName={groupData?.name ?? ""}
           teamId={groupData?.id ?? 0}
           role={curTeamMembership?.role ?? ""}
+          profile={groupData?.image ?? ""}
         />
       </section>
       <ReportSection
