@@ -58,7 +58,7 @@ export default function TeamTitle({
       />
       <div className="flex items-center gap-12 md:gap-16">
         {profile && (
-          <div className="relative h-32 w-32">
+          <div className="relative h-32 w-32 flex-shrink-0">
             <Image
               src={profile}
               alt="groupProfile"
