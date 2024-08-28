@@ -53,10 +53,14 @@ export default function TeamsPage() {
       <TeamList />
       <div className="m-auto mt-60 flex gap-10 lg:mt-80 lg:w-400">
         <Button>
-          <Link href="/add-team">팀 생성하기</Link>
+          <Link href="/add-team" className="flex h-full w-full items-center justify-center">
+            팀 생성하기
+          </Link>
         </Button>
         <Button buttonStyle="transparent">
-          <Link href="/join-team">팀 참여하기</Link>
+          <Link href="/join-team" className="flex h-full w-full items-center justify-center">
+            팀 참여하기
+          </Link>
         </Button>
       </div>
     </div>

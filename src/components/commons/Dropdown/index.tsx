@@ -105,13 +105,13 @@ function Toggle({ children }: { children: React.ReactNode }) {
 
   return (
     <button
-      className="box-border flex w-140 items-center justify-between rounded-12 bg-background-tertiary px-10 py-8"
+      className="box-border flex w-110 items-center justify-between rounded-12 bg-background-tertiary px-10 py-8"
       type="button"
       onClick={toggleDropdown}
       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && toggleDropdown()}
       tabIndex={0}
     >
-      <span className="text-md">
+      <span className="px-5 text-md">
         {selectedValue ? (
           renderText(selectedValue)
         ) : (
@@ -131,7 +131,7 @@ function Wrapper({ children }: { children: React.ReactNode }) {
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="absolute top-50 box-border flex w-140 flex-col gap-5 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-16 py-8"
+          className="absolute top-50 z-50 box-border flex w-110 flex-col gap-5 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-8 py-8 text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

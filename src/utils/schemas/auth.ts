@@ -17,7 +17,9 @@ export const RegisterSchema = zod
     nickname: zod
       .string()
       .min(1, "닉네임은 필수 입력입니다.")
-      .max(20, "닉네임은 최대 20자까지 가능합니다."),
+      .max(10, "닉네임은 최대 10자까지 가능합니다.")
+      .regex(/\S+/g, "닉네임에 공백 문자는 포함될 수 없습니다.")
+      .trim(),
     password: zod
       .string()
       .min(1, "비밀번호는 필수 입력입니다.")
@@ -49,5 +51,3 @@ export const ResetPasswordSchema = zod
     message: "비밀번호가 일치하지 않습니다.",
     path: ["passwordConfirmation"],
   });
-
-export const NicknameSchema = zod.object({});

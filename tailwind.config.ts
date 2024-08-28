@@ -10,6 +10,7 @@ const config: Config = {
   ],
   theme: {
     screens: {
+      xs: { max: '375px'},
       md: { min: '744px' },
       lg: { min: '1200px' },
     },

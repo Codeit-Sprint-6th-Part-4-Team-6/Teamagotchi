@@ -35,12 +35,12 @@ export default function TaskListSection({
     <DragDropContext onDragEnd={handleDragEnd}>
       <section>
         <div className="mb-20 flex justify-between">
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5 text-nowrap">
             <Label content="할 일 목록" />
             <span className="text-lg font-normal text-text-default">{`(${taskLists.length}개)`}</span>
           </div>
           {role === "ADMIN" || role === "MEMBER" ? (
-            <TextButton icon="plus" onClick={handleOpenOneInputModal}>
+            <TextButton className="text-nowrap" icon="plus" onClick={handleOpenOneInputModal}>
               새로운 목록 추가하기
             </TextButton>
           ) : null}
@@ -63,8 +63,7 @@ export default function TaskListSection({
                         className="mb-16"
                       >
                         <TaskListItem
-                          task={taskList}
-                          index={index}
+                          taskList={taskList}
                           role={role}
                           onClick={() => handleTaskListClick(taskList.id)} // onClick 함수 전달
                           isDragging={snapshot.isDragging}

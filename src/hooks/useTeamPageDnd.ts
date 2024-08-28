@@ -19,11 +19,11 @@ const useTeamPageDnd = (teamId: string | string[] | undefined) => {
     }) => patchTaskListOrder(groupId, taskListId, displayIndex),
 
     onMutate: async ({ groupId, displayIndex, sourceIndex }) => {
-      await queryClient.cancelQueries({ queryKey: ["team", groupId] });
+      await queryClient.cancelQueries({ queryKey: ["group", groupId] });
 
-      const previousGroup = queryClient.getQueryData(["team", groupId]);
+      const previousGroup = queryClient.getQueryData(["group", groupId]);
 
-      queryClient.setQueryData(["team", groupId], (oldGroup: Group) => {
+      queryClient.setQueryData(["group", groupId], (oldGroup: Group) => {
         const originData = [...oldGroup.taskLists];
         const [reorderedData] = originData.splice(sourceIndex, 1);
         originData.splice(displayIndex, 0, reorderedData);
@@ -38,12 +38,12 @@ const useTeamPageDnd = (teamId: string | string[] | undefined) => {
 
     onError: (error, variables, context) => {
       if (context?.previousGroup) {
-        queryClient.setQueryData(["team", variables.groupId], context.previousGroup);
+        queryClient.setQueryData(["group", variables.groupId], context.previousGroup);
       }
     },
 
     onSettled: (data, error, variables) => {
-      queryClient.invalidateQueries({ queryKey: ["team", variables.groupId] });
+      queryClient.invalidateQueries({ queryKey: ["group", variables.groupId] });
     },
   });
 
