@@ -24,7 +24,7 @@ export const useResetPasswordHandler = (values: Password) => {
     },
   });
 
-  const handleResetPassword = async () => {
+  const handleResetPassword = () => {
     mutate(userData);
   };
 

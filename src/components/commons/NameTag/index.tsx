@@ -34,7 +34,7 @@ export default function NameTag({ type, image, name, email, onClick }: NameTagPr
       "gap-6 md:gap-12": type === "default-6",
       "gap-12": type === "default-12",
       "gap-8 max-w-140": type === "profile",
-      "max-w-108 md:max-w-146 lg:max-w-312": type === "email",
+      "max-w-312": type === "email",
       "cursor-pointer": onClick,
     }
   );
@@ -63,7 +63,7 @@ export default function NameTag({ type, image, name, email, onClick }: NameTagPr
       )}
       <span className={nameStyles}>{name}</span>
       {type === "email" && email && (
-        <span className="col-[1/3] grid overflow-x-scroll text-xs font-normal text-text-secondary md:col-auto">
+        <span className="col-[1/3] grid overflow-hidden text-xs font-normal text-text-secondary md:col-auto">
           {email}
         </span>
       )}

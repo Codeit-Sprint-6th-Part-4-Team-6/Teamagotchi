@@ -12,12 +12,12 @@ export default function ReportSection({
   completedTasks: number;
 }) {
   return (
-    <section className="mb-30">
+    <section className="mb-30 box-border">
       <div className="mb-20">
         <Label content="리포트" />
       </div>
-      <div className="box-border flex h-224 rounded-12 bg-background-secondary p-24">
-        <div className="flex w-full items-center justify-between">
+      <div className="flex h-224 rounded-12 bg-background-secondary p-12 xs:h-full md:p-24">
+        <div className="flex w-full items-center justify-between xs:flex-col xs:gap-10">
           <div className="relative flex items-center justify-center gap-30">
             <CircleProgressBar
               className="w-120 md:w-200"
@@ -38,7 +38,7 @@ export default function ReportSection({
               </h4>
             </div>
           </div>
-          <div className="flex w-142 min-w-120 flex-col gap-15 md:w-280 lg:w-400">
+          <div className="flex w-142 min-w-120 flex-col gap-15 xs:w-full md:w-280 lg:w-400">
             <div className="flex justify-between rounded-12 bg-background-tertiary p-16">
               <div className="flex flex-col justify-between">
                 <span className="text-xs text-text-primary">오늘의 할 일</span>

@@ -24,12 +24,12 @@ export default function MembersSection({
   return (
     <section className="pb-60">
       <div className="mb-20 flex justify-between">
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-5 text-nowrap">
           <Label content="멤버" />
           <span className="text-lg font-normal text-text-default">{`(${members.length}명)`}</span>
         </div>
         {role === "ADMIN" ? (
-          <TextButton onClick={handleOpenModal} icon="plus">
+          <TextButton className="text-nowrap" onClick={handleOpenModal} icon="plus">
             새로운 멤버 초대하기
           </TextButton>
         ) : null}

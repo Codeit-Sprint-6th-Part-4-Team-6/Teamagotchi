@@ -53,7 +53,7 @@ export default function BoardDetailPage() {
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <div className="mx-auto my-0 mt-20 w-full min-w-368 max-w-1200 px-34 py-20">
+      <div className="mx-auto my-0 mt-20 w-full max-w-1200 px-34 py-20">
         <ArticleDetail article={ArticleData} />
         <CommentSection boardId={Number(boardId)} />
         <ArticleCommentList articleId={Number(boardId)} />

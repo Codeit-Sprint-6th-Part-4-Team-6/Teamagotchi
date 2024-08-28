@@ -41,7 +41,7 @@ export default function Textarea({
     {
       "border-solid border-border-primary": type !== "transparent",
       "text-md bg-[rgba(0,0,0,0)]": type === "transparent",
-      "pr-32 text-md border-y bg-[rgba(0,0,0,0)]": type === "innerButton",
+      "pr-32 pl-8 text-md border-y bg-[rgba(0,0,0,0)]": type === "innerButton",
       "py-12 px-16 text-lg": type === "small",
       "px-24 py-16 text-14 leading-26 md:text-16": type === "big",
       "border focus:border-brand-primary rounded-[12px] bg-background-secondary":

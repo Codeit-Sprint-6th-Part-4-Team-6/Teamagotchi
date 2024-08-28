@@ -1,3 +1,4 @@
+import React from "react";
 import Input from "@components/commons/Input";
 import Textarea from "@components/commons/TextArea";
 import { IconClose } from "@utils/icon";
@@ -49,8 +50,20 @@ export default function OneInputModal({
   isPending = false,
   disabled,
 }: OneInputModalProps) {
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (value) {
+      if (value.length < 1) {
+        return;
+      }
+    } else if (!value) {
+      return;
+    }
+    onConfirm();
+  };
+
   return (
-    <div className="modal">
+    <form className="modal" onSubmit={handleSubmit}>
       {!closeButton && <IconClose className="modal-close-icon" onClick={onClose} />}
       <p className="modal-title">{title}</p>
       {content && <p className="modal-content" dangerouslySetInnerHTML={{ __html: content }} />}
@@ -83,6 +96,6 @@ export default function OneInputModal({
           {buttonText}
         </Button>
       )}
-    </div>
+    </form>
   );
 }
