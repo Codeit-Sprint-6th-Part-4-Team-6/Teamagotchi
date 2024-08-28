@@ -54,7 +54,7 @@ export default function EditTeamForm() {
         }
       },
       successMessage: "팀이 성공적으로 수정되었습니다.",
-      query: "user",
+      query: ["user", "group"],
       requestId: teamId,
     });
 

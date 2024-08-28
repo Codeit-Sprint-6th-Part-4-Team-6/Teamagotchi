@@ -12,7 +12,7 @@ interface UseUpdateFormProps {
   onSubmit?: (data: { [key: string]: any }, id?: number) => Promise<unknown>;
   successMessage: string;
   redirectPath?: string;
-  query?: string;
+  query?: string | string[];
   nameKey?: string;
   requestId?: number;
 }
@@ -63,7 +63,13 @@ export function useUpdateForm({
     },
     onSuccess: () => {
       if (query) {
-        queryClient.invalidateQueries({ queryKey: [query] });
+        if (typeof query === "string") {
+          queryClient.invalidateQueries({ queryKey: [query] });
+        } else if (Array.isArray(query)) {
+          query.forEach((key) => {
+            queryClient.invalidateQueries({ queryKey: [key] });
+          });
+        }
       }
       if (successMessage) {
         toast("success", successMessage);
