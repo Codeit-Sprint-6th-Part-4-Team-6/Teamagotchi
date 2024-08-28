@@ -95,6 +95,7 @@ export default function Home() {
               initial={{ y: 320, opacity: 0 }}
               animate={controls1}
               transition={{ duration: 2.0 }}
+              className="rounded-10 border-2 border-border-primary"
             >
               <Image
                 src={TEAM_PAGE_IMG}
@@ -124,6 +125,7 @@ export default function Home() {
             initial={{ y: -320, opacity: 0 }}
             animate={controls2}
             transition={{ duration: 1.5 }}
+            className="rounded-10 border-2 border-border-primary"
           >
             <Image
               src={INVITE_PAGE_IMG}
@@ -153,6 +155,7 @@ export default function Home() {
             initial={{ y: -320, opacity: 0 }}
             animate={controls3}
             transition={{ duration: 1.5 }}
+            className="rounded-10 border-2 border-border-primary"
           >
             <Image
               src={COMMENTS_PAGE_IMG}
