@@ -33,7 +33,7 @@ export default function Toast() {
               {toast?.type === "warn" ? <IconToastWarning /> : ""}
               {toast?.type === "danger" ? <IconToastDanger /> : ""}
             </div>
-            <p className="min-w-fit pr-20 text-center text-12 font-medium leading-5 md:text-16">
+            <p className="min-w-fit border border-[#aaa] pr-20 text-center text-12 font-medium leading-5 text-[#fff] md:text-16">
               {toast?.content}
             </p>
           </div>

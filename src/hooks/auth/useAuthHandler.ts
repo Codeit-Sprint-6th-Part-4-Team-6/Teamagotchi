@@ -31,6 +31,13 @@ export const useAuthHandler = <T extends AuthRequest>(values: T, isRegister: boo
     mutationFn: (value: SignUpRequest) => signUpUser(value),
     onSuccess: () => {
       toast("success", "회원가입에 성공하셨습니다.");
+
+      const loginData = {
+        email: values.email,
+        password: values.password,
+      };
+
+      loginMutation.mutate(loginData);
     },
     onError: (error: any) => {
       toast("danger", error.response.data.message);
@@ -43,16 +50,7 @@ export const useAuthHandler = <T extends AuthRequest>(values: T, isRegister: boo
     event.preventDefault();
 
     if (isRegister) {
-      try {
-        signUpMutation.mutate(values as SignUpRequest);
-        const loginData = {
-          email: values.email,
-          password: values.password,
-        };
-        loginMutation.mutate(loginData);
-      } catch (error: any) {
-        toast("danger", error.response.data.message);
-      }
+      signUpMutation.mutate(values as SignUpRequest);
     } else {
       loginMutation.mutate(values);
     }

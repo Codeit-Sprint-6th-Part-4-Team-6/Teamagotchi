@@ -1,6 +1,6 @@
 import { AuthResponse, User } from "@coworkers-types";
 import { useQueryClient } from "@tanstack/react-query";
-import { deleteCookie, hasCookie, setCookie } from "cookies-next";
+import { deleteCookie, setCookie } from "cookies-next";
 import { useRouter } from "next/router";
 import { useAuthStore } from "@store/useAuthStore";
 import { getUser } from "@api/userApi";
@@ -34,21 +34,27 @@ export const useAuth = () => {
   /**
    * 로그아웃 시 처리할 로직을 모아놓은 함수
    */
-  const logout = () => {
+  const logout = async () => {
+    // 쿠키 삭제 및 상태 초기화
     deleteCookie("refreshToken");
-    setIsLoggedIn(false);
-    router.push("/");
-
     deleteCookie("accessToken");
     deleteCookie("loginType");
-    queryClient.removeQueries();
+
     setUser(null);
+    setIsLoggedIn(false);
+
+    // 모든 React Query 캐시를 무효화
+    queryClient.removeQueries();
+
+    // 쿠키가 안전하게 삭제되었는지 확인 후 리디렉션
+    await router.push("/");
+
+    // 미들웨어의 판단이 달라지기 전에 강제로 페이지를 새로고침
+    window.location.reload();
   };
 
   const setUserData = (data: User) => {
-    const hasToken = hasCookie("refreshToken");
-
-    if (hasToken) {
+    if (isLoggedIn) {
       setUser(data);
       setIsLoggedIn(true);
     }
