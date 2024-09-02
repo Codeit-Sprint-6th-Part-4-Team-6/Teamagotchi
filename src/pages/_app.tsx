@@ -50,7 +50,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>티마고치</title>
         <meta name="description" content="팀원들과 함께 팀을 키우고 관리하는 재미를 느껴보세요!" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:image" content="@images/metadata.png" />
       </Head>
       <QueryClientProvider client={queryClient}>
         <main className={pretendard.className}>
