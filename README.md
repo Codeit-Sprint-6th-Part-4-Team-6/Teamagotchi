@@ -62,7 +62,7 @@ yarn 으로 설치 가능합니다.
 # 🍀 기획
 
 https://www.tldraw.com/r/tolCZ-xmQuhIJ2O4ReQEg?v=16664,-2215,3879,2285&p=page
-![alt text](image-2.png)
+
 
 프로젝트 시작하기 전
 
@@ -83,35 +83,28 @@ https://www.tldraw.com/r/tolCZ-xmQuhIJ2O4ReQEg?v=16664,-2215,3879,2285&p=page
 # 📑 각 페이지 소개
 
 ## 랜딩페이지
+![랜딩페이지](https://github.com/user-attachments/assets/30ccb433-d176-4b4c-af1c-f384380f2471)
 
-![alt text](랜딩페이지.gif)
 
 ## 로그인 / 회원가입 페이지
-
-![alt text](<로그인 회원가입.gif>)
+![로그인 회원가입](https://github.com/user-attachments/assets/170ff85a-7299-43dd-805f-2593af898eca)
 
 ## 팀 리스트 페이지
-
-![alt text](<팀리스트 페이지.gif>)
+![팀리스트 페이지](https://github.com/user-attachments/assets/8e6aa043-0d13-47f8-98e4-9066834ef41d)
 
 ## 팀 페이지
-
-![alt text](팀페이지.gif)
+![팀페이지](https://github.com/user-attachments/assets/a2459f3f-e184-4edb-b8f3-3828687efd3c)
 
 ## 할 일 목록 페이지
-
-![alt text](<리스트 페이지1.gif>)
-![alt text](<리스트 페이지2.gif>)
-![alt text](리스트페이지3.gif)
-![alt text](리스트페이지5.gif)
+![리스트 페이지1](https://github.com/user-attachments/assets/32de786d-83df-40bd-aa9d-76da98c03c7c)
+![리스트 페이지2](https://github.com/user-attachments/assets/d48c383f-d872-4c48-9d76-b56fa59b7d99)
+![리스트페이지3](https://github.com/user-attachments/assets/0e9a7ed2-94f8-47df-abcd-ce1532299997)
+![리스트페이지5](https://github.com/user-attachments/assets/9c427107-677b-4f6b-a58e-6e7dd7681ddf)
 
 ## 계정설정하기 및 마이 히스토리 페이지
-
-![alt text](계정설정.gif)
+![계정설정](https://github.com/user-attachments/assets/05050809-cc03-4399-ba18-4fdfa155bace)
 
 ## 자유게시판
+![자유게시판1](https://github.com/user-attachments/assets/808d142a-d570-4b30-889b-998965bb6dda)
+![자유게시판2](https://github.com/user-attachments/assets/2c4a28c5-afea-46c5-b641-7392da5682cf)
 
-![alt text](자유게시판1.gif)
-![alt text](자유게시판2.gif)
-
-# 🎥 최종 시연영상
