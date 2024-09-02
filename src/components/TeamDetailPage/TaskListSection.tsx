@@ -21,9 +21,8 @@ export default function TaskListSection({
   const { teamId } = router.query;
   const { handleDragEnd } = useTeamPageDnd(teamId);
 
-  // TaskListItem이 클릭되었을 때 실행할 함수
   const handleTaskListClick = (taskListId: number) => {
-    const todayDate = format(new Date(), "yyyy-MM-dd"); // 오늘 날짜 형식
+    const todayDate = format(new Date(), "yyyy-MM-dd");
     router.push(`/teams/${teamId}/task-lists/${taskListId}?date=${todayDate}`);
   };
 
@@ -65,7 +64,7 @@ export default function TaskListSection({
                         <TaskListItem
                           taskList={taskList}
                           role={role}
-                          onClick={() => handleTaskListClick(taskList.id)} // onClick 함수 전달
+                          onClick={() => handleTaskListClick(taskList.id)}
                           isDragging={snapshot.isDragging}
                         />
                       </div>

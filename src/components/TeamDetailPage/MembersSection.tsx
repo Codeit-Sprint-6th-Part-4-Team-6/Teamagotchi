@@ -45,7 +45,8 @@ export default function MembersSection({
             onClick={() => {
               handleUserOpenModal(member.userName, member.userEmail, member.userImage);
             }}
-            role={role}
+            curUserRole={role}
+            role={member.role}
           />
         ))}
       </div>
