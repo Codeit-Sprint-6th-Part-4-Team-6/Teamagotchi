@@ -1,11 +1,11 @@
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import MembersSection from "@components/TeamDetailPage/MembersSection";
-import ReportSection from "@components/TeamDetailPage/ReportSection";
-import TaskListSection from "@components/TeamDetailPage/TaskListSection";
-import TeamTitle from "@components/TeamDetailPage/TeamTitle";
 import Loading from "@components/commons/LottieAnimation/Loading";
+import MembersSection from "@components/teamDetailPage/MembersSection";
+import ReportSection from "@components/teamDetailPage/ReportSection";
+import TaskListSection from "@components/teamDetailPage/TaskListSection";
+import TeamTitle from "@components/teamDetailPage/TeamTitle";
 import { getGroup } from "@api/groupApi";
 import { getUserMemberships } from "@api/userApi";
 
@@ -78,7 +78,7 @@ export default function TeamDetailPage() {
     totalTask.length > 0 ? (completedTasks.length / totalTask.length) * 100 : 0;
 
   return (
-    <div className="mx-auto mt-20 w-full max-w-1200 px-34 py-20 lg:px-0">
+    <div className="mx-auto mt-20 w-full min-w-255 max-w-1200 px-34 py-20 xs:px-17 lg:px-0">
       <section className="mb-30">
         <TeamTitle
           teamName={groupData?.name ?? ""}

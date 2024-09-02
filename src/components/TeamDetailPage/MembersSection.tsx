@@ -26,7 +26,7 @@ export default function MembersSection({
       <div className="mb-20 flex justify-between">
         <div className="flex items-center gap-5 text-nowrap">
           <Label content="멤버" />
-          <span className="text-lg font-normal text-text-default">{`(${members.length}명)`}</span>
+          <span className="text-md font-normal text-text-default md:text-lg">{`(${members.length}명)`}</span>
         </div>
         {role === "ADMIN" ? (
           <TextButton className="text-nowrap" onClick={handleOpenModal} icon="plus">

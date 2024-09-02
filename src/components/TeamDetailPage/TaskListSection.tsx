@@ -36,7 +36,7 @@ export default function TaskListSection({
         <div className="mb-20 flex justify-between">
           <div className="flex items-center gap-5 text-nowrap">
             <Label content="할 일 목록" />
-            <span className="text-lg font-normal text-text-default">{`(${taskLists.length}개)`}</span>
+            <span className="text-md font-normal text-text-default md:text-lg">{`(${taskLists.length}개)`}</span>
           </div>
           {role === "ADMIN" || role === "MEMBER" ? (
             <TextButton className="text-nowrap" icon="plus" onClick={handleOpenOneInputModal}>
