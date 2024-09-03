@@ -35,7 +35,7 @@ export function UserInfoModal({
   email?: string;
   image?: string | null;
 }) {
-  const { toast } = useToast(); // useToast 훅 사용
+  const { toast } = useToast();
 
   // 클립보드 복사 함수
   const copyEmailToClipboard = () => {
@@ -44,9 +44,8 @@ export function UserInfoModal({
         () => {
           toast("success", "이메일이 클립보드에 복사되었습니다!");
         },
-        (err) => {
+        () => {
           toast("danger", "클립보드 복사 실패: 다시 시도해 주세요.");
-          console.error("클립보드 복사 실패: ", err);
         }
       );
     } else {

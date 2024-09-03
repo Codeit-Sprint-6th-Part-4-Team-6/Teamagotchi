@@ -1,11 +1,11 @@
 import { QueryClient, dehydrate, useQuery } from "@tanstack/react-query";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import MembersSection from "@components/TeamDetailPage/MembersSection";
+import ReportSection from "@components/TeamDetailPage/ReportSection";
+import TaskListSection from "@components/TeamDetailPage/TaskListSection";
+import TeamTitle from "@components/TeamDetailPage/TeamTitle";
 import Loading from "@components/commons/LottieAnimation/Loading";
-import MembersSection from "@components/teamDetailPage/MembersSection";
-import ReportSection from "@components/teamDetailPage/ReportSection";
-import TaskListSection from "@components/teamDetailPage/TaskListSection";
-import TeamTitle from "@components/teamDetailPage/TeamTitle";
 import { getGroup } from "@api/groupApi";
 import { getUserMemberships } from "@api/userApi";
 
