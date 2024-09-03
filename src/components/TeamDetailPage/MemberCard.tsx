@@ -4,7 +4,6 @@ import NameTag from "@components/commons/NameTag";
 import Popover from "@components/commons/Popover";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";
-import { useAuthStore } from "@store/useAuthStore";
 import { IconCrown, IconKebabLarge } from "@utils/icon";
 import { deleteGroupMember } from "@api/groupApi";
 import { DeleteGroupMemberModal } from "./TeamPageModal";
@@ -16,6 +15,7 @@ export default function MemberCard({
   image,
   onClick,
   role,
+  curUserRole,
 }: {
   memberId: number;
   name: string;
@@ -23,13 +23,13 @@ export default function MemberCard({
   image: string | null;
   onClick: () => void;
   role: string;
+  curUserRole: string;
 }) {
   const { openModal, closeModal } = useModal();
   const router = useRouter();
   const { teamId } = router.query;
   const queryClient = useQueryClient();
   const { toast } = useToast();
-  const { user } = useAuthStore();
 
   const deleteGroupMemberMutation = useMutation({
     mutationFn: () => deleteGroupMember(Number(teamId), Number(memberId)),
@@ -52,7 +52,7 @@ export default function MemberCard({
     <div className="flex h-73 items-center rounded-16 bg-background-secondary px-24 py-2 transition-all xs:px-12">
       <div className="flex w-full items-center justify-between">
         <div className="relative">
-          {role === "ADMIN" && user?.email === email ? (
+          {role === "ADMIN" ? (
             <IconCrown className="absolute bottom-32 left-3 z-10 md:bottom-29 md:left-8" />
           ) : null}
           <NameTag type="email" name={name} email={email} image={image} />
@@ -63,7 +63,7 @@ export default function MemberCard({
           </Popover.Toggle>
           <Popover.Wrapper popDirection="left">
             <Popover.Item onClick={onClick}>정보보기</Popover.Item>
-            {role === "ADMIN" && user?.email !== email ? (
+            {curUserRole === "ADMIN" && role !== "ADMIN" ? (
               <Popover.Item onClick={handleOpenMemberDeleteModal}>추방하기</Popover.Item>
             ) : null}
           </Popover.Wrapper>

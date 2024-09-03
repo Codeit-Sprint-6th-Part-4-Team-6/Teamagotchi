@@ -88,7 +88,7 @@ function Wrapper({
   const { isOpen } = useContext(PopoverContext);
 
   const wrapperClassName = classNames(
-    `${popDirection === "left" ? "right-0" : ""} z-50 absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-8 py-8 text-center box-border ${className}`
+    `${popDirection === "left" ? "right-0" : ""} flex flex-col gap-3 z-50 absolute top-30 rounded-12 border border-solid border-background-tertiary bg-background-secondary px-8 py-8 text-center box-border ${className}`
   );
 
   return (
@@ -108,12 +108,24 @@ function Wrapper({
   );
 }
 
-function Item({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
+function Item({
+  children,
+  onClick,
+  className,
+}: {
+  children: React.ReactNode;
+  onClick: () => void;
+  className?: string;
+}) {
   const { closePopover } = useContext(PopoverContext);
+
+  const itemClassNames = classNames(
+    `${className || ""} cursor-pointer text-nowrap rounded-8 px-7 py-7 text-12 text-text-primary transition-all hover:bg-background-tertiary md:text-14`
+  );
 
   return (
     <div
-      className="cursor-pointer text-nowrap rounded-8 px-7 py-7 text-12 text-text-primary transition-all hover:bg-background-tertiary md:text-14"
+      className={itemClassNames}
       onClick={(event) => {
         event.stopPropagation();
         onClick();

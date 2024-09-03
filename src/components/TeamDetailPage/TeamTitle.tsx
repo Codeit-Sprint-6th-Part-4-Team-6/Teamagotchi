@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import EditDeletePopover from "@components/commons/Popover/EditDeletePopover";
-import TeamDefault from "@components/commons/TeamDefault";
 import DeleteTeamModal from "@components/teams/DeleteTeamModal";
 import { useModal } from "@hooks/useModal";
 import { useToast } from "@hooks/useToast";

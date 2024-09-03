@@ -36,7 +36,7 @@ export default function TextButton({
 }: ButtonProps): JSX.Element {
   const styleClassName = classNames(
     className,
-    "transition-all duration-200 text-brand-primary text-14 md:text-16",
+    "transition-all duration-200 text-brand-primary text-14 md:text-16 text-nowrap",
     {
       "flex items-center": icon === "plus" || icon === "back",
       "": textStyle === "default",

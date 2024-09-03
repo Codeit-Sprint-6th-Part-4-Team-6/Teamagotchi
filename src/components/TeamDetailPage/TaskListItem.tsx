@@ -21,7 +21,6 @@ export default function TaskListItem({
   onClick: () => void;
   isDragging: boolean;
 }) {
-  // 색상 배열 정의
   const colors = [
     "bg-point-purple",
     "bg-point-indigo",

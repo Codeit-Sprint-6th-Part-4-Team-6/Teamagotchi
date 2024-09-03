@@ -86,7 +86,7 @@ export default function ArticleDetail({ article }: { article?: ArticleDetails })
       <div className="flex justify-between border-t border-solid border-background-tertiary">
         <div className="mt-12 flex items-center justify-center gap-12">
           <NameTag type="default-12" image={writer.image} name={writer.nickname} />
-          <span className="border-l border-solid border-background-tertiary pl-12 text-14 font-[500] text-text-disabled">
+          <span className="text-nowrap border-l border-solid border-background-tertiary pl-12 text-14 font-[500] text-text-disabled">
             {format(createdAt, "yyyy. MM. dd")}
           </span>
         </div>
