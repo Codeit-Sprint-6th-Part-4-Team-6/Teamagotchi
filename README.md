@@ -64,21 +64,22 @@ yarn 으로 설치 가능합니다.
 https://www.tldraw.com/r/tolCZ-xmQuhIJ2O4ReQEg?v=16664,-2215,3879,2285&p=page
 
 
-프로젝트 시작하기 전
+프로젝트 진행 절차
 
-1. userFlow
-   <br>a. 요구사항 파악
-   <br>b. Api 명세서 정리
-   <br>c. UI 모델링
-2. 기술 선정
-3. 폴더 구조 / 코드 컨벤션
-4. 작업분배
+1. 프로젝트 분석
+   <br>a. userFlow
+   <br>b. 요구사항 파악
+   <br>c. Api 명세서 정리
+   <br>d. UI 모델링
+3. 기술 선정
+4. 폴더 구조 / 코드 컨벤션
+5. 작업분배
    <br>a. 작업 단위 결정
    <br>b. 작업 분배
-5. 프로젝트 관리 / 배포 전략
-   의 순서로 회의를 진행하고 구현에 들어갔습니다.
+6. 프로젝트 관리 / 배포 전략
+7. 구현 및 리펙토링
 
-꽤나 많은 시간이 들어가긴 했지만 팀원들과 함께 회의하며 프로젝트의 방향성을 잡을 수 있었습니다.
+구현 전 절차에 꽤나 많은 시간이 들어가긴 했지만 팀원들과 함께 회의하며 프로젝트의 방향성을 잡을 수 있었습니다.
 
 # 📑 각 페이지 소개
 
@@ -88,23 +89,56 @@ https://www.tldraw.com/r/tolCZ-xmQuhIJ2O4ReQEg?v=16664,-2215,3879,2285&p=page
 
 ## 로그인 / 회원가입 페이지
 ![로그인 회원가입](https://github.com/user-attachments/assets/170ff85a-7299-43dd-805f-2593af898eca)
+- 구글 및 카카오 아이디로 로그인 및 회원가입이 가능합니다.
+<br>
 
 ## 팀 리스트 페이지
 ![팀리스트 페이지](https://github.com/user-attachments/assets/8e6aa043-0d13-47f8-98e4-9066834ef41d)
+- 명언과 함께 현재 사용자가 속한 팀의 목록을 보여주고, 해당 팀 페이지로 이동할 수 있습니다.
+- 팀을 생성 또는 참여할 수 있습니다.
+<br>
+
+## 팀 참여하기 페이지
+![2024-09-136 57 16-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/0c877a71-7710-40af-9c66-014b36c73367)
+- 전달받은 팀 초대 링크를 입력해 해당 팀에 참여할 수 있습니다.
+<br>
 
 ## 팀 페이지
 ![팀페이지](https://github.com/user-attachments/assets/a2459f3f-e184-4edb-b8f3-3828687efd3c)
+![image](https://github.com/user-attachments/assets/03bac761-e239-4354-9f1a-007311a3ea63)
+- 팀의 프로필과 이름을 변경할 수 있는 팀 수정하기 페이지로 이동할 수 있습니다.
+- 팀의 할 일이 얼마나 완료됐는지 시각적으로 나타내는 리포트 부분이 있습니다.
+- 해당 팀의 해야 할 일 목록을 보여주고, 추가, 수정, 삭제할 수 있습니다.
+- 팀의 멤버 정보가 표시되고, 팀에 멤버를 초대할 수 있는 링크를 생성할 수 있습니다.
+<br>
 
 ## 할 일 목록 페이지
 ![리스트 페이지1](https://github.com/user-attachments/assets/32de786d-83df-40bd-aa9d-76da98c03c7c)
 ![리스트 페이지2](https://github.com/user-attachments/assets/d48c383f-d872-4c48-9d76-b56fa59b7d99)
 ![리스트페이지3](https://github.com/user-attachments/assets/0e9a7ed2-94f8-47df-abcd-ce1532299997)
 ![리스트페이지5](https://github.com/user-attachments/assets/9c427107-677b-4f6b-a58e-6e7dd7681ddf)
+- 원하는 할 일 목록에 할 일을 추가할 수 있습니다.
+- 이때, 새로운 할 일을 한 번만 할지, 반복할지에 관한 설정이 가능합니다.
+- 만들어진 할 일에는, 해당하는 할 일에 대한 설명과 댓글 기능이 있습니다.
+- 할 일을 체크또는 체크해제하여 완료 여부를 수정할 수 있습니다.
+- 새로운 할 일 목록을 추가할 수 있습니다.
+<br>
 
-## 계정설정하기 및 마이 히스토리 페이지
+## 계정 설정 페이지
 ![계정설정](https://github.com/user-attachments/assets/05050809-cc03-4399-ba18-4fdfa155bace)
+- 프로필과 이름(닉네임), 비밀번호 등을 변경할 수 있고, 회원탈퇴가 가능합니다.
+<br>
+
+## 마이 히스토리 페이지
+![2024-09-136 49 38-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/ae712e3f-e146-4f24-bfee-c7ba0e6ee80d)
+- 현재까지 완료한 할 일을 정리해서 표시합니다.
+- 해당하는 할 일의 완료 시각을 확인할 수 있습니다.
+<br>
 
 ## 자유게시판
 ![자유게시판1](https://github.com/user-attachments/assets/808d142a-d570-4b30-889b-998965bb6dda)
 ![자유게시판2](https://github.com/user-attachments/assets/2c4a28c5-afea-46c5-b641-7392da5682cf)
+- 회원 전용 자유게시판입니다.
+- 글 검색, 작성, 수정, 삭제 가능과 댓글 기능이 있습니다.
+<br>
 
