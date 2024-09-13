@@ -60,6 +60,7 @@ yarn 으로 설치 가능합니다.
 <br>
 
 # 🍀 기획
+![image](https://github.com/user-attachments/assets/d56f7e1f-72d6-4a4d-8980-2e0c7bc706cc)
 
 https://www.tldraw.com/r/tolCZ-xmQuhIJ2O4ReQEg?v=16664,-2215,3879,2285&p=page
 
