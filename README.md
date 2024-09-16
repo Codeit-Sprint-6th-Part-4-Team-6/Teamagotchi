@@ -3,6 +3,7 @@
 <img width="868" alt="image" src="https://github.com/user-attachments/assets/b5399690-4d70-4011-90d6-95d635036417">
 
 배포 URL: https://teamagotchi.netlify.app/<br>
+발표자료 URL: https://pitch.com/v/teamagotchi-8bfdyd<br>
 프로젝트 기간: 2024.07.25 ~ 2024.08.27
 
 <br>
